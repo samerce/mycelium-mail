@@ -3,22 +3,26 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A7F261E4B05DFEFBF70DB35 /* Pods_mushroom_mail__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F8A655A0A582400B6B5B732 /* Pods_mushroom_mail__iOS_.framework */; };
 		3B9B9F8E2634B16A00E3A8B2 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F8D2634B16A00E3A8B2 /* Tests_iOS.swift */; };
 		3B9B9F992634B16A00E3A8B2 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F982634B16A00E3A8B2 /* Tests_macOS.swift */; };
 		3B9B9F9B2634B16A00E3A8B2 /* mushroom_mail.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F6F2634B16900E3A8B2 /* mushroom_mail.xcdatamodeld */; };
 		3B9B9F9C2634B16A00E3A8B2 /* mushroom_mail.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F6F2634B16900E3A8B2 /* mushroom_mail.xcdatamodeld */; };
-		3B9B9F9D2634B16A00E3A8B2 /* mushroom_mailApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F712634B16900E3A8B2 /* mushroom_mailApp.swift */; };
-		3B9B9F9E2634B16A00E3A8B2 /* mushroom_mailApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F712634B16900E3A8B2 /* mushroom_mailApp.swift */; };
+		3B9B9F9D2634B16A00E3A8B2 /* MushroomMailApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F712634B16900E3A8B2 /* MushroomMailApp.swift */; };
+		3B9B9F9E2634B16A00E3A8B2 /* MushroomMailApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F712634B16900E3A8B2 /* MushroomMailApp.swift */; };
 		3B9B9F9F2634B16A00E3A8B2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F722634B16900E3A8B2 /* ContentView.swift */; };
 		3B9B9FA02634B16A00E3A8B2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F722634B16900E3A8B2 /* ContentView.swift */; };
 		3B9B9FA12634B16A00E3A8B2 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F732634B16900E3A8B2 /* Persistence.swift */; };
 		3B9B9FA22634B16A00E3A8B2 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F732634B16900E3A8B2 /* Persistence.swift */; };
 		3B9B9FA32634B16A00E3A8B2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B9B9F742634B16A00E3A8B2 /* Assets.xcassets */; };
 		3B9B9FA42634B16A00E3A8B2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B9B9F742634B16A00E3A8B2 /* Assets.xcassets */; };
+		3B9B9FC02634B20600E3A8B2 /* MailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9FBF2634B20600E3A8B2 /* MailModel.swift */; };
+		3B9B9FC12634B20600E3A8B2 /* MailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9FBF2634B20600E3A8B2 /* MailModel.swift */; };
+		D80699C09D5D81A8AA8C773E /* Pods_mushroom_mail__macOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 990D71464C306229436FA830 /* Pods_mushroom_mail__macOS_.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,7 +44,7 @@
 
 /* Begin PBXFileReference section */
 		3B9B9F702634B16900E3A8B2 /* Shared.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shared.xcdatamodel; sourceTree = "<group>"; };
-		3B9B9F712634B16900E3A8B2 /* mushroom_mailApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mushroom_mailApp.swift; sourceTree = "<group>"; };
+		3B9B9F712634B16900E3A8B2 /* MushroomMailApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MushroomMailApp.swift; sourceTree = "<group>"; };
 		3B9B9F722634B16900E3A8B2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3B9B9F732634B16900E3A8B2 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		3B9B9F742634B16A00E3A8B2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -55,6 +59,13 @@
 		3B9B9F942634B16A00E3A8B2 /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B9B9F982634B16A00E3A8B2 /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
 		3B9B9F9A2634B16A00E3A8B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3B9B9FBF2634B20600E3A8B2 /* MailModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailModel.swift; sourceTree = "<group>"; };
+		61A706AF5773513FD686AE5E /* Pods-mushroom-mail (macOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mushroom-mail (macOS).release.xcconfig"; path = "Target Support Files/Pods-mushroom-mail (macOS)/Pods-mushroom-mail (macOS).release.xcconfig"; sourceTree = "<group>"; };
+		6F8A655A0A582400B6B5B732 /* Pods_mushroom_mail__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mushroom_mail__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		990D71464C306229436FA830 /* Pods_mushroom_mail__macOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mushroom_mail__macOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8F1C327D71C73EE9FD1CB31 /* Pods-mushroom-mail (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mushroom-mail (iOS).release.xcconfig"; path = "Target Support Files/Pods-mushroom-mail (iOS)/Pods-mushroom-mail (iOS).release.xcconfig"; sourceTree = "<group>"; };
+		C8ED1E7FDA3B340174CDD6D0 /* Pods-mushroom-mail (macOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mushroom-mail (macOS).debug.xcconfig"; path = "Target Support Files/Pods-mushroom-mail (macOS)/Pods-mushroom-mail (macOS).debug.xcconfig"; sourceTree = "<group>"; };
+		ED25D84A9AE3FF3BEED704CF /* Pods-mushroom-mail (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mushroom-mail (iOS).debug.xcconfig"; path = "Target Support Files/Pods-mushroom-mail (iOS)/Pods-mushroom-mail (iOS).debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A7F261E4B05DFEFBF70DB35 /* Pods_mushroom_mail__iOS_.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D80699C09D5D81A8AA8C773E /* Pods_mushroom_mail__macOS_.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,13 +111,16 @@
 				3B9B9F8C2634B16A00E3A8B2 /* Tests iOS */,
 				3B9B9F972634B16A00E3A8B2 /* Tests macOS */,
 				3B9B9F7A2634B16A00E3A8B2 /* Products */,
+				5DC4F02DCAECE413E5132127 /* Pods */,
+				E920AFDAFB3D283A7B3527BB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 		3B9B9F6E2634B16900E3A8B2 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				3B9B9F712634B16900E3A8B2 /* mushroom_mailApp.swift */,
+				3B9B9FBF2634B20600E3A8B2 /* MailModel.swift */,
+				3B9B9F712634B16900E3A8B2 /* MushroomMailApp.swift */,
 				3B9B9F722634B16900E3A8B2 /* ContentView.swift */,
 				3B9B9F732634B16900E3A8B2 /* Persistence.swift */,
 				3B9B9F742634B16A00E3A8B2 /* Assets.xcassets */,
@@ -159,6 +175,26 @@
 			path = "Tests macOS";
 			sourceTree = "<group>";
 		};
+		5DC4F02DCAECE413E5132127 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				ED25D84A9AE3FF3BEED704CF /* Pods-mushroom-mail (iOS).debug.xcconfig */,
+				A8F1C327D71C73EE9FD1CB31 /* Pods-mushroom-mail (iOS).release.xcconfig */,
+				C8ED1E7FDA3B340174CDD6D0 /* Pods-mushroom-mail (macOS).debug.xcconfig */,
+				61A706AF5773513FD686AE5E /* Pods-mushroom-mail (macOS).release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		E920AFDAFB3D283A7B3527BB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6F8A655A0A582400B6B5B732 /* Pods_mushroom_mail__iOS_.framework */,
+				990D71464C306229436FA830 /* Pods_mushroom_mail__macOS_.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -166,9 +202,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3B9B9FA72634B16A00E3A8B2 /* Build configuration list for PBXNativeTarget "mushroom-mail (iOS)" */;
 			buildPhases = (
+				F78190D1F19F791F5A4286D2 /* [CP] Check Pods Manifest.lock */,
 				3B9B9F752634B16A00E3A8B2 /* Sources */,
 				3B9B9F762634B16A00E3A8B2 /* Frameworks */,
 				3B9B9F772634B16A00E3A8B2 /* Resources */,
+				42C11162166CA9B4A88E1137 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -183,9 +221,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3B9B9FAA2634B16A00E3A8B2 /* Build configuration list for PBXNativeTarget "mushroom-mail (macOS)" */;
 			buildPhases = (
+				0418498C65E3A94078FBC1FE /* [CP] Check Pods Manifest.lock */,
 				3B9B9F7D2634B16A00E3A8B2 /* Sources */,
 				3B9B9F7E2634B16A00E3A8B2 /* Frameworks */,
 				3B9B9F7F2634B16A00E3A8B2 /* Resources */,
+				1D729CEA9A13640010B8BF98 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -311,14 +351,96 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0418498C65E3A94078FBC1FE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-mushroom-mail (macOS)-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1D729CEA9A13640010B8BF98 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mushroom-mail (macOS)/Pods-mushroom-mail (macOS)-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mushroom-mail (macOS)/Pods-mushroom-mail (macOS)-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mushroom-mail (macOS)/Pods-mushroom-mail (macOS)-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		42C11162166CA9B4A88E1137 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mushroom-mail (iOS)/Pods-mushroom-mail (iOS)-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mushroom-mail (iOS)/Pods-mushroom-mail (iOS)-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mushroom-mail (iOS)/Pods-mushroom-mail (iOS)-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F78190D1F19F791F5A4286D2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-mushroom-mail (iOS)-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		3B9B9F752634B16A00E3A8B2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B9B9F9D2634B16A00E3A8B2 /* mushroom_mailApp.swift in Sources */,
+				3B9B9F9D2634B16A00E3A8B2 /* MushroomMailApp.swift in Sources */,
 				3B9B9FA12634B16A00E3A8B2 /* Persistence.swift in Sources */,
 				3B9B9F9B2634B16A00E3A8B2 /* mushroom_mail.xcdatamodeld in Sources */,
+				3B9B9FC02634B20600E3A8B2 /* MailModel.swift in Sources */,
 				3B9B9F9F2634B16A00E3A8B2 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -327,9 +449,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B9B9F9E2634B16A00E3A8B2 /* mushroom_mailApp.swift in Sources */,
+				3B9B9F9E2634B16A00E3A8B2 /* MushroomMailApp.swift in Sources */,
 				3B9B9FA22634B16A00E3A8B2 /* Persistence.swift in Sources */,
 				3B9B9F9C2634B16A00E3A8B2 /* mushroom_mail.xcdatamodeld in Sources */,
+				3B9B9FC12634B20600E3A8B2 /* MailModel.swift in Sources */,
 				3B9B9FA02634B16A00E3A8B2 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -479,6 +602,7 @@
 		};
 		3B9B9FA82634B16A00E3A8B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ED25D84A9AE3FF3BEED704CF /* Pods-mushroom-mail (iOS).debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -500,6 +624,7 @@
 		};
 		3B9B9FA92634B16A00E3A8B2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A8F1C327D71C73EE9FD1CB31 /* Pods-mushroom-mail (iOS).release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -522,6 +647,7 @@
 		};
 		3B9B9FAB2634B16A00E3A8B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C8ED1E7FDA3B340174CDD6D0 /* Pods-mushroom-mail (macOS).debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -544,6 +670,7 @@
 		};
 		3B9B9FAC2634B16A00E3A8B2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 61A706AF5773513FD686AE5E /* Pods-mushroom-mail (macOS).release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

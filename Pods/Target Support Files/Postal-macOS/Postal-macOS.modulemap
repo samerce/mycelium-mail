@@ -1,0 +1,6 @@
+framework module Postal {
+  umbrella header "Postal-macOS-umbrella.h"
+
+  export *
+  module * { export * }
+}
