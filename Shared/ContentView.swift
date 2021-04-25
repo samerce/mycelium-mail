@@ -12,16 +12,35 @@ import Postal
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject private var model: MailModel
+    
+    private let tabs = ["newsletters", "politics", "marketing", "other"]
+    @State private var selectedTab = 0
 
     var body: some View {
         List {
-            ForEach(model.messages, id: \.uid) { msg in
-                let senders = msg.header!.from as [Address]
-                let subject = msg.header?.subject ?? "---"
+            let messages = model.sortedEmails[self.tabs[self.selectedTab]]!
+            ForEach(messages, id: \.uid) { msg in
+                let sender = msg.header?.from[0]
+                let subject = msg.header?.subject
                 
-                Text(senders[0].displayName)
-                Text(subject)
+                VStack(alignment: .leading) {
+                    Text(sender?.displayName ?? "Unknown")
+                    Text(subject ?? "---")
+                }
                 Spacer()
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                
+                Picker("", selection: $selectedTab) {
+                    ForEach(tabs.indices) { i in
+                        Text(self.tabs[i]).tag(i)
+                    }
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .padding(.top, 8)
+//                Spacer()
             }
         }
     }
