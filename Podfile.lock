@@ -2,21 +2,21 @@ PODS:
   - Postal (0.5.0)
 
 DEPENDENCIES:
-  - Postal (from `https://github.com/bhatti/Postal.git`, branch `master`)
+  - Postal (from `https://github.com/samerce/Postal.git`, branch `master`)
 
 EXTERNAL SOURCES:
   Postal:
     :branch: master
-    :git: https://github.com/bhatti/Postal.git
+    :git: https://github.com/samerce/Postal.git
 
 CHECKOUT OPTIONS:
   Postal:
     :commit: 7da5e72ac3cfaa9a91ff699d7db074eefd2bda02
-    :git: https://github.com/bhatti/Postal.git
+    :git: https://github.com/samerce/Postal.git
 
 SPEC CHECKSUMS:
   Postal: f28930c39ca2f891333638ef324bc7acb10246ac
 
-PODFILE CHECKSUM: c0bdc5e380ae98e8594bbfc902c0f7285a28b3c4
+PODFILE CHECKSUM: 45832ee29f6d04aa0fed1b5fa39fa7b9b4ed64d1
 
 COCOAPODS: 1.10.1

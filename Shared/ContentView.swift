@@ -31,8 +31,7 @@ struct ContentView: View {
             }
         }
         .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                
+            ToolbarItem(placement: .principal) {
                 Picker("", selection: $selectedTab) {
                     ForEach(tabs.indices) { i in
                         Text(self.tabs[i]).tag(i)
@@ -40,7 +39,6 @@ struct ContentView: View {
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .padding(.top, 8)
-//                Spacer()
             }
         }
     }

@@ -49,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3B925F222637A4D300B00B29 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		3B9B9F702634B16900E3A8B2 /* Shared.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shared.xcdatamodel; sourceTree = "<group>"; };
 		3B9B9F712634B16900E3A8B2 /* MushroomMailApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MushroomMailApp.swift; sourceTree = "<group>"; };
 		3B9B9F722634B16900E3A8B2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -114,6 +115,7 @@
 		3B9B9F692634B16900E3A8B2 = {
 			isa = PBXGroup;
 			children = (
+				3B925F222637A4D300B00B29 /* Podfile */,
 				3B9B9F6E2634B16900E3A8B2 /* Shared */,
 				3B9B9F7B2634B16A00E3A8B2 /* iOS */,
 				3B9B9F822634B16A00E3A8B2 /* macOS */,
