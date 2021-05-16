@@ -5,7 +5,7 @@ import NaturalLanguage
 
 class MailModel: ObservableObject {
     private var configuration: Configuration! {
-        .gmail(login: "samerce@gmail.com", password: .accessToken("ya29.a0AfH6SMDN7uoD5JkKml4cP4RWl6sufcwwQwqKSqQ0Io7Z9YagwmEvJqz2nquEes44NV6yPkSSRc366L4k1-hgs-p3xcRwurAFHsyigNYfOZm8U3ensTAFowr19zKDzTbdRCcal_l_FZr3YVRchVLNk1I4adOp"))
+        .gmail(login: "samerce@gmail.com", password: .accessToken("ya29.a0AfH6SMCVwvorYw74djFb9LZqKhRgjbWJzG9rYxgT0HzstN0WTT-doBDwO-vQUD9jlceE7qFC13D5qEABtrlBGCGTTQpZWXec_vbTpOFMOo4pAEZiUiqGqbYvmVBx8xSBlKDVzVrYskGv7S_iZXaTpo490I0i"))
     }
     
     fileprivate lazy var postal: Postal = Postal(configuration: self.configuration)
@@ -45,8 +45,9 @@ class MailModel: ObservableObject {
                 "other": nil
             ]
             for (category, mlModel) in models {
-                if mlModel == nil { continue }
-                self.oracles[category] = try NLModel(mlModel: mlModel!)
+                if mlModel != nil {
+                    self.oracles[category] = try NLModel(mlModel: mlModel!)
+                }
                 self.sortedEmails[category] = []
             }
         } catch {
@@ -65,16 +66,17 @@ class MailModel: ObservableObject {
     // MARK: - Helpers
     
     func getEmailString(_ msg: FetchResult) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
-        let date = dateFormatter.date(from: (msg.header?.receivedDate!.description)!)
-        return """
-            From: \(msg.header?.from[0].email)
-            Subject: \(msg.header?.subject)
-            Date: \(date)
-            To: \(msg.header?.to[0].email)\n
-            \(msg.body)
-        """
+      if msg.body == nil || msg.header == nil { return "" }
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
+      let date = dateFormatter.date(from: (msg.header?.receivedDate!.description)!) ?? Date()
+      return """
+          From: \(msg.header!.from[0].email)
+          Subject: \(msg.header!.subject)
+          Date: \(date)
+          To: \(msg.header!.to[0].email)\n
+          \(msg.body!)
+      """
     }
     
     func getSmartCategory(_ email: String) -> String {
@@ -82,20 +84,14 @@ class MailModel: ObservableObject {
 //        var bestPredictionConfidence = 0
         
         for (category, oracle) in self.oracles {
-            do {
-                let prediction = oracle.predictedLabel(for: email)
-                if prediction == "yes" /*&& prediction!.confidence > bestPredictionConfidence*/ {
-                    categoryPrediction = category
-//                    bestPredictionConfidence = prediction.confidence
-                }
-            } catch {
-                
+            let prediction = oracle.predictedLabel(for: email)
+            if prediction == "yes" /*&& prediction!.confidence > bestPredictionConfidence*/ {
+                categoryPrediction = category
+//                bestPredictionConfidence = prediction.confidence
             }
         }
         
         return categoryPrediction
     }
-    
-    // MARK: - API
     
 }

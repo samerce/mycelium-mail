@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3A7F261E4B05DFEFBF70DB35 /* Pods_mushroom_mail__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F8A655A0A582400B6B5B732 /* Pods_mushroom_mail__iOS_.framework */; };
+		3B2F072C264F72EA006CAECE /* AppSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F072B264F72EA006CAECE /* AppSplitView.swift */; };
+		3B2F072D264F72EA006CAECE /* AppSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F072B264F72EA006CAECE /* AppSplitView.swift */; };
 		3B9B9F8E2634B16A00E3A8B2 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F8D2634B16A00E3A8B2 /* Tests_iOS.swift */; };
 		3B9B9F992634B16A00E3A8B2 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F982634B16A00E3A8B2 /* Tests_macOS.swift */; };
 		3B9B9F9B2634B16A00E3A8B2 /* mushroom_mail.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F6F2634B16900E3A8B2 /* mushroom_mail.xcdatamodeld */; };
@@ -49,6 +51,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3B2F0726264E1035006CAECE /* AppSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSplitView.swift; sourceTree = "<group>"; };
+		3B2F072B264F72EA006CAECE /* AppSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSplitView.swift; sourceTree = "<group>"; };
 		3B925F222637A4D300B00B29 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		3B9B9F702634B16900E3A8B2 /* Shared.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shared.xcdatamodel; sourceTree = "<group>"; };
 		3B9B9F712634B16900E3A8B2 /* MushroomMailApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MushroomMailApp.swift; sourceTree = "<group>"; };
@@ -139,6 +143,7 @@
 				3B9B9F732634B16900E3A8B2 /* Persistence.swift */,
 				3B9B9F742634B16A00E3A8B2 /* Assets.xcassets */,
 				3B9B9F6F2634B16900E3A8B2 /* mushroom_mail.xcdatamodeld */,
+				3B2F072B264F72EA006CAECE /* AppSplitView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -157,6 +162,7 @@
 		3B9B9F7B2634B16A00E3A8B2 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				3B2F0726264E1035006CAECE /* AppSplitView.swift */,
 				3B9B9F7C2634B16A00E3A8B2 /* Info.plist */,
 			);
 			path = iOS;
@@ -451,6 +457,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B2F072C264F72EA006CAECE /* AppSplitView.swift in Sources */,
 				3B9B9F9D2634B16A00E3A8B2 /* MushroomMailApp.swift in Sources */,
 				3B9B9FD42634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel in Sources */,
 				3B9B9FD02634E26A00E3A8B2 /* NewsletterClassifier.mlmodel in Sources */,
@@ -466,6 +473,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B2F072D264F72EA006CAECE /* AppSplitView.swift in Sources */,
 				3B9B9F9E2634B16A00E3A8B2 /* MushroomMailApp.swift in Sources */,
 				3B9B9FD52634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel in Sources */,
 				3B9B9FD12634E26A00E3A8B2 /* NewsletterClassifier.mlmodel in Sources */,
