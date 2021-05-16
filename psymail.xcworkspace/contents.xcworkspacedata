@@ -2,9 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:mushroom-mail.xcodeproj">
+      location = "group:/Users/bubbles/dev/psymail/psymail.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:psymail.xcodeproj">
    </FileRef>
 </Workspace>

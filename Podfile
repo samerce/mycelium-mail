@@ -1,7 +1,7 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
-target 'mushroom-mail (iOS)' do
+target 'psymail (iOS)' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
@@ -9,7 +9,7 @@ target 'mushroom-mail (iOS)' do
 
 end
 
-target 'mushroom-mail (macOS)' do
+target 'psymail (macOS)' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 

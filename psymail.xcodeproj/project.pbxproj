@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3A7F261E4B05DFEFBF70DB35 /* Pods_mushroom_mail__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F8A655A0A582400B6B5B732 /* Pods_mushroom_mail__iOS_.framework */; };
 		3B2F072C264F72EA006CAECE /* AppSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F072B264F72EA006CAECE /* AppSplitView.swift */; };
 		3B2F072D264F72EA006CAECE /* AppSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F072B264F72EA006CAECE /* AppSplitView.swift */; };
 		3B9B9F8E2634B16A00E3A8B2 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F8D2634B16A00E3A8B2 /* Tests_iOS.swift */; };
@@ -30,7 +29,8 @@
 		3B9B9FD32634E26A00E3A8B2 /* MarketingRecognizer.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9FCE2634E26A00E3A8B2 /* MarketingRecognizer.mlmodel */; };
 		3B9B9FD42634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9FCF2634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel */; };
 		3B9B9FD52634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9FCF2634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel */; };
-		D80699C09D5D81A8AA8C773E /* Pods_mushroom_mail__macOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 990D71464C306229436FA830 /* Pods_mushroom_mail__macOS_.framework */; };
+		3F968887777D7B0730C9B3B8 /* Pods_psymail__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 399CC61715E34E128033326B /* Pods_psymail__iOS_.framework */; };
+		7E17C93A34D56B49D4BC931E /* Pods_psymail__macOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8F4944D476A40856691F844 /* Pods_psymail__macOS_.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,17 +51,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		399CC61715E34E128033326B /* Pods_psymail__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_psymail__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B2F0726264E1035006CAECE /* AppSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSplitView.swift; sourceTree = "<group>"; };
 		3B2F072B264F72EA006CAECE /* AppSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSplitView.swift; sourceTree = "<group>"; };
-		3B925F222637A4D300B00B29 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		3B925F222637A4D300B00B29 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		3B9B9F702634B16900E3A8B2 /* Shared.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shared.xcdatamodel; sourceTree = "<group>"; };
 		3B9B9F712634B16900E3A8B2 /* MushroomMailApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MushroomMailApp.swift; sourceTree = "<group>"; };
 		3B9B9F722634B16900E3A8B2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3B9B9F732634B16900E3A8B2 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		3B9B9F742634B16A00E3A8B2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		3B9B9F792634B16A00E3A8B2 /* mushroom-mail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mushroom-mail.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B9B9F792634B16A00E3A8B2 /* psymail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = psymail.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B9B9F7C2634B16A00E3A8B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3B9B9F812634B16A00E3A8B2 /* mushroom-mail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mushroom-mail.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B9B9F812634B16A00E3A8B2 /* psymail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = psymail.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B9B9F832634B16A00E3A8B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3B9B9F842634B16A00E3A8B2 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		3B9B9F892634B16A00E3A8B2 /* Tests iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -74,12 +75,11 @@
 		3B9B9FCD2634E26A00E3A8B2 /* NewsletterClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = NewsletterClassifier.mlmodel; sourceTree = "<group>"; };
 		3B9B9FCE2634E26A00E3A8B2 /* MarketingRecognizer.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MarketingRecognizer.mlmodel; sourceTree = "<group>"; };
 		3B9B9FCF2634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PoliticsRecognizer.mlmodel; sourceTree = "<group>"; };
-		61A706AF5773513FD686AE5E /* Pods-mushroom-mail (macOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mushroom-mail (macOS).release.xcconfig"; path = "Target Support Files/Pods-mushroom-mail (macOS)/Pods-mushroom-mail (macOS).release.xcconfig"; sourceTree = "<group>"; };
-		6F8A655A0A582400B6B5B732 /* Pods_mushroom_mail__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mushroom_mail__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		990D71464C306229436FA830 /* Pods_mushroom_mail__macOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mushroom_mail__macOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A8F1C327D71C73EE9FD1CB31 /* Pods-mushroom-mail (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mushroom-mail (iOS).release.xcconfig"; path = "Target Support Files/Pods-mushroom-mail (iOS)/Pods-mushroom-mail (iOS).release.xcconfig"; sourceTree = "<group>"; };
-		C8ED1E7FDA3B340174CDD6D0 /* Pods-mushroom-mail (macOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mushroom-mail (macOS).debug.xcconfig"; path = "Target Support Files/Pods-mushroom-mail (macOS)/Pods-mushroom-mail (macOS).debug.xcconfig"; sourceTree = "<group>"; };
-		ED25D84A9AE3FF3BEED704CF /* Pods-mushroom-mail (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mushroom-mail (iOS).debug.xcconfig"; path = "Target Support Files/Pods-mushroom-mail (iOS)/Pods-mushroom-mail (iOS).debug.xcconfig"; sourceTree = "<group>"; };
+		3E35B10F6A88FE4A90A5E820 /* Pods-psymail (macOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-psymail (macOS).release.xcconfig"; path = "Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS).release.xcconfig"; sourceTree = "<group>"; };
+		5373F94F41453FE8AB093878 /* Pods-psymail (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-psymail (iOS).debug.xcconfig"; path = "Target Support Files/Pods-psymail (iOS)/Pods-psymail (iOS).debug.xcconfig"; sourceTree = "<group>"; };
+		7007A9069DB99A4BC20380FC /* Pods-psymail (macOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-psymail (macOS).debug.xcconfig"; path = "Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS).debug.xcconfig"; sourceTree = "<group>"; };
+		9F87DF261F0BC06CC67C83A7 /* Pods-psymail (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-psymail (iOS).release.xcconfig"; path = "Target Support Files/Pods-psymail (iOS)/Pods-psymail (iOS).release.xcconfig"; sourceTree = "<group>"; };
+		A8F4944D476A40856691F844 /* Pods_psymail__macOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_psymail__macOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,7 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A7F261E4B05DFEFBF70DB35 /* Pods_mushroom_mail__iOS_.framework in Frameworks */,
+				3F968887777D7B0730C9B3B8 /* Pods_psymail__iOS_.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,7 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D80699C09D5D81A8AA8C773E /* Pods_mushroom_mail__macOS_.framework in Frameworks */,
+				7E17C93A34D56B49D4BC931E /* Pods_psymail__macOS_.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,7 +127,7 @@
 				3B9B9F972634B16A00E3A8B2 /* Tests macOS */,
 				3B9B9F7A2634B16A00E3A8B2 /* Products */,
 				5DC4F02DCAECE413E5132127 /* Pods */,
-				E920AFDAFB3D283A7B3527BB /* Frameworks */,
+				C4BA0104F196CF0F3293B02C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -151,8 +151,8 @@
 		3B9B9F7A2634B16A00E3A8B2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3B9B9F792634B16A00E3A8B2 /* mushroom-mail.app */,
-				3B9B9F812634B16A00E3A8B2 /* mushroom-mail.app */,
+				3B9B9F792634B16A00E3A8B2 /* psymail.app */,
+				3B9B9F812634B16A00E3A8B2 /* psymail.app */,
 				3B9B9F892634B16A00E3A8B2 /* Tests iOS.xctest */,
 				3B9B9F942634B16A00E3A8B2 /* Tests macOS.xctest */,
 			);
@@ -198,19 +198,19 @@
 		5DC4F02DCAECE413E5132127 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				ED25D84A9AE3FF3BEED704CF /* Pods-mushroom-mail (iOS).debug.xcconfig */,
-				A8F1C327D71C73EE9FD1CB31 /* Pods-mushroom-mail (iOS).release.xcconfig */,
-				C8ED1E7FDA3B340174CDD6D0 /* Pods-mushroom-mail (macOS).debug.xcconfig */,
-				61A706AF5773513FD686AE5E /* Pods-mushroom-mail (macOS).release.xcconfig */,
+				5373F94F41453FE8AB093878 /* Pods-psymail (iOS).debug.xcconfig */,
+				9F87DF261F0BC06CC67C83A7 /* Pods-psymail (iOS).release.xcconfig */,
+				7007A9069DB99A4BC20380FC /* Pods-psymail (macOS).debug.xcconfig */,
+				3E35B10F6A88FE4A90A5E820 /* Pods-psymail (macOS).release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		E920AFDAFB3D283A7B3527BB /* Frameworks */ = {
+		C4BA0104F196CF0F3293B02C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6F8A655A0A582400B6B5B732 /* Pods_mushroom_mail__iOS_.framework */,
-				990D71464C306229436FA830 /* Pods_mushroom_mail__macOS_.framework */,
+				399CC61715E34E128033326B /* Pods_psymail__iOS_.framework */,
+				A8F4944D476A40856691F844 /* Pods_psymail__macOS_.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -218,42 +218,42 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3B9B9F782634B16A00E3A8B2 /* mushroom-mail (iOS) */ = {
+		3B9B9F782634B16A00E3A8B2 /* psymail (iOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3B9B9FA72634B16A00E3A8B2 /* Build configuration list for PBXNativeTarget "mushroom-mail (iOS)" */;
+			buildConfigurationList = 3B9B9FA72634B16A00E3A8B2 /* Build configuration list for PBXNativeTarget "psymail (iOS)" */;
 			buildPhases = (
-				F78190D1F19F791F5A4286D2 /* [CP] Check Pods Manifest.lock */,
+				656A4FF235EA115548BCA104 /* [CP] Check Pods Manifest.lock */,
 				3B9B9F752634B16A00E3A8B2 /* Sources */,
 				3B9B9F762634B16A00E3A8B2 /* Frameworks */,
 				3B9B9F772634B16A00E3A8B2 /* Resources */,
-				42C11162166CA9B4A88E1137 /* [CP] Embed Pods Frameworks */,
+				77A678D85036E96B5658D945 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "mushroom-mail (iOS)";
+			name = "psymail (iOS)";
 			productName = "mushroom-mail (iOS)";
-			productReference = 3B9B9F792634B16A00E3A8B2 /* mushroom-mail.app */;
+			productReference = 3B9B9F792634B16A00E3A8B2 /* psymail.app */;
 			productType = "com.apple.product-type.application";
 		};
-		3B9B9F802634B16A00E3A8B2 /* mushroom-mail (macOS) */ = {
+		3B9B9F802634B16A00E3A8B2 /* psymail (macOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3B9B9FAA2634B16A00E3A8B2 /* Build configuration list for PBXNativeTarget "mushroom-mail (macOS)" */;
+			buildConfigurationList = 3B9B9FAA2634B16A00E3A8B2 /* Build configuration list for PBXNativeTarget "psymail (macOS)" */;
 			buildPhases = (
-				0418498C65E3A94078FBC1FE /* [CP] Check Pods Manifest.lock */,
+				794814F520AC0EA08214D4CE /* [CP] Check Pods Manifest.lock */,
 				3B9B9F7D2634B16A00E3A8B2 /* Sources */,
 				3B9B9F7E2634B16A00E3A8B2 /* Frameworks */,
 				3B9B9F7F2634B16A00E3A8B2 /* Resources */,
-				1D729CEA9A13640010B8BF98 /* [CP] Embed Pods Frameworks */,
+				18B523E0AD75629591725F46 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "mushroom-mail (macOS)";
+			name = "psymail (macOS)";
 			productName = "mushroom-mail (macOS)";
-			productReference = 3B9B9F812634B16A00E3A8B2 /* mushroom-mail.app */;
+			productReference = 3B9B9F812634B16A00E3A8B2 /* psymail.app */;
 			productType = "com.apple.product-type.application";
 		};
 		3B9B9F882634B16A00E3A8B2 /* Tests iOS */ = {
@@ -317,7 +317,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 3B9B9F6D2634B16900E3A8B2 /* Build configuration list for PBXProject "mushroom-mail" */;
+			buildConfigurationList = 3B9B9F6D2634B16900E3A8B2 /* Build configuration list for PBXProject "psymail" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -330,8 +330,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3B9B9F782634B16A00E3A8B2 /* mushroom-mail (iOS) */,
-				3B9B9F802634B16A00E3A8B2 /* mushroom-mail (macOS) */,
+				3B9B9F782634B16A00E3A8B2 /* psymail (iOS) */,
+				3B9B9F802634B16A00E3A8B2 /* psymail (macOS) */,
 				3B9B9F882634B16A00E3A8B2 /* Tests iOS */,
 				3B9B9F932634B16A00E3A8B2 /* Tests macOS */,
 			);
@@ -372,7 +372,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0418498C65E3A94078FBC1FE /* [CP] Check Pods Manifest.lock */ = {
+		18B523E0AD75629591725F46 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS)-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS)-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS)-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		656A4FF235EA115548BCA104 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -387,48 +404,31 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-mushroom-mail (macOS)-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-psymail (iOS)-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		1D729CEA9A13640010B8BF98 /* [CP] Embed Pods Frameworks */ = {
+		77A678D85036E96B5658D945 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-mushroom-mail (macOS)/Pods-mushroom-mail (macOS)-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-psymail (iOS)/Pods-psymail (iOS)-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-mushroom-mail (macOS)/Pods-mushroom-mail (macOS)-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-psymail (iOS)/Pods-psymail (iOS)-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mushroom-mail (macOS)/Pods-mushroom-mail (macOS)-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-psymail (iOS)/Pods-psymail (iOS)-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		42C11162166CA9B4A88E1137 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-mushroom-mail (iOS)/Pods-mushroom-mail (iOS)-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-mushroom-mail (iOS)/Pods-mushroom-mail (iOS)-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mushroom-mail (iOS)/Pods-mushroom-mail (iOS)-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F78190D1F19F791F5A4286D2 /* [CP] Check Pods Manifest.lock */ = {
+		794814F520AC0EA08214D4CE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -443,7 +443,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-mushroom-mail (iOS)-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-psymail (macOS)-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -506,12 +506,12 @@
 /* Begin PBXTargetDependency section */
 		3B9B9F8B2634B16A00E3A8B2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 3B9B9F782634B16A00E3A8B2 /* mushroom-mail (iOS) */;
+			target = 3B9B9F782634B16A00E3A8B2 /* psymail (iOS) */;
 			targetProxy = 3B9B9F8A2634B16A00E3A8B2 /* PBXContainerItemProxy */;
 		};
 		3B9B9F962634B16A00E3A8B2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 3B9B9F802634B16A00E3A8B2 /* mushroom-mail (macOS) */;
+			target = 3B9B9F802634B16A00E3A8B2 /* psymail (macOS) */;
 			targetProxy = 3B9B9F952634B16A00E3A8B2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -630,7 +630,7 @@
 		};
 		3B9B9FA82634B16A00E3A8B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ED25D84A9AE3FF3BEED704CF /* Pods-mushroom-mail (iOS).debug.xcconfig */;
+			baseConfigurationReference = 5373F94F41453FE8AB093878 /* Pods-psymail (iOS).debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -642,8 +642,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "cum.eym.mushroom-mail";
-				PRODUCT_NAME = "mushroom-mail";
+				PRODUCT_BUNDLE_IDENTIFIER = cum.expressyourmess.psymail;
+				PRODUCT_NAME = psymail;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -652,7 +652,7 @@
 		};
 		3B9B9FA92634B16A00E3A8B2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A8F1C327D71C73EE9FD1CB31 /* Pods-mushroom-mail (iOS).release.xcconfig */;
+			baseConfigurationReference = 9F87DF261F0BC06CC67C83A7 /* Pods-psymail (iOS).release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -664,8 +664,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "cum.eym.mushroom-mail";
-				PRODUCT_NAME = "mushroom-mail";
+				PRODUCT_BUNDLE_IDENTIFIER = cum.expressyourmess.psymail;
+				PRODUCT_NAME = psymail;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -675,7 +675,7 @@
 		};
 		3B9B9FAB2634B16A00E3A8B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C8ED1E7FDA3B340174CDD6D0 /* Pods-mushroom-mail (macOS).debug.xcconfig */;
+			baseConfigurationReference = 7007A9069DB99A4BC20380FC /* Pods-psymail (macOS).debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -690,7 +690,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "cum.eym.mushroom-mail";
-				PRODUCT_NAME = "mushroom-mail";
+				PRODUCT_NAME = psymail;
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
 			};
@@ -698,7 +698,7 @@
 		};
 		3B9B9FAC2634B16A00E3A8B2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 61A706AF5773513FD686AE5E /* Pods-mushroom-mail (macOS).release.xcconfig */;
+			baseConfigurationReference = 3E35B10F6A88FE4A90A5E820 /* Pods-psymail (macOS).release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -713,7 +713,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "cum.eym.mushroom-mail";
-				PRODUCT_NAME = "mushroom-mail";
+				PRODUCT_NAME = psymail;
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
 			};
@@ -807,7 +807,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3B9B9F6D2634B16900E3A8B2 /* Build configuration list for PBXProject "mushroom-mail" */ = {
+		3B9B9F6D2634B16900E3A8B2 /* Build configuration list for PBXProject "psymail" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3B9B9FA52634B16A00E3A8B2 /* Debug */,
@@ -816,7 +816,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3B9B9FA72634B16A00E3A8B2 /* Build configuration list for PBXNativeTarget "mushroom-mail (iOS)" */ = {
+		3B9B9FA72634B16A00E3A8B2 /* Build configuration list for PBXNativeTarget "psymail (iOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3B9B9FA82634B16A00E3A8B2 /* Debug */,
@@ -825,7 +825,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3B9B9FAA2634B16A00E3A8B2 /* Build configuration list for PBXNativeTarget "mushroom-mail (macOS)" */ = {
+		3B9B9FAA2634B16A00E3A8B2 /* Build configuration list for PBXNativeTarget "psymail (macOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3B9B9FAB2634B16A00E3A8B2 /* Debug */,

@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_mushroom_mail__iOS_VersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_mushroom_mail__iOS_VersionString[];
+FOUNDATION_EXPORT double Pods_psymail__iOS_VersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_psymail__iOS_VersionString[];
 
