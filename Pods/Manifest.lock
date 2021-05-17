@@ -1,8 +1,29 @@
 PODS:
+  - AppAuth (1.4.0):
+    - AppAuth/Core (= 1.4.0)
+    - AppAuth/ExternalUserAgent (= 1.4.0)
+  - AppAuth/Core (1.4.0)
+  - AppAuth/ExternalUserAgent (1.4.0)
+  - GoogleSignIn (5.0.2):
+    - AppAuth (~> 1.2)
+    - GTMAppAuth (~> 1.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - GTMAppAuth (1.2.2):
+    - AppAuth/Core (~> 1.4)
+    - GTMSessionFetcher/Core (~> 1.5)
+  - GTMSessionFetcher/Core (1.5.0)
   - Postal (0.5.0)
 
 DEPENDENCIES:
+  - GoogleSignIn
   - Postal (from `https://github.com/samerce/Postal.git`, branch `master`)
+
+SPEC REPOS:
+  trunk:
+    - AppAuth
+    - GoogleSignIn
+    - GTMAppAuth
+    - GTMSessionFetcher
 
 EXTERNAL SOURCES:
   Postal:
@@ -15,8 +36,12 @@ CHECKOUT OPTIONS:
     :git: https://github.com/samerce/Postal.git
 
 SPEC CHECKSUMS:
+  AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
+  GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
+  GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
+  GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   Postal: f28930c39ca2f891333638ef324bc7acb10246ac
 
-PODFILE CHECKSUM: 0a8b5fc9b62e9f4f4944199fd46f508931950d14
+PODFILE CHECKSUM: da1b0e95af8c200acb3c5584bb65965dd588c411
 
 COCOAPODS: 1.10.1

@@ -1,0 +1,43 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "ASCollectionView",
+        "repositoryURL": "https://github.com/apptekstudios/ASCollectionView",
+        "state": {
+          "branch": null,
+          "revision": "bab75600a09e52a002101f1dcaab94d42591513b",
+          "version": "2.0.0"
+        }
+      },
+      {
+        "package": "DifferenceKit",
+        "repositoryURL": "https://github.com/ra1028/DifferenceKit",
+        "state": {
+          "branch": null,
+          "revision": "62745d7780deef4a023a792a1f8f763ec7bf9705",
+          "version": "1.2.0"
+        }
+      },
+      {
+        "package": "DynamicOverlay",
+        "repositoryURL": "https://github.com/fabernovel/DynamicOverlay.git",
+        "state": {
+          "branch": null,
+          "revision": "05b3fdf9087078689488102df70bd4c42aaa6beb",
+          "version": null
+        }
+      },
+      {
+        "package": "OverlayContainer",
+        "repositoryURL": "https://github.com/applidium/OverlayContainer.git",
+        "state": {
+          "branch": null,
+          "revision": "bbe003027053b968c6be6e970f0e610271bbfae6",
+          "version": "3.5.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

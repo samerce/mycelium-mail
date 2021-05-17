@@ -6,22 +6,37 @@
 //
 
 import SwiftUI
+import CoreData
+import GoogleSignIn
 
 @main
 struct MushroomMailApp: App {
-    let persistenceController = PersistenceController.shared
-    @StateObject private var model = MailModel()
-//    @StateObject private var store = Store()
-
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .environmentObject(model)
-//                .environmentObject(store)
+  let persistenceController = PersistenceController.shared
+  
+  @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+  @Environment(\.scenePhase) var scenePhase
+  @StateObject private var model = MailModel()
+  //    @StateObject private var store = Store()
+  
+  @State private var didAppear = false
+  
+  var body: some Scene {
+    WindowGroup {
+      ContentView()
+        .environment(\.managedObjectContext, persistenceController.container.viewContext)
+        .environmentObject(model)
+        .onAppear {
+          if didAppear { return }
+          didAppear = true
+          GIDSignIn.sharedInstance()?.restorePreviousSignIn()
         }
-        .commands {
-            SidebarCommands()
-        }
+      //                .environmentObject(store)
     }
+    .commands {
+      SidebarCommands()
+    }.onChange(of: scenePhase) { _ in
+      persistenceController.save()
+    }
+  }
+  
 }

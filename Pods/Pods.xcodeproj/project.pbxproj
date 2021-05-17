@@ -3,494 +3,1107 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		CAD3534FC55B0333104E5117C0A9A324 /* GoogleSignIn */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 7F982436D96A9F7AAE7AE29D12E88120 /* Build configuration list for PBXAggregateTarget "GoogleSignIn" */;
+			buildPhases = (
+			);
+			dependencies = (
+				F4B4406C718414DE7B329FBDB8963410 /* PBXTargetDependency */,
+				79E035D601E37CE91AD2F403220902D7 /* PBXTargetDependency */,
+				7BDB541E9563F069D88754FB37503250 /* PBXTargetDependency */,
+			);
+			name = GoogleSignIn;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
-		01B7EC3E60FD699F03BD40F0E16855BF /* MailPart+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D86DF408F026D6B2BAA1C229355C383 /* MailPart+Parsing.swift */; };
-		03099C61246A43AD617486D748DECFEB /* ContentEncoding+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74C9468B0DBCBD35A85DCCCC5C7F11D /* ContentEncoding+Parsing.swift */; };
-		03FA547313717B5C35B617CED4D9A698 /* MimeFields+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2143148C558348EACEE0071FDF8D22E /* MimeFields+Parsing.swift */; };
-		0553E8E9D680B45B6DB91D5EC329282E /* IMAPSession+Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0AAC9FB675055C4788A95CCC646CC1 /* IMAPSession+Folder.swift */; };
-		089898B00A4EB4C72B3B286EDD3AE224 /* IMAPCapability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F46B35DAB6BBE3807841204A4BD33A7 /* IMAPCapability.swift */; };
-		09D70C1103D260785602CBD0C7614E3E /* ContentEncoding+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74C9468B0DBCBD35A85DCCCC5C7F11D /* ContentEncoding+Parsing.swift */; };
-		0D276423EECA1F0DC591E6AD1322020F /* Libetpan+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B1DBFAE8F4931737822F170AECA1D6 /* Libetpan+Util.swift */; };
-		0FCD14C4EEB5885042EB0F6C733874A0 /* IMAPSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EADD0CB029E3FFC16F3A3B09F0EF743 /* IMAPSession.swift */; };
-		128FF301357AA294B394711AE8E41607 /* MailPart+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D86DF408F026D6B2BAA1C229355C383 /* MailPart+Parsing.swift */; };
-		1D571A0727F8E90AD94AF58C35B41874 /* IMFError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A061D9FA9A5BC5146CFBEFEB3ECB54 /* IMFError.swift */; };
-		214B70D45D7BEA0851EB52D05D9956E0 /* MessageFlags+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AA02567403C2002531FAFAB6566054 /* MessageFlags+Parsing.swift */; };
-		30D1CDAD565C9E28B2EBB96CB98ADDA4 /* Extension+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109939BEB650E3C582410363D222194D /* Extension+Parsing.swift */; };
-		32729A6D11C3DBF272CBAB2C3483D1C0 /* FetchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DDA08C842E46CC4AFFC49B46E9E142 /* FetchResult.swift */; };
-		3427B2B396E76FBF3E932DE3A1A2D632 /* MimeFields+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2143148C558348EACEE0071FDF8D22E /* MimeFields+Parsing.swift */; };
-		37CB4844054BEAC7200CE816E785430D /* ContentDisposition+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD02F1EB0087D2BD77D63C1143A6C6CA /* ContentDisposition+Parsing.swift */; };
-		3DA74B71A8C0B79590D80EB3AD740916 /* Postal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C1A62E1AD45AED7A5DD40080FC074C /* Postal.swift */; };
-		408B6F9F07D7B83E5E873D7FB58F3D1F /* IMAPSession+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DBD3B4755062619DC8D974CA0F0AE4 /* IMAPSession+Search.swift */; };
-		41547A2D401F4057C2715352F2B7E8A7 /* Libetpan+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B1DBFAE8F4931737822F170AECA1D6 /* Libetpan+Util.swift */; };
-		4357A7015E200883E74A574AE9029645 /* IMAPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FD270E52A96262CF798EA48C044210 /* IMAPError.swift */; };
-		46F7FB1D859EA89FF414F41694B5662D /* Logger+IMAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC458EE77EBAAD3945921AC350E0639 /* Logger+IMAP.swift */; };
-		48CFD9480A02238390D4E4B566971947 /* IMAPFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B70982A375D695BDB58152F77C91AD /* IMAPFolder.swift */; };
-		4AA40A3F508516AE64A0092C39F76335 /* PostalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E4A6127C4BA5EBBBD7A37A83E19045A /* PostalError.swift */; };
-		4C90201D3223527AFA5CE199563F80B1 /* IMFError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A061D9FA9A5BC5146CFBEFEB3ECB54 /* IMFError.swift */; };
-		4EE6D505DB6AE6FB62CEC057D97EBC97 /* MessageHeader+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4948D4F49FC4372995BCCFFDE6FE3B8 /* MessageHeader+Parsing.swift */; };
-		4F5A98F29CA9F1C951C8A4D5C8341CC0 /* IMAPCapability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F46B35DAB6BBE3807841204A4BD33A7 /* IMAPCapability.swift */; };
-		5322C54C767B133DE6185DECA6338B80 /* Postal-macOS-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E006A20A57AF0B8EA46DF4FDB4CE7868 /* Postal-macOS-dummy.m */; };
-		5B5B3E1CC379D415ABDDD7E715B11125 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A54C97DEB1A3977AC3A62AFF00971BF /* Cocoa.framework */; };
-		5E1861C9B2AA8F5CD8B56F230411955E /* IMAPNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC998D49A15BD8DAC27CEF18FB62564E /* IMAPNamespace.swift */; };
-		605E39273A6141D4200DBFE232543220 /* MessageAttribute+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C98AE53C20E39A33D10E1AC9A2C2FE0 /* MessageAttribute+Parsing.swift */; };
-		66615DD1B66C22D43582B4CEE18E9716 /* CertificateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B451E0AC140D243BA1C3F0A9CF02CD /* CertificateUtils.swift */; };
-		6C000A3F4D7477205ED5D2EB7360B92A /* MessageFlags+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AA02567403C2002531FAFAB6566054 /* MessageFlags+Parsing.swift */; };
-		77F1F7C0AC8038DC6D94B292DC1363FF /* Extension+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109939BEB650E3C582410363D222194D /* Extension+Parsing.swift */; };
-		780BED20B1A21AD1D7E432743E8AEF60 /* Address+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECA81D331716FBF7AD7CC0AF9171B0F /* Address+Parsing.swift */; };
-		79F2451675890C15F5DF5F59B4A157D5 /* Pods-psymail (iOS)-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1800B08262F7462CDA792ABA0A75ECAB /* Pods-psymail (iOS)-dummy.m */; };
-		83A41B0AECD4C33ADAF0D418DBD7C7D1 /* PostalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E4A6127C4BA5EBBBD7A37A83E19045A /* PostalError.swift */; };
-		8573C14C1D4F95F383F8045469288145 /* Address+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECA81D331716FBF7AD7CC0AF9171B0F /* Address+Parsing.swift */; };
-		8699E8391020F7061D523DDB01536D2F /* IMAPSession+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DBD3B4755062619DC8D974CA0F0AE4 /* IMAPSession+Search.swift */; };
-		90C44772B0A9640FEF5DF535E4B25027 /* Postal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C1A62E1AD45AED7A5DD40080FC074C /* Postal.swift */; };
-		91AF8DE6EEA40384C11A19E4DF0AAEEC /* IMAPSession+Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0AAC9FB675055C4788A95CCC646CC1 /* IMAPSession+Folder.swift */; };
-		93D0C7BCB27226A24F05218D3EBED141 /* IMAPSession+Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A9E6065DBDD1644BD511B2EA5A2BF9 /* IMAPSession+Move.swift */; };
-		956BCA769E0523C270E6E253DDCCB6BE /* MimeType+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626AFD83DDD8BE7B8593B2800952C4E6 /* MimeType+Parsing.swift */; };
-		95E1160AF4FAF559E6F38DC2F7A148F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3261E5A5395F45780622405F504B2804 /* Foundation.framework */; };
-		9B9EFD871A7F7C13D908243E63464261 /* MailPart+Enumeration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15874131017DA41785728F874733AC5 /* MailPart+Enumeration.swift */; };
-		A665B2E4064FD3764CC38FC4BDE008EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3261E5A5395F45780622405F504B2804 /* Foundation.framework */; };
-		A710DAB8C17E933112C860D6F1D8BD5F /* MailData+Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1A092B0DE99835312B1208E4D2A4F9 /* MailData+Decode.swift */; };
-		AA3B1D94484F14000451F988643CC659 /* IMAPSession+Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A9E6065DBDD1644BD511B2EA5A2BF9 /* IMAPSession+Move.swift */; };
-		AAB8032E03AC9B42A4A380A59C4C1FA3 /* Message+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C1D5027F93051E8AE0ED5FFD7DE45F /* Message+Parsing.swift */; };
-		AB4F831046F44B3EC3DF4094411FFEAB /* Postal-iOS-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = AC3347459E9BB250680EEF9FF73FAD88 /* Postal-iOS-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ABEEC45B09DC03D35ACB88FF6E1604C8 /* IMAPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FD270E52A96262CF798EA48C044210 /* IMAPError.swift */; };
-		AF0F7C33AC30B1A33C35A1E441942CAD /* IMAPNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC998D49A15BD8DAC27CEF18FB62564E /* IMAPNamespace.swift */; };
-		B2DE4500F883A38AA323A5F7EE58C3E8 /* Pods-psymail (macOS)-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 55641869C4B726126EDE8A62AC02E2DC /* Pods-psymail (macOS)-dummy.m */; };
-		B9B49F2DFB6F3EAD234031336EA99583 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB2D1D94702B3E9583FA3EB3D7BC0FD /* Configuration.swift */; };
-		B9EC1638DCA1E2E04AD65AB5E51F5236 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB2D1D94702B3E9583FA3EB3D7BC0FD /* Configuration.swift */; };
-		BCB9DF8DA8AAE60633E4088E42C3F5E5 /* CertificateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B451E0AC140D243BA1C3F0A9CF02CD /* CertificateUtils.swift */; };
-		BD4E3090EA2E004B4DDA725B7524F29A /* Logger+IMAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC458EE77EBAAD3945921AC350E0639 /* Logger+IMAP.swift */; };
-		BE5A50D6AD33CCC09D6089AAE508D40C /* IMAPIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C573C3E54EFD502E4E9185F8B50826 /* IMAPIdentity.swift */; };
-		BEE2041ADF32277F555013A79E122406 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8223755373C024AAE2AD04B152C333F /* Logger.swift */; };
-		C40A386B3C51CBF007FA90C36346F160 /* MimeType+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626AFD83DDD8BE7B8593B2800952C4E6 /* MimeType+Parsing.swift */; };
-		C55165A31F9AE84CF32AC776E24809B4 /* Pods-psymail (iOS)-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 69CD29ABA8327DE2F26547A55AF1DD7C /* Pods-psymail (iOS)-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C792632CE6A7FA8B7C47FF2FDB1765E6 /* Message+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C1D5027F93051E8AE0ED5FFD7DE45F /* Message+Parsing.swift */; };
-		C8A588A1671C392307A8F7A3F42923ED /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351106295D7BB19E3691849749D58B29 /* Util.swift */; };
-		CB9B84AB722A7C2BAFAD9B9DDB854DD0 /* MessageAttribute+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C98AE53C20E39A33D10E1AC9A2C2FE0 /* MessageAttribute+Parsing.swift */; };
-		CBA3081C3E9D2643490BEFCABAD0743E /* IMAPSession+Fetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332E5F9E2DAD4BF7F1A58F381B4C7DE8 /* IMAPSession+Fetch.swift */; };
-		D22465ADB50B4636775F6F059EFD71EE /* IMAPIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C573C3E54EFD502E4E9185F8B50826 /* IMAPIdentity.swift */; };
-		D41F822A7021666C9148A678548AE6DA /* IMAPSession+List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DAEFA40D47386F9A7551705940E32D /* IMAPSession+List.swift */; };
-		D5262AB4880F6025FC9D21C4A137F61D /* IMAPFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B70982A375D695BDB58152F77C91AD /* IMAPFolder.swift */; };
-		DC82AF95244E23FA529F8858241EF013 /* Pods-psymail (macOS)-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B6170FD94BFEE79DE0A69ABDADBB0B8 /* Pods-psymail (macOS)-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DD1C18DE2C23F798B94C29E159B2AF5D /* ContentDisposition+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD02F1EB0087D2BD77D63C1143A6C6CA /* ContentDisposition+Parsing.swift */; };
-		E6A4428BD9A5FB4C45FDFF5E0C59D80D /* IMAPSession+Fetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332E5F9E2DAD4BF7F1A58F381B4C7DE8 /* IMAPSession+Fetch.swift */; };
-		E8F5252537FB0F314F9E2F5059C9F1BF /* FetchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DDA08C842E46CC4AFFC49B46E9E142 /* FetchResult.swift */; };
-		EAF1350D0C06FA37BC2AD3866507252F /* MessageHeader+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4948D4F49FC4372995BCCFFDE6FE3B8 /* MessageHeader+Parsing.swift */; };
-		EBC0717F9BC5C400B6CE0368595B2ED3 /* Postal-macOS-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = BB099EA30EC2CA047AD42CABFB60C16D /* Postal-macOS-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EBC2FE2F5504C24F551D5FAD9B8DE79B /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351106295D7BB19E3691849749D58B29 /* Util.swift */; };
-		F3ED1DBEC94D37E9294BBCD857FFF25C /* MailData+Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1A092B0DE99835312B1208E4D2A4F9 /* MailData+Decode.swift */; };
-		F9234054ED6F17FDA4FD3B88B91A34A1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A54C97DEB1A3977AC3A62AFF00971BF /* Cocoa.framework */; };
-		F93306AB23F5812C3869B76374FFF8DA /* IMAPSession+List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DAEFA40D47386F9A7551705940E32D /* IMAPSession+List.swift */; };
-		F9AAABF27FCC955C18491606D77C56AC /* Postal-iOS-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B506089687D0980ED9129383CD89A6D /* Postal-iOS-dummy.m */; };
-		FD2D392F77019FBC6C16718F59A6188A /* MailPart+Enumeration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15874131017DA41785728F874733AC5 /* MailPart+Enumeration.swift */; };
-		FDDE32267D6528DA3290459F408A9AD8 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8223755373C024AAE2AD04B152C333F /* Logger.swift */; };
-		FE4A5A757B404920454C07F0A4F60571 /* IMAPSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EADD0CB029E3FFC16F3A3B09F0EF743 /* IMAPSession.swift */; };
+		013D945A6EB50B6FC9854DE84D18E44A /* OIDAuthorizationService+IOS.h in Headers */ = {isa = PBXBuildFile; fileRef = DD13F7B6CF0603DAF28F51AD7999D26A /* OIDAuthorizationService+IOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		03D71C90FB4F1CEF230D66B7D48A0D62 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815F28AD9C3CAC5CB6969EB0E564F3D0 /* Foundation.framework */; };
+		05EF74AC69AA7DA9CD11C8BD1FC0E2EB /* GTMSessionFetcher-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1814A3F2FFC9CA8C5619BF1F3403744C /* GTMSessionFetcher-dummy.m */; };
+		06953BA616880F876D31CECCEDC11105 /* OIDAuthState.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D65B870DF9A1526737100D810123066 /* OIDAuthState.m */; };
+		075E34225D4CE71C2F2FC63FB9CE0CA3 /* OIDAuthorizationResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 58FBABF790A9B1ED345DDF4E6E1E8A85 /* OIDAuthorizationResponse.m */; };
+		082620B4CAFF07381D466C7F54CDC435 /* OIDAuthStateChangeDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2FB1A60D10B124F0AA4515A39E826A2B /* OIDAuthStateChangeDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		08496646584D37D8B5B199CB15BE2720 /* GTMSessionFetcher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2227B415010E6C53DD5A88DEE375FAF9 /* GTMSessionFetcher.framework */; };
+		0A83C33151A74978B5009466B16AA320 /* OIDExternalUserAgentCatalyst.m in Sources */ = {isa = PBXBuildFile; fileRef = AB72DA47C2D0F2D2A32F17D32F6AF078 /* OIDExternalUserAgentCatalyst.m */; };
+		0B764CD79758A19F877947F521050A30 /* OIDTokenUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 48CBD435B84936E64EE74C23ACE3130F /* OIDTokenUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0E23750FE124E07AFF21DB9AC9542BCE /* AppAuth-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D9538B4AE546ABB419AC24438739FE7 /* AppAuth-dummy.m */; };
+		0E67049ECD1CB93098B7DA486A0D8CE1 /* MailData+Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C737F095809B42ACAD79782FE1BD86 /* MailData+Decode.swift */; };
+		152481DAFF8FA47F61BB412784DF31E9 /* OIDAuthState+IOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 32C86D0BC86CD51D5ED62E36246A8608 /* OIDAuthState+IOS.m */; };
+		16E7BD16B2BCE4743DC69F8BB9643318 /* GTMAppAuthFetcherAuthorization.h in Headers */ = {isa = PBXBuildFile; fileRef = A2FDD08FC7940AA730977FED7BD35C50 /* GTMAppAuthFetcherAuthorization.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		16F96D0B2EE7EBED059FF327B8E90E5E /* OIDClientMetadataParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = CA5C9B866A0B1ABD5E8A279DBC7A30BB /* OIDClientMetadataParameters.m */; };
+		17587A84F44BB3F9BBE44E3F0BF91929 /* OIDScopeUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 08145CD49E0ED1EF64C130690D33C01C /* OIDScopeUtilities.m */; };
+		1BF47F657C5E5128941940BB97C7EADA /* Extension+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFBC49513976EF895D71A83548F3B758 /* Extension+Parsing.swift */; };
+		1D48D671015AEA1CD21D0200ED7C1E6F /* MessageHeader+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7774B00AB290D1494CA85CF5D764C3E7 /* MessageHeader+Parsing.swift */; };
+		1E56E2C8E450F41A8F1DE68A612C2B91 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F272890897BCB0ADBFD02D2B2F5C7F86 /* Logger.swift */; };
+		2095003DC22D3D86A334AA1A1561900D /* OIDErrorUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 493A9DE51386F902145E13680D8DF0DA /* OIDErrorUtilities.m */; };
+		218BA22AD876AB6E19146F5A9ABC8F5E /* OIDURLQueryComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FE14D1882E713BEA810FA168EE7B984 /* OIDURLQueryComponent.m */; };
+		22BA02A9AF9DDB1A405D82C84953B295 /* OIDResponseTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = D33860C176BC788AAD9EB6D329A14D80 /* OIDResponseTypes.m */; };
+		2565E16FBE3086C5671A69EC6BE1FF25 /* PostalError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B038E320C267EDDA09CEDB7767EEF05A /* PostalError.swift */; };
+		27D01EF0455EC871992A76B12CD4A4B8 /* GTMAppAuth-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 85525CD2CB2EFC425B5421DC1F56327F /* GTMAppAuth-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2808F21DE383D3C9BD0DA03A7B95F6AA /* OIDExternalUserAgentIOSCustomBrowser.h in Headers */ = {isa = PBXBuildFile; fileRef = 8DB3C73B8B48F76A55F24E4068ADF3A8 /* OIDExternalUserAgentIOSCustomBrowser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		29313EDDA5CE4F68A71587AA1838EF99 /* GTMKeychain_iOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 659BCA608CA70F28418D517A86524309 /* GTMKeychain_iOS.m */; };
+		2B268B1D89DDEE445606464B1105E0F3 /* OIDIDToken.h in Headers */ = {isa = PBXBuildFile; fileRef = BF9F1A0F8FA8AD662315EDDA8FC5286C /* OIDIDToken.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2B9DE014CBDC27683B204852475EB8A6 /* OIDExternalUserAgentIOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D7C0483EDF91A930834740D62A7D4E0 /* OIDExternalUserAgentIOS.m */; };
+		2C034AC52FF9090141709228E7A67121 /* OIDServiceDiscovery.m in Sources */ = {isa = PBXBuildFile; fileRef = D954BBB017A602A22D8C0B02D43FE19F /* OIDServiceDiscovery.m */; };
+		2C2756B5C834425A5898B49DB81C1D94 /* Libetpan+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA0318C346514AED0C79225F6715299 /* Libetpan+Util.swift */; };
+		2D8D67C396A0A1A33320AB9924E9DB42 /* OIDError.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE8244FDD9C80D7640ECE39EB046E94 /* OIDError.m */; };
+		321995AB5C5DD22B2DC924BC8F2AF053 /* OIDTokenResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 6761F268D7EC18DCFA8992AE726EB671 /* OIDTokenResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		355CF2719234ADB11A1993E2120CC373 /* OIDTokenRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 72CF68B561C8ABCBE63CCE4FE0E64506 /* OIDTokenRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3989F5BDEC4A21202F727FB35ECB9E4D /* OIDTokenResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 75C11C382111437698268FB9972710F0 /* OIDTokenResponse.m */; };
+		39D4516A2DB8E91D2A1C0CDB79BDCBCE /* OIDURLQueryComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C0E0B7E3F3142C49842138F315907E5 /* OIDURLQueryComponent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3B7D2605546D54F8CEDA4F887F2AEF2A /* GTMSessionFetcher.h in Headers */ = {isa = PBXBuildFile; fileRef = A86DED7E1E487A5444149CE75A7AA8FD /* GTMSessionFetcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3BFE8CD59118C4908BDCF67DA762C118 /* OIDEndSessionResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 89767E1A4AF23B7AFF91CD2F37FC0137 /* OIDEndSessionResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3F609DF53628B2F834F882C40F39C99C /* OIDTokenRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = ABCE6758C19FF78AC47A13C116373D0F /* OIDTokenRequest.m */; };
+		3FF8FA8B96DAE27162CAD82279168B04 /* GTMSessionFetcherService.h in Headers */ = {isa = PBXBuildFile; fileRef = F3DF97F157E2E334AAA2779B6A227A7D /* GTMSessionFetcherService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		408352680097A53851035145970371B1 /* OIDAuthorizationRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 379CBB79F51AA0BA0D58A958F548722E /* OIDAuthorizationRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		40FC84D2AFB6832635DD9A929E516BAE /* OIDGrantTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F45263815AF68CE19A5ABEB1A5EB69D /* OIDGrantTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		41120EAA25C099C0A918E88D2222ED59 /* IMAPIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70C062C9341E35639C312D3C1823EA7 /* IMAPIdentity.swift */; };
+		43B9B04CA13D471B0069F822479BA5F8 /* GTMAppAuth-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 502D4ECAAA8E353466FAD4FCEFA90146 /* GTMAppAuth-dummy.m */; };
+		4480D20BAE2A84682B5DE51F51A5DD4D /* OIDDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = DB167352BEF4459F80A291275B030010 /* OIDDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4870D0FB963B09D3D9FAA4E3DC9263FB /* OIDClientMetadataParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 823F2371F9C7B034D4D6770F9CEDF1BB /* OIDClientMetadataParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		487B398FF6DE0468B5E8E4FEBB432327 /* OIDExternalUserAgentCatalyst.h in Headers */ = {isa = PBXBuildFile; fileRef = 278F1AF010927F71A73FC62127085C77 /* OIDExternalUserAgentCatalyst.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		48E0438DFE75DDCDB8408C0373D60FD8 /* MessageAttribute+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720B58ABEF687DA994F495D5E02621F8 /* MessageAttribute+Parsing.swift */; };
+		4AD6B3366120E6DE8AA7D9A01F781158 /* IMAPFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5EE8936CFED4714928263A52882F51 /* IMAPFolder.swift */; };
+		4C2A07A6EE4275092CE397726C3CF244 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815F28AD9C3CAC5CB6969EB0E564F3D0 /* Foundation.framework */; };
+		51E44BC463F6DAC213794C32E69B6E1A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F897176C959FDDF363172479A7F209E /* Security.framework */; };
+		55A49913D357D2D1D709969FEEF0559C /* IMAPSession+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2C86871B727DAF0AE461F73BEF8412 /* IMAPSession+Search.swift */; };
+		562D0C180FDE6593236DC433F9289A49 /* MessageFlags+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF7F90FBCDD729A0814E034DD7708C3 /* MessageFlags+Parsing.swift */; };
+		57B58486118CFCAA0CB5CEDFFD20C9B2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F897176C959FDDF363172479A7F209E /* Security.framework */; };
+		595AD299EE64989EC626613B33534DA2 /* ContentEncoding+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4A8E79EA2A620D7A30CBF7A6DCBCE2 /* ContentEncoding+Parsing.swift */; };
+		59A49AF608F61488B0F701EDD2282DCD /* MailPart+Enumeration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F954089C2EDC78166BF29F267D31647 /* MailPart+Enumeration.swift */; };
+		5C43E64B8DFCE99DD92F62D538C0DFF0 /* OIDFieldMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = FB8C5C9FDAF003A6C61463AD1762F7CF /* OIDFieldMapping.m */; };
+		5F96704D2C4650A2FB413FED0BA46C08 /* Postal-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A8C195A831367E3C8674E4CE3721BA67 /* Postal-dummy.m */; };
+		607C9ECA706FF0EAD987FF361033E92E /* CertificateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D833471B340C32DDCD0B5909C3746E /* CertificateUtils.swift */; };
+		617968B11188B95B6117BE9A51BCC2F7 /* OIDErrorUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = A2C6F993CC1290A15C96BF4F614847FE /* OIDErrorUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6319FC7C07929DF559B1F43E8C426D4F /* Postal-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 67136F2C5400C6360276812B73E879FC /* Postal-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		639648674D0F7683545AEBD6BFA6E298 /* GTMSessionFetcher-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 48ECA7E67EEB06E557DE5ACB71B0A63A /* GTMSessionFetcher-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		64923BC784ABEAA3E91A21C5770CC500 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815F28AD9C3CAC5CB6969EB0E564F3D0 /* Foundation.framework */; };
+		670E2A31490D13725DFB5CBBF08B12EF /* OIDAuthState+IOS.h in Headers */ = {isa = PBXBuildFile; fileRef = C096EBCFB515533752AF0BB1A03FCED8 /* OIDAuthState+IOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6935E8473F06EECF739CBB04D6E7891B /* GTMOAuth2KeychainCompatibility.m in Sources */ = {isa = PBXBuildFile; fileRef = BF50EABA59F203104E8B93F30F9D2714 /* GTMOAuth2KeychainCompatibility.m */; };
+		6AEEB9C31A3239588A40CDD826494676 /* GTMAppAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = 877CAE8803D358099C26D0AD6B85A0A1 /* GTMAppAuth.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6B2C401E08F2AC0A87453061CA3E8E2C /* OIDAuthState.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AAF1E9337F5347F0AAE1DF1DA1DC77F /* OIDAuthState.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		705E22C52493D0AEDE135873802B54E0 /* OIDScopes.m in Sources */ = {isa = PBXBuildFile; fileRef = 75F2B57265B613466EEFCF9F165532DD /* OIDScopes.m */; };
+		75DD5C3A2FADE15B645BD46CDAC19BDA /* Logger+IMAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD91CB0E052E4AD5C5186A833260A1F /* Logger+IMAP.swift */; };
+		775AE4EF4221148F167CE84254753B22 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D10C1E24EA72EC10952D0B8A61499D7 /* Configuration.swift */; };
+		79117048A3C4F245532CAE57EE37901A /* OIDExternalUserAgentIOSCustomBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = DF29020333AE340C7B5FE7E696D8E8AF /* OIDExternalUserAgentIOSCustomBrowser.m */; };
+		7ACD06125D4ECC1EC05EAF68B2DC0C99 /* OIDScopeUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = E77E009592D3E2A22F4E483DE239EA59 /* OIDScopeUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7FE5602CAB3DF1F458C7B05777DD97BF /* IMAPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C937F4A828806F39E587A729E4C97306 /* IMAPError.swift */; };
+		8163F27756B9177A85B6C6DBC4C3E0FA /* IMAPSession+Fetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D7B0FF0C0DDB7EE69409F99D3C6B4C0 /* IMAPSession+Fetch.swift */; };
+		827C164ED1870132CA68289102312EB2 /* Message+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E58678C871A5E8F69ED74EE409C0B77 /* Message+Parsing.swift */; };
+		83450D6BB5E9617CD9A2CDA804A21E7F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815F28AD9C3CAC5CB6969EB0E564F3D0 /* Foundation.framework */; };
+		83BAF0108579702991C01C961439111A /* OIDExternalUserAgent.h in Headers */ = {isa = PBXBuildFile; fileRef = 01476E8949774F37261541C2FCC9AEA7 /* OIDExternalUserAgent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8417CFCEA12E96E62CFA4A646672BCCB /* OIDServiceDiscovery.h in Headers */ = {isa = PBXBuildFile; fileRef = 1459402B31AD1D7DAA84EB144B7268A4 /* OIDServiceDiscovery.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		85AC70140CF3718AA932C21689BF865A /* OIDExternalUserAgentSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 86AFBD7B151116317785A78409D7DDF9 /* OIDExternalUserAgentSession.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		85CB2853C7AEE3593C3EC57F5BBEDD04 /* MimeFields+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19944891FF5ABC040E1D6A3433E38458 /* MimeFields+Parsing.swift */; };
+		86C6E9D09DD9A2F765ED9CF5F981560C /* OIDURLSessionProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C7337F67DE034551E903CA9CDD9098E /* OIDURLSessionProvider.m */; };
+		8955CA20EEA55F5D75CDE87F0CADCF83 /* OIDScopes.h in Headers */ = {isa = PBXBuildFile; fileRef = 39978B436480ACF13D9F485ADD3318D0 /* OIDScopes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8A7C8CE5335ED896DCFF6BCA1218C37B /* Pods-psymail (iOS)-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A9075DCFB7D373F4F914C196FEB44093 /* Pods-psymail (iOS)-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8ACA9C8B657C3C149214E3649860AF76 /* OIDResponseTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 8A43E5382807C9723D986E644E96EDB7 /* OIDResponseTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8B4F9590DFF1F4A1250D0427CC12D98C /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54D90C1B1CD756B39A1D654AB00B883C /* SafariServices.framework */; };
+		8F61652F110DE9907B66C8C67A726504 /* GTMSessionUploadFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 2493D7D4CCED4DBAFFBD624EC49D4F16 /* GTMSessionUploadFetcher.m */; };
+		91907BA379327CACDF19EA39EAD05338 /* OIDEndSessionRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 461D1E262C392C925C2494DB2ACFF908 /* OIDEndSessionRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		95D660DE029B3057EF7922C44E75B6FF /* OIDTokenUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 346D763111A802AB57D5DDFF775D52A7 /* OIDTokenUtilities.m */; };
+		967E1924C4E008D914ECA03D5CEEECCA /* GTMSessionUploadFetcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 6230AD2BEB6665DE76A5894F855C3D1E /* GTMSessionUploadFetcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		967EB7DF440F3587582C780B19110AEE /* Pods-psymail (macOS)-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = CA46F26709EF6E3C1F4353BBFEFC16C4 /* Pods-psymail (macOS)-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9CE65A3D98C085B2F0763AF6E2A211A6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815F28AD9C3CAC5CB6969EB0E564F3D0 /* Foundation.framework */; };
+		A050D141C28DA359106584350B6912E0 /* GTMOAuth2KeychainCompatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = 27D98D604FE07CA56EB68246CBF017F2 /* GTMOAuth2KeychainCompatibility.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A14710681730656A8EE4F2793773C18B /* OIDAuthorizationResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 4218B34CD826E60F9722F7DCC3EF75F8 /* OIDAuthorizationResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A1AF5BF63FEEA98CB2D165039170E6F7 /* OIDAuthorizationService+IOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B8CABDB56EB7DFA0C04DE385970D742 /* OIDAuthorizationService+IOS.m */; };
+		A27BB818DB384FE4A607C6E3946EFC55 /* FetchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A67D0D8828A636717EDD76E82DB2156 /* FetchResult.swift */; };
+		A749C4D3FF2A4AF126F66C600252FE1A /* MailPart+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A513E4150D7B7BAA04E303BCD051EB /* MailPart+Parsing.swift */; };
+		A74F7ECC8E5E7EE5780B19E8ED5E61EB /* GTMAppAuthFetcherAuthorization+Keychain.h in Headers */ = {isa = PBXBuildFile; fileRef = CEE734DE1D1237A77F97BAC65C45A970 /* GTMAppAuthFetcherAuthorization+Keychain.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A837179BAD5CC1FFC6BFAC2C5C67E334 /* OIDServiceConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5872C47EAB27991BE7C3FB46F1D6C356 /* OIDServiceConfiguration.m */; };
+		AA3BE332B851918B23E03F283868116C /* OIDError.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A75593F8E46AEF496C33A292708E111 /* OIDError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ADC6E6CDB67BF72551533BC4E4555213 /* IMAPSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA81CF0CC6A0740CD861A61CF7BC1F0 /* IMAPSession.swift */; };
+		AE07D07F98D805B39CAAB4E89F1E87B8 /* OIDServiceConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = BD37412994E294691F6B292BF125F996 /* OIDServiceConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AFE71F968B696E07B462831033ABC80C /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC8DF26D9F6823DFF93A07C881E696F1 /* Util.swift */; };
+		B00AF14E70C26C9D19EDB3AB4F04123E /* OIDRegistrationRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A384574F3BA12E87F61AAA541AD5A33 /* OIDRegistrationRequest.m */; };
+		B924161D2F87B859ECFA9568E0467A69 /* IMAPSession+Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0C619342BE44DE9FEF9B131AE707E1 /* IMAPSession+Folder.swift */; };
+		BBC602EC86EB71FC4ACD5728C9058E23 /* OIDRegistrationRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = D4C4F89E4A8E6C64157F047DDE02B608 /* OIDRegistrationRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C18F8521DF033317A95718D2699FCD30 /* IMAPCapability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162C87FBCDE280B03D9BD9CD1243C744 /* IMAPCapability.swift */; };
+		C23F697B76C8D3242F232D958E0C00E3 /* OIDAuthorizationService.m in Sources */ = {isa = PBXBuildFile; fileRef = AE236829A97763AA22E2749BDEFDB432 /* OIDAuthorizationService.m */; };
+		C2AD48C610ED980F461175FB166F1F70 /* GTMAppAuthFetcherAuthorization.m in Sources */ = {isa = PBXBuildFile; fileRef = F0720F5B90183BE3F0ED292C9257F7B8 /* GTMAppAuthFetcherAuthorization.m */; };
+		C359863B7FF01F6B19CDA89D30126EE6 /* OIDAuthorizationRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B9FA73FC01C8B75C297B4946041B43B /* OIDAuthorizationRequest.m */; };
+		C42A57975411E28EEB016E6A89ECF5C0 /* Pods-psymail (iOS)-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D9E5BECB73BAD8C783F88A8A4ED61B /* Pods-psymail (iOS)-dummy.m */; };
+		C46EC694F711B579F1BE0D6A42A9E0D7 /* GTMKeychain.h in Headers */ = {isa = PBXBuildFile; fileRef = 24A7BDF6760E2FD1D414561EFC73714B /* GTMKeychain.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C760F013C47E323D4C9D3E1FF5E34338 /* OIDAuthStateErrorDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B9090A8ABDA1EFCF7D5B97B2FA09359C /* OIDAuthStateErrorDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CCA64AF64DA90EF4D29337BE7371B284 /* IMFError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6D46248C6B0D6AA6FC11CC7D7ABA7A /* IMFError.swift */; };
+		CE8C6359A4018C2F6EF8BAD52F8A5049 /* GTMSessionFetcherService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8163EC85B516AB17AAF464F9FF17CB20 /* GTMSessionFetcherService.m */; };
+		D12A1E3BA4D921B31A26E249E8370DD7 /* Pods-psymail (macOS)-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F87DF793CB2058A68AE0F6B2EACB71 /* Pods-psymail (macOS)-dummy.m */; };
+		D24F7DFA802B4503AC42B4795AE2C384 /* GTMSessionFetcherLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = 256506CA11EE8DFC17429F61FA7C7BD5 /* GTMSessionFetcherLogging.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D345362204EFD719B7D2303E1F5BD550 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815F28AD9C3CAC5CB6969EB0E564F3D0 /* Foundation.framework */; };
+		D4E43B95AA2B76BDEC6B97B152F00463 /* OIDURLSessionProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = DD356FDEFF43CA62AC2AF53807F45CEA /* OIDURLSessionProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D87549BF6D8F527CF351E13326FCEF21 /* OIDExternalUserAgentIOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 380212C44D9978A6BC461DDFD6FD5896 /* OIDExternalUserAgentIOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D90A3C067FE031487AD6F53979803AAA /* OIDEndSessionRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 306DDF45A60E0E2A903228C006B85B81 /* OIDEndSessionRequest.m */; };
+		DBDBE4FD34ED818DFF510BA4874FB112 /* Address+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C245358008847A5B4E6B1F4E356602E6 /* Address+Parsing.swift */; };
+		DE23788919FF5136AC4B77F9B29FB4C1 /* OIDFieldMapping.h in Headers */ = {isa = PBXBuildFile; fileRef = A7F60A89B8E53FB20F00392FF03A97F6 /* OIDFieldMapping.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E331A92EA4DB6068725824A69ADFA323 /* ContentDisposition+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46242B303C4A2ACB7AC51C9819630441 /* ContentDisposition+Parsing.swift */; };
+		E3B32C12184BD887E6687F73097489FA /* OIDRegistrationResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CCD3CF2D7AB08E1C6F856AB68E1AC15 /* OIDRegistrationResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E6C2AABA6D5D2C4F48E43CC491F35393 /* AppAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFA704319B8E276202CFE32DF572505 /* AppAuth.framework */; };
+		EA278C7D9EB69B68733EF68A0C150345 /* OIDAuthorizationService.h in Headers */ = {isa = PBXBuildFile; fileRef = BD35E7C2C3414B36531BA8D17203B030 /* OIDAuthorizationService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EBF9BBEECF9183A5D715535619D1AE0F /* IMAPSession+List.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED303BCAA3C4FBEA562299FE8B391A49 /* IMAPSession+List.swift */; };
+		ED2A123CB0812C9379F3DFA33007FD54 /* IMAPSession+Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D789A5CF30317A2D04D1143CF050D30 /* IMAPSession+Move.swift */; };
+		EE191018EF34395C61D30D78FED87E45 /* AppAuthCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 33CC18A0AD9D549F195DBF56A704188D /* AppAuthCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EE329DF01337A5B2040D3D7532BEB766 /* OIDRegistrationResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 590D851B5F756B2783BB3B7EFF278717 /* OIDRegistrationResponse.m */; };
+		EFD8A52576FF0EF6AF3DA757B1B18DC3 /* GTMAppAuthFetcherAuthorization+Keychain.m in Sources */ = {isa = PBXBuildFile; fileRef = A13FA6F4855ED8B84AC7D57C3345231A /* GTMAppAuthFetcherAuthorization+Keychain.m */; };
+		F246177F1215CDBE9AB3B1BB58624C04 /* OIDGrantTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0A03FF015DA242E552734AC8A65580 /* OIDGrantTypes.m */; };
+		F312B41D131848D51F9F82EAB3D4F744 /* GTMSessionFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E2842D656E22ADA6339D933277F5E7 /* GTMSessionFetcher.m */; };
+		F3D2632F5565AFA96A15FBA9EAFFF410 /* AppAuth-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F7B642C5039DACED7F1BA04DCF578BFC /* AppAuth-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F43ADE16043732E2543532E1AA752925 /* MimeType+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26A7BCE80C5A6CAD7502E3A47751CF6 /* MimeType+Parsing.swift */; };
+		F47BF5598DBEDEB0A44679023AFC7E66 /* OIDIDToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8CF3F1D22422EFEF65C569E0C8AB09 /* OIDIDToken.m */; };
+		F598CB205564B44BC8BC6B774DEB1B62 /* OIDExternalUserAgentRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 0FB4D9C07E9B3927CEEA88863E321927 /* OIDExternalUserAgentRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F63AEDA8D2A3484F0EB3EB41DB731BDF /* GTMSessionFetcherLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = D36C1DF8FFE3C766FF56D6C440775B1E /* GTMSessionFetcherLogging.m */; };
+		F63C85CE50933EE6BDB86F9C87253F1C /* OIDEndSessionResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 972A7819D5CB6AE3B06B5EA24E6172BA /* OIDEndSessionResponse.m */; };
+		F677A4A964B9095056DA905477CE4F3C /* AppAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = 303F8C7A024BF9CD130B4AC3367D9281 /* AppAuth.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FB0DCDCDEAE8383DE1D9EA74E68F2325 /* Postal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E44EFE631D9D1A15A32F2400416F39 /* Postal.swift */; };
+		FBB255A81067F582B9A09A45C57FBED1 /* IMAPNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3486FFFCDA75BF20B31C11D1CAEE835 /* IMAPNamespace.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		3BE410EBFE49164BE91E5EB97D445C6A /* PBXContainerItemProxy */ = {
+		0427B9542686B542E864FDF95F8CFA0D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 9055EBCD4AFB31FE5DD0AC53757C5076;
-			remoteInfo = "Postal-macOS";
+			remoteGlobalIDString = D676E21115185671D7258A56944ABE98;
+			remoteInfo = GTMSessionFetcher;
 		};
-		7729AF6F0A78D065886AC7F495D4D2F1 /* PBXContainerItemProxy */ = {
+		06A2BFE4C7939F6B2D2437C8BAAC9BCF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = D82DFBFFFAB8D532124927A7D28360A8;
-			remoteInfo = "Postal-iOS";
+			remoteGlobalIDString = 014CE582943DE44B473C7E70A5897BE2;
+			remoteInfo = Postal;
+		};
+		26AC404BBD885E5416A481A49BB747E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CAD3534FC55B0333104E5117C0A9A324;
+			remoteInfo = GoogleSignIn;
+		};
+		2CFD4A6AA4BF51C4C08B91C960BB9C12 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D676E21115185671D7258A56944ABE98;
+			remoteInfo = GTMSessionFetcher;
+		};
+		31B5CE2625A1BFD3E549C05EED0BA654 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8627999EF1D5E93E13DAFF580DA8CDCF;
+			remoteInfo = GTMAppAuth;
+		};
+		4992DCD16C29CBBFF12A2E78EF1589AD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8627999EF1D5E93E13DAFF580DA8CDCF;
+			remoteInfo = GTMAppAuth;
+		};
+		76DAA6F38CF2EDDC9D4E31CE390AB739 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D676E21115185671D7258A56944ABE98;
+			remoteInfo = GTMSessionFetcher;
+		};
+		8FF1D9E402070BBB795B400129C43D1B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 014CE582943DE44B473C7E70A5897BE2;
+			remoteInfo = Postal;
+		};
+		A0ABAFEF7CBD34C30104B6EB5C9788E2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5C642AA10FB29936669CC269F42079C6;
+			remoteInfo = AppAuth;
+		};
+		A5F016CA32C8B433FC64715584B0F488 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5C642AA10FB29936669CC269F42079C6;
+			remoteInfo = AppAuth;
+		};
+		B4B0E8BC5E77B3FAC46F13DB15CFACE8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5C642AA10FB29936669CC269F42079C6;
+			remoteInfo = AppAuth;
+		};
+		C6BD59F9C9A828468E34E942A0C6611D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5C642AA10FB29936669CC269F42079C6;
+			remoteInfo = AppAuth;
+		};
+		DB1A2B3065AF8D182D947BC667ED4B44 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8627999EF1D5E93E13DAFF580DA8CDCF;
+			remoteInfo = GTMAppAuth;
+		};
+		E23F5FAAAE1E40B2F6F8C0997B2DB3A0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CAD3534FC55B0333104E5117C0A9A324;
+			remoteInfo = GoogleSignIn;
+		};
+		F9BAF59855E95E97BDDDA59EFE8007A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D676E21115185671D7258A56944ABE98;
+			remoteInfo = GTMSessionFetcher;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		03DBD3B4755062619DC8D974CA0F0AE4 /* IMAPSession+Search.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "IMAPSession+Search.swift"; path = "Postal/IMAPSession+Search.swift"; sourceTree = "<group>"; };
-		05B451E0AC140D243BA1C3F0A9CF02CD /* CertificateUtils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CertificateUtils.swift; path = Postal/CertificateUtils.swift; sourceTree = "<group>"; };
-		0B6170FD94BFEE79DE0A69ABDADBB0B8 /* Pods-psymail (macOS)-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-psymail (macOS)-umbrella.h"; sourceTree = "<group>"; };
-		0C98AE53C20E39A33D10E1AC9A2C2FE0 /* MessageAttribute+Parsing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "MessageAttribute+Parsing.swift"; path = "Postal/MessageAttribute+Parsing.swift"; sourceTree = "<group>"; };
-		0CCC455AF711B37D24C95A28E7C6C83C /* Pods-psymail (macOS)-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-psymail (macOS)-frameworks.sh"; sourceTree = "<group>"; };
-		0E4D0CD6723F96C990DE88426AC53868 /* Pods-psymail (iOS).modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-psymail (iOS).modulemap"; sourceTree = "<group>"; };
-		109939BEB650E3C582410363D222194D /* Extension+Parsing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Extension+Parsing.swift"; path = "Postal/Extension+Parsing.swift"; sourceTree = "<group>"; };
-		14B70982A375D695BDB58152F77C91AD /* IMAPFolder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IMAPFolder.swift; path = Postal/IMAPFolder.swift; sourceTree = "<group>"; };
-		1800B08262F7462CDA792ABA0A75ECAB /* Pods-psymail (iOS)-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-psymail (iOS)-dummy.m"; sourceTree = "<group>"; };
-		19A99A8661B46D2AF2723E33619D98B0 /* Pods-psymail (macOS).modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-psymail (macOS).modulemap"; sourceTree = "<group>"; };
-		1B506089687D0980ED9129383CD89A6D /* Postal-iOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Postal-iOS-dummy.m"; sourceTree = "<group>"; };
-		1E9BEBB29CABB472D9F613183495158B /* Postal-iOS.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Postal-iOS.modulemap"; sourceTree = "<group>"; };
-		20AA02567403C2002531FAFAB6566054 /* MessageFlags+Parsing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "MessageFlags+Parsing.swift"; path = "Postal/MessageFlags+Parsing.swift"; sourceTree = "<group>"; };
-		21824CE73FD764FAB226A03CC021CCD2 /* Pods-psymail (macOS)-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-psymail (macOS)-acknowledgements.markdown"; sourceTree = "<group>"; };
-		249A2622289D265ACF9090538D145C69 /* Postal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Postal.framework; path = "Postal-iOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2AB2D1D94702B3E9583FA3EB3D7BC0FD /* Configuration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Configuration.swift; path = Postal/Configuration.swift; sourceTree = "<group>"; };
-		2C744CE975B38E8BF9F67FCF893B07F6 /* Postal-macOS-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "Postal-macOS-Info.plist"; path = "../Postal-macOS/Postal-macOS-Info.plist"; sourceTree = "<group>"; };
-		2F46B35DAB6BBE3807841204A4BD33A7 /* IMAPCapability.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IMAPCapability.swift; path = Postal/IMAPCapability.swift; sourceTree = "<group>"; };
-		3261E5A5395F45780622405F504B2804 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		332E5F9E2DAD4BF7F1A58F381B4C7DE8 /* IMAPSession+Fetch.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "IMAPSession+Fetch.swift"; path = "Postal/IMAPSession+Fetch.swift"; sourceTree = "<group>"; };
-		351106295D7BB19E3691849749D58B29 /* Util.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Util.swift; path = Postal/Util.swift; sourceTree = "<group>"; };
-		3A0AAC9FB675055C4788A95CCC646CC1 /* IMAPSession+Folder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "IMAPSession+Folder.swift"; path = "Postal/IMAPSession+Folder.swift"; sourceTree = "<group>"; };
-		3ECA81D331716FBF7AD7CC0AF9171B0F /* Address+Parsing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Address+Parsing.swift"; path = "Postal/Address+Parsing.swift"; sourceTree = "<group>"; };
+		01476E8949774F37261541C2FCC9AEA7 /* OIDExternalUserAgent.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDExternalUserAgent.h; path = Source/AppAuthCore/OIDExternalUserAgent.h; sourceTree = "<group>"; };
+		03370B64A40A257757BBC714AFD77DC4 /* GTMSessionFetcher-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "GTMSessionFetcher-Info.plist"; sourceTree = "<group>"; };
+		05D833471B340C32DDCD0B5909C3746E /* CertificateUtils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CertificateUtils.swift; path = Postal/CertificateUtils.swift; sourceTree = "<group>"; };
+		08145CD49E0ED1EF64C130690D33C01C /* OIDScopeUtilities.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDScopeUtilities.m; path = Source/AppAuthCore/OIDScopeUtilities.m; sourceTree = "<group>"; };
+		083E979FD5DBAF920BBA71DED2247EEB /* AppAuth-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AppAuth-prefix.pch"; sourceTree = "<group>"; };
+		0C0E0B7E3F3142C49842138F315907E5 /* OIDURLQueryComponent.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDURLQueryComponent.h; path = Source/AppAuthCore/OIDURLQueryComponent.h; sourceTree = "<group>"; };
+		0D65B870DF9A1526737100D810123066 /* OIDAuthState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDAuthState.m; path = Source/AppAuthCore/OIDAuthState.m; sourceTree = "<group>"; };
+		0FB4D9C07E9B3927CEEA88863E321927 /* OIDExternalUserAgentRequest.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDExternalUserAgentRequest.h; path = Source/AppAuthCore/OIDExternalUserAgentRequest.h; sourceTree = "<group>"; };
+		1459402B31AD1D7DAA84EB144B7268A4 /* OIDServiceDiscovery.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDServiceDiscovery.h; path = Source/AppAuthCore/OIDServiceDiscovery.h; sourceTree = "<group>"; };
+		162C87FBCDE280B03D9BD9CD1243C744 /* IMAPCapability.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IMAPCapability.swift; path = Postal/IMAPCapability.swift; sourceTree = "<group>"; };
+		173EB875A3E1FC191303B9B702051B2A /* GTMAppAuth.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GTMAppAuth.debug.xcconfig; sourceTree = "<group>"; };
+		17FCE1F554BDE8F8B0C281D028792E28 /* AppAuth.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AppAuth.release.xcconfig; sourceTree = "<group>"; };
+		1814A3F2FFC9CA8C5619BF1F3403744C /* GTMSessionFetcher-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "GTMSessionFetcher-dummy.m"; sourceTree = "<group>"; };
+		19944891FF5ABC040E1D6A3433E38458 /* MimeFields+Parsing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "MimeFields+Parsing.swift"; path = "Postal/MimeFields+Parsing.swift"; sourceTree = "<group>"; };
+		1B8CABDB56EB7DFA0C04DE385970D742 /* OIDAuthorizationService+IOS.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "OIDAuthorizationService+IOS.m"; path = "Source/AppAuth/iOS/OIDAuthorizationService+IOS.m"; sourceTree = "<group>"; };
+		1D789A5CF30317A2D04D1143CF050D30 /* IMAPSession+Move.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "IMAPSession+Move.swift"; path = "Postal/IMAPSession+Move.swift"; sourceTree = "<group>"; };
+		1E58678C871A5E8F69ED74EE409C0B77 /* Message+Parsing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Message+Parsing.swift"; path = "Postal/Message+Parsing.swift"; sourceTree = "<group>"; };
+		1F954089C2EDC78166BF29F267D31647 /* MailPart+Enumeration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "MailPart+Enumeration.swift"; path = "Postal/MailPart+Enumeration.swift"; sourceTree = "<group>"; };
+		2227B415010E6C53DD5A88DEE375FAF9 /* GTMSessionFetcher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GTMSessionFetcher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2493D7D4CCED4DBAFFBD624EC49D4F16 /* GTMSessionUploadFetcher.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GTMSessionUploadFetcher.m; path = Source/GTMSessionUploadFetcher.m; sourceTree = "<group>"; };
+		24A7BDF6760E2FD1D414561EFC73714B /* GTMKeychain.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GTMKeychain.h; path = GTMAppAuth/Sources/Public/GTMAppAuth/GTMKeychain.h; sourceTree = "<group>"; };
+		256506CA11EE8DFC17429F61FA7C7BD5 /* GTMSessionFetcherLogging.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GTMSessionFetcherLogging.h; path = Source/GTMSessionFetcherLogging.h; sourceTree = "<group>"; };
+		278F1AF010927F71A73FC62127085C77 /* OIDExternalUserAgentCatalyst.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDExternalUserAgentCatalyst.h; path = Source/AppAuth/iOS/OIDExternalUserAgentCatalyst.h; sourceTree = "<group>"; };
+		27BD3D60AB077C46A509533210E3C426 /* Postal-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Postal-Info.plist"; sourceTree = "<group>"; };
+		27D98D604FE07CA56EB68246CBF017F2 /* GTMOAuth2KeychainCompatibility.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GTMOAuth2KeychainCompatibility.h; path = GTMAppAuth/Sources/Public/GTMAppAuth/GTMOAuth2KeychainCompatibility.h; sourceTree = "<group>"; };
+		2A67D0D8828A636717EDD76E82DB2156 /* FetchResult.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FetchResult.swift; path = Postal/FetchResult.swift; sourceTree = "<group>"; };
+		2B9FA73FC01C8B75C297B4946041B43B /* OIDAuthorizationRequest.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDAuthorizationRequest.m; path = Source/AppAuthCore/OIDAuthorizationRequest.m; sourceTree = "<group>"; };
+		2C2C86871B727DAF0AE461F73BEF8412 /* IMAPSession+Search.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "IMAPSession+Search.swift"; path = "Postal/IMAPSession+Search.swift"; sourceTree = "<group>"; };
+		2D9538B4AE546ABB419AC24438739FE7 /* AppAuth-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "AppAuth-dummy.m"; sourceTree = "<group>"; };
+		2DD91CB0E052E4AD5C5186A833260A1F /* Logger+IMAP.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Logger+IMAP.swift"; path = "Postal/Logger+IMAP.swift"; sourceTree = "<group>"; };
+		2FB1A60D10B124F0AA4515A39E826A2B /* OIDAuthStateChangeDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDAuthStateChangeDelegate.h; path = Source/AppAuthCore/OIDAuthStateChangeDelegate.h; sourceTree = "<group>"; };
+		303F8C7A024BF9CD130B4AC3367D9281 /* AppAuth.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AppAuth.h; path = Source/AppAuth.h; sourceTree = "<group>"; };
+		306DDF45A60E0E2A903228C006B85B81 /* OIDEndSessionRequest.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDEndSessionRequest.m; path = Source/AppAuthCore/OIDEndSessionRequest.m; sourceTree = "<group>"; };
+		32C86D0BC86CD51D5ED62E36246A8608 /* OIDAuthState+IOS.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "OIDAuthState+IOS.m"; path = "Source/AppAuth/iOS/OIDAuthState+IOS.m"; sourceTree = "<group>"; };
+		33CC18A0AD9D549F195DBF56A704188D /* AppAuthCore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AppAuthCore.h; path = Source/AppAuthCore.h; sourceTree = "<group>"; };
+		33E44EFE631D9D1A15A32F2400416F39 /* Postal.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Postal.swift; path = Postal/Postal.swift; sourceTree = "<group>"; };
+		346D763111A802AB57D5DDFF775D52A7 /* OIDTokenUtilities.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDTokenUtilities.m; path = Source/AppAuthCore/OIDTokenUtilities.m; sourceTree = "<group>"; };
+		379CBB79F51AA0BA0D58A958F548722E /* OIDAuthorizationRequest.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDAuthorizationRequest.h; path = Source/AppAuthCore/OIDAuthorizationRequest.h; sourceTree = "<group>"; };
+		380212C44D9978A6BC461DDFD6FD5896 /* OIDExternalUserAgentIOS.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDExternalUserAgentIOS.h; path = Source/AppAuth/iOS/OIDExternalUserAgentIOS.h; sourceTree = "<group>"; };
+		39978B436480ACF13D9F485ADD3318D0 /* OIDScopes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDScopes.h; path = Source/AppAuthCore/OIDScopes.h; sourceTree = "<group>"; };
+		3A0C619342BE44DE9FEF9B131AE707E1 /* IMAPSession+Folder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "IMAPSession+Folder.swift"; path = "Postal/IMAPSession+Folder.swift"; sourceTree = "<group>"; };
 		3FB3F715610A997362EC9CA058804B45 /* Pods_psymail__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_psymail__iOS_.framework; path = "Pods-psymail (iOS).framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		47BCB4F6354EB7D08386514387DB695A /* Pods-psymail (iOS)-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-psymail (iOS)-acknowledgements.plist"; sourceTree = "<group>"; };
-		4E165CEE54EE4D9EE64C79DCB7AEBF7E /* Pods-psymail (iOS)-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-psymail (iOS)-acknowledgements.markdown"; sourceTree = "<group>"; };
-		4E4A6127C4BA5EBBBD7A37A83E19045A /* PostalError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostalError.swift; path = Postal/PostalError.swift; sourceTree = "<group>"; };
-		5065AFE3D18890E2AFFD1FFA2A9D0187 /* Postal-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Postal-iOS.release.xcconfig"; sourceTree = "<group>"; };
-		55641869C4B726126EDE8A62AC02E2DC /* Pods-psymail (macOS)-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-psymail (macOS)-dummy.m"; sourceTree = "<group>"; };
-		5763B4335B94E7848C4976E3AADD8CD5 /* Postal-iOS-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Postal-iOS-prefix.pch"; sourceTree = "<group>"; };
-		5A54C97DEB1A3977AC3A62AFF00971BF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
-		626AFD83DDD8BE7B8593B2800952C4E6 /* MimeType+Parsing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "MimeType+Parsing.swift"; path = "Postal/MimeType+Parsing.swift"; sourceTree = "<group>"; };
+		3FD1B4C1246D643E9476438C28048FA8 /* AppAuth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = AppAuth.framework; path = AppAuth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4218B34CD826E60F9722F7DCC3EF75F8 /* OIDAuthorizationResponse.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDAuthorizationResponse.h; path = Source/AppAuthCore/OIDAuthorizationResponse.h; sourceTree = "<group>"; };
+		461D1E262C392C925C2494DB2ACFF908 /* OIDEndSessionRequest.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDEndSessionRequest.h; path = Source/AppAuthCore/OIDEndSessionRequest.h; sourceTree = "<group>"; };
+		46242B303C4A2ACB7AC51C9819630441 /* ContentDisposition+Parsing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ContentDisposition+Parsing.swift"; path = "Postal/ContentDisposition+Parsing.swift"; sourceTree = "<group>"; };
+		48CBD435B84936E64EE74C23ACE3130F /* OIDTokenUtilities.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDTokenUtilities.h; path = Source/AppAuthCore/OIDTokenUtilities.h; sourceTree = "<group>"; };
+		48ECA7E67EEB06E557DE5ACB71B0A63A /* GTMSessionFetcher-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "GTMSessionFetcher-umbrella.h"; sourceTree = "<group>"; };
+		493A9DE51386F902145E13680D8DF0DA /* OIDErrorUtilities.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDErrorUtilities.m; path = Source/AppAuthCore/OIDErrorUtilities.m; sourceTree = "<group>"; };
+		4A75593F8E46AEF496C33A292708E111 /* OIDError.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDError.h; path = Source/AppAuthCore/OIDError.h; sourceTree = "<group>"; };
+		4AAF1E9337F5347F0AAE1DF1DA1DC77F /* OIDAuthState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDAuthState.h; path = Source/AppAuthCore/OIDAuthState.h; sourceTree = "<group>"; };
+		4F45263815AF68CE19A5ABEB1A5EB69D /* OIDGrantTypes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDGrantTypes.h; path = Source/AppAuthCore/OIDGrantTypes.h; sourceTree = "<group>"; };
+		502D4ECAAA8E353466FAD4FCEFA90146 /* GTMAppAuth-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "GTMAppAuth-dummy.m"; sourceTree = "<group>"; };
+		5398612833EB5ED6EF90530F863DB6FE /* Postal.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Postal.modulemap; sourceTree = "<group>"; };
+		54D90C1B1CD756B39A1D654AB00B883C /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/SafariServices.framework; sourceTree = DEVELOPER_DIR; };
+		5872C47EAB27991BE7C3FB46F1D6C356 /* OIDServiceConfiguration.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDServiceConfiguration.m; path = Source/AppAuthCore/OIDServiceConfiguration.m; sourceTree = "<group>"; };
+		58FBABF790A9B1ED345DDF4E6E1E8A85 /* OIDAuthorizationResponse.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDAuthorizationResponse.m; path = Source/AppAuthCore/OIDAuthorizationResponse.m; sourceTree = "<group>"; };
+		590D851B5F756B2783BB3B7EFF278717 /* OIDRegistrationResponse.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDRegistrationResponse.m; path = Source/AppAuthCore/OIDRegistrationResponse.m; sourceTree = "<group>"; };
+		5A8CF3F1D22422EFEF65C569E0C8AB09 /* OIDIDToken.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDIDToken.m; path = Source/AppAuthCore/OIDIDToken.m; sourceTree = "<group>"; };
+		5B078C46AA933F4BBEF5EDE620B4913F /* GTMSessionFetcher.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = GTMSessionFetcher.modulemap; sourceTree = "<group>"; };
+		5BA0318C346514AED0C79225F6715299 /* Libetpan+Util.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Libetpan+Util.swift"; path = "Postal/Libetpan+Util.swift"; sourceTree = "<group>"; };
+		5CCD3CF2D7AB08E1C6F856AB68E1AC15 /* OIDRegistrationResponse.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDRegistrationResponse.h; path = Source/AppAuthCore/OIDRegistrationResponse.h; sourceTree = "<group>"; };
+		6230AD2BEB6665DE76A5894F855C3D1E /* GTMSessionUploadFetcher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GTMSessionUploadFetcher.h; path = Source/GTMSessionUploadFetcher.h; sourceTree = "<group>"; };
 		6285BCEFB7A1BDFDA4002E67C0C7F6FA /* Pods_psymail__macOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_psymail__macOS_.framework; path = "Pods-psymail (macOS).framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		698C6C5749423A300CEAB17F4411A739 /* Postal-macOS-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "Postal-macOS-prefix.pch"; path = "../Postal-macOS/Postal-macOS-prefix.pch"; sourceTree = "<group>"; };
-		69B859C449E0D557F9D91CB2E619F85C /* Postal-iOS-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Postal-iOS-Info.plist"; sourceTree = "<group>"; };
-		69CD29ABA8327DE2F26547A55AF1DD7C /* Pods-psymail (iOS)-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-psymail (iOS)-umbrella.h"; sourceTree = "<group>"; };
-		6D86DF408F026D6B2BAA1C229355C383 /* MailPart+Parsing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "MailPart+Parsing.swift"; path = "Postal/MailPart+Parsing.swift"; sourceTree = "<group>"; };
-		6E42DE652BFE2C5DF68BE48A54A5BD0F /* Postal-macOS.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; name = "Postal-macOS.modulemap"; path = "../Postal-macOS/Postal-macOS.modulemap"; sourceTree = "<group>"; };
-		72C1D5027F93051E8AE0ED5FFD7DE45F /* Message+Parsing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Message+Parsing.swift"; path = "Postal/Message+Parsing.swift"; sourceTree = "<group>"; };
-		73521BD243FF7A678ECBC3D24EC3B946 /* Pods-psymail (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-psymail (iOS).release.xcconfig"; sourceTree = "<group>"; };
-		74A9E6065DBDD1644BD511B2EA5A2BF9 /* IMAPSession+Move.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "IMAPSession+Move.swift"; path = "Postal/IMAPSession+Move.swift"; sourceTree = "<group>"; };
-		7592822C45272DBAEBBA2EEB237D01BD /* Postal-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Postal-macOS.debug.xcconfig"; path = "../Postal-macOS/Postal-macOS.debug.xcconfig"; sourceTree = "<group>"; };
-		7E375D144F3B9CA137F4FDBABA85782D /* Pods-psymail (iOS)-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-psymail (iOS)-Info.plist"; sourceTree = "<group>"; };
-		7EADD0CB029E3FFC16F3A3B09F0EF743 /* IMAPSession.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IMAPSession.swift; path = Postal/IMAPSession.swift; sourceTree = "<group>"; };
-		86A061D9FA9A5BC5146CFBEFEB3ECB54 /* IMFError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IMFError.swift; path = Postal/IMFError.swift; sourceTree = "<group>"; };
-		89DAEFA40D47386F9A7551705940E32D /* IMAPSession+List.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "IMAPSession+List.swift"; path = "Postal/IMAPSession+List.swift"; sourceTree = "<group>"; };
-		8B1A092B0DE99835312B1208E4D2A4F9 /* MailData+Decode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "MailData+Decode.swift"; path = "Postal/MailData+Decode.swift"; sourceTree = "<group>"; };
-		908AFE2738DCEA737CAFB1AE42F3D2A7 /* Pods-psymail (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-psymail (iOS).debug.xcconfig"; sourceTree = "<group>"; };
-		99C1250AC2EFE750EB78172870C31B2E /* Pods-psymail (macOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-psymail (macOS).debug.xcconfig"; sourceTree = "<group>"; };
+		63E2842D656E22ADA6339D933277F5E7 /* GTMSessionFetcher.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GTMSessionFetcher.m; path = Source/GTMSessionFetcher.m; sourceTree = "<group>"; };
+		659BCA608CA70F28418D517A86524309 /* GTMKeychain_iOS.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GTMKeychain_iOS.m; path = GTMAppAuth/Sources/iOS/GTMKeychain_iOS.m; sourceTree = "<group>"; };
+		67136F2C5400C6360276812B73E879FC /* Postal-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Postal-umbrella.h"; sourceTree = "<group>"; };
+		6761F268D7EC18DCFA8992AE726EB671 /* OIDTokenResponse.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDTokenResponse.h; path = Source/AppAuthCore/OIDTokenResponse.h; sourceTree = "<group>"; };
+		69CAE4C2AEB970FCE83BBDB4DA5ACAC0 /* GoogleSignIn.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = GoogleSignIn.bundle; path = Resources/GoogleSignIn.bundle; sourceTree = "<group>"; };
+		6A4701A2D8D68404A37B897CCF29FD3E /* Postal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Postal.framework; path = Postal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6DFA704319B8E276202CFE32DF572505 /* AppAuth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppAuth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6FD122EA0AB9AB2A8FFA5F676C795DF0 /* GTMAppAuth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = GTMAppAuth.framework; path = GTMAppAuth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		720B58ABEF687DA994F495D5E02621F8 /* MessageAttribute+Parsing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "MessageAttribute+Parsing.swift"; path = "Postal/MessageAttribute+Parsing.swift"; sourceTree = "<group>"; };
+		72CF68B561C8ABCBE63CCE4FE0E64506 /* OIDTokenRequest.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDTokenRequest.h; path = Source/AppAuthCore/OIDTokenRequest.h; sourceTree = "<group>"; };
+		7409E98283ECB7EF3CC8CB0565DA223C /* GTMSessionFetcher.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GTMSessionFetcher.release.xcconfig; sourceTree = "<group>"; };
+		749C6132CEC1411F2ECCF5F3E9902391 /* Pods-psymail (macOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-psymail (macOS).debug.xcconfig"; sourceTree = "<group>"; };
+		75C11C382111437698268FB9972710F0 /* OIDTokenResponse.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDTokenResponse.m; path = Source/AppAuthCore/OIDTokenResponse.m; sourceTree = "<group>"; };
+		75F2B57265B613466EEFCF9F165532DD /* OIDScopes.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDScopes.m; path = Source/AppAuthCore/OIDScopes.m; sourceTree = "<group>"; };
+		7609971E546CD068EAABB6B5E11BBE41 /* GTMAppAuth-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "GTMAppAuth-Info.plist"; sourceTree = "<group>"; };
+		7653E650B6ED8FF9D552E067BC36167A /* Pods-psymail (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-psymail (iOS).release.xcconfig"; sourceTree = "<group>"; };
+		7774B00AB290D1494CA85CF5D764C3E7 /* MessageHeader+Parsing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "MessageHeader+Parsing.swift"; path = "Postal/MessageHeader+Parsing.swift"; sourceTree = "<group>"; };
+		7D7B0FF0C0DDB7EE69409F99D3C6B4C0 /* IMAPSession+Fetch.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "IMAPSession+Fetch.swift"; path = "Postal/IMAPSession+Fetch.swift"; sourceTree = "<group>"; };
+		7DD7722E56E946695FE58ECB6AAE7D60 /* GoogleSignIn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GoogleSignIn.debug.xcconfig; sourceTree = "<group>"; };
+		7F897176C959FDDF363172479A7F209E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
+		7FE14D1882E713BEA810FA168EE7B984 /* OIDURLQueryComponent.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDURLQueryComponent.m; path = Source/AppAuthCore/OIDURLQueryComponent.m; sourceTree = "<group>"; };
+		815F28AD9C3CAC5CB6969EB0E564F3D0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		8163EC85B516AB17AAF464F9FF17CB20 /* GTMSessionFetcherService.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GTMSessionFetcherService.m; path = Source/GTMSessionFetcherService.m; sourceTree = "<group>"; };
+		823F2371F9C7B034D4D6770F9CEDF1BB /* OIDClientMetadataParameters.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDClientMetadataParameters.h; path = Source/AppAuthCore/OIDClientMetadataParameters.h; sourceTree = "<group>"; };
+		847C310574B4AAB4FCD86D575339C28D /* Pods-psymail (macOS)-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-psymail (macOS)-acknowledgements.markdown"; sourceTree = "<group>"; };
+		8493E37EA57207DB8CFBDFE10077B563 /* Pods-psymail (macOS)-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-psymail (macOS)-frameworks.sh"; sourceTree = "<group>"; };
+		85525CD2CB2EFC425B5421DC1F56327F /* GTMAppAuth-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "GTMAppAuth-umbrella.h"; sourceTree = "<group>"; };
+		86AFBD7B151116317785A78409D7DDF9 /* OIDExternalUserAgentSession.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDExternalUserAgentSession.h; path = Source/AppAuthCore/OIDExternalUserAgentSession.h; sourceTree = "<group>"; };
+		877CAE8803D358099C26D0AD6B85A0A1 /* GTMAppAuth.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GTMAppAuth.h; path = GTMAppAuth/Sources/Public/GTMAppAuth/GTMAppAuth.h; sourceTree = "<group>"; };
+		89767E1A4AF23B7AFF91CD2F37FC0137 /* OIDEndSessionResponse.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDEndSessionResponse.h; path = Source/AppAuthCore/OIDEndSessionResponse.h; sourceTree = "<group>"; };
+		8A384574F3BA12E87F61AAA541AD5A33 /* OIDRegistrationRequest.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDRegistrationRequest.m; path = Source/AppAuthCore/OIDRegistrationRequest.m; sourceTree = "<group>"; };
+		8A43E5382807C9723D986E644E96EDB7 /* OIDResponseTypes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDResponseTypes.h; path = Source/AppAuthCore/OIDResponseTypes.h; sourceTree = "<group>"; };
+		8AB38269EFD899D97F22F466B79070EA /* Pods-psymail (iOS)-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-psymail (iOS)-frameworks.sh"; sourceTree = "<group>"; };
+		8D10C1E24EA72EC10952D0B8A61499D7 /* Configuration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Configuration.swift; path = Postal/Configuration.swift; sourceTree = "<group>"; };
+		8D2D94CECA67BD8CC70F037129A2F8D8 /* Pods-psymail (iOS)-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-psymail (iOS)-acknowledgements.plist"; sourceTree = "<group>"; };
+		8D7C0483EDF91A930834740D62A7D4E0 /* OIDExternalUserAgentIOS.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDExternalUserAgentIOS.m; path = Source/AppAuth/iOS/OIDExternalUserAgentIOS.m; sourceTree = "<group>"; };
+		8DB3C73B8B48F76A55F24E4068ADF3A8 /* OIDExternalUserAgentIOSCustomBrowser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDExternalUserAgentIOSCustomBrowser.h; path = Source/AppAuth/iOS/OIDExternalUserAgentIOSCustomBrowser.h; sourceTree = "<group>"; };
+		8F1C9B5F10ADCA4ABE2CC6789B63E054 /* GTMSessionFetcher-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "GTMSessionFetcher-prefix.pch"; sourceTree = "<group>"; };
+		969D97DD1F40890A7832F3B05911B452 /* AppAuth.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = AppAuth.modulemap; sourceTree = "<group>"; };
+		96D626D21605BD7A75866D327D41F90D /* Postal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Postal.release.xcconfig; sourceTree = "<group>"; };
+		972A7819D5CB6AE3B06B5EA24E6172BA /* OIDEndSessionResponse.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDEndSessionResponse.m; path = Source/AppAuthCore/OIDEndSessionResponse.m; sourceTree = "<group>"; };
+		998FAE7B0A788CBEB5565C6439B11277 /* Pods-psymail (macOS)-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-psymail (macOS)-resources.sh"; sourceTree = "<group>"; };
+		9C7337F67DE034551E903CA9CDD9098E /* OIDURLSessionProvider.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDURLSessionProvider.m; path = Source/AppAuthCore/OIDURLSessionProvider.m; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		A2BE253C7BC14DF4052821026BEF3DF4 /* Postal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Postal.framework; path = "Postal-macOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A2FD270E52A96262CF798EA48C044210 /* IMAPError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IMAPError.swift; path = Postal/IMAPError.swift; sourceTree = "<group>"; };
-		A7C573C3E54EFD502E4E9185F8B50826 /* IMAPIdentity.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IMAPIdentity.swift; path = Postal/IMAPIdentity.swift; sourceTree = "<group>"; };
-		AB6F8CBAFCC104686F6EFE06AC41F3CB /* Pods-psymail (macOS)-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-psymail (macOS)-acknowledgements.plist"; sourceTree = "<group>"; };
-		AC3347459E9BB250680EEF9FF73FAD88 /* Postal-iOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Postal-iOS-umbrella.h"; sourceTree = "<group>"; };
-		B12C6B5B0E65E041C3BEAFEA59127870 /* Pods-psymail (macOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-psymail (macOS).release.xcconfig"; sourceTree = "<group>"; };
-		B4948D4F49FC4372995BCCFFDE6FE3B8 /* MessageHeader+Parsing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "MessageHeader+Parsing.swift"; path = "Postal/MessageHeader+Parsing.swift"; sourceTree = "<group>"; };
-		B4C1A62E1AD45AED7A5DD40080FC074C /* Postal.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Postal.swift; path = Postal/Postal.swift; sourceTree = "<group>"; };
-		B5B1DBFAE8F4931737822F170AECA1D6 /* Libetpan+Util.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Libetpan+Util.swift"; path = "Postal/Libetpan+Util.swift"; sourceTree = "<group>"; };
-		BB099EA30EC2CA047AD42CABFB60C16D /* Postal-macOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "Postal-macOS-umbrella.h"; path = "../Postal-macOS/Postal-macOS-umbrella.h"; sourceTree = "<group>"; };
-		BC998D49A15BD8DAC27CEF18FB62564E /* IMAPNamespace.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IMAPNamespace.swift; path = Postal/IMAPNamespace.swift; sourceTree = "<group>"; };
-		BDA40C352189807A71D54C04E6B802FF /* Postal-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Postal-iOS.debug.xcconfig"; sourceTree = "<group>"; };
-		BDC458EE77EBAAD3945921AC350E0639 /* Logger+IMAP.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Logger+IMAP.swift"; path = "Postal/Logger+IMAP.swift"; sourceTree = "<group>"; };
-		C15874131017DA41785728F874733AC5 /* MailPart+Enumeration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "MailPart+Enumeration.swift"; path = "Postal/MailPart+Enumeration.swift"; sourceTree = "<group>"; };
-		CD02F1EB0087D2BD77D63C1143A6C6CA /* ContentDisposition+Parsing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ContentDisposition+Parsing.swift"; path = "Postal/ContentDisposition+Parsing.swift"; sourceTree = "<group>"; };
-		D2143148C558348EACEE0071FDF8D22E /* MimeFields+Parsing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "MimeFields+Parsing.swift"; path = "Postal/MimeFields+Parsing.swift"; sourceTree = "<group>"; };
-		D3BFEAC74350A1F44B0088B304B20A81 /* Pods-psymail (macOS)-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-psymail (macOS)-Info.plist"; sourceTree = "<group>"; };
-		D74C9468B0DBCBD35A85DCCCC5C7F11D /* ContentEncoding+Parsing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ContentEncoding+Parsing.swift"; path = "Postal/ContentEncoding+Parsing.swift"; sourceTree = "<group>"; };
-		D903A698A410598D59807A41EDCE61DF /* Postal-macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Postal-macOS.release.xcconfig"; path = "../Postal-macOS/Postal-macOS.release.xcconfig"; sourceTree = "<group>"; };
-		E006A20A57AF0B8EA46DF4FDB4CE7868 /* Postal-macOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "Postal-macOS-dummy.m"; path = "../Postal-macOS/Postal-macOS-dummy.m"; sourceTree = "<group>"; };
-		E2E98BB6BC4C8EA32851278BE39338F8 /* Pods-psymail (iOS)-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-psymail (iOS)-frameworks.sh"; sourceTree = "<group>"; };
-		F0DDA08C842E46CC4AFFC49B46E9E142 /* FetchResult.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FetchResult.swift; path = Postal/FetchResult.swift; sourceTree = "<group>"; };
-		F8223755373C024AAE2AD04B152C333F /* Logger.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Logger.swift; path = Postal/Logger.swift; sourceTree = "<group>"; };
+		A13FA6F4855ED8B84AC7D57C3345231A /* GTMAppAuthFetcherAuthorization+Keychain.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "GTMAppAuthFetcherAuthorization+Keychain.m"; path = "GTMAppAuth/Sources/GTMAppAuthFetcherAuthorization+Keychain.m"; sourceTree = "<group>"; };
+		A2C6F993CC1290A15C96BF4F614847FE /* OIDErrorUtilities.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDErrorUtilities.h; path = Source/AppAuthCore/OIDErrorUtilities.h; sourceTree = "<group>"; };
+		A2FDD08FC7940AA730977FED7BD35C50 /* GTMAppAuthFetcherAuthorization.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GTMAppAuthFetcherAuthorization.h; path = GTMAppAuth/Sources/Public/GTMAppAuth/GTMAppAuthFetcherAuthorization.h; sourceTree = "<group>"; };
+		A7F60A89B8E53FB20F00392FF03A97F6 /* OIDFieldMapping.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDFieldMapping.h; path = Source/AppAuthCore/OIDFieldMapping.h; sourceTree = "<group>"; };
+		A82A1F15E30ADA707AC1EE754FC707CC /* Pods-psymail (macOS).modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-psymail (macOS).modulemap"; sourceTree = "<group>"; };
+		A86DED7E1E487A5444149CE75A7AA8FD /* GTMSessionFetcher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GTMSessionFetcher.h; path = Source/GTMSessionFetcher.h; sourceTree = "<group>"; };
+		A89FD23FB8C50A6BCAA47FEFEF8977F9 /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleSignIn.framework; path = Frameworks/GoogleSignIn.framework; sourceTree = "<group>"; };
+		A8C195A831367E3C8674E4CE3721BA67 /* Postal-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Postal-dummy.m"; sourceTree = "<group>"; };
+		A9075DCFB7D373F4F914C196FEB44093 /* Pods-psymail (iOS)-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-psymail (iOS)-umbrella.h"; sourceTree = "<group>"; };
+		AB72DA47C2D0F2D2A32F17D32F6AF078 /* OIDExternalUserAgentCatalyst.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDExternalUserAgentCatalyst.m; path = Source/AppAuth/iOS/OIDExternalUserAgentCatalyst.m; sourceTree = "<group>"; };
+		ABCE6758C19FF78AC47A13C116373D0F /* OIDTokenRequest.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDTokenRequest.m; path = Source/AppAuthCore/OIDTokenRequest.m; sourceTree = "<group>"; };
+		AC2C2D89891ABCAFB712EFB3066C4FDA /* GTMSessionFetcher.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GTMSessionFetcher.debug.xcconfig; sourceTree = "<group>"; };
+		ADF973A2EDD1BA7E9766DC82125336C2 /* Postal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Postal.debug.xcconfig; sourceTree = "<group>"; };
+		AE236829A97763AA22E2749BDEFDB432 /* OIDAuthorizationService.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDAuthorizationService.m; path = Source/AppAuthCore/OIDAuthorizationService.m; sourceTree = "<group>"; };
+		B038E320C267EDDA09CEDB7767EEF05A /* PostalError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PostalError.swift; path = Postal/PostalError.swift; sourceTree = "<group>"; };
+		B2C6A4BECE7A7F2C19952ADD6B4912EC /* Pods-psymail (iOS)-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-psymail (iOS)-resources.sh"; sourceTree = "<group>"; };
+		B432857D5EC7D982A3C13D91E244D3C7 /* Pods-psymail (iOS)-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-psymail (iOS)-acknowledgements.markdown"; sourceTree = "<group>"; };
+		B9090A8ABDA1EFCF7D5B97B2FA09359C /* OIDAuthStateErrorDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDAuthStateErrorDelegate.h; path = Source/AppAuthCore/OIDAuthStateErrorDelegate.h; sourceTree = "<group>"; };
+		BD35E7C2C3414B36531BA8D17203B030 /* OIDAuthorizationService.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDAuthorizationService.h; path = Source/AppAuthCore/OIDAuthorizationService.h; sourceTree = "<group>"; };
+		BD37412994E294691F6B292BF125F996 /* OIDServiceConfiguration.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDServiceConfiguration.h; path = Source/AppAuthCore/OIDServiceConfiguration.h; sourceTree = "<group>"; };
+		BE6D46248C6B0D6AA6FC11CC7D7ABA7A /* IMFError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IMFError.swift; path = Postal/IMFError.swift; sourceTree = "<group>"; };
+		BEA81CF0CC6A0740CD861A61CF7BC1F0 /* IMAPSession.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IMAPSession.swift; path = Postal/IMAPSession.swift; sourceTree = "<group>"; };
+		BF50EABA59F203104E8B93F30F9D2714 /* GTMOAuth2KeychainCompatibility.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GTMOAuth2KeychainCompatibility.m; path = GTMAppAuth/Sources/GTMOAuth2KeychainCompatibility.m; sourceTree = "<group>"; };
+		BF9F1A0F8FA8AD662315EDDA8FC5286C /* OIDIDToken.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDIDToken.h; path = Source/AppAuthCore/OIDIDToken.h; sourceTree = "<group>"; };
+		C05889BADC5CF77B6268E9D37F7EDA2F /* AppAuth-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "AppAuth-Info.plist"; sourceTree = "<group>"; };
+		C096EBCFB515533752AF0BB1A03FCED8 /* OIDAuthState+IOS.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "OIDAuthState+IOS.h"; path = "Source/AppAuth/iOS/OIDAuthState+IOS.h"; sourceTree = "<group>"; };
+		C1998E0D8085221AD87F89B614C10E52 /* GTMSessionFetcher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = GTMSessionFetcher.framework; path = GTMSessionFetcher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C245358008847A5B4E6B1F4E356602E6 /* Address+Parsing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Address+Parsing.swift"; path = "Postal/Address+Parsing.swift"; sourceTree = "<group>"; };
+		C937F4A828806F39E587A729E4C97306 /* IMAPError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IMAPError.swift; path = Postal/IMAPError.swift; sourceTree = "<group>"; };
+		CA46F26709EF6E3C1F4353BBFEFC16C4 /* Pods-psymail (macOS)-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-psymail (macOS)-umbrella.h"; sourceTree = "<group>"; };
+		CA5C9B866A0B1ABD5E8A279DBC7A30BB /* OIDClientMetadataParameters.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDClientMetadataParameters.m; path = Source/AppAuthCore/OIDClientMetadataParameters.m; sourceTree = "<group>"; };
+		CC8DF26D9F6823DFF93A07C881E696F1 /* Util.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Util.swift; path = Postal/Util.swift; sourceTree = "<group>"; };
+		CD5EE8936CFED4714928263A52882F51 /* IMAPFolder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IMAPFolder.swift; path = Postal/IMAPFolder.swift; sourceTree = "<group>"; };
+		CE95EDCEF73DE8C134FD760E6C50F1D0 /* Pods-psymail (macOS)-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-psymail (macOS)-acknowledgements.plist"; sourceTree = "<group>"; };
+		CEE734DE1D1237A77F97BAC65C45A970 /* GTMAppAuthFetcherAuthorization+Keychain.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "GTMAppAuthFetcherAuthorization+Keychain.h"; path = "GTMAppAuth/Sources/Public/GTMAppAuth/GTMAppAuthFetcherAuthorization+Keychain.h"; sourceTree = "<group>"; };
+		D33860C176BC788AAD9EB6D329A14D80 /* OIDResponseTypes.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDResponseTypes.m; path = Source/AppAuthCore/OIDResponseTypes.m; sourceTree = "<group>"; };
+		D36C1DF8FFE3C766FF56D6C440775B1E /* GTMSessionFetcherLogging.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GTMSessionFetcherLogging.m; path = Source/GTMSessionFetcherLogging.m; sourceTree = "<group>"; };
+		D4C4F89E4A8E6C64157F047DDE02B608 /* OIDRegistrationRequest.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDRegistrationRequest.h; path = Source/AppAuthCore/OIDRegistrationRequest.h; sourceTree = "<group>"; };
+		D5CC0AB47186C9A45C6A2988ED5B465B /* Pods-psymail (iOS)-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-psymail (iOS)-Info.plist"; sourceTree = "<group>"; };
+		D690F2607945C146E9887CD35B27425B /* Pods-psymail (macOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-psymail (macOS).release.xcconfig"; sourceTree = "<group>"; };
+		D7EF925ABF186D8E32A817AA35FC571E /* Postal-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Postal-prefix.pch"; sourceTree = "<group>"; };
+		D954BBB017A602A22D8C0B02D43FE19F /* OIDServiceDiscovery.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDServiceDiscovery.m; path = Source/AppAuthCore/OIDServiceDiscovery.m; sourceTree = "<group>"; };
+		D9A513E4150D7B7BAA04E303BCD051EB /* MailPart+Parsing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "MailPart+Parsing.swift"; path = "Postal/MailPart+Parsing.swift"; sourceTree = "<group>"; };
+		DA0A03FF015DA242E552734AC8A65580 /* OIDGrantTypes.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDGrantTypes.m; path = Source/AppAuthCore/OIDGrantTypes.m; sourceTree = "<group>"; };
+		DB167352BEF4459F80A291275B030010 /* OIDDefines.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDDefines.h; path = Source/AppAuthCore/OIDDefines.h; sourceTree = "<group>"; };
+		DBE8244FDD9C80D7640ECE39EB046E94 /* OIDError.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDError.m; path = Source/AppAuthCore/OIDError.m; sourceTree = "<group>"; };
+		DD13F7B6CF0603DAF28F51AD7999D26A /* OIDAuthorizationService+IOS.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "OIDAuthorizationService+IOS.h"; path = "Source/AppAuth/iOS/OIDAuthorizationService+IOS.h"; sourceTree = "<group>"; };
+		DD356FDEFF43CA62AC2AF53807F45CEA /* OIDURLSessionProvider.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDURLSessionProvider.h; path = Source/AppAuthCore/OIDURLSessionProvider.h; sourceTree = "<group>"; };
+		DD4A8E79EA2A620D7A30CBF7A6DCBCE2 /* ContentEncoding+Parsing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ContentEncoding+Parsing.swift"; path = "Postal/ContentEncoding+Parsing.swift"; sourceTree = "<group>"; };
+		DDF293AB0557DB5DC561DA63C72B611D /* GTMAppAuth.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = GTMAppAuth.modulemap; sourceTree = "<group>"; };
+		DE9FE1FA6B9DE4D156EC8B5AD96D2BC8 /* Pods-psymail (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-psymail (iOS).debug.xcconfig"; sourceTree = "<group>"; };
+		DF29020333AE340C7B5FE7E696D8E8AF /* OIDExternalUserAgentIOSCustomBrowser.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDExternalUserAgentIOSCustomBrowser.m; path = Source/AppAuth/iOS/OIDExternalUserAgentIOSCustomBrowser.m; sourceTree = "<group>"; };
+		DF63E0A0DB74157506B13EFA7E74F9FD /* GoogleSignIn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GoogleSignIn.release.xcconfig; sourceTree = "<group>"; };
+		DFBC49513976EF895D71A83548F3B758 /* Extension+Parsing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Extension+Parsing.swift"; path = "Postal/Extension+Parsing.swift"; sourceTree = "<group>"; };
+		DFF7F90FBCDD729A0814E034DD7708C3 /* MessageFlags+Parsing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "MessageFlags+Parsing.swift"; path = "Postal/MessageFlags+Parsing.swift"; sourceTree = "<group>"; };
+		E1F87DF793CB2058A68AE0F6B2EACB71 /* Pods-psymail (macOS)-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-psymail (macOS)-dummy.m"; sourceTree = "<group>"; };
+		E3486FFFCDA75BF20B31C11D1CAEE835 /* IMAPNamespace.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IMAPNamespace.swift; path = Postal/IMAPNamespace.swift; sourceTree = "<group>"; };
+		E4C737F095809B42ACAD79782FE1BD86 /* MailData+Decode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "MailData+Decode.swift"; path = "Postal/MailData+Decode.swift"; sourceTree = "<group>"; };
+		E650463CFAD21D5CE6CA39EDCB06B3D4 /* GTMAppAuth.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GTMAppAuth.release.xcconfig; sourceTree = "<group>"; };
+		E77E009592D3E2A22F4E483DE239EA59 /* OIDScopeUtilities.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OIDScopeUtilities.h; path = Source/AppAuthCore/OIDScopeUtilities.h; sourceTree = "<group>"; };
+		E9EF1885026384BA93EF4A237533E9C1 /* Pods-psymail (macOS)-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-psymail (macOS)-Info.plist"; sourceTree = "<group>"; };
+		ED303BCAA3C4FBEA562299FE8B391A49 /* IMAPSession+List.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "IMAPSession+List.swift"; path = "Postal/IMAPSession+List.swift"; sourceTree = "<group>"; };
+		F0720F5B90183BE3F0ED292C9257F7B8 /* GTMAppAuthFetcherAuthorization.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GTMAppAuthFetcherAuthorization.m; path = GTMAppAuth/Sources/GTMAppAuthFetcherAuthorization.m; sourceTree = "<group>"; };
+		F26A7BCE80C5A6CAD7502E3A47751CF6 /* MimeType+Parsing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "MimeType+Parsing.swift"; path = "Postal/MimeType+Parsing.swift"; sourceTree = "<group>"; };
+		F272890897BCB0ADBFD02D2B2F5C7F86 /* Logger.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Logger.swift; path = Postal/Logger.swift; sourceTree = "<group>"; };
+		F3DF97F157E2E334AAA2779B6A227A7D /* GTMSessionFetcherService.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GTMSessionFetcherService.h; path = Source/GTMSessionFetcherService.h; sourceTree = "<group>"; };
+		F4D9E5BECB73BAD8C783F88A8A4ED61B /* Pods-psymail (iOS)-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-psymail (iOS)-dummy.m"; sourceTree = "<group>"; };
+		F70C062C9341E35639C312D3C1823EA7 /* IMAPIdentity.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IMAPIdentity.swift; path = Postal/IMAPIdentity.swift; sourceTree = "<group>"; };
+		F7B642C5039DACED7F1BA04DCF578BFC /* AppAuth-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AppAuth-umbrella.h"; sourceTree = "<group>"; };
+		FA10B68B10A7383DBD1F9368E2455B7D /* Pods-psymail (iOS).modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-psymail (iOS).modulemap"; sourceTree = "<group>"; };
+		FA446FA58C73773DCE2C9F85CE8CC1AD /* AppAuth.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AppAuth.debug.xcconfig; sourceTree = "<group>"; };
+		FB8C5C9FDAF003A6C61463AD1762F7CF /* OIDFieldMapping.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OIDFieldMapping.m; path = Source/AppAuthCore/OIDFieldMapping.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		27A04D721726D262AAB53A5DED3572EB /* Frameworks */ = {
+		16CF22217BEA907AC6550A5C485822F1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A665B2E4064FD3764CC38FC4BDE008EC /* Foundation.framework in Frameworks */,
+				03D71C90FB4F1CEF230D66B7D48A0D62 /* Foundation.framework in Frameworks */,
+				8B4F9590DFF1F4A1250D0427CC12D98C /* SafariServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5BB86C61C2DD843D1537532AC67C1A36 /* Frameworks */ = {
+		2159C3AA0B0BA4E06DF83FE23FCB462E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				95E1160AF4FAF559E6F38DC2F7A148F8 /* Foundation.framework in Frameworks */,
+				4C2A07A6EE4275092CE397726C3CF244 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		68B4378B86DE67FCE3938155819BAEE4 /* Frameworks */ = {
+		619E5BC48A407E47665A88CC159B8044 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F9234054ED6F17FDA4FD3B88B91A34A1 /* Cocoa.framework in Frameworks */,
+				E6C2AABA6D5D2C4F48E43CC491F35393 /* AppAuth.framework in Frameworks */,
+				83450D6BB5E9617CD9A2CDA804A21E7F /* Foundation.framework in Frameworks */,
+				08496646584D37D8B5B199CB15BE2720 /* GTMSessionFetcher.framework in Frameworks */,
+				51E44BC463F6DAC213794C32E69B6E1A /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C35076C93052A7134DB5520029A2D641 /* Frameworks */ = {
+		6712EE7AAAA52DC0AF0BC8CE22B87E5D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B5B3E1CC379D415ABDDD7E715B11125 /* Cocoa.framework in Frameworks */,
+				9CE65A3D98C085B2F0763AF6E2A211A6 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A1145DDD548F3DEF7C8CC35C44F36E9E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D345362204EFD719B7D2303E1F5BD550 /* Foundation.framework in Frameworks */,
+				57B58486118CFCAA0CB5CEDFFD20C9B2 /* Security.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4D54B0931FF418D10A74436FA729F55 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				64923BC784ABEAA3E91A21C5770CC500 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		15B456BF5A77916C7D6CD667E73A86A0 /* Pods */ = {
+		0874F1DBE478536A903B9491F87943BB /* Pods-psymail (macOS) */ = {
 			isa = PBXGroup;
 			children = (
-				2A9F4720665D80AC23CB6230A5E6400F /* Postal */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		2A9F4720665D80AC23CB6230A5E6400F /* Postal */ = {
-			isa = PBXGroup;
-			children = (
-				3ECA81D331716FBF7AD7CC0AF9171B0F /* Address+Parsing.swift */,
-				05B451E0AC140D243BA1C3F0A9CF02CD /* CertificateUtils.swift */,
-				2AB2D1D94702B3E9583FA3EB3D7BC0FD /* Configuration.swift */,
-				CD02F1EB0087D2BD77D63C1143A6C6CA /* ContentDisposition+Parsing.swift */,
-				D74C9468B0DBCBD35A85DCCCC5C7F11D /* ContentEncoding+Parsing.swift */,
-				109939BEB650E3C582410363D222194D /* Extension+Parsing.swift */,
-				F0DDA08C842E46CC4AFFC49B46E9E142 /* FetchResult.swift */,
-				2F46B35DAB6BBE3807841204A4BD33A7 /* IMAPCapability.swift */,
-				A2FD270E52A96262CF798EA48C044210 /* IMAPError.swift */,
-				14B70982A375D695BDB58152F77C91AD /* IMAPFolder.swift */,
-				A7C573C3E54EFD502E4E9185F8B50826 /* IMAPIdentity.swift */,
-				BC998D49A15BD8DAC27CEF18FB62564E /* IMAPNamespace.swift */,
-				7EADD0CB029E3FFC16F3A3B09F0EF743 /* IMAPSession.swift */,
-				332E5F9E2DAD4BF7F1A58F381B4C7DE8 /* IMAPSession+Fetch.swift */,
-				3A0AAC9FB675055C4788A95CCC646CC1 /* IMAPSession+Folder.swift */,
-				89DAEFA40D47386F9A7551705940E32D /* IMAPSession+List.swift */,
-				74A9E6065DBDD1644BD511B2EA5A2BF9 /* IMAPSession+Move.swift */,
-				03DBD3B4755062619DC8D974CA0F0AE4 /* IMAPSession+Search.swift */,
-				86A061D9FA9A5BC5146CFBEFEB3ECB54 /* IMFError.swift */,
-				B5B1DBFAE8F4931737822F170AECA1D6 /* Libetpan+Util.swift */,
-				F8223755373C024AAE2AD04B152C333F /* Logger.swift */,
-				BDC458EE77EBAAD3945921AC350E0639 /* Logger+IMAP.swift */,
-				8B1A092B0DE99835312B1208E4D2A4F9 /* MailData+Decode.swift */,
-				C15874131017DA41785728F874733AC5 /* MailPart+Enumeration.swift */,
-				6D86DF408F026D6B2BAA1C229355C383 /* MailPart+Parsing.swift */,
-				72C1D5027F93051E8AE0ED5FFD7DE45F /* Message+Parsing.swift */,
-				0C98AE53C20E39A33D10E1AC9A2C2FE0 /* MessageAttribute+Parsing.swift */,
-				20AA02567403C2002531FAFAB6566054 /* MessageFlags+Parsing.swift */,
-				B4948D4F49FC4372995BCCFFDE6FE3B8 /* MessageHeader+Parsing.swift */,
-				D2143148C558348EACEE0071FDF8D22E /* MimeFields+Parsing.swift */,
-				626AFD83DDD8BE7B8593B2800952C4E6 /* MimeType+Parsing.swift */,
-				B4C1A62E1AD45AED7A5DD40080FC074C /* Postal.swift */,
-				4E4A6127C4BA5EBBBD7A37A83E19045A /* PostalError.swift */,
-				351106295D7BB19E3691849749D58B29 /* Util.swift */,
-				6597CD9C1D3A2D9B0348D4F0702B24D7 /* Support Files */,
-			);
-			name = Postal;
-			path = Postal;
-			sourceTree = "<group>";
-		};
-		41C052635D3E21350AC08C5F316759F6 /* OS X */ = {
-			isa = PBXGroup;
-			children = (
-				5A54C97DEB1A3977AC3A62AFF00971BF /* Cocoa.framework */,
-			);
-			name = "OS X";
-			sourceTree = "<group>";
-		};
-		4EDC20B56A0B9A8564E1FCEA191C83C4 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				DABCD2AA1C1DFCD4E2578CE87BDFD93F /* iOS */,
-				41C052635D3E21350AC08C5F316759F6 /* OS X */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		532359D1017F92C5420A5DF652CD4D99 /* Pods-psymail (macOS) */ = {
-			isa = PBXGroup;
-			children = (
-				19A99A8661B46D2AF2723E33619D98B0 /* Pods-psymail (macOS).modulemap */,
-				21824CE73FD764FAB226A03CC021CCD2 /* Pods-psymail (macOS)-acknowledgements.markdown */,
-				AB6F8CBAFCC104686F6EFE06AC41F3CB /* Pods-psymail (macOS)-acknowledgements.plist */,
-				55641869C4B726126EDE8A62AC02E2DC /* Pods-psymail (macOS)-dummy.m */,
-				0CCC455AF711B37D24C95A28E7C6C83C /* Pods-psymail (macOS)-frameworks.sh */,
-				D3BFEAC74350A1F44B0088B304B20A81 /* Pods-psymail (macOS)-Info.plist */,
-				0B6170FD94BFEE79DE0A69ABDADBB0B8 /* Pods-psymail (macOS)-umbrella.h */,
-				99C1250AC2EFE750EB78172870C31B2E /* Pods-psymail (macOS).debug.xcconfig */,
-				B12C6B5B0E65E041C3BEAFEA59127870 /* Pods-psymail (macOS).release.xcconfig */,
+				A82A1F15E30ADA707AC1EE754FC707CC /* Pods-psymail (macOS).modulemap */,
+				847C310574B4AAB4FCD86D575339C28D /* Pods-psymail (macOS)-acknowledgements.markdown */,
+				CE95EDCEF73DE8C134FD760E6C50F1D0 /* Pods-psymail (macOS)-acknowledgements.plist */,
+				E1F87DF793CB2058A68AE0F6B2EACB71 /* Pods-psymail (macOS)-dummy.m */,
+				8493E37EA57207DB8CFBDFE10077B563 /* Pods-psymail (macOS)-frameworks.sh */,
+				E9EF1885026384BA93EF4A237533E9C1 /* Pods-psymail (macOS)-Info.plist */,
+				998FAE7B0A788CBEB5565C6439B11277 /* Pods-psymail (macOS)-resources.sh */,
+				CA46F26709EF6E3C1F4353BBFEFC16C4 /* Pods-psymail (macOS)-umbrella.h */,
+				749C6132CEC1411F2ECCF5F3E9902391 /* Pods-psymail (macOS).debug.xcconfig */,
+				D690F2607945C146E9887CD35B27425B /* Pods-psymail (macOS).release.xcconfig */,
 			);
 			name = "Pods-psymail (macOS)";
 			path = "Target Support Files/Pods-psymail (macOS)";
 			sourceTree = "<group>";
 		};
-		6597CD9C1D3A2D9B0348D4F0702B24D7 /* Support Files */ = {
+		15CF0C91BE724EBB6EC87315D83BDDB5 /* GTMSessionFetcher */ = {
 			isa = PBXGroup;
 			children = (
-				1E9BEBB29CABB472D9F613183495158B /* Postal-iOS.modulemap */,
-				1B506089687D0980ED9129383CD89A6D /* Postal-iOS-dummy.m */,
-				69B859C449E0D557F9D91CB2E619F85C /* Postal-iOS-Info.plist */,
-				5763B4335B94E7848C4976E3AADD8CD5 /* Postal-iOS-prefix.pch */,
-				AC3347459E9BB250680EEF9FF73FAD88 /* Postal-iOS-umbrella.h */,
-				BDA40C352189807A71D54C04E6B802FF /* Postal-iOS.debug.xcconfig */,
-				5065AFE3D18890E2AFFD1FFA2A9D0187 /* Postal-iOS.release.xcconfig */,
-				6E42DE652BFE2C5DF68BE48A54A5BD0F /* Postal-macOS.modulemap */,
-				E006A20A57AF0B8EA46DF4FDB4CE7868 /* Postal-macOS-dummy.m */,
-				2C744CE975B38E8BF9F67FCF893B07F6 /* Postal-macOS-Info.plist */,
-				698C6C5749423A300CEAB17F4411A739 /* Postal-macOS-prefix.pch */,
-				BB099EA30EC2CA047AD42CABFB60C16D /* Postal-macOS-umbrella.h */,
-				7592822C45272DBAEBBA2EEB237D01BD /* Postal-macOS.debug.xcconfig */,
-				D903A698A410598D59807A41EDCE61DF /* Postal-macOS.release.xcconfig */,
+				4B033390591E2D9DBF338567BEBE773D /* Core */,
+				C40641EAAE5B9189A5E8BE874E9BD650 /* Support Files */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/Postal-iOS";
+			name = GTMSessionFetcher;
+			path = GTMSessionFetcher;
 			sourceTree = "<group>";
 		};
-		B93B256F1B35FD3FA621F95F7E396F34 /* Products */ = {
+		1A63700C17CF1E7153FB506BD961CB3A /* AppAuth */ = {
 			isa = PBXGroup;
 			children = (
+				E1AF7303BE829915CED44938B7FC38BB /* Core */,
+				B532448D589A4E2BF32EAEF57BBA717E /* ExternalUserAgent */,
+				6F9ED670CFE31B623EEA7420AFE1AAC3 /* Support Files */,
+			);
+			name = AppAuth;
+			path = AppAuth;
+			sourceTree = "<group>";
+		};
+		3C5CA99963EE8164521A28190B5F0F57 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				C9A678E6C118A1DF23B4506BD3E5AFA9 /* Pods-psymail (iOS) */,
+				0874F1DBE478536A903B9491F87943BB /* Pods-psymail (macOS) */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		4152CDB6720FB88E83058867E040D6F5 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1A63700C17CF1E7153FB506BD961CB3A /* AppAuth */,
+				572CD3D7ED867C7679EC1C1AA722BD52 /* GoogleSignIn */,
+				FABDACF200F2E97A397508F4276A42BB /* GTMAppAuth */,
+				15CF0C91BE724EBB6EC87315D83BDDB5 /* GTMSessionFetcher */,
+				4B7D0BC823D699112348C95FF2557C6B /* Postal */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		49EAC24DAEA8AACF0BF539E50E7A162B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A89FD23FB8C50A6BCAA47FEFEF8977F9 /* GoogleSignIn.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4B033390591E2D9DBF338567BEBE773D /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				A86DED7E1E487A5444149CE75A7AA8FD /* GTMSessionFetcher.h */,
+				63E2842D656E22ADA6339D933277F5E7 /* GTMSessionFetcher.m */,
+				256506CA11EE8DFC17429F61FA7C7BD5 /* GTMSessionFetcherLogging.h */,
+				D36C1DF8FFE3C766FF56D6C440775B1E /* GTMSessionFetcherLogging.m */,
+				F3DF97F157E2E334AAA2779B6A227A7D /* GTMSessionFetcherService.h */,
+				8163EC85B516AB17AAF464F9FF17CB20 /* GTMSessionFetcherService.m */,
+				6230AD2BEB6665DE76A5894F855C3D1E /* GTMSessionUploadFetcher.h */,
+				2493D7D4CCED4DBAFFBD624EC49D4F16 /* GTMSessionUploadFetcher.m */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		4B7D0BC823D699112348C95FF2557C6B /* Postal */ = {
+			isa = PBXGroup;
+			children = (
+				C245358008847A5B4E6B1F4E356602E6 /* Address+Parsing.swift */,
+				05D833471B340C32DDCD0B5909C3746E /* CertificateUtils.swift */,
+				8D10C1E24EA72EC10952D0B8A61499D7 /* Configuration.swift */,
+				46242B303C4A2ACB7AC51C9819630441 /* ContentDisposition+Parsing.swift */,
+				DD4A8E79EA2A620D7A30CBF7A6DCBCE2 /* ContentEncoding+Parsing.swift */,
+				DFBC49513976EF895D71A83548F3B758 /* Extension+Parsing.swift */,
+				2A67D0D8828A636717EDD76E82DB2156 /* FetchResult.swift */,
+				162C87FBCDE280B03D9BD9CD1243C744 /* IMAPCapability.swift */,
+				C937F4A828806F39E587A729E4C97306 /* IMAPError.swift */,
+				CD5EE8936CFED4714928263A52882F51 /* IMAPFolder.swift */,
+				F70C062C9341E35639C312D3C1823EA7 /* IMAPIdentity.swift */,
+				E3486FFFCDA75BF20B31C11D1CAEE835 /* IMAPNamespace.swift */,
+				BEA81CF0CC6A0740CD861A61CF7BC1F0 /* IMAPSession.swift */,
+				7D7B0FF0C0DDB7EE69409F99D3C6B4C0 /* IMAPSession+Fetch.swift */,
+				3A0C619342BE44DE9FEF9B131AE707E1 /* IMAPSession+Folder.swift */,
+				ED303BCAA3C4FBEA562299FE8B391A49 /* IMAPSession+List.swift */,
+				1D789A5CF30317A2D04D1143CF050D30 /* IMAPSession+Move.swift */,
+				2C2C86871B727DAF0AE461F73BEF8412 /* IMAPSession+Search.swift */,
+				BE6D46248C6B0D6AA6FC11CC7D7ABA7A /* IMFError.swift */,
+				5BA0318C346514AED0C79225F6715299 /* Libetpan+Util.swift */,
+				F272890897BCB0ADBFD02D2B2F5C7F86 /* Logger.swift */,
+				2DD91CB0E052E4AD5C5186A833260A1F /* Logger+IMAP.swift */,
+				E4C737F095809B42ACAD79782FE1BD86 /* MailData+Decode.swift */,
+				1F954089C2EDC78166BF29F267D31647 /* MailPart+Enumeration.swift */,
+				D9A513E4150D7B7BAA04E303BCD051EB /* MailPart+Parsing.swift */,
+				1E58678C871A5E8F69ED74EE409C0B77 /* Message+Parsing.swift */,
+				720B58ABEF687DA994F495D5E02621F8 /* MessageAttribute+Parsing.swift */,
+				DFF7F90FBCDD729A0814E034DD7708C3 /* MessageFlags+Parsing.swift */,
+				7774B00AB290D1494CA85CF5D764C3E7 /* MessageHeader+Parsing.swift */,
+				19944891FF5ABC040E1D6A3433E38458 /* MimeFields+Parsing.swift */,
+				F26A7BCE80C5A6CAD7502E3A47751CF6 /* MimeType+Parsing.swift */,
+				33E44EFE631D9D1A15A32F2400416F39 /* Postal.swift */,
+				B038E320C267EDDA09CEDB7767EEF05A /* PostalError.swift */,
+				CC8DF26D9F6823DFF93A07C881E696F1 /* Util.swift */,
+				8166BD88C35E7B42FF5ED9FE0C62C03D /* Support Files */,
+			);
+			name = Postal;
+			path = Postal;
+			sourceTree = "<group>";
+		};
+		572CD3D7ED867C7679EC1C1AA722BD52 /* GoogleSignIn */ = {
+			isa = PBXGroup;
+			children = (
+				49EAC24DAEA8AACF0BF539E50E7A162B /* Frameworks */,
+				5BEEAD7C3BB6C6A636DFFC51993E3334 /* Resources */,
+				A95ACAF41A014C482638D91D494AE3E2 /* Support Files */,
+			);
+			name = GoogleSignIn;
+			path = GoogleSignIn;
+			sourceTree = "<group>";
+		};
+		5BEEAD7C3BB6C6A636DFFC51993E3334 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				69CAE4C2AEB970FCE83BBDB4DA5ACAC0 /* GoogleSignIn.bundle */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		6F9ED670CFE31B623EEA7420AFE1AAC3 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				969D97DD1F40890A7832F3B05911B452 /* AppAuth.modulemap */,
+				2D9538B4AE546ABB419AC24438739FE7 /* AppAuth-dummy.m */,
+				C05889BADC5CF77B6268E9D37F7EDA2F /* AppAuth-Info.plist */,
+				083E979FD5DBAF920BBA71DED2247EEB /* AppAuth-prefix.pch */,
+				F7B642C5039DACED7F1BA04DCF578BFC /* AppAuth-umbrella.h */,
+				FA446FA58C73773DCE2C9F85CE8CC1AD /* AppAuth.debug.xcconfig */,
+				17FCE1F554BDE8F8B0C281D028792E28 /* AppAuth.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/AppAuth";
+			sourceTree = "<group>";
+		};
+		7908F27765B294C7CD287E0F8433AB49 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6DFA704319B8E276202CFE32DF572505 /* AppAuth.framework */,
+				2227B415010E6C53DD5A88DEE375FAF9 /* GTMSessionFetcher.framework */,
+				CA82FB706E3BD41CDC41A412C9569F6A /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7A123DC41EDC7630AFC705A686461863 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3FD1B4C1246D643E9476438C28048FA8 /* AppAuth.framework */,
+				6FD122EA0AB9AB2A8FFA5F676C795DF0 /* GTMAppAuth.framework */,
+				C1998E0D8085221AD87F89B614C10E52 /* GTMSessionFetcher.framework */,
 				3FB3F715610A997362EC9CA058804B45 /* Pods_psymail__iOS_.framework */,
 				6285BCEFB7A1BDFDA4002E67C0C7F6FA /* Pods_psymail__macOS_.framework */,
-				249A2622289D265ACF9090538D145C69 /* Postal.framework */,
-				A2BE253C7BC14DF4052821026BEF3DF4 /* Postal.framework */,
+				6A4701A2D8D68404A37B897CCF29FD3E /* Postal.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C5DB568D4FAE54E47F0AA14AFC9D3944 /* Pods-psymail (iOS) */ = {
+		8166BD88C35E7B42FF5ED9FE0C62C03D /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				0E4D0CD6723F96C990DE88426AC53868 /* Pods-psymail (iOS).modulemap */,
-				4E165CEE54EE4D9EE64C79DCB7AEBF7E /* Pods-psymail (iOS)-acknowledgements.markdown */,
-				47BCB4F6354EB7D08386514387DB695A /* Pods-psymail (iOS)-acknowledgements.plist */,
-				1800B08262F7462CDA792ABA0A75ECAB /* Pods-psymail (iOS)-dummy.m */,
-				E2E98BB6BC4C8EA32851278BE39338F8 /* Pods-psymail (iOS)-frameworks.sh */,
-				7E375D144F3B9CA137F4FDBABA85782D /* Pods-psymail (iOS)-Info.plist */,
-				69CD29ABA8327DE2F26547A55AF1DD7C /* Pods-psymail (iOS)-umbrella.h */,
-				908AFE2738DCEA737CAFB1AE42F3D2A7 /* Pods-psymail (iOS).debug.xcconfig */,
-				73521BD243FF7A678ECBC3D24EC3B946 /* Pods-psymail (iOS).release.xcconfig */,
+				5398612833EB5ED6EF90530F863DB6FE /* Postal.modulemap */,
+				A8C195A831367E3C8674E4CE3721BA67 /* Postal-dummy.m */,
+				27BD3D60AB077C46A509533210E3C426 /* Postal-Info.plist */,
+				D7EF925ABF186D8E32A817AA35FC571E /* Postal-prefix.pch */,
+				67136F2C5400C6360276812B73E879FC /* Postal-umbrella.h */,
+				ADF973A2EDD1BA7E9766DC82125336C2 /* Postal.debug.xcconfig */,
+				96D626D21605BD7A75866D327D41F90D /* Postal.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Postal";
+			sourceTree = "<group>";
+		};
+		A95ACAF41A014C482638D91D494AE3E2 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				7DD7722E56E946695FE58ECB6AAE7D60 /* GoogleSignIn.debug.xcconfig */,
+				DF63E0A0DB74157506B13EFA7E74F9FD /* GoogleSignIn.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/GoogleSignIn";
+			sourceTree = "<group>";
+		};
+		B532448D589A4E2BF32EAEF57BBA717E /* ExternalUserAgent */ = {
+			isa = PBXGroup;
+			children = (
+				303F8C7A024BF9CD130B4AC3367D9281 /* AppAuth.h */,
+				DD13F7B6CF0603DAF28F51AD7999D26A /* OIDAuthorizationService+IOS.h */,
+				1B8CABDB56EB7DFA0C04DE385970D742 /* OIDAuthorizationService+IOS.m */,
+				C096EBCFB515533752AF0BB1A03FCED8 /* OIDAuthState+IOS.h */,
+				32C86D0BC86CD51D5ED62E36246A8608 /* OIDAuthState+IOS.m */,
+				278F1AF010927F71A73FC62127085C77 /* OIDExternalUserAgentCatalyst.h */,
+				AB72DA47C2D0F2D2A32F17D32F6AF078 /* OIDExternalUserAgentCatalyst.m */,
+				380212C44D9978A6BC461DDFD6FD5896 /* OIDExternalUserAgentIOS.h */,
+				8D7C0483EDF91A930834740D62A7D4E0 /* OIDExternalUserAgentIOS.m */,
+				8DB3C73B8B48F76A55F24E4068ADF3A8 /* OIDExternalUserAgentIOSCustomBrowser.h */,
+				DF29020333AE340C7B5FE7E696D8E8AF /* OIDExternalUserAgentIOSCustomBrowser.m */,
+			);
+			name = ExternalUserAgent;
+			sourceTree = "<group>";
+		};
+		C40641EAAE5B9189A5E8BE874E9BD650 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				5B078C46AA933F4BBEF5EDE620B4913F /* GTMSessionFetcher.modulemap */,
+				1814A3F2FFC9CA8C5619BF1F3403744C /* GTMSessionFetcher-dummy.m */,
+				03370B64A40A257757BBC714AFD77DC4 /* GTMSessionFetcher-Info.plist */,
+				8F1C9B5F10ADCA4ABE2CC6789B63E054 /* GTMSessionFetcher-prefix.pch */,
+				48ECA7E67EEB06E557DE5ACB71B0A63A /* GTMSessionFetcher-umbrella.h */,
+				AC2C2D89891ABCAFB712EFB3066C4FDA /* GTMSessionFetcher.debug.xcconfig */,
+				7409E98283ECB7EF3CC8CB0565DA223C /* GTMSessionFetcher.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/GTMSessionFetcher";
+			sourceTree = "<group>";
+		};
+		C9A678E6C118A1DF23B4506BD3E5AFA9 /* Pods-psymail (iOS) */ = {
+			isa = PBXGroup;
+			children = (
+				FA10B68B10A7383DBD1F9368E2455B7D /* Pods-psymail (iOS).modulemap */,
+				B432857D5EC7D982A3C13D91E244D3C7 /* Pods-psymail (iOS)-acknowledgements.markdown */,
+				8D2D94CECA67BD8CC70F037129A2F8D8 /* Pods-psymail (iOS)-acknowledgements.plist */,
+				F4D9E5BECB73BAD8C783F88A8A4ED61B /* Pods-psymail (iOS)-dummy.m */,
+				8AB38269EFD899D97F22F466B79070EA /* Pods-psymail (iOS)-frameworks.sh */,
+				D5CC0AB47186C9A45C6A2988ED5B465B /* Pods-psymail (iOS)-Info.plist */,
+				B2C6A4BECE7A7F2C19952ADD6B4912EC /* Pods-psymail (iOS)-resources.sh */,
+				A9075DCFB7D373F4F914C196FEB44093 /* Pods-psymail (iOS)-umbrella.h */,
+				DE9FE1FA6B9DE4D156EC8B5AD96D2BC8 /* Pods-psymail (iOS).debug.xcconfig */,
+				7653E650B6ED8FF9D552E067BC36167A /* Pods-psymail (iOS).release.xcconfig */,
 			);
 			name = "Pods-psymail (iOS)";
 			path = "Target Support Files/Pods-psymail (iOS)";
+			sourceTree = "<group>";
+		};
+		CA82FB706E3BD41CDC41A412C9569F6A /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				815F28AD9C3CAC5CB6969EB0E564F3D0 /* Foundation.framework */,
+				54D90C1B1CD756B39A1D654AB00B883C /* SafariServices.framework */,
+				7F897176C959FDDF363172479A7F209E /* Security.framework */,
+			);
+			name = iOS;
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
 			isa = PBXGroup;
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
-				4EDC20B56A0B9A8564E1FCEA191C83C4 /* Frameworks */,
-				15B456BF5A77916C7D6CD667E73A86A0 /* Pods */,
-				B93B256F1B35FD3FA621F95F7E396F34 /* Products */,
-				FB997CD67539585E1DFD0CAD32F730E1 /* Targets Support Files */,
+				7908F27765B294C7CD287E0F8433AB49 /* Frameworks */,
+				4152CDB6720FB88E83058867E040D6F5 /* Pods */,
+				7A123DC41EDC7630AFC705A686461863 /* Products */,
+				3C5CA99963EE8164521A28190B5F0F57 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		DABCD2AA1C1DFCD4E2578CE87BDFD93F /* iOS */ = {
+		D3895661DCDC941B900CC601210671B0 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				3261E5A5395F45780622405F504B2804 /* Foundation.framework */,
+				DDF293AB0557DB5DC561DA63C72B611D /* GTMAppAuth.modulemap */,
+				502D4ECAAA8E353466FAD4FCEFA90146 /* GTMAppAuth-dummy.m */,
+				7609971E546CD068EAABB6B5E11BBE41 /* GTMAppAuth-Info.plist */,
+				85525CD2CB2EFC425B5421DC1F56327F /* GTMAppAuth-umbrella.h */,
+				173EB875A3E1FC191303B9B702051B2A /* GTMAppAuth.debug.xcconfig */,
+				E650463CFAD21D5CE6CA39EDCB06B3D4 /* GTMAppAuth.release.xcconfig */,
 			);
-			name = iOS;
+			name = "Support Files";
+			path = "../Target Support Files/GTMAppAuth";
 			sourceTree = "<group>";
 		};
-		FB997CD67539585E1DFD0CAD32F730E1 /* Targets Support Files */ = {
+		E1AF7303BE829915CED44938B7FC38BB /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				C5DB568D4FAE54E47F0AA14AFC9D3944 /* Pods-psymail (iOS) */,
-				532359D1017F92C5420A5DF652CD4D99 /* Pods-psymail (macOS) */,
+				33CC18A0AD9D549F195DBF56A704188D /* AppAuthCore.h */,
+				379CBB79F51AA0BA0D58A958F548722E /* OIDAuthorizationRequest.h */,
+				2B9FA73FC01C8B75C297B4946041B43B /* OIDAuthorizationRequest.m */,
+				4218B34CD826E60F9722F7DCC3EF75F8 /* OIDAuthorizationResponse.h */,
+				58FBABF790A9B1ED345DDF4E6E1E8A85 /* OIDAuthorizationResponse.m */,
+				BD35E7C2C3414B36531BA8D17203B030 /* OIDAuthorizationService.h */,
+				AE236829A97763AA22E2749BDEFDB432 /* OIDAuthorizationService.m */,
+				4AAF1E9337F5347F0AAE1DF1DA1DC77F /* OIDAuthState.h */,
+				0D65B870DF9A1526737100D810123066 /* OIDAuthState.m */,
+				2FB1A60D10B124F0AA4515A39E826A2B /* OIDAuthStateChangeDelegate.h */,
+				B9090A8ABDA1EFCF7D5B97B2FA09359C /* OIDAuthStateErrorDelegate.h */,
+				823F2371F9C7B034D4D6770F9CEDF1BB /* OIDClientMetadataParameters.h */,
+				CA5C9B866A0B1ABD5E8A279DBC7A30BB /* OIDClientMetadataParameters.m */,
+				DB167352BEF4459F80A291275B030010 /* OIDDefines.h */,
+				461D1E262C392C925C2494DB2ACFF908 /* OIDEndSessionRequest.h */,
+				306DDF45A60E0E2A903228C006B85B81 /* OIDEndSessionRequest.m */,
+				89767E1A4AF23B7AFF91CD2F37FC0137 /* OIDEndSessionResponse.h */,
+				972A7819D5CB6AE3B06B5EA24E6172BA /* OIDEndSessionResponse.m */,
+				4A75593F8E46AEF496C33A292708E111 /* OIDError.h */,
+				DBE8244FDD9C80D7640ECE39EB046E94 /* OIDError.m */,
+				A2C6F993CC1290A15C96BF4F614847FE /* OIDErrorUtilities.h */,
+				493A9DE51386F902145E13680D8DF0DA /* OIDErrorUtilities.m */,
+				01476E8949774F37261541C2FCC9AEA7 /* OIDExternalUserAgent.h */,
+				0FB4D9C07E9B3927CEEA88863E321927 /* OIDExternalUserAgentRequest.h */,
+				86AFBD7B151116317785A78409D7DDF9 /* OIDExternalUserAgentSession.h */,
+				A7F60A89B8E53FB20F00392FF03A97F6 /* OIDFieldMapping.h */,
+				FB8C5C9FDAF003A6C61463AD1762F7CF /* OIDFieldMapping.m */,
+				4F45263815AF68CE19A5ABEB1A5EB69D /* OIDGrantTypes.h */,
+				DA0A03FF015DA242E552734AC8A65580 /* OIDGrantTypes.m */,
+				BF9F1A0F8FA8AD662315EDDA8FC5286C /* OIDIDToken.h */,
+				5A8CF3F1D22422EFEF65C569E0C8AB09 /* OIDIDToken.m */,
+				D4C4F89E4A8E6C64157F047DDE02B608 /* OIDRegistrationRequest.h */,
+				8A384574F3BA12E87F61AAA541AD5A33 /* OIDRegistrationRequest.m */,
+				5CCD3CF2D7AB08E1C6F856AB68E1AC15 /* OIDRegistrationResponse.h */,
+				590D851B5F756B2783BB3B7EFF278717 /* OIDRegistrationResponse.m */,
+				8A43E5382807C9723D986E644E96EDB7 /* OIDResponseTypes.h */,
+				D33860C176BC788AAD9EB6D329A14D80 /* OIDResponseTypes.m */,
+				39978B436480ACF13D9F485ADD3318D0 /* OIDScopes.h */,
+				75F2B57265B613466EEFCF9F165532DD /* OIDScopes.m */,
+				E77E009592D3E2A22F4E483DE239EA59 /* OIDScopeUtilities.h */,
+				08145CD49E0ED1EF64C130690D33C01C /* OIDScopeUtilities.m */,
+				BD37412994E294691F6B292BF125F996 /* OIDServiceConfiguration.h */,
+				5872C47EAB27991BE7C3FB46F1D6C356 /* OIDServiceConfiguration.m */,
+				1459402B31AD1D7DAA84EB144B7268A4 /* OIDServiceDiscovery.h */,
+				D954BBB017A602A22D8C0B02D43FE19F /* OIDServiceDiscovery.m */,
+				72CF68B561C8ABCBE63CCE4FE0E64506 /* OIDTokenRequest.h */,
+				ABCE6758C19FF78AC47A13C116373D0F /* OIDTokenRequest.m */,
+				6761F268D7EC18DCFA8992AE726EB671 /* OIDTokenResponse.h */,
+				75C11C382111437698268FB9972710F0 /* OIDTokenResponse.m */,
+				48CBD435B84936E64EE74C23ACE3130F /* OIDTokenUtilities.h */,
+				346D763111A802AB57D5DDFF775D52A7 /* OIDTokenUtilities.m */,
+				0C0E0B7E3F3142C49842138F315907E5 /* OIDURLQueryComponent.h */,
+				7FE14D1882E713BEA810FA168EE7B984 /* OIDURLQueryComponent.m */,
+				DD356FDEFF43CA62AC2AF53807F45CEA /* OIDURLSessionProvider.h */,
+				9C7337F67DE034551E903CA9CDD9098E /* OIDURLSessionProvider.m */,
 			);
-			name = "Targets Support Files";
+			name = Core;
+			sourceTree = "<group>";
+		};
+		FABDACF200F2E97A397508F4276A42BB /* GTMAppAuth */ = {
+			isa = PBXGroup;
+			children = (
+				877CAE8803D358099C26D0AD6B85A0A1 /* GTMAppAuth.h */,
+				A2FDD08FC7940AA730977FED7BD35C50 /* GTMAppAuthFetcherAuthorization.h */,
+				F0720F5B90183BE3F0ED292C9257F7B8 /* GTMAppAuthFetcherAuthorization.m */,
+				CEE734DE1D1237A77F97BAC65C45A970 /* GTMAppAuthFetcherAuthorization+Keychain.h */,
+				A13FA6F4855ED8B84AC7D57C3345231A /* GTMAppAuthFetcherAuthorization+Keychain.m */,
+				24A7BDF6760E2FD1D414561EFC73714B /* GTMKeychain.h */,
+				659BCA608CA70F28418D517A86524309 /* GTMKeychain_iOS.m */,
+				27D98D604FE07CA56EB68246CBF017F2 /* GTMOAuth2KeychainCompatibility.h */,
+				BF50EABA59F203104E8B93F30F9D2714 /* GTMOAuth2KeychainCompatibility.m */,
+				D3895661DCDC941B900CC601210671B0 /* Support Files */,
+			);
+			name = GTMAppAuth;
+			path = GTMAppAuth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		4FFC6BFE7DD1ACC1244D64B35020A4AE /* Headers */ = {
+		41BA82CA46362B8CF84B5CA4EF9742A3 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB4F831046F44B3EC3DF4094411FFEAB /* Postal-iOS-umbrella.h in Headers */,
+				6319FC7C07929DF559B1F43E8C426D4F /* Postal-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7C50D60E50BCB04F9FC44E48D1B4190A /* Headers */ = {
+		62F85CC9A7FF05B5FFFED4CA462B4183 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EBC0717F9BC5C400B6CE0368595B2ED3 /* Postal-macOS-umbrella.h in Headers */,
+				27D01EF0455EC871992A76B12CD4A4B8 /* GTMAppAuth-umbrella.h in Headers */,
+				6AEEB9C31A3239588A40CDD826494676 /* GTMAppAuth.h in Headers */,
+				A74F7ECC8E5E7EE5780B19E8ED5E61EB /* GTMAppAuthFetcherAuthorization+Keychain.h in Headers */,
+				16E7BD16B2BCE4743DC69F8BB9643318 /* GTMAppAuthFetcherAuthorization.h in Headers */,
+				C46EC694F711B579F1BE0D6A42A9E0D7 /* GTMKeychain.h in Headers */,
+				A050D141C28DA359106584350B6912E0 /* GTMOAuth2KeychainCompatibility.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		94563AD97101F7F1EB1CADA1F05E93BC /* Headers */ = {
+		8B7277B2BA507277DD521C7FEAD789F5 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC82AF95244E23FA529F8858241EF013 /* Pods-psymail (macOS)-umbrella.h in Headers */,
+				8A7C8CE5335ED896DCFF6BCA1218C37B /* Pods-psymail (iOS)-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BCF4DA04F4CCEA3E28E12A04413B30DF /* Headers */ = {
+		9371F51F81F1BF9D1CE435E094F22A21 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C55165A31F9AE84CF32AC776E24809B4 /* Pods-psymail (iOS)-umbrella.h in Headers */,
+				967EB7DF440F3587582C780B19110AEE /* Pods-psymail (macOS)-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF20DD677E68B0FFF096FA87BA4F642E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3D2632F5565AFA96A15FBA9EAFFF410 /* AppAuth-umbrella.h in Headers */,
+				F677A4A964B9095056DA905477CE4F3C /* AppAuth.h in Headers */,
+				EE191018EF34395C61D30D78FED87E45 /* AppAuthCore.h in Headers */,
+				408352680097A53851035145970371B1 /* OIDAuthorizationRequest.h in Headers */,
+				A14710681730656A8EE4F2793773C18B /* OIDAuthorizationResponse.h in Headers */,
+				013D945A6EB50B6FC9854DE84D18E44A /* OIDAuthorizationService+IOS.h in Headers */,
+				EA278C7D9EB69B68733EF68A0C150345 /* OIDAuthorizationService.h in Headers */,
+				670E2A31490D13725DFB5CBBF08B12EF /* OIDAuthState+IOS.h in Headers */,
+				6B2C401E08F2AC0A87453061CA3E8E2C /* OIDAuthState.h in Headers */,
+				082620B4CAFF07381D466C7F54CDC435 /* OIDAuthStateChangeDelegate.h in Headers */,
+				C760F013C47E323D4C9D3E1FF5E34338 /* OIDAuthStateErrorDelegate.h in Headers */,
+				4870D0FB963B09D3D9FAA4E3DC9263FB /* OIDClientMetadataParameters.h in Headers */,
+				4480D20BAE2A84682B5DE51F51A5DD4D /* OIDDefines.h in Headers */,
+				91907BA379327CACDF19EA39EAD05338 /* OIDEndSessionRequest.h in Headers */,
+				3BFE8CD59118C4908BDCF67DA762C118 /* OIDEndSessionResponse.h in Headers */,
+				AA3BE332B851918B23E03F283868116C /* OIDError.h in Headers */,
+				617968B11188B95B6117BE9A51BCC2F7 /* OIDErrorUtilities.h in Headers */,
+				83BAF0108579702991C01C961439111A /* OIDExternalUserAgent.h in Headers */,
+				487B398FF6DE0468B5E8E4FEBB432327 /* OIDExternalUserAgentCatalyst.h in Headers */,
+				D87549BF6D8F527CF351E13326FCEF21 /* OIDExternalUserAgentIOS.h in Headers */,
+				2808F21DE383D3C9BD0DA03A7B95F6AA /* OIDExternalUserAgentIOSCustomBrowser.h in Headers */,
+				F598CB205564B44BC8BC6B774DEB1B62 /* OIDExternalUserAgentRequest.h in Headers */,
+				85AC70140CF3718AA932C21689BF865A /* OIDExternalUserAgentSession.h in Headers */,
+				DE23788919FF5136AC4B77F9B29FB4C1 /* OIDFieldMapping.h in Headers */,
+				40FC84D2AFB6832635DD9A929E516BAE /* OIDGrantTypes.h in Headers */,
+				2B268B1D89DDEE445606464B1105E0F3 /* OIDIDToken.h in Headers */,
+				BBC602EC86EB71FC4ACD5728C9058E23 /* OIDRegistrationRequest.h in Headers */,
+				E3B32C12184BD887E6687F73097489FA /* OIDRegistrationResponse.h in Headers */,
+				8ACA9C8B657C3C149214E3649860AF76 /* OIDResponseTypes.h in Headers */,
+				8955CA20EEA55F5D75CDE87F0CADCF83 /* OIDScopes.h in Headers */,
+				7ACD06125D4ECC1EC05EAF68B2DC0C99 /* OIDScopeUtilities.h in Headers */,
+				AE07D07F98D805B39CAAB4E89F1E87B8 /* OIDServiceConfiguration.h in Headers */,
+				8417CFCEA12E96E62CFA4A646672BCCB /* OIDServiceDiscovery.h in Headers */,
+				355CF2719234ADB11A1993E2120CC373 /* OIDTokenRequest.h in Headers */,
+				321995AB5C5DD22B2DC924BC8F2AF053 /* OIDTokenResponse.h in Headers */,
+				0B764CD79758A19F877947F521050A30 /* OIDTokenUtilities.h in Headers */,
+				39D4516A2DB8E91D2A1C0CDB79BDCBCE /* OIDURLQueryComponent.h in Headers */,
+				D4E43B95AA2B76BDEC6B97B152F00463 /* OIDURLSessionProvider.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9D84375819D8DB1D34B80DC88658181 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				639648674D0F7683545AEBD6BFA6E298 /* GTMSessionFetcher-umbrella.h in Headers */,
+				3B7D2605546D54F8CEDA4F887F2AEF2A /* GTMSessionFetcher.h in Headers */,
+				D24F7DFA802B4503AC42B4795AE2C384 /* GTMSessionFetcherLogging.h in Headers */,
+				3FF8FA8B96DAE27162CAD82279168B04 /* GTMSessionFetcherService.h in Headers */,
+				967E1924C4E008D914ECA03D5CEEECCA /* GTMSessionUploadFetcher.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		84F587BDE681B926945FFEAAE8E725F3 /* Pods-psymail (iOS) */ = {
+		014CE582943DE44B473C7E70A5897BE2 /* Postal */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BE05266CA611DCF31FC214769EE5C00A /* Build configuration list for PBXNativeTarget "Pods-psymail (iOS)" */;
+			buildConfigurationList = EC45B01290789664214BDAAA65BA065E /* Build configuration list for PBXNativeTarget "Postal" */;
 			buildPhases = (
-				BCF4DA04F4CCEA3E28E12A04413B30DF /* Headers */,
-				99058CACD0B90E3184A629FA2F425031 /* Sources */,
-				27A04D721726D262AAB53A5DED3572EB /* Frameworks */,
-				A7DF2C2D2F23B3E6B7AFA7B2B36A4120 /* Resources */,
+				41BA82CA46362B8CF84B5CA4EF9742A3 /* Headers */,
+				F506D3AA57573A866F7B82C255FCE4F4 /* Sources */,
+				F4D54B0931FF418D10A74436FA729F55 /* Frameworks */,
+				71DADCD02861BC55F756BCC490DEF1B1 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				F5462A8E785DE1EE24CC2CACC30C581F /* PBXTargetDependency */,
+			);
+			name = Postal;
+			productName = Postal;
+			productReference = 6A4701A2D8D68404A37B897CCF29FD3E /* Postal.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		5C642AA10FB29936669CC269F42079C6 /* AppAuth */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9FB8D339D52B52F9DAB7BA9CD4DC84FF /* Build configuration list for PBXNativeTarget "AppAuth" */;
+			buildPhases = (
+				BF20DD677E68B0FFF096FA87BA4F642E /* Headers */,
+				FA40C5373E6F05613AE4464C1A8C3500 /* Sources */,
+				16CF22217BEA907AC6550A5C485822F1 /* Frameworks */,
+				789D540271448693859C5D41E90A58D6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AppAuth;
+			productName = AppAuth;
+			productReference = 3FD1B4C1246D643E9476438C28048FA8 /* AppAuth.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		84F587BDE681B926945FFEAAE8E725F3 /* Pods-psymail (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8C1A4733259ACC22D95C0B121FD750BC /* Build configuration list for PBXNativeTarget "Pods-psymail (iOS)" */;
+			buildPhases = (
+				8B7277B2BA507277DD521C7FEAD789F5 /* Headers */,
+				6A87380841A554B53BAAEE40C3E9871C /* Sources */,
+				6712EE7AAAA52DC0AF0BC8CE22B87E5D /* Frameworks */,
+				840EA784F59C14FB07C8AD745C275591 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1B5FFEBF48895CDD04DBCD65E60AC997 /* PBXTargetDependency */,
+				AC5A13CE7D8D360DD092B403A2898375 /* PBXTargetDependency */,
+				895C0BD4C3D15D19A4C70A602058264B /* PBXTargetDependency */,
+				799558492F8F6DE28AD154C2145AAE39 /* PBXTargetDependency */,
+				C4E59BF02FAC3792B318FB62F75D56BA /* PBXTargetDependency */,
 			);
 			name = "Pods-psymail (iOS)";
 			productName = "Pods-psymail (iOS)";
 			productReference = 3FB3F715610A997362EC9CA058804B45 /* Pods_psymail__iOS_.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		9055EBCD4AFB31FE5DD0AC53757C5076 /* Postal-macOS */ = {
+		8627999EF1D5E93E13DAFF580DA8CDCF /* GTMAppAuth */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EDDC239EAED2C0248364A738AAD5A186 /* Build configuration list for PBXNativeTarget "Postal-macOS" */;
+			buildConfigurationList = 1B43BE8946C067971EA6CE29F5AA84F9 /* Build configuration list for PBXNativeTarget "GTMAppAuth" */;
 			buildPhases = (
-				7C50D60E50BCB04F9FC44E48D1B4190A /* Headers */,
-				2AEFF305749D7C14A0FA2EA81796CBBA /* Sources */,
-				C35076C93052A7134DB5520029A2D641 /* Frameworks */,
-				E1803C643D209996F919268759BB0AA1 /* Resources */,
+				62F85CC9A7FF05B5FFFED4CA462B4183 /* Headers */,
+				752FFC4674A568026AE58CBFCC0B5CBB /* Sources */,
+				619E5BC48A407E47665A88CC159B8044 /* Frameworks */,
+				366B6E7A268A414EA61751A2598B7F68 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				4873B3E1E5D6FC5D158017C730A858B0 /* PBXTargetDependency */,
+				E26C881CB45758F289AABF57B89F1CD8 /* PBXTargetDependency */,
 			);
-			name = "Postal-macOS";
-			productName = "Postal-macOS";
-			productReference = A2BE253C7BC14DF4052821026BEF3DF4 /* Postal.framework */;
+			name = GTMAppAuth;
+			productName = GTMAppAuth;
+			productReference = 6FD122EA0AB9AB2A8FFA5F676C795DF0 /* GTMAppAuth.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		97884B3E26A892BAE8B9E01B9BCA3BD3 /* Pods-psymail (macOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E4E9EE868EA92665C468C1C3570A283E /* Build configuration list for PBXNativeTarget "Pods-psymail (macOS)" */;
+			buildConfigurationList = 752A8883977016BE936B123A1AD1379E /* Build configuration list for PBXNativeTarget "Pods-psymail (macOS)" */;
 			buildPhases = (
-				94563AD97101F7F1EB1CADA1F05E93BC /* Headers */,
-				08E92F9BE784DEC02D8EF6CB2582F00A /* Sources */,
-				68B4378B86DE67FCE3938155819BAEE4 /* Frameworks */,
-				6617A4F9392BE9717701893B56FCB10E /* Resources */,
+				9371F51F81F1BF9D1CE435E094F22A21 /* Headers */,
+				194BFD1A5C84ADA186991970B412F55C /* Sources */,
+				2159C3AA0B0BA4E06DF83FE23FCB462E /* Frameworks */,
+				1C31F0B81F3D76C8B3DAFEECDF3BBDC3 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				9EB522D857901B93368C0BD7C7FF3C77 /* PBXTargetDependency */,
+				F66B069E1D7D087BAB37CBA020E83ED1 /* PBXTargetDependency */,
+				0EEA7F6D95E878A0E6D8F2DBD354C254 /* PBXTargetDependency */,
+				5CF89AF2129BE49B93189A2827859633 /* PBXTargetDependency */,
+				0558D5491728C68978942C6740CC9D91 /* PBXTargetDependency */,
+				418484B99B20448EAE81127585BCA788 /* PBXTargetDependency */,
 			);
 			name = "Pods-psymail (macOS)";
 			productName = "Pods-psymail (macOS)";
 			productReference = 6285BCEFB7A1BDFDA4002E67C0C7F6FA /* Pods_psymail__macOS_.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		D82DFBFFFAB8D532124927A7D28360A8 /* Postal-iOS */ = {
+		D676E21115185671D7258A56944ABE98 /* GTMSessionFetcher */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 95B7E3DDCCB0F4AEF90C095EE74C3AF0 /* Build configuration list for PBXNativeTarget "Postal-iOS" */;
+			buildConfigurationList = E1B52B0B226AA4B2E73D04B7B676B1CC /* Build configuration list for PBXNativeTarget "GTMSessionFetcher" */;
 			buildPhases = (
-				4FFC6BFE7DD1ACC1244D64B35020A4AE /* Headers */,
-				4AA95A1982ACE6C01F2CAA56BC38ED16 /* Sources */,
-				5BB86C61C2DD843D1537532AC67C1A36 /* Frameworks */,
-				5776CD3E52608EABDE46BA74F07E4888 /* Resources */,
+				E9D84375819D8DB1D34B80DC88658181 /* Headers */,
+				A19362EE26586B1DAEE02E9860F0CACA /* Sources */,
+				A1145DDD548F3DEF7C8CC35C44F36E9E /* Frameworks */,
+				304639564CCAA8F0FFA5AA32440604E0 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "Postal-iOS";
-			productName = "Postal-iOS";
-			productReference = 249A2622289D265ACF9090538D145C69 /* Postal.framework */;
+			name = GTMSessionFetcher;
+			productName = GTMSessionFetcher;
+			productReference = C1998E0D8085221AD87F89B614C10E52 /* GTMSessionFetcher.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -503,7 +1116,7 @@
 				LastUpgradeCheck = 1100;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
-			compatibilityVersion = "Xcode 10.0";
+			compatibilityVersion = "Xcode 11.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -511,41 +1124,58 @@
 				Base,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = B93B256F1B35FD3FA621F95F7E396F34 /* Products */;
+			productRefGroup = 7A123DC41EDC7630AFC705A686461863 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				5C642AA10FB29936669CC269F42079C6 /* AppAuth */,
+				CAD3534FC55B0333104E5117C0A9A324 /* GoogleSignIn */,
+				8627999EF1D5E93E13DAFF580DA8CDCF /* GTMAppAuth */,
+				D676E21115185671D7258A56944ABE98 /* GTMSessionFetcher */,
 				84F587BDE681B926945FFEAAE8E725F3 /* Pods-psymail (iOS) */,
 				97884B3E26A892BAE8B9E01B9BCA3BD3 /* Pods-psymail (macOS) */,
-				D82DFBFFFAB8D532124927A7D28360A8 /* Postal-iOS */,
-				9055EBCD4AFB31FE5DD0AC53757C5076 /* Postal-macOS */,
+				014CE582943DE44B473C7E70A5897BE2 /* Postal */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		5776CD3E52608EABDE46BA74F07E4888 /* Resources */ = {
+		1C31F0B81F3D76C8B3DAFEECDF3BBDC3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6617A4F9392BE9717701893B56FCB10E /* Resources */ = {
+		304639564CCAA8F0FFA5AA32440604E0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A7DF2C2D2F23B3E6B7AFA7B2B36A4120 /* Resources */ = {
+		366B6E7A268A414EA61751A2598B7F68 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E1803C643D209996F919268759BB0AA1 /* Resources */ = {
+		71DADCD02861BC55F756BCC490DEF1B1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		789D540271448693859C5D41E90A58D6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		840EA784F59C14FB07C8AD745C275591 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -555,127 +1185,224 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		08E92F9BE784DEC02D8EF6CB2582F00A /* Sources */ = {
+		194BFD1A5C84ADA186991970B412F55C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B2DE4500F883A38AA323A5F7EE58C3E8 /* Pods-psymail (macOS)-dummy.m in Sources */,
+				D12A1E3BA4D921B31A26E249E8370DD7 /* Pods-psymail (macOS)-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2AEFF305749D7C14A0FA2EA81796CBBA /* Sources */ = {
+		6A87380841A554B53BAAEE40C3E9871C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8573C14C1D4F95F383F8045469288145 /* Address+Parsing.swift in Sources */,
-				BCB9DF8DA8AAE60633E4088E42C3F5E5 /* CertificateUtils.swift in Sources */,
-				B9EC1638DCA1E2E04AD65AB5E51F5236 /* Configuration.swift in Sources */,
-				DD1C18DE2C23F798B94C29E159B2AF5D /* ContentDisposition+Parsing.swift in Sources */,
-				09D70C1103D260785602CBD0C7614E3E /* ContentEncoding+Parsing.swift in Sources */,
-				77F1F7C0AC8038DC6D94B292DC1363FF /* Extension+Parsing.swift in Sources */,
-				E8F5252537FB0F314F9E2F5059C9F1BF /* FetchResult.swift in Sources */,
-				4F5A98F29CA9F1C951C8A4D5C8341CC0 /* IMAPCapability.swift in Sources */,
-				ABEEC45B09DC03D35ACB88FF6E1604C8 /* IMAPError.swift in Sources */,
-				48CFD9480A02238390D4E4B566971947 /* IMAPFolder.swift in Sources */,
-				BE5A50D6AD33CCC09D6089AAE508D40C /* IMAPIdentity.swift in Sources */,
-				5E1861C9B2AA8F5CD8B56F230411955E /* IMAPNamespace.swift in Sources */,
-				CBA3081C3E9D2643490BEFCABAD0743E /* IMAPSession+Fetch.swift in Sources */,
-				0553E8E9D680B45B6DB91D5EC329282E /* IMAPSession+Folder.swift in Sources */,
-				D41F822A7021666C9148A678548AE6DA /* IMAPSession+List.swift in Sources */,
-				AA3B1D94484F14000451F988643CC659 /* IMAPSession+Move.swift in Sources */,
-				8699E8391020F7061D523DDB01536D2F /* IMAPSession+Search.swift in Sources */,
-				0FCD14C4EEB5885042EB0F6C733874A0 /* IMAPSession.swift in Sources */,
-				4C90201D3223527AFA5CE199563F80B1 /* IMFError.swift in Sources */,
-				41547A2D401F4057C2715352F2B7E8A7 /* Libetpan+Util.swift in Sources */,
-				46F7FB1D859EA89FF414F41694B5662D /* Logger+IMAP.swift in Sources */,
-				BEE2041ADF32277F555013A79E122406 /* Logger.swift in Sources */,
-				A710DAB8C17E933112C860D6F1D8BD5F /* MailData+Decode.swift in Sources */,
-				FD2D392F77019FBC6C16718F59A6188A /* MailPart+Enumeration.swift in Sources */,
-				01B7EC3E60FD699F03BD40F0E16855BF /* MailPart+Parsing.swift in Sources */,
-				AAB8032E03AC9B42A4A380A59C4C1FA3 /* Message+Parsing.swift in Sources */,
-				CB9B84AB722A7C2BAFAD9B9DDB854DD0 /* MessageAttribute+Parsing.swift in Sources */,
-				214B70D45D7BEA0851EB52D05D9956E0 /* MessageFlags+Parsing.swift in Sources */,
-				EAF1350D0C06FA37BC2AD3866507252F /* MessageHeader+Parsing.swift in Sources */,
-				3427B2B396E76FBF3E932DE3A1A2D632 /* MimeFields+Parsing.swift in Sources */,
-				956BCA769E0523C270E6E253DDCCB6BE /* MimeType+Parsing.swift in Sources */,
-				5322C54C767B133DE6185DECA6338B80 /* Postal-macOS-dummy.m in Sources */,
-				3DA74B71A8C0B79590D80EB3AD740916 /* Postal.swift in Sources */,
-				83A41B0AECD4C33ADAF0D418DBD7C7D1 /* PostalError.swift in Sources */,
-				EBC2FE2F5504C24F551D5FAD9B8DE79B /* Util.swift in Sources */,
+				C42A57975411E28EEB016E6A89ECF5C0 /* Pods-psymail (iOS)-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4AA95A1982ACE6C01F2CAA56BC38ED16 /* Sources */ = {
+		752FFC4674A568026AE58CBFCC0B5CBB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				780BED20B1A21AD1D7E432743E8AEF60 /* Address+Parsing.swift in Sources */,
-				66615DD1B66C22D43582B4CEE18E9716 /* CertificateUtils.swift in Sources */,
-				B9B49F2DFB6F3EAD234031336EA99583 /* Configuration.swift in Sources */,
-				37CB4844054BEAC7200CE816E785430D /* ContentDisposition+Parsing.swift in Sources */,
-				03099C61246A43AD617486D748DECFEB /* ContentEncoding+Parsing.swift in Sources */,
-				30D1CDAD565C9E28B2EBB96CB98ADDA4 /* Extension+Parsing.swift in Sources */,
-				32729A6D11C3DBF272CBAB2C3483D1C0 /* FetchResult.swift in Sources */,
-				089898B00A4EB4C72B3B286EDD3AE224 /* IMAPCapability.swift in Sources */,
-				4357A7015E200883E74A574AE9029645 /* IMAPError.swift in Sources */,
-				D5262AB4880F6025FC9D21C4A137F61D /* IMAPFolder.swift in Sources */,
-				D22465ADB50B4636775F6F059EFD71EE /* IMAPIdentity.swift in Sources */,
-				AF0F7C33AC30B1A33C35A1E441942CAD /* IMAPNamespace.swift in Sources */,
-				E6A4428BD9A5FB4C45FDFF5E0C59D80D /* IMAPSession+Fetch.swift in Sources */,
-				91AF8DE6EEA40384C11A19E4DF0AAEEC /* IMAPSession+Folder.swift in Sources */,
-				F93306AB23F5812C3869B76374FFF8DA /* IMAPSession+List.swift in Sources */,
-				93D0C7BCB27226A24F05218D3EBED141 /* IMAPSession+Move.swift in Sources */,
-				408B6F9F07D7B83E5E873D7FB58F3D1F /* IMAPSession+Search.swift in Sources */,
-				FE4A5A757B404920454C07F0A4F60571 /* IMAPSession.swift in Sources */,
-				1D571A0727F8E90AD94AF58C35B41874 /* IMFError.swift in Sources */,
-				0D276423EECA1F0DC591E6AD1322020F /* Libetpan+Util.swift in Sources */,
-				BD4E3090EA2E004B4DDA725B7524F29A /* Logger+IMAP.swift in Sources */,
-				FDDE32267D6528DA3290459F408A9AD8 /* Logger.swift in Sources */,
-				F3ED1DBEC94D37E9294BBCD857FFF25C /* MailData+Decode.swift in Sources */,
-				9B9EFD871A7F7C13D908243E63464261 /* MailPart+Enumeration.swift in Sources */,
-				128FF301357AA294B394711AE8E41607 /* MailPart+Parsing.swift in Sources */,
-				C792632CE6A7FA8B7C47FF2FDB1765E6 /* Message+Parsing.swift in Sources */,
-				605E39273A6141D4200DBFE232543220 /* MessageAttribute+Parsing.swift in Sources */,
-				6C000A3F4D7477205ED5D2EB7360B92A /* MessageFlags+Parsing.swift in Sources */,
-				4EE6D505DB6AE6FB62CEC057D97EBC97 /* MessageHeader+Parsing.swift in Sources */,
-				03FA547313717B5C35B617CED4D9A698 /* MimeFields+Parsing.swift in Sources */,
-				C40A386B3C51CBF007FA90C36346F160 /* MimeType+Parsing.swift in Sources */,
-				F9AAABF27FCC955C18491606D77C56AC /* Postal-iOS-dummy.m in Sources */,
-				90C44772B0A9640FEF5DF535E4B25027 /* Postal.swift in Sources */,
-				4AA40A3F508516AE64A0092C39F76335 /* PostalError.swift in Sources */,
-				C8A588A1671C392307A8F7A3F42923ED /* Util.swift in Sources */,
+				43B9B04CA13D471B0069F822479BA5F8 /* GTMAppAuth-dummy.m in Sources */,
+				EFD8A52576FF0EF6AF3DA757B1B18DC3 /* GTMAppAuthFetcherAuthorization+Keychain.m in Sources */,
+				C2AD48C610ED980F461175FB166F1F70 /* GTMAppAuthFetcherAuthorization.m in Sources */,
+				29313EDDA5CE4F68A71587AA1838EF99 /* GTMKeychain_iOS.m in Sources */,
+				6935E8473F06EECF739CBB04D6E7891B /* GTMOAuth2KeychainCompatibility.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		99058CACD0B90E3184A629FA2F425031 /* Sources */ = {
+		A19362EE26586B1DAEE02E9860F0CACA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				79F2451675890C15F5DF5F59B4A157D5 /* Pods-psymail (iOS)-dummy.m in Sources */,
+				05EF74AC69AA7DA9CD11C8BD1FC0E2EB /* GTMSessionFetcher-dummy.m in Sources */,
+				F312B41D131848D51F9F82EAB3D4F744 /* GTMSessionFetcher.m in Sources */,
+				F63AEDA8D2A3484F0EB3EB41DB731BDF /* GTMSessionFetcherLogging.m in Sources */,
+				CE8C6359A4018C2F6EF8BAD52F8A5049 /* GTMSessionFetcherService.m in Sources */,
+				8F61652F110DE9907B66C8C67A726504 /* GTMSessionUploadFetcher.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F506D3AA57573A866F7B82C255FCE4F4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DBDBE4FD34ED818DFF510BA4874FB112 /* Address+Parsing.swift in Sources */,
+				607C9ECA706FF0EAD987FF361033E92E /* CertificateUtils.swift in Sources */,
+				775AE4EF4221148F167CE84254753B22 /* Configuration.swift in Sources */,
+				E331A92EA4DB6068725824A69ADFA323 /* ContentDisposition+Parsing.swift in Sources */,
+				595AD299EE64989EC626613B33534DA2 /* ContentEncoding+Parsing.swift in Sources */,
+				1BF47F657C5E5128941940BB97C7EADA /* Extension+Parsing.swift in Sources */,
+				A27BB818DB384FE4A607C6E3946EFC55 /* FetchResult.swift in Sources */,
+				C18F8521DF033317A95718D2699FCD30 /* IMAPCapability.swift in Sources */,
+				7FE5602CAB3DF1F458C7B05777DD97BF /* IMAPError.swift in Sources */,
+				4AD6B3366120E6DE8AA7D9A01F781158 /* IMAPFolder.swift in Sources */,
+				41120EAA25C099C0A918E88D2222ED59 /* IMAPIdentity.swift in Sources */,
+				FBB255A81067F582B9A09A45C57FBED1 /* IMAPNamespace.swift in Sources */,
+				8163F27756B9177A85B6C6DBC4C3E0FA /* IMAPSession+Fetch.swift in Sources */,
+				B924161D2F87B859ECFA9568E0467A69 /* IMAPSession+Folder.swift in Sources */,
+				EBF9BBEECF9183A5D715535619D1AE0F /* IMAPSession+List.swift in Sources */,
+				ED2A123CB0812C9379F3DFA33007FD54 /* IMAPSession+Move.swift in Sources */,
+				55A49913D357D2D1D709969FEEF0559C /* IMAPSession+Search.swift in Sources */,
+				ADC6E6CDB67BF72551533BC4E4555213 /* IMAPSession.swift in Sources */,
+				CCA64AF64DA90EF4D29337BE7371B284 /* IMFError.swift in Sources */,
+				2C2756B5C834425A5898B49DB81C1D94 /* Libetpan+Util.swift in Sources */,
+				75DD5C3A2FADE15B645BD46CDAC19BDA /* Logger+IMAP.swift in Sources */,
+				1E56E2C8E450F41A8F1DE68A612C2B91 /* Logger.swift in Sources */,
+				0E67049ECD1CB93098B7DA486A0D8CE1 /* MailData+Decode.swift in Sources */,
+				59A49AF608F61488B0F701EDD2282DCD /* MailPart+Enumeration.swift in Sources */,
+				A749C4D3FF2A4AF126F66C600252FE1A /* MailPart+Parsing.swift in Sources */,
+				827C164ED1870132CA68289102312EB2 /* Message+Parsing.swift in Sources */,
+				48E0438DFE75DDCDB8408C0373D60FD8 /* MessageAttribute+Parsing.swift in Sources */,
+				562D0C180FDE6593236DC433F9289A49 /* MessageFlags+Parsing.swift in Sources */,
+				1D48D671015AEA1CD21D0200ED7C1E6F /* MessageHeader+Parsing.swift in Sources */,
+				85CB2853C7AEE3593C3EC57F5BBEDD04 /* MimeFields+Parsing.swift in Sources */,
+				F43ADE16043732E2543532E1AA752925 /* MimeType+Parsing.swift in Sources */,
+				5F96704D2C4650A2FB413FED0BA46C08 /* Postal-dummy.m in Sources */,
+				FB0DCDCDEAE8383DE1D9EA74E68F2325 /* Postal.swift in Sources */,
+				2565E16FBE3086C5671A69EC6BE1FF25 /* PostalError.swift in Sources */,
+				AFE71F968B696E07B462831033ABC80C /* Util.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA40C5373E6F05613AE4464C1A8C3500 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E23750FE124E07AFF21DB9AC9542BCE /* AppAuth-dummy.m in Sources */,
+				C359863B7FF01F6B19CDA89D30126EE6 /* OIDAuthorizationRequest.m in Sources */,
+				075E34225D4CE71C2F2FC63FB9CE0CA3 /* OIDAuthorizationResponse.m in Sources */,
+				A1AF5BF63FEEA98CB2D165039170E6F7 /* OIDAuthorizationService+IOS.m in Sources */,
+				C23F697B76C8D3242F232D958E0C00E3 /* OIDAuthorizationService.m in Sources */,
+				152481DAFF8FA47F61BB412784DF31E9 /* OIDAuthState+IOS.m in Sources */,
+				06953BA616880F876D31CECCEDC11105 /* OIDAuthState.m in Sources */,
+				16F96D0B2EE7EBED059FF327B8E90E5E /* OIDClientMetadataParameters.m in Sources */,
+				D90A3C067FE031487AD6F53979803AAA /* OIDEndSessionRequest.m in Sources */,
+				F63C85CE50933EE6BDB86F9C87253F1C /* OIDEndSessionResponse.m in Sources */,
+				2D8D67C396A0A1A33320AB9924E9DB42 /* OIDError.m in Sources */,
+				2095003DC22D3D86A334AA1A1561900D /* OIDErrorUtilities.m in Sources */,
+				0A83C33151A74978B5009466B16AA320 /* OIDExternalUserAgentCatalyst.m in Sources */,
+				2B9DE014CBDC27683B204852475EB8A6 /* OIDExternalUserAgentIOS.m in Sources */,
+				79117048A3C4F245532CAE57EE37901A /* OIDExternalUserAgentIOSCustomBrowser.m in Sources */,
+				5C43E64B8DFCE99DD92F62D538C0DFF0 /* OIDFieldMapping.m in Sources */,
+				F246177F1215CDBE9AB3B1BB58624C04 /* OIDGrantTypes.m in Sources */,
+				F47BF5598DBEDEB0A44679023AFC7E66 /* OIDIDToken.m in Sources */,
+				B00AF14E70C26C9D19EDB3AB4F04123E /* OIDRegistrationRequest.m in Sources */,
+				EE329DF01337A5B2040D3D7532BEB766 /* OIDRegistrationResponse.m in Sources */,
+				22BA02A9AF9DDB1A405D82C84953B295 /* OIDResponseTypes.m in Sources */,
+				705E22C52493D0AEDE135873802B54E0 /* OIDScopes.m in Sources */,
+				17587A84F44BB3F9BBE44E3F0BF91929 /* OIDScopeUtilities.m in Sources */,
+				A837179BAD5CC1FFC6BFAC2C5C67E334 /* OIDServiceConfiguration.m in Sources */,
+				2C034AC52FF9090141709228E7A67121 /* OIDServiceDiscovery.m in Sources */,
+				3F609DF53628B2F834F882C40F39C99C /* OIDTokenRequest.m in Sources */,
+				3989F5BDEC4A21202F727FB35ECB9E4D /* OIDTokenResponse.m in Sources */,
+				95D660DE029B3057EF7922C44E75B6FF /* OIDTokenUtilities.m in Sources */,
+				218BA22AD876AB6E19146F5A9ABC8F5E /* OIDURLQueryComponent.m in Sources */,
+				86C6E9D09DD9A2F765ED9CF5F981560C /* OIDURLSessionProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		9EB522D857901B93368C0BD7C7FF3C77 /* PBXTargetDependency */ = {
+		0558D5491728C68978942C6740CC9D91 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "Postal-macOS";
-			target = 9055EBCD4AFB31FE5DD0AC53757C5076 /* Postal-macOS */;
-			targetProxy = 3BE410EBFE49164BE91E5EB97D445C6A /* PBXContainerItemProxy */;
+			name = GoogleSignIn;
+			target = CAD3534FC55B0333104E5117C0A9A324 /* GoogleSignIn */;
+			targetProxy = E23F5FAAAE1E40B2F6F8C0997B2DB3A0 /* PBXContainerItemProxy */;
 		};
-		F5462A8E785DE1EE24CC2CACC30C581F /* PBXTargetDependency */ = {
+		0EEA7F6D95E878A0E6D8F2DBD354C254 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "Postal-iOS";
-			target = D82DFBFFFAB8D532124927A7D28360A8 /* Postal-iOS */;
-			targetProxy = 7729AF6F0A78D065886AC7F495D4D2F1 /* PBXContainerItemProxy */;
+			name = GTMAppAuth;
+			target = 8627999EF1D5E93E13DAFF580DA8CDCF /* GTMAppAuth */;
+			targetProxy = 31B5CE2625A1BFD3E549C05EED0BA654 /* PBXContainerItemProxy */;
+		};
+		1B5FFEBF48895CDD04DBCD65E60AC997 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AppAuth;
+			target = 5C642AA10FB29936669CC269F42079C6 /* AppAuth */;
+			targetProxy = A5F016CA32C8B433FC64715584B0F488 /* PBXContainerItemProxy */;
+		};
+		418484B99B20448EAE81127585BCA788 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Postal;
+			target = 014CE582943DE44B473C7E70A5897BE2 /* Postal */;
+			targetProxy = 06A2BFE4C7939F6B2D2437C8BAAC9BCF /* PBXContainerItemProxy */;
+		};
+		4873B3E1E5D6FC5D158017C730A858B0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AppAuth;
+			target = 5C642AA10FB29936669CC269F42079C6 /* AppAuth */;
+			targetProxy = C6BD59F9C9A828468E34E942A0C6611D /* PBXContainerItemProxy */;
+		};
+		5CF89AF2129BE49B93189A2827859633 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GTMSessionFetcher;
+			target = D676E21115185671D7258A56944ABE98 /* GTMSessionFetcher */;
+			targetProxy = 2CFD4A6AA4BF51C4C08B91C960BB9C12 /* PBXContainerItemProxy */;
+		};
+		799558492F8F6DE28AD154C2145AAE39 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GoogleSignIn;
+			target = CAD3534FC55B0333104E5117C0A9A324 /* GoogleSignIn */;
+			targetProxy = 26AC404BBD885E5416A481A49BB747E9 /* PBXContainerItemProxy */;
+		};
+		79E035D601E37CE91AD2F403220902D7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GTMAppAuth;
+			target = 8627999EF1D5E93E13DAFF580DA8CDCF /* GTMAppAuth */;
+			targetProxy = 4992DCD16C29CBBFF12A2E78EF1589AD /* PBXContainerItemProxy */;
+		};
+		7BDB541E9563F069D88754FB37503250 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GTMSessionFetcher;
+			target = D676E21115185671D7258A56944ABE98 /* GTMSessionFetcher */;
+			targetProxy = 76DAA6F38CF2EDDC9D4E31CE390AB739 /* PBXContainerItemProxy */;
+		};
+		895C0BD4C3D15D19A4C70A602058264B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GTMSessionFetcher;
+			target = D676E21115185671D7258A56944ABE98 /* GTMSessionFetcher */;
+			targetProxy = 0427B9542686B542E864FDF95F8CFA0D /* PBXContainerItemProxy */;
+		};
+		AC5A13CE7D8D360DD092B403A2898375 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GTMAppAuth;
+			target = 8627999EF1D5E93E13DAFF580DA8CDCF /* GTMAppAuth */;
+			targetProxy = DB1A2B3065AF8D182D947BC667ED4B44 /* PBXContainerItemProxy */;
+		};
+		C4E59BF02FAC3792B318FB62F75D56BA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Postal;
+			target = 014CE582943DE44B473C7E70A5897BE2 /* Postal */;
+			targetProxy = 8FF1D9E402070BBB795B400129C43D1B /* PBXContainerItemProxy */;
+		};
+		E26C881CB45758F289AABF57B89F1CD8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GTMSessionFetcher;
+			target = D676E21115185671D7258A56944ABE98 /* GTMSessionFetcher */;
+			targetProxy = F9BAF59855E95E97BDDDA59EFE8007A1 /* PBXContainerItemProxy */;
+		};
+		F4B4406C718414DE7B329FBDB8963410 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AppAuth;
+			target = 5C642AA10FB29936669CC269F42079C6 /* AppAuth */;
+			targetProxy = A0ABAFEF7CBD34C30104B6EB5C9788E2 /* PBXContainerItemProxy */;
+		};
+		F66B069E1D7D087BAB37CBA020E83ED1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AppAuth;
+			target = 5C642AA10FB29936669CC269F42079C6 /* AppAuth */;
+			targetProxy = B4B0E8BC5E77B3FAC46F13DB15CFACE8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		045758BB5DE5295582A1BE1BF701C4B6 /* Debug */ = {
+		03AF020AF12ECF90EE382412FEED6D9D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BDA40C352189807A71D54C04E6B802FF /* Postal-iOS.debug.xcconfig */;
+			baseConfigurationReference = 173EB875A3E1FC191303B9B702051B2A /* GTMAppAuth.debug.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -685,8 +1412,41 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/Postal-iOS/Postal-iOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Postal-iOS/Postal-iOS-Info.plist";
+				INFOPLIST_FILE = "Target Support Files/GTMAppAuth/GTMAppAuth-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/GTMAppAuth/GTMAppAuth.modulemap";
+				PRODUCT_MODULE_NAME = GTMAppAuth;
+				PRODUCT_NAME = GTMAppAuth;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		0450BE0FE552BAAF649A561C86214E89 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = ADF973A2EDD1BA7E9766DC82125336C2 /* Postal.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Postal/Postal-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Postal/Postal-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -694,7 +1454,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MODULEMAP_FILE = "Target Support Files/Postal-iOS/Postal-iOS.modulemap";
+				MODULEMAP_FILE = "Target Support Files/Postal/Postal.modulemap";
 				PRODUCT_MODULE_NAME = Postal;
 				PRODUCT_NAME = Postal;
 				SDKROOT = iphoneos;
@@ -707,9 +1467,9 @@
 			};
 			name = Debug;
 		};
-		1FF19B2651FD85A5772C63514112C173 /* Release */ = {
+		06DC3334E8F07C0453284E1EE6378375 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 73521BD243FF7A678ECBC3D24EC3B946 /* Pods-psymail (iOS).release.xcconfig */;
+			baseConfigurationReference = 7653E650B6ED8FF9D552E067BC36167A /* Pods-psymail (iOS).release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -723,7 +1483,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-psymail (iOS)/Pods-psymail (iOS)-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -745,82 +1505,9 @@
 			};
 			name = Release;
 		};
-		2DF027EB161085CCB8F7068AEEA367D5 /* Debug */ = {
+		0A18EF9BE8AB4835981CF3BED7101B99 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 99C1250AC2EFE750EB78172870C31B2E /* Pods-psymail (macOS).debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS)-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MODULEMAP_FILE = "Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS).modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		781247E98135351937A65D809DF4FA31 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D903A698A410598D59807A41EDCE61DF /* Postal-macOS.release.xcconfig */;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/Postal-macOS/Postal-macOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Postal-macOS/Postal-macOS-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MODULEMAP_FILE = "Target Support Files/Postal-macOS/Postal-macOS.modulemap";
-				PRODUCT_MODULE_NAME = Postal;
-				PRODUCT_NAME = Postal;
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		78E9B3409C2E57BFFFD03B0158838DE7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5065AFE3D18890E2AFFD1FFA2A9D0187 /* Postal-iOS.release.xcconfig */;
+			baseConfigurationReference = E650463CFAD21D5CE6CA39EDCB06B3D4 /* GTMAppAuth.release.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -830,18 +1517,17 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/Postal-iOS/Postal-iOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Postal-iOS/Postal-iOS-Info.plist";
+				INFOPLIST_FILE = "Target Support Files/GTMAppAuth/GTMAppAuth-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MODULEMAP_FILE = "Target Support Files/Postal-iOS/Postal-iOS.modulemap";
-				PRODUCT_MODULE_NAME = Postal;
-				PRODUCT_NAME = Postal;
+				MODULEMAP_FILE = "Target Support Files/GTMAppAuth/GTMAppAuth.modulemap";
+				PRODUCT_MODULE_NAME = GTMAppAuth;
+				PRODUCT_NAME = GTMAppAuth;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
@@ -853,70 +1539,132 @@
 			};
 			name = Release;
 		};
-		92236969D2CAE522F4C49923D0CA0A98 /* Release */ = {
+		20CE70AFDE8A17653AC98EBC4321B443 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 749C6132CEC1411F2ECCF5F3E9902391 /* Pods-psymail (macOS).debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"POD_CONFIGURATION_RELEASE=1",
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS)-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
 				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS).modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		466624FD332D1CD0A7D3A079E09FECF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DE9FE1FA6B9DE4D156EC8B5AD96D2BC8 /* Pods-psymail (iOS).debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-psymail (iOS)/Pods-psymail (iOS)-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-psymail (iOS)/Pods-psymail (iOS).modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		531BFB245C6EA3FCE3198D138C9D98C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 17FCE1F554BDE8F8B0C281D028792E28 /* AppAuth.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/AppAuth/AppAuth-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/AppAuth/AppAuth-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/AppAuth/AppAuth.modulemap";
+				PRODUCT_MODULE_NAME = AppAuth;
+				PRODUCT_NAME = AppAuth;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
-				SYMROOT = "${SRCROOT}/../build";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
-		94D663F2A5E10E3DBA580BD075610152 /* Debug */ = {
+		6B0B9A018B1B8C7C15B135CDB888E006 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7DD7722E56E946695FE58ECB6AAE7D60 /* GoogleSignIn.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8DE5143C03248BB6CD542DE3963D6F3A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -969,8 +1717,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -983,52 +1730,232 @@
 			};
 			name = Debug;
 		};
-		CA8BA2F31673474B9426F1753A78086D /* Debug */ = {
+		9E406C6AAF85E580207CD97B0044DEAB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7592822C45272DBAEBBA2EEB237D01BD /* Postal-macOS.debug.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_WEAK = NO;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+		AA8C0D926F61A5FA2CB912627E7CE538 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA446FA58C73773DCE2C9F85CE8CC1AD /* AppAuth.debug.xcconfig */;
+			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/Postal-macOS/Postal-macOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Postal-macOS/Postal-macOS-Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/AppAuth/AppAuth-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/AppAuth/AppAuth-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"@executable_path/../Frameworks",
+					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MODULEMAP_FILE = "Target Support Files/Postal-macOS/Postal-macOS.modulemap";
-				PRODUCT_MODULE_NAME = Postal;
-				PRODUCT_NAME = Postal;
-				SDKROOT = macosx;
+				MODULEMAP_FILE = "Target Support Files/AppAuth/AppAuth.modulemap";
+				PRODUCT_MODULE_NAME = AppAuth;
+				PRODUCT_NAME = AppAuth;
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		DE49C73437BE7D5FDAA43E5BD986276C /* Release */ = {
+		B2C2800499476C885BD2261D85563216 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B12C6B5B0E65E041C3BEAFEA59127870 /* Pods-psymail (macOS).release.xcconfig */;
+			baseConfigurationReference = 96D626D21605BD7A75866D327D41F90D /* Postal.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Postal/Postal-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Postal/Postal-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/Postal/Postal.modulemap";
+				PRODUCT_MODULE_NAME = Postal;
+				PRODUCT_NAME = Postal;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		B2FF0ABEC87A9D05651DFC3967389002 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AC2C2D89891ABCAFB712EFB3066C4FDA /* GTMSessionFetcher.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/GTMSessionFetcher/GTMSessionFetcher-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/GTMSessionFetcher/GTMSessionFetcher-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/GTMSessionFetcher/GTMSessionFetcher.modulemap";
+				PRODUCT_MODULE_NAME = GTMSessionFetcher;
+				PRODUCT_NAME = GTMSessionFetcher;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		D99A25D85E0373E4BC96998F090FA60F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DF63E0A0DB74157506B13EFA7E74F9FD /* GoogleSignIn.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E62BCD88B4F0F5F5699DC0E98FE38019 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7409E98283ECB7EF3CC8CB0565DA223C /* GTMSessionFetcher.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/GTMSessionFetcher/GTMSessionFetcher-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/GTMSessionFetcher/GTMSessionFetcher-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/GTMSessionFetcher/GTMSessionFetcher.modulemap";
+				PRODUCT_MODULE_NAME = GTMSessionFetcher;
+				PRODUCT_NAME = GTMSessionFetcher;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		EF399099F447B1F3A4954E37F3891A7D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D690F2607945C146E9887CD35B27425B /* Pods-psymail (macOS).release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1036,50 +1963,14 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS)-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MODULEMAP_FILE = "Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS).modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		F1C81903785B1F566719ECCB73C10FED /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 908AFE2738DCEA737CAFB1AE42F3D2A7 /* Pods-psymail (iOS).debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-psymail (iOS)/Pods-psymail (iOS)-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-psymail (iOS)/Pods-psymail (iOS).modulemap";
+				MODULEMAP_FILE = "Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS).modulemap";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
@@ -1088,55 +1979,83 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1B43BE8946C067971EA6CE29F5AA84F9 /* Build configuration list for PBXNativeTarget "GTMAppAuth" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				03AF020AF12ECF90EE382412FEED6D9D /* Debug */,
+				0A18EF9BE8AB4835981CF3BED7101B99 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				94D663F2A5E10E3DBA580BD075610152 /* Debug */,
-				92236969D2CAE522F4C49923D0CA0A98 /* Release */,
+				8DE5143C03248BB6CD542DE3963D6F3A /* Debug */,
+				9E406C6AAF85E580207CD97B0044DEAB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		95B7E3DDCCB0F4AEF90C095EE74C3AF0 /* Build configuration list for PBXNativeTarget "Postal-iOS" */ = {
+		752A8883977016BE936B123A1AD1379E /* Build configuration list for PBXNativeTarget "Pods-psymail (macOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				045758BB5DE5295582A1BE1BF701C4B6 /* Debug */,
-				78E9B3409C2E57BFFFD03B0158838DE7 /* Release */,
+				20CE70AFDE8A17653AC98EBC4321B443 /* Debug */,
+				EF399099F447B1F3A4954E37F3891A7D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BE05266CA611DCF31FC214769EE5C00A /* Build configuration list for PBXNativeTarget "Pods-psymail (iOS)" */ = {
+		7F982436D96A9F7AAE7AE29D12E88120 /* Build configuration list for PBXAggregateTarget "GoogleSignIn" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F1C81903785B1F566719ECCB73C10FED /* Debug */,
-				1FF19B2651FD85A5772C63514112C173 /* Release */,
+				6B0B9A018B1B8C7C15B135CDB888E006 /* Debug */,
+				D99A25D85E0373E4BC96998F090FA60F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E4E9EE868EA92665C468C1C3570A283E /* Build configuration list for PBXNativeTarget "Pods-psymail (macOS)" */ = {
+		8C1A4733259ACC22D95C0B121FD750BC /* Build configuration list for PBXNativeTarget "Pods-psymail (iOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2DF027EB161085CCB8F7068AEEA367D5 /* Debug */,
-				DE49C73437BE7D5FDAA43E5BD986276C /* Release */,
+				466624FD332D1CD0A7D3A079E09FECF6 /* Debug */,
+				06DC3334E8F07C0453284E1EE6378375 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EDDC239EAED2C0248364A738AAD5A186 /* Build configuration list for PBXNativeTarget "Postal-macOS" */ = {
+		9FB8D339D52B52F9DAB7BA9CD4DC84FF /* Build configuration list for PBXNativeTarget "AppAuth" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CA8BA2F31673474B9426F1753A78086D /* Debug */,
-				781247E98135351937A65D809DF4FA31 /* Release */,
+				AA8C0D926F61A5FA2CB912627E7CE538 /* Debug */,
+				531BFB245C6EA3FCE3198D138C9D98C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E1B52B0B226AA4B2E73D04B7B676B1CC /* Build configuration list for PBXNativeTarget "GTMSessionFetcher" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B2FF0ABEC87A9D05651DFC3967389002 /* Debug */,
+				E62BCD88B4F0F5F5699DC0E98FE38019 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EC45B01290789664214BDAAA65BA065E /* Build configuration list for PBXNativeTarget "Postal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0450BE0FE552BAAF649A561C86214E89 /* Debug */,
+				B2C2800499476C885BD2261D85563216 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

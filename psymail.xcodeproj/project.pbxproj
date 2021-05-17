@@ -3,16 +3,29 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		3B2F072C264F72EA006CAECE /* AppSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F072B264F72EA006CAECE /* AppSplitView.swift */; };
 		3B2F072D264F72EA006CAECE /* AppSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F072B264F72EA006CAECE /* AppSplitView.swift */; };
+		3B6666822651E4040039D9F3 /* DynamicOverlay in Frameworks */ = {isa = PBXBuildFile; productRef = 3B6666812651E4040039D9F3 /* DynamicOverlay */; };
+		3B6666832651EA040039D9F3 /* AppCompactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F0726264E1035006CAECE /* AppCompactView.swift */; };
+		3B6666852651EAAA0039D9F3 /* InboxDrawerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6666842651EAA90039D9F3 /* InboxDrawerView.swift */; };
+		3B6666872651EACD0039D9F3 /* OverlayBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6666862651EACD0039D9F3 /* OverlayBackgroundView.swift */; };
+		3B6666892651EAE70039D9F3 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6666882651EAE70039D9F3 /* SearchBar.swift */; };
+		3B66668B2651EAED0039D9F3 /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B66668A2651EAED0039D9F3 /* ActionCell.swift */; };
+		3B66668D2651EB000039D9F3 /* FavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B66668C2651EB000039D9F3 /* FavoriteCell.swift */; };
+		3B66668F2651F3B00039D9F3 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B66668E2651F3B00039D9F3 /* TabBarView.swift */; };
+		3B6666912651F3DD0039D9F3 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6666902651F3DD0039D9F3 /* TabBarItem.swift */; };
+		3B6666942651F6C50039D9F3 /* ASCollectionView in Frameworks */ = {isa = PBXBuildFile; productRef = 3B6666932651F6C50039D9F3 /* ASCollectionView */; };
+		3B66669626521A810039D9F3 /* VisualEffectBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B66669526521A810039D9F3 /* VisualEffectBlur.swift */; };
+		3B66669D26522DE90039D9F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B66669C26522DE90039D9F3 /* AppDelegate.swift */; };
+		3B66669E26522DE90039D9F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B66669C26522DE90039D9F3 /* AppDelegate.swift */; };
+		3B6666EF2652383D0039D9F3 /* psymail.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3B6666ED2652383D0039D9F3 /* psymail.xcdatamodeld */; };
+		3B6666F02652383D0039D9F3 /* psymail.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3B6666ED2652383D0039D9F3 /* psymail.xcdatamodeld */; };
 		3B9B9F8E2634B16A00E3A8B2 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F8D2634B16A00E3A8B2 /* Tests_iOS.swift */; };
 		3B9B9F992634B16A00E3A8B2 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F982634B16A00E3A8B2 /* Tests_macOS.swift */; };
-		3B9B9F9B2634B16A00E3A8B2 /* mushroom_mail.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F6F2634B16900E3A8B2 /* mushroom_mail.xcdatamodeld */; };
-		3B9B9F9C2634B16A00E3A8B2 /* mushroom_mail.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F6F2634B16900E3A8B2 /* mushroom_mail.xcdatamodeld */; };
 		3B9B9F9D2634B16A00E3A8B2 /* MushroomMailApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F712634B16900E3A8B2 /* MushroomMailApp.swift */; };
 		3B9B9F9E2634B16A00E3A8B2 /* MushroomMailApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F712634B16900E3A8B2 /* MushroomMailApp.swift */; };
 		3B9B9F9F2634B16A00E3A8B2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F722634B16900E3A8B2 /* ContentView.swift */; };
@@ -52,10 +65,19 @@
 
 /* Begin PBXFileReference section */
 		399CC61715E34E128033326B /* Pods_psymail__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_psymail__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3B2F0726264E1035006CAECE /* AppSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSplitView.swift; sourceTree = "<group>"; };
+		3B2F0726264E1035006CAECE /* AppCompactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCompactView.swift; sourceTree = "<group>"; };
 		3B2F072B264F72EA006CAECE /* AppSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSplitView.swift; sourceTree = "<group>"; };
+		3B6666842651EAA90039D9F3 /* InboxDrawerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InboxDrawerView.swift; sourceTree = "<group>"; };
+		3B6666862651EACD0039D9F3 /* OverlayBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayBackgroundView.swift; sourceTree = "<group>"; };
+		3B6666882651EAE70039D9F3 /* SearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		3B66668A2651EAED0039D9F3 /* ActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionCell.swift; sourceTree = "<group>"; };
+		3B66668C2651EB000039D9F3 /* FavoriteCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteCell.swift; sourceTree = "<group>"; };
+		3B66668E2651F3B00039D9F3 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		3B6666902651F3DD0039D9F3 /* TabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
+		3B66669526521A810039D9F3 /* VisualEffectBlur.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualEffectBlur.swift; sourceTree = "<group>"; };
+		3B66669C26522DE90039D9F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		3B6666EE2652383D0039D9F3 /* Shared.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shared.xcdatamodel; sourceTree = "<group>"; };
 		3B925F222637A4D300B00B29 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		3B9B9F702634B16900E3A8B2 /* Shared.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shared.xcdatamodel; sourceTree = "<group>"; };
 		3B9B9F712634B16900E3A8B2 /* MushroomMailApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MushroomMailApp.swift; sourceTree = "<group>"; };
 		3B9B9F722634B16900E3A8B2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3B9B9F732634B16900E3A8B2 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -88,6 +110,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F968887777D7B0730C9B3B8 /* Pods_psymail__iOS_.framework in Frameworks */,
+				3B6666942651F6C50039D9F3 /* ASCollectionView in Frameworks */,
+				3B6666822651E4040039D9F3 /* DynamicOverlay in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,6 +158,7 @@
 		3B9B9F6E2634B16900E3A8B2 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				3B6666ED2652383D0039D9F3 /* psymail.xcdatamodeld */,
 				3B9B9FCE2634E26A00E3A8B2 /* MarketingRecognizer.mlmodel */,
 				3B9B9FCD2634E26A00E3A8B2 /* NewsletterClassifier.mlmodel */,
 				3B9B9FCF2634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel */,
@@ -142,8 +167,8 @@
 				3B9B9F722634B16900E3A8B2 /* ContentView.swift */,
 				3B9B9F732634B16900E3A8B2 /* Persistence.swift */,
 				3B9B9F742634B16A00E3A8B2 /* Assets.xcassets */,
-				3B9B9F6F2634B16900E3A8B2 /* mushroom_mail.xcdatamodeld */,
 				3B2F072B264F72EA006CAECE /* AppSplitView.swift */,
+				3B66669C26522DE90039D9F3 /* AppDelegate.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -162,7 +187,15 @@
 		3B9B9F7B2634B16A00E3A8B2 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				3B2F0726264E1035006CAECE /* AppSplitView.swift */,
+				3B66669526521A810039D9F3 /* VisualEffectBlur.swift */,
+				3B2F0726264E1035006CAECE /* AppCompactView.swift */,
+				3B66668A2651EAED0039D9F3 /* ActionCell.swift */,
+				3B6666842651EAA90039D9F3 /* InboxDrawerView.swift */,
+				3B6666862651EACD0039D9F3 /* OverlayBackgroundView.swift */,
+				3B66668C2651EB000039D9F3 /* FavoriteCell.swift */,
+				3B66668E2651F3B00039D9F3 /* TabBarView.swift */,
+				3B6666902651F3DD0039D9F3 /* TabBarItem.swift */,
+				3B6666882651EAE70039D9F3 /* SearchBar.swift */,
 				3B9B9F7C2634B16A00E3A8B2 /* Info.plist */,
 			);
 			path = iOS;
@@ -227,12 +260,17 @@
 				3B9B9F762634B16A00E3A8B2 /* Frameworks */,
 				3B9B9F772634B16A00E3A8B2 /* Resources */,
 				77A678D85036E96B5658D945 /* [CP] Embed Pods Frameworks */,
+				FE67E9C3004EA506155D4C8D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "psymail (iOS)";
+			packageProductDependencies = (
+				3B6666812651E4040039D9F3 /* DynamicOverlay */,
+				3B6666932651F6C50039D9F3 /* ASCollectionView */,
+			);
 			productName = "mushroom-mail (iOS)";
 			productReference = 3B9B9F792634B16A00E3A8B2 /* psymail.app */;
 			productType = "com.apple.product-type.application";
@@ -246,6 +284,7 @@
 				3B9B9F7E2634B16A00E3A8B2 /* Frameworks */,
 				3B9B9F7F2634B16A00E3A8B2 /* Resources */,
 				18B523E0AD75629591725F46 /* [CP] Embed Pods Frameworks */,
+				9515221290123CF5BB6DD191 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -326,6 +365,10 @@
 				Base,
 			);
 			mainGroup = 3B9B9F692634B16900E3A8B2;
+			packageReferences = (
+				3B6666802651E4040039D9F3 /* XCRemoteSwiftPackageReference "DynamicOverlay" */,
+				3B6666922651F6C50039D9F3 /* XCRemoteSwiftPackageReference "ASCollectionView" */,
+			);
 			productRefGroup = 3B9B9F7A2634B16A00E3A8B2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -450,6 +493,40 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		9515221290123CF5BB6DD191 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS)-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS)-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS)-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FE67E9C3004EA506155D4C8D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-psymail (iOS)/Pods-psymail (iOS)-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-psymail (iOS)/Pods-psymail (iOS)-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-psymail (iOS)/Pods-psymail (iOS)-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -457,15 +534,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B6666892651EAE70039D9F3 /* SearchBar.swift in Sources */,
 				3B2F072C264F72EA006CAECE /* AppSplitView.swift in Sources */,
+				3B66669D26522DE90039D9F3 /* AppDelegate.swift in Sources */,
+				3B6666912651F3DD0039D9F3 /* TabBarItem.swift in Sources */,
 				3B9B9F9D2634B16A00E3A8B2 /* MushroomMailApp.swift in Sources */,
+				3B6666EF2652383D0039D9F3 /* psymail.xcdatamodeld in Sources */,
 				3B9B9FD42634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel in Sources */,
 				3B9B9FD02634E26A00E3A8B2 /* NewsletterClassifier.mlmodel in Sources */,
+				3B6666852651EAAA0039D9F3 /* InboxDrawerView.swift in Sources */,
+				3B6666832651EA040039D9F3 /* AppCompactView.swift in Sources */,
 				3B9B9FA12634B16A00E3A8B2 /* Persistence.swift in Sources */,
-				3B9B9F9B2634B16A00E3A8B2 /* mushroom_mail.xcdatamodeld in Sources */,
+				3B6666872651EACD0039D9F3 /* OverlayBackgroundView.swift in Sources */,
+				3B66668F2651F3B00039D9F3 /* TabBarView.swift in Sources */,
 				3B9B9FD22634E26A00E3A8B2 /* MarketingRecognizer.mlmodel in Sources */,
 				3B9B9FC02634B20600E3A8B2 /* MailModel.swift in Sources */,
+				3B66668D2651EB000039D9F3 /* FavoriteCell.swift in Sources */,
+				3B66669626521A810039D9F3 /* VisualEffectBlur.swift in Sources */,
 				3B9B9F9F2634B16A00E3A8B2 /* ContentView.swift in Sources */,
+				3B66668B2651EAED0039D9F3 /* ActionCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,9 +565,10 @@
 				3B9B9FD52634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel in Sources */,
 				3B9B9FD12634E26A00E3A8B2 /* NewsletterClassifier.mlmodel in Sources */,
 				3B9B9FA22634B16A00E3A8B2 /* Persistence.swift in Sources */,
-				3B9B9F9C2634B16A00E3A8B2 /* mushroom_mail.xcdatamodeld in Sources */,
 				3B9B9FD32634E26A00E3A8B2 /* MarketingRecognizer.mlmodel in Sources */,
 				3B9B9FC12634B20600E3A8B2 /* MailModel.swift in Sources */,
+				3B66669E26522DE90039D9F3 /* AppDelegate.swift in Sources */,
+				3B6666F02652383D0039D9F3 /* psymail.xcdatamodeld in Sources */,
 				3B9B9FA02634B16A00E3A8B2 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -635,6 +723,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8444VB8288;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -657,6 +746,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8444VB8288;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -854,14 +944,46 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		3B6666802651E4040039D9F3 /* XCRemoteSwiftPackageReference "DynamicOverlay" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/fabernovel/DynamicOverlay.git";
+			requirement = {
+				kind = revision;
+				revision = 05b3fdf9087078689488102df70bd4c42aaa6beb;
+			};
+		};
+		3B6666922651F6C50039D9F3 /* XCRemoteSwiftPackageReference "ASCollectionView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apptekstudios/ASCollectionView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3B6666812651E4040039D9F3 /* DynamicOverlay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B6666802651E4040039D9F3 /* XCRemoteSwiftPackageReference "DynamicOverlay" */;
+			productName = DynamicOverlay;
+		};
+		3B6666932651F6C50039D9F3 /* ASCollectionView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B6666922651F6C50039D9F3 /* XCRemoteSwiftPackageReference "ASCollectionView" */;
+			productName = ASCollectionView;
+		};
+/* End XCSwiftPackageProductDependency section */
+
 /* Begin XCVersionGroup section */
-		3B9B9F6F2634B16900E3A8B2 /* mushroom_mail.xcdatamodeld */ = {
+		3B6666ED2652383D0039D9F3 /* psymail.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				3B9B9F702634B16900E3A8B2 /* Shared.xcdatamodel */,
+				3B6666EE2652383D0039D9F3 /* Shared.xcdatamodel */,
 			);
-			currentVersion = 3B9B9F702634B16900E3A8B2 /* Shared.xcdatamodel */;
-			path = mushroom_mail.xcdatamodeld;
+			currentVersion = 3B6666EE2652383D0039D9F3 /* Shared.xcdatamodel */;
+			path = psymail.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
