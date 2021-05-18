@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct TabBarView: View {
-  @State private var selection: Int = 0
+  let selection: Binding<Int>
   
   enum Event {
     case didTapTab
@@ -20,34 +20,34 @@ struct TabBarView: View {
   var body: some View {
     HStack(alignment: .lastTextBaseline) {
       TabBarItem(iconName: "person",
-                       label: "DMs",
-                       selection: $selection,
-                       tag: 0)
+                 label: "DMs",
+                 selection: selection,
+                 tag: 0)
       TabBarItem(iconName: "calendar",
-                       label: "events",
-                       selection: $selection,
-                       tag: 1)
+                 label: "events",
+                 selection: selection,
+                 tag: 1)
       TabBarItem(iconName: "book",
-                       label: "digests",
-                       selection: $selection,
-                       tag: 2)
+                 label: "digests",
+                 selection: selection,
+                 tag: 2)
       TabBarItem(iconName: "creditcard",
-                       label: "commerce",
-                       selection: $selection,
-                       tag: 3)
+                 label: "commerce",
+                 selection: selection,
+                 tag: 3)
       TabBarItem(iconName: "building.2",
-                       label: "society",
-                       selection: $selection,
-                       tag: 4)
+                 label: "society",
+                 selection: selection,
+                 tag: 4)
     }
-    .frame(maxHeight: .infinity, alignment: .bottom)
   }
   
 }
 
 struct TabBarView_Previews: PreviewProvider {
+  @State static var selectedTab = 0
   static var previews: some View {
-    TabBarView { event in
+    TabBarView(selection: $selectedTab) { event in
       
     }
   }

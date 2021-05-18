@@ -7,7 +7,8 @@ import GoogleSignIn
 class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
   var persistenceController = PersistenceController.shared
   
-  private var oracles:[String: NLModel] = [:]
+  private var accessToken: String = ""
+  private var oracles: [String: NLModel] = [:]
   
   @Published private(set) var emails: [FetchResult] = []
   @Published private(set) var sortedEmails:[String: [FetchResult]] = [:]
@@ -42,6 +43,10 @@ class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
     } catch {
       
     }
+  }
+  
+  func signIn() {
+    GIDSignIn.sharedInstance().restorePreviousSignIn()
   }
   
   func sortEmails() {
@@ -83,6 +88,19 @@ class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
     return categoryPrediction
   }
   
+  func getMessage(_ messageUID: UInt, _ completion: @escaping (FetchResult) -> Void) {
+    var configuration: Configuration! {
+      .gmail(
+        login: "samerce@gmail.com",
+        password: .accessToken(accessToken)
+      )
+    }
+    let postal = Postal(configuration: configuration)
+    postal.fetchMessages("INBOX", uids: IndexSet([Int(messageUID)]), flags: [.body],
+                         onMessage: { result in completion(result) },
+                         onComplete: { error in print(error!) })
+  }
+  
   // MARK: - google
   
   func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!,
@@ -97,47 +115,55 @@ class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
     }
     // Perform any operations on signed in user here.
 //    let userId = user.userID                  // For client-side use only!
-    let accessToken = user.authentication.accessToken // Safe to send to the server
+    accessToken = user.authentication.accessToken // Safe to send to the server
 //    let fullName = user.profile.name
 //    let givenName = user.profile.givenName
 //    let familyName = user.profile.familyName
 //    let email = user.profile.email
-    let context = persistenceController.container.viewContext
-    let entity = NSEntityDescription.entity(forEntityName: "GoogleAccessToken", in: context)!
-    let token = NSManagedObject(entity: entity, insertInto: context)
-    token.setValue(accessToken, forKeyPath: "value")
-      
-    do {
-      try context.save()
-    } catch let error as NSError {
-      print("Could not save. \(error), \(error.userInfo)")
-    }
-    
-    var googleAccessToken: String = ""
-    do {
-      let context = persistenceController.container.viewContext
-      let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "GoogleAccessToken")
-      let googleAccessTokens = try context.fetch(fetchRequest)
-      if (googleAccessTokens.count > 0) {
-        googleAccessToken = googleAccessTokens[0].value(forKey: "value") as! String
-      }
-    } catch let error as NSError {
-      print("Could not fetch. \(error), \(error.userInfo)")
-    }
+//    let context = persistenceController.container.viewContext
+//    let entity = NSEntityDescription.entity(forEntityName: "GoogleAccessToken", in: context)!
+//    let token = NSManagedObject(entity: entity, insertInto: context)
+//    token.setValue(accessToken, forKeyPath: "value")
+//
+//    do {
+//      try context.save()
+//    } catch let error as NSError {
+//      print("Could not save. \(error), \(error.userInfo)")
+//    }
+//
+//    var googleAccessToken: String = ""
+//    do {
+//      let context = persistenceController.container.viewContext
+//      let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "GoogleAccessToken")
+//      let googleAccessTokens = try context.fetch(fetchRequest)
+//      if (googleAccessTokens.count > 0) {
+//        googleAccessToken = googleAccessTokens[0].value(forKey: "value") as! String
+//      }
+//    } catch let error as NSError {
+//      print("Could not fetch. \(error), \(error.userInfo)")
+//    }
     
     var configuration: Configuration! {
       .gmail(
         login: "samerce@gmail.com",
-        password: .accessToken(accessToken ?? "")
+        password: .accessToken(accessToken)
       )
     }
     let postal = Postal(configuration: configuration)
+//    postal.listFolders({ result in
+//      switch result {
+//      case .success:
+//        print(result)
+//      case .failure(let error):
+//        print(error)
+//      }
+//    })
     postal.connect(timeout: Postal.defaultTimeout, completion: { [weak self] result in
       switch result {
       case .success:
-        postal.fetchLast("INBOX", last: 300, flags: [ .fullHeaders ],
-                               onMessage: { email in self?.emails.insert(email, at: 0) },
-                               onComplete: { error in self?.sortEmails() })
+        postal.fetchLast("INBOX", last: 300, flags: [.fullHeaders],
+                         onMessage: { email in self?.emails.append(email) },
+                         onComplete: { error in self?.sortEmails() })
         
       case .failure(let error):
         print(error)

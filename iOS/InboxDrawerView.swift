@@ -23,6 +23,7 @@ enum Grouping: String, CaseIterable, Identifiable {
 struct InboxDrawerView: View {
   @State private var selectedGrouping = Grouping.emailAddress
   @State private var hiddenViewOpacity = 0.0
+  @Binding var selectedTab: Int
   @Binding var translationProgress: Double
   
   enum Event {
@@ -35,29 +36,27 @@ struct InboxDrawerView: View {
   
   var body: some View {
     let hiddenSectionOpacity = translationProgress > 0 ? translationProgress + 0.48 : 0
-    ScrollView {
-      VStack(alignment: .center, spacing: 18) {
-        Capsule()
-          .fill(Color(UIColor.darkGray))
-          .frame(width: 36, height: 5, alignment: .center)
-          .padding(.top, 6)
-          .padding(.bottom, -12)
-        
-        TabBarView { event in
-          switch event {
-          case .didTapTab:
-            eventHandler(.didTapTab)
-          }
+    VStack(alignment: .center, spacing: 18) {
+      Capsule()
+        .fill(Color(UIColor.darkGray))
+        .frame(width: 36, height: 5, alignment: .center)
+        .padding(.top, 6)
+        .padding(.bottom, -12)
+      
+      TabBarView(selection: $selectedTab) { event in
+        switch event {
+        case .didTapTab:
+          eventHandler(.didTapTab)
         }
-        .padding(.horizontal, 9)
-        
+      }
+      .padding(.horizontal, 9)
+      
+      ScrollView {
         toolbar
-        
         groupBySection.opacity(hiddenSectionOpacity)
         filterSection.opacity(hiddenSectionOpacity)
-      }
-      .background(OverlayBackgroundView())
-    }
+      }.drivingScrollView()
+    }.background(OverlayBackgroundView())
   }
   
   private var toolbar: some View {
@@ -66,7 +65,7 @@ struct InboxDrawerView: View {
         Image(systemName: "wand.and.stars.inverse")
           .resizable()
           .aspectRatio(contentMode: .fit)
-          .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
+          .foregroundColor(.blue)
           .frame(width: 27, height: 27)
       }
       Text("updated just now")
@@ -77,7 +76,7 @@ struct InboxDrawerView: View {
       Image(systemName: "square.and.pencil")
         .resizable()
         .aspectRatio(contentMode: .fit)
-        .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
+        .foregroundColor(.blue)
         .frame(width: 27, height: 27)
     }
     .padding(.horizontal, 18)
@@ -97,7 +96,11 @@ struct InboxDrawerView: View {
   
   private var filterSection: some View {
     Section(header: header("FILTER")) {
-      
+      VStack {
+        ForEach(0..<20) { i in
+          Text("Filter")
+        }
+      }
     }
     .padding(.horizontal, 18)
   }
@@ -139,8 +142,10 @@ struct InboxDrawerView: View {
 
 struct InboxDrawerView_Previews: PreviewProvider {
   @State static var progress = 0.0
+  @State static var selectedTab = 0
   static var previews: some View {
-    InboxDrawerView(translationProgress: $progress) { event in
+    InboxDrawerView(selectedTab: $selectedTab,
+                    translationProgress: $progress) { event in
     }
     .drivingScrollView()
   }

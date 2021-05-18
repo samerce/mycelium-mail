@@ -8,7 +8,8 @@ enum Notch: CaseIterable, Equatable {
     case min, mid, max
 }
 
-let tabs = ["newsletters", "politics", "marketing", "other"]
+let categories = ["marketing", "newsletters", "other", "politics"]
+let tabs = ["DMs", "events", "digests", "commerce", "society"]
 
 struct AppCompactView: View {
   @Environment(\.managedObjectContext) private var viewContext
@@ -20,35 +21,77 @@ struct AppCompactView: View {
   @State var selectedTab = 0
   
   var body: some View {
-    background
-      .dynamicOverlay(overlay)
-      .dynamicOverlayBehavior(behavior)
-      .ignoresSafeArea()
-  }
-  
-  private var background: some View {
     ZStack {
       NavigationView {
-        List {
-          let messages = model.sortedEmails[tabs[selectedTab]]!
-          ForEach(messages, id: \.uid) { msg in
-            let sender = msg.header?.from[0].displayName ?? "Unknown"
-            let subject = msg.header?.subject ?? "---"
-            
-            VStack(alignment: .leading) {
-              Text(sender).padding(.bottom, 6)
-              Text(subject)
-            }.padding(.vertical, 12)
+        ScrollView {
+          LazyVStack {
+            let messages = model.sortedEmails[categories[selectedTab]]!
+            ForEach(messages, id: \.uid) { msg in
+              getListRow(msg)
+            }
+            .onDelete { _ in print("deleted") }
           }
         }
-        .navigationBarTitle("") // oddly required to hide the bar
-        .navigationBarHidden(true)
+        .padding(0)
+        .navigationBarTitle(tabs[selectedTab])
         .navigationBarBackButtonHidden(true)
+        .navigationBarItems(
+          leading: Image(systemName: "lasso.sparkles")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .foregroundColor(.yellow)
+            .frame(width: 27, height: 27),
+          trailing: EditButton()
+        )
+        
+        backdropView.opacity(translationProgress)
       }
-      
-      backdropView.opacity(translationProgress)
+      .dynamicOverlay(overlay)
+      .dynamicOverlayBehavior(behavior)
     }
     .ignoresSafeArea()
+  }
+  
+  private func getListRow(_ msg: FetchResult) -> some View {
+    let sender = msg.header?.from[0].displayName ?? "Unknown"
+    let subject = msg.header?.subject ?? "---"
+    let date = msg.internalDate?.description ?? ""
+    return ZStack {
+      VStack(alignment: .leading, spacing: 2) {
+        HStack(alignment: .lastTextBaseline) {
+          Text(sender).font(.system(size: 16, weight: .bold, design: .default))
+          Spacer()
+          Text(date).font(.system(size: 12, weight: .light, design: .default))
+          Image(systemName: "chevron.right")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .foregroundColor(.gray)
+            .frame(width: 12, height: 12)
+        }
+        Text(subject)
+      }
+      .frame(maxWidth: .infinity)
+      .padding(6)
+      
+      NavigationLink(destination: MessageView(msg.uid)) {
+        EmptyView()
+      }
+      .hidden()
+//      .listRowBackground(getRowBackground(msg))
+    }
+    .background(getRowBackground(msg))
+    .listRowInsets(EdgeInsets())
+  }
+  
+  private func getRowBackground(_ msg: FetchResult) -> some View {
+    var background: AnyView
+    if msg.flags.contains(.seen) {
+      background = AnyView(Rectangle())
+    } else {
+      let rect = RainbowGlowBorder()
+      background = AnyView(rect)
+    }
+    return background.padding(4)
   }
   
   private var backdropView: some View {
@@ -56,22 +99,24 @@ struct AppCompactView: View {
   }
   
   private var overlay: some View {
-    InboxDrawerView(translationProgress: $translationProgress) { event in
-      switch event {
-      case .didTapTab:
-        isEditing = true
-        withAnimation { notch = .max }
+    GeometryReader { geometry in
+      InboxDrawerView(selectedTab: $selectedTab, translationProgress: $translationProgress) { event in
+        switch event {
+        case .didTapTab:
+          isEditing = true
+          withAnimation { notch = .max }
+        }
       }
+      .ignoresSafeArea()
+      .frame(minHeight: geometry.size.height * 0.9)
     }
-    .drivingScrollView()
-    .frame(maxHeight: .infinity)
   }
   
   private var behavior: some DynamicOverlayBehavior {
     MagneticNotchOverlayBehavior<Notch> { notch in
       switch notch {
       case .max:
-        return .fractional(0.98)
+        return .fractional(0.92)
       case .mid:
         return .fractional(0.54)
       case .min:
@@ -83,6 +128,10 @@ struct AppCompactView: View {
     .onTranslation { translation in
       translationProgress = translation.progress
     }
+  }
+  
+  private func showAbout() {
+    
   }
   
   //    private func addItem() {
@@ -126,8 +175,10 @@ private let itemFormatter: DateFormatter = {
 
 struct AppCompactView_Previews: PreviewProvider {
   static var previews: some View {
-    AppCompactView()
+    let model = MailModel()
+    model.signIn()
+    return AppCompactView()
       .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-      .environmentObject(MailModel())
+      .environmentObject(model)
   }
 }
