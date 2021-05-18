@@ -4,6 +4,11 @@ import NaturalLanguage
 import CoreData
 import GoogleSignIn
 
+struct PostalAdaptor {
+  private var postal: Postal
+  
+}
+
 class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
   var persistenceController = PersistenceController.shared
   
@@ -96,9 +101,17 @@ class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
       )
     }
     let postal = Postal(configuration: configuration)
-    postal.fetchMessages("INBOX", uids: IndexSet([Int(messageUID)]), flags: [.body],
-                         onMessage: { result in completion(result) },
-                         onComplete: { error in print(error!) })
+    postal.connect(timeout: Postal.defaultTimeout, completion: { result in
+      switch result {
+      case .success:
+        postal.fetchMessages("INBOX", uids: IndexSet([Int(messageUID)]), flags: [.body],
+                             onMessage: { result in completion(result) },
+                             onComplete: { error in print(error ?? "") })
+        
+      case .failure(let error):
+        print(error)
+      }
+    })
   }
   
   // MARK: - google
@@ -161,7 +174,7 @@ class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
     postal.connect(timeout: Postal.defaultTimeout, completion: { [weak self] result in
       switch result {
       case .success:
-        postal.fetchLast("INBOX", last: 300, flags: [.fullHeaders],
+        postal.fetchLast("INBOX", last: 300, flags: [.flags, .fullHeaders, .internalDate],
                          onMessage: { email in self?.emails.append(email) },
                          onComplete: { error in self?.sortEmails() })
         

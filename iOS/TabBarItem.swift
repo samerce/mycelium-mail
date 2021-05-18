@@ -25,23 +25,29 @@ struct TabBarItem: View {
     }
     
     var body: some View {
-        VStack(alignment: .center) {
-            Image(systemName: iconName)
-              .resizable()
-              .aspectRatio(contentMode: .fit)
-              .frame(width: 27, height: 27)
-            Text(label)
-                .font(.caption)
-        }
-        .padding([.top, .bottom], 6)
-        .foregroundColor(fgColor())
-        .frame(maxWidth: .infinity)
-        .contentShape(Rectangle())
-        .onTapGesture { self.selection.wrappedValue = self.tag }
+      VStack(alignment: .center) {
+        Image(systemName: iconName)
+          .resizable()
+          .aspectRatio(contentMode: .fit)
+          .frame(width: 27, height: 27)
+        Text(label)
+            .font(.caption)
+      }
+      .padding([.top, .bottom], 6)
+      .frame(maxWidth: .infinity)
+      .foregroundColor(fgColor())
+      .contentShape(Rectangle())
+      .onTapGesture { self.selection.wrappedValue = self.tag }
+      
+//      if selection.wrappedValue == tag {
+//        return AnyView(rainbowGradientVertical.mask(inner))
+//      } else {
+//        return AnyView(inner)
+//      }
     }
     
     private func fgColor() -> Color {
-      return selection.wrappedValue == tag ? Color(.systemBlue) : Color(.secondaryLabel)
+      return selection.wrappedValue == tag ? Color(.green) : Color(.secondaryLabel)
     }
 }
 

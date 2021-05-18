@@ -19,6 +19,7 @@ struct AppCompactView: View {
   @State var isEditing = false
   @State var translationProgress = 0.0
   @State var selectedTab = 0
+  @State var selectedRow:Int? = 0
   
   var body: some View {
     ZStack {
@@ -27,21 +28,33 @@ struct AppCompactView: View {
           LazyVStack {
             let messages = model.sortedEmails[categories[selectedTab]]!
             ForEach(messages, id: \.uid) { msg in
-              getListRow(msg)
+              let row = getListRow(msg)
+              if Int.random(in:0...10) > 5 {
+                row
+                  .overlay(RainbowGlowBorder().opacity(0.96))
+//                  .background(Color(UIColor.secondarySystemBackground))
+                  .cornerRadius(12)
+              } else {
+                row
+              }
             }
             .onDelete { _ in print("deleted") }
           }
+          .padding(.horizontal, 6)
         }
-        .padding(0)
+        .padding(.horizontal, -2)
+        .padding(.bottom, 118)
         .navigationBarTitle(tabs[selectedTab])
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(
           leading: Image(systemName: "lasso.sparkles")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .foregroundColor(.yellow)
+            .foregroundColor(.green)
             .frame(width: 27, height: 27),
           trailing: EditButton()
+            .foregroundColor(.green)
+            .font(.system(size: 17, weight: .regular, design: .default))
         )
         
         backdropView.opacity(translationProgress)
@@ -55,43 +68,57 @@ struct AppCompactView: View {
   private func getListRow(_ msg: FetchResult) -> some View {
     let sender = msg.header?.from[0].displayName ?? "Unknown"
     let subject = msg.header?.subject ?? "---"
-    let date = msg.internalDate?.description ?? ""
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "h:mm a"
+    dateFormatter.amSymbol = "AM"
+    dateFormatter.pmSymbol = "PM"
+    let date = (msg.internalDate != nil) ? dateFormatter.string(from: msg.internalDate!) : ""
     return ZStack {
       VStack(alignment: .leading, spacing: 2) {
         HStack(alignment: .lastTextBaseline) {
-          Text(sender).font(.system(size: 16, weight: .bold, design: .default))
+          Text(sender)
+            .font(.system(size: 15, weight: .bold, design: .default))
+            .lineLimit(1)
           Spacer()
-          Text(date).font(.system(size: 12, weight: .light, design: .default))
+          Text(date)
+            .font(.system(size: 12, weight: .light, design: .default))
+            .foregroundColor(Color.secondary)
           Image(systemName: "chevron.right")
             .resizable()
             .aspectRatio(contentMode: .fit)
             .foregroundColor(.gray)
             .frame(width: 12, height: 12)
+            .offset(x: 0, y: 1)
         }
         Text(subject)
+          .font(.system(size: 15, weight: .light, design: .default))
+          .lineLimit(2)
       }
+      .foregroundColor(Color.primary)
       .frame(maxWidth: .infinity)
-      .padding(6)
+      .padding(.horizontal, 6)
+      .padding(.vertical, 12)
       
-      NavigationLink(destination: MessageView(msg.uid)) {
+      NavigationLink(destination: MessageView(msg.uid), tag: Int(msg.uid), selection: $selectedRow) {
         EmptyView()
       }
-      .hidden()
-//      .listRowBackground(getRowBackground(msg))
     }
-    .background(getRowBackground(msg))
     .listRowInsets(EdgeInsets())
+    .padding(.horizontal, 6)
+    .onTapGesture {
+      selectedRow = Int(msg.uid)
+    }
   }
   
   private func getRowBackground(_ msg: FetchResult) -> some View {
     var background: AnyView
-    if msg.flags.contains(.seen) {
+    if Int.random(in: 0...10) > 5 {
       background = AnyView(Rectangle())
     } else {
       let rect = RainbowGlowBorder()
       background = AnyView(rect)
     }
-    return background.padding(4)
+    return background
   }
   
   private var backdropView: some View {
@@ -108,7 +135,12 @@ struct AppCompactView: View {
         }
       }
       .ignoresSafeArea()
-      .frame(minHeight: geometry.size.height * 0.9)
+//      .frame(height: geometry.size.height * 0.9)
+      .onChange(of: selectedTab) { _ in
+        withAnimation {
+          notch = .min
+        }
+      }
     }
   }
   

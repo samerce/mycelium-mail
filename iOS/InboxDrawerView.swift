@@ -35,7 +35,7 @@ struct InboxDrawerView: View {
   // MARK: - View
   
   var body: some View {
-    let hiddenSectionOpacity = translationProgress > 0 ? translationProgress + 0.48 : 0
+//    let hiddenSectionOpacity = translationProgress > 0 ? translationProgress + 0.48 : 0
     VStack(alignment: .center, spacing: 18) {
       Capsule()
         .fill(Color(UIColor.darkGray))
@@ -52,10 +52,15 @@ struct InboxDrawerView: View {
       .padding(.horizontal, 9)
       
       ScrollView {
-        toolbar
-        groupBySection.opacity(hiddenSectionOpacity)
-        filterSection.opacity(hiddenSectionOpacity)
-      }.drivingScrollView()
+        if translationProgress == 0 {
+          toolbar
+        } else {
+          groupBySection
+          filterSection
+        }
+      }
+      .drivingScrollView()
+      .animation(.spring(), value: translationProgress)
     }.background(OverlayBackgroundView())
   }
   
@@ -65,7 +70,7 @@ struct InboxDrawerView: View {
         Image(systemName: "wand.and.stars.inverse")
           .resizable()
           .aspectRatio(contentMode: .fit)
-          .foregroundColor(.blue)
+          .foregroundColor(.green)
           .frame(width: 27, height: 27)
       }
       Text("updated just now")
@@ -76,7 +81,7 @@ struct InboxDrawerView: View {
       Image(systemName: "square.and.pencil")
         .resizable()
         .aspectRatio(contentMode: .fit)
-        .foregroundColor(.blue)
+        .foregroundColor(.green)
         .frame(width: 27, height: 27)
     }
     .padding(.horizontal, 18)

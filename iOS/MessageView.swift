@@ -18,13 +18,15 @@ struct MessageView: View {
   }
   
   var body: some View {
-    Text(message)
-      .onAppear {
-        model.getMessage(uid) { msg in
-          message = msg.body!.description
-          
+    ScrollView {
+      Text(message)
+        .onAppear {
+          model.getMessage(uid) { msg in
+            message = "\(msg)"
+          }
         }
-      }
+        .padding(.bottom, 122)
+    }
   }
   
 }
