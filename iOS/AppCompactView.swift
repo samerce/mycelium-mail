@@ -32,7 +32,7 @@ struct AppCompactView: View {
               if Int.random(in:0...10) > 5 {
                 row
                   .overlay(RainbowGlowBorder().opacity(0.96))
-//                  .background(Color(UIColor.secondarySystemBackground))
+                  .background(Color(UIColor.secondarySystemBackground))
                   .cornerRadius(12)
               } else {
                 row
@@ -45,7 +45,6 @@ struct AppCompactView: View {
         .padding(.horizontal, -2)
         .padding(.bottom, 118)
         .navigationBarTitle(tabs[selectedTab])
-        .navigationBarBackButtonHidden(true)
         .navigationBarItems(
           leading: Image(systemName: "lasso.sparkles")
             .resizable()
@@ -95,7 +94,7 @@ struct AppCompactView: View {
           .lineLimit(2)
       }
       .foregroundColor(Color.primary)
-      .frame(maxWidth: .infinity)
+//      .frame(maxWidth: .infinity)
       .padding(.horizontal, 6)
       .padding(.vertical, 12)
       

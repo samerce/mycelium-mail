@@ -10,6 +10,10 @@
 		3B2F072C264F72EA006CAECE /* AppSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F072B264F72EA006CAECE /* AppSplitView.swift */; };
 		3B2F072D264F72EA006CAECE /* AppSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F072B264F72EA006CAECE /* AppSplitView.swift */; };
 		3B36447E2652629700956E27 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B36447D2652629700956E27 /* MessageView.swift */; };
+		3B5ABAF726545D3200601F26 /* QuotedPrintable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5ABAF626545D2900601F26 /* QuotedPrintable.swift */; };
+		3B5ABAF826545D3200601F26 /* QuotedPrintable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5ABAF626545D2900601F26 /* QuotedPrintable.swift */; };
+		3B5ABAFE265461C100601F26 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5ABAFD265461C100601F26 /* WebView.swift */; };
+		3B5ABAFF265461C100601F26 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5ABAFD265461C100601F26 /* WebView.swift */; };
 		3B6666822651E4040039D9F3 /* DynamicOverlay in Frameworks */ = {isa = PBXBuildFile; productRef = 3B6666812651E4040039D9F3 /* DynamicOverlay */; };
 		3B6666832651EA040039D9F3 /* AppCompactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F0726264E1035006CAECE /* AppCompactView.swift */; };
 		3B6666852651EAAA0039D9F3 /* InboxDrawerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6666842651EAA90039D9F3 /* InboxDrawerView.swift */; };
@@ -71,6 +75,8 @@
 		3B2F0726264E1035006CAECE /* AppCompactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCompactView.swift; sourceTree = "<group>"; };
 		3B2F072B264F72EA006CAECE /* AppSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSplitView.swift; sourceTree = "<group>"; };
 		3B36447D2652629700956E27 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
+		3B5ABAF626545D2900601F26 /* QuotedPrintable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuotedPrintable.swift; sourceTree = "<group>"; };
+		3B5ABAFD265461C100601F26 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		3B6666842651EAA90039D9F3 /* InboxDrawerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InboxDrawerView.swift; sourceTree = "<group>"; };
 		3B6666862651EACD0039D9F3 /* OverlayBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayBackgroundView.swift; sourceTree = "<group>"; };
 		3B6666882651EAE70039D9F3 /* SearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
@@ -175,6 +181,7 @@
 				3B9B9F742634B16A00E3A8B2 /* Assets.xcassets */,
 				3B2F072B264F72EA006CAECE /* AppSplitView.swift */,
 				3B66669C26522DE90039D9F3 /* AppDelegate.swift */,
+				3B5ABAFD265461C100601F26 /* WebView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -238,6 +245,7 @@
 		3BD150A2265331DF0058B094 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
+				3B5ABAF626545D2900601F26 /* QuotedPrintable.swift */,
 				3BD150A3265332010058B094 /* rainbow.swift */,
 			);
 			path = extensions;
@@ -550,10 +558,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B6666892651EAE70039D9F3 /* SearchBar.swift in Sources */,
+				3B5ABAFE265461C100601F26 /* WebView.swift in Sources */,
 				3B2F072C264F72EA006CAECE /* AppSplitView.swift in Sources */,
 				3B66669D26522DE90039D9F3 /* AppDelegate.swift in Sources */,
 				3B6666912651F3DD0039D9F3 /* TabBarItem.swift in Sources */,
 				3B36447E2652629700956E27 /* MessageView.swift in Sources */,
+				3B5ABAF726545D3200601F26 /* QuotedPrintable.swift in Sources */,
 				3B9B9F9D2634B16A00E3A8B2 /* MushroomMailApp.swift in Sources */,
 				3B6666EF2652383D0039D9F3 /* psymail.xcdatamodeld in Sources */,
 				3B9B9FD42634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel in Sources */,
@@ -579,6 +589,7 @@
 			files = (
 				3B2F072D264F72EA006CAECE /* AppSplitView.swift in Sources */,
 				3B9B9F9E2634B16A00E3A8B2 /* MushroomMailApp.swift in Sources */,
+				3B5ABAFF265461C100601F26 /* WebView.swift in Sources */,
 				3B9B9FD52634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel in Sources */,
 				3B9B9FD12634E26A00E3A8B2 /* NewsletterClassifier.mlmodel in Sources */,
 				3B9B9FA22634B16A00E3A8B2 /* Persistence.swift in Sources */,
@@ -588,6 +599,7 @@
 				3B66669E26522DE90039D9F3 /* AppDelegate.swift in Sources */,
 				3B6666F02652383D0039D9F3 /* psymail.xcdatamodeld in Sources */,
 				3B9B9FA02634B16A00E3A8B2 /* ContentView.swift in Sources */,
+				3B5ABAF826545D3200601F26 /* QuotedPrintable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

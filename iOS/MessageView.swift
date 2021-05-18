@@ -18,14 +18,25 @@ struct MessageView: View {
   }
   
   var body: some View {
-    ScrollView {
-      Text(message)
+    VStack {
+      WebView(message)
+        .navigationBarTitle(Text(""), displayMode: .inline)
+        .background(Color.primary)
+//        .frame(alignment: .top)
+  //      .navigationBarTitle("")
+  //      .navigationBarBackButtonHidden(true)
         .onAppear {
           model.getMessage(uid) { msg in
-            message = "\(msg)"
+            let htmlPart = msg.body?.allParts.first(where: { part in
+              part.mimeType.subtype == "html"
+            })
+            if (htmlPart?.data != nil) {
+              let rawDataAsHtmlString: String = String(data: (htmlPart?.data!.rawData)!, encoding: .utf8)!
+              message = QuotedPrintable.decode(rawDataAsHtmlString)
+            }
           }
         }
-        .padding(.bottom, 122)
+//      Spacer().padding(.bottom, 122)
     }
   }
   
