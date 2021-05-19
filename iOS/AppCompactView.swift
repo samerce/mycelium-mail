@@ -22,8 +22,8 @@ struct AppCompactView: View {
   @State var selectedRow:Int? = 0
   
   var body: some View {
-    ZStack {
-      NavigationView {
+    NavigationView {
+      ZStack {
         ScrollView {
           LazyVStack {
             let messages = model.sortedEmails[categories[selectedTab]]!
@@ -44,24 +44,25 @@ struct AppCompactView: View {
         }
         .padding(.horizontal, -2)
         .padding(.bottom, 118)
-        .navigationBarTitle(tabs[selectedTab])
-        .navigationBarItems(
-          leading: Image(systemName: "lasso.sparkles")
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .foregroundColor(.green)
-            .frame(width: 27, height: 27),
-          trailing: EditButton()
-            .foregroundColor(.green)
-            .font(.system(size: 17, weight: .regular, design: .default))
-        )
-        
+      
         backdropView.opacity(translationProgress)
       }
       .dynamicOverlay(overlay)
       .dynamicOverlayBehavior(behavior)
+      .ignoresSafeArea()
+      .navigationBarTitle(tabs[selectedTab])
+      .navigationBarItems(
+        leading: Image(systemName: "mail")
+          .resizable()
+          .aspectRatio(contentMode: .fit)
+          .font(.system(size: 27, weight: .light, design: .default))
+          .foregroundColor(.green)
+          .frame(width: 27, height: 27),
+        trailing: EditButton()
+          .foregroundColor(.green)
+          .font(.system(size: 17, weight: .regular, design: .default))
+      )
     }
-    .ignoresSafeArea()
   }
   
   private func getListRow(_ msg: FetchResult) -> some View {
@@ -94,7 +95,6 @@ struct AppCompactView: View {
           .lineLimit(2)
       }
       .foregroundColor(Color.primary)
-//      .frame(maxWidth: .infinity)
       .padding(.horizontal, 6)
       .padding(.vertical, 12)
       
@@ -104,6 +104,7 @@ struct AppCompactView: View {
     }
     .listRowInsets(EdgeInsets())
     .padding(.horizontal, 6)
+    .contentShape(Rectangle())
     .onTapGesture {
       selectedRow = Int(msg.uid)
     }
@@ -125,22 +126,19 @@ struct AppCompactView: View {
   }
   
   private var overlay: some View {
-    GeometryReader { geometry in
-      InboxDrawerView(selectedTab: $selectedTab, translationProgress: $translationProgress) { event in
-        switch event {
-        case .didTapTab:
-          isEditing = true
-          withAnimation { notch = .max }
-        }
-      }
-      .ignoresSafeArea()
-//      .frame(height: geometry.size.height * 0.9)
-      .onChange(of: selectedTab) { _ in
-        withAnimation {
-          notch = .min
-        }
+    InboxDrawerView(selectedTab: $selectedTab, translationProgress: $translationProgress) { event in
+      switch event {
+      case .didTapTab:
+        isEditing = true
+        withAnimation { notch = .max }
       }
     }
+    .onChange(of: selectedTab) { _ in
+      withAnimation {
+        notch = .min
+      }
+    }
+    .ignoresSafeArea()
   }
   
   private var behavior: some DynamicOverlayBehavior {
@@ -151,7 +149,7 @@ struct AppCompactView: View {
       case .mid:
         return .fractional(0.54)
       case .min:
-        return .fractional(0.18)
+        return .fractional(0.19)
       }
     }
     .disable(.min, isEditing)

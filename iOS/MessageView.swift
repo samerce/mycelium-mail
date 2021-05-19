@@ -20,9 +20,9 @@ struct MessageView: View {
   var body: some View {
     VStack {
       WebView(message)
+        .ignoresSafeArea()
         .navigationBarTitle(Text(""), displayMode: .inline)
         .background(Color.primary)
-//        .frame(alignment: .top)
   //      .navigationBarTitle("")
   //      .navigationBarBackButtonHidden(true)
         .onAppear {
@@ -36,7 +36,6 @@ struct MessageView: View {
             }
           }
         }
-//      Spacer().padding(.bottom, 122)
     }
   }
   

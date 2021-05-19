@@ -49,7 +49,7 @@ struct InboxDrawerView: View {
           eventHandler(.didTapTab)
         }
       }
-      .padding(.horizontal, 9)
+      .padding(.horizontal, 4)
       
       ScrollView {
         if translationProgress == 0 {
@@ -71,7 +71,8 @@ struct InboxDrawerView: View {
           .resizable()
           .aspectRatio(contentMode: .fit)
           .foregroundColor(.green)
-          .frame(width: 27, height: 27)
+          .frame(width: 22, height: 22)
+          .font(.system(size: 22, weight: .light, design: .default))
       }
       Text("updated just now")
         .font(.system(size: 14, weight: .regular, design: .rounded))
@@ -82,9 +83,10 @@ struct InboxDrawerView: View {
         .resizable()
         .aspectRatio(contentMode: .fit)
         .foregroundColor(.green)
-        .frame(width: 27, height: 27)
+        .frame(width: 22, height: 22)
+        .font(.system(size: 22, weight: .light, design: .default))
     }
-    .padding(.horizontal, 18)
+    .padding(.horizontal, 22)
   }
   
   private var groupBySection: some View {

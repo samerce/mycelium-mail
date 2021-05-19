@@ -30,6 +30,7 @@ struct TabBarItem: View {
           .resizable()
           .aspectRatio(contentMode: .fit)
           .frame(width: 27, height: 27)
+          .font(.system(size: 27, weight: .light, design: .default))
         Text(label)
             .font(.caption)
       }

@@ -163,14 +163,6 @@ class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
       )
     }
     let postal = Postal(configuration: configuration)
-//    postal.listFolders({ result in
-//      switch result {
-//      case .success:
-//        print(result)
-//      case .failure(let error):
-//        print(error)
-//      }
-//    })
     postal.connect(timeout: Postal.defaultTimeout, completion: { [weak self] result in
       switch result {
       case .success:
