@@ -14,7 +14,10 @@ let PerspectiveCategories = [
   "events": Set(["Travel", "events"]),
   "digests": Set(["Science", "Reference", "Pets & Animals", "Home & Garden", "Hobbies & Leisure", "Books & Literature", "Arts & Entertainment", "digests"]),
   "commerce": Set(["Shopping", "Online Communities", "Internet & Telecom", "Health", "Food & Drink", "Finance", "Business & Industrial", "Beauty & Fitness", "commerce"]),
-  "society": Set(["Sports", "Sensitive Subjects", "People & Society", "News", "Law & Government", "Jobs & Education", "society"])
+  "society": Set(["Sports", "Sensitive Subjects", "People & Society", "News", "Law & Government", "Jobs & Education", "society"]),
+  "marketing": Set(["marketing"]),
+  "news": Set(["news"]),
+  "notifications": Set(["notifications"])
 ]
 
 class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
@@ -36,7 +39,7 @@ class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
     ]
     
     do {
-      oracle = try NLModel(mlModel: PsycatsDate(configuration: MLModelConfiguration()).model)
+      oracle = try NLModel(mlModel: PsycatsJuice(configuration: MLModelConfiguration()).model)
 //      let models = [
 //        "newsletters": try? NewsletterClassifier(
 //          configuration: MLModelConfiguration()
@@ -208,7 +211,7 @@ class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
     postal.connect(timeout: Postal.defaultTimeout, completion: { [weak self] result in
       switch result {
       case .success:
-        postal.fetchLast("INBOX", last: 300, flags: [.flags, .fullHeaders, .internalDate, .body],
+        postal.fetchLast("INBOX", last: 400, flags: [.flags, .fullHeaders, .internalDate, .body],
                          onMessage: { email in self?.emails.append(email) },
                          onComplete: { error in self?.sortEmails() })
         

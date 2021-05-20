@@ -31,11 +31,13 @@ struct TabBarItem: View {
           .aspectRatio(contentMode: .fit)
           .frame(width: 27, height: 27)
           .font(.system(size: 27, weight: .light, design: .default))
+          .contentShape(Rectangle())
         Text(label)
             .font(.caption)
+          .contentShape(Rectangle())
       }
       .foregroundColor(fgColor())
-      .rainbow(selection.wrappedValue == tag)
+//      .rainbow(selection.wrappedValue == tag)
       .frame(maxWidth: .infinity, maxHeight: 48)
       .contentShape(Rectangle())
       .onTapGesture { selection.wrappedValue = tag }
@@ -48,7 +50,7 @@ struct TabBarItem: View {
 //      }
     
     private func fgColor() -> Color {
-      return selection.wrappedValue == tag ? Color(.green) : Color(.secondaryLabel)
+      return selection.wrappedValue == tag ? .pink : Color(.secondaryLabel)
     }
 }
 

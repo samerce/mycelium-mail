@@ -21,9 +21,8 @@ struct MessageView: View {
   var body: some View {
     VStack {
       WebView(messageAsHTML)
-        .ignoresSafeArea()
         .navigationBarTitle(Text(""), displayMode: .inline)
-        .background(Color.primary)
+        .background(Color(.systemBackground))
   //      .navigationBarTitle("")
   //      .navigationBarBackButtonHidden(true)
         .onAppear {
@@ -32,6 +31,7 @@ struct MessageView: View {
           }
         }
     }
+    .ignoresSafeArea()
   }
   
 }

@@ -49,13 +49,12 @@ struct InboxDrawerView: View {
       perspectiveHeader
       Spacer().frame(height: 12)
       
-      TabBarView(selection: $selectedTab) { event in
+      TabBarView(selection: $selectedTab, translationProgress: $translationProgress) { event in
         switch event {
         case .didTapTab:
           eventHandler(.didTapTab)
         }
       }
-      .padding(.bottom, 9)
       
       toolbar
       Spacer().frame(height: bottomSpace)
@@ -82,17 +81,18 @@ struct InboxDrawerView: View {
         .foregroundColor(Color(UIColor.gray))
         .clipped()
       Spacer()
-      rainbowGradientVertical.mask(
+//      rainbowGradientVertical.mask(
         Button(action: addPerspective) {
           Image(systemName: "plus")
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(width: 16, height: height)
+            .foregroundColor(.pink)
             .font(.system(size: 12, weight: .light, design: .default))
         }
         .clipped()
         .cornerRadius(12)
-      ).frame(width: 16, height: height)
+//      ).frame(width: 16, height: height)
     }
 //    .animation(.interactiveSpring(), value: translationProgress)
     .padding(.horizontal, 18)
@@ -114,30 +114,30 @@ struct InboxDrawerView: View {
     return VStack(alignment: .center, spacing: 0) {
       Divider().frame(height: dividerHeight)
       HStack(alignment: .center) {
-        rainbowGradientVertical.mask(
+//        rainbowGradientVertical.mask(
           Button(action: loginWithGoogle) {
             Image(systemName: "wand.and.stars.inverse")
               .resizable()
               .aspectRatio(contentMode: .fit)
-              .foregroundColor(.green)
+              .foregroundColor(.pink)
               .frame(maxWidth: iconSize, maxHeight: height)
               .font(.system(size: iconSize, weight: .light, design: .default))
           }
-        ).frame(maxWidth: iconSize, maxHeight: height)
+//        ).frame(maxWidth: iconSize, maxHeight: height)
         Text("updated just now")
           .font(.system(size: 14, weight: .light, design: .rounded))
           .foregroundColor(.secondary)
           .frame(maxWidth: .infinity, maxHeight: height)
           .multilineTextAlignment(.center)
           .clipped()
-         rainbowGradientVertical.mask(
+//         rainbowGradientVertical.mask(
           Image(systemName: "square.and.pencil")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .foregroundColor(.green)
+            .foregroundColor(.pink)
             .frame(maxWidth: iconSize, maxHeight: height)
             .font(.system(size: iconSize, weight: .light, design: .default))
-        ).frame(maxWidth: iconSize, maxHeight: height)
+//        ).frame(maxWidth: iconSize, maxHeight: height)
       }
 //      .animation(.interactiveSpring(), value: translationProgress)
       .frame(height: height)

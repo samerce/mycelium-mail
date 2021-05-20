@@ -8,7 +8,7 @@ enum Notch: CaseIterable, Equatable {
     case min, mid, max
 }
 
-let tabs = ["DMs", "events", "digests", "commerce", "society"]
+let tabs = ["DMs", "events", "digests", "commerce", "society", "marketing", "news", "notifications"]
 
 struct AppCompactView: View {
   @Environment(\.managedObjectContext) private var viewContext
@@ -54,18 +54,20 @@ struct AppCompactView: View {
       .navigationBarTitle(tabs[selectedTab])
       .navigationBarItems(
         leading:
-          rainbowGradientHorizontal.mask(
+//          rainbowGradientHorizontal.mask(
             Image(systemName: "mail")
               .resizable()
               .aspectRatio(contentMode: .fit)
               .font(.system(size: 27, weight: .light, design: .default))
               .frame(width: 27, height: 27)
-          ).frame(width: 27, height: 27),
+          .foregroundColor(.pink),
+//          ).frame(width: 27, height: 27),
         trailing:
-          rainbowGradientHorizontal.mask(
+//          rainbowGradientHorizontal.mask(
             EditButton()
               .font(.system(size: 17, weight: .regular, design: .default))
-          ).frame(width: 32, height: 36)
+          .foregroundColor(.pink)
+//          ).frame(width: 32, height: 36)
       )
     }
   }
@@ -152,7 +154,7 @@ struct AppCompactView: View {
     MagneticNotchOverlayBehavior<Notch> { notch in
       switch notch {
       case .max:
-        return .fractional(0.88)
+        return .fractional(0.77)
       case .mid:
         return .fractional(0.54)
       case .min:

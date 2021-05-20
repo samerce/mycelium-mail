@@ -28,6 +28,18 @@
 		3B5FBC5726563794009D012C /* PsycatsCherry.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FBC5526563794009D012C /* PsycatsCherry.mlmodel */; };
 		3B5FBC5D26563FEC009D012C /* PsycatsDate.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FBC5C26563FEC009D012C /* PsycatsDate.mlmodel */; };
 		3B5FBC5E26563FEC009D012C /* PsycatsDate.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FBC5C26563FEC009D012C /* PsycatsDate.mlmodel */; };
+		3B5FBC642656E443009D012C /* PsycatsEmp.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FBC632656E443009D012C /* PsycatsEmp.mlmodel */; };
+		3B5FBC652656E443009D012C /* PsycatsEmp.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FBC632656E443009D012C /* PsycatsEmp.mlmodel */; };
+		3B5FBC6B2656EE7F009D012C /* PsycatsFruit.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FBC6A2656EE7F009D012C /* PsycatsFruit.mlmodel */; };
+		3B5FBC6C2656EE7F009D012C /* PsycatsFruit.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FBC6A2656EE7F009D012C /* PsycatsFruit.mlmodel */; };
+		3B5FBC722656EF30009D012C /* PsycatsGrape.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FBC712656EF30009D012C /* PsycatsGrape.mlmodel */; };
+		3B5FBC732656EF30009D012C /* PsycatsGrape.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FBC712656EF30009D012C /* PsycatsGrape.mlmodel */; };
+		3B5FBC792656FB2B009D012C /* PsycatsHoney.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FBC782656FB2B009D012C /* PsycatsHoney.mlmodel */; };
+		3B5FBC7A2656FB2B009D012C /* PsycatsHoney.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FBC782656FB2B009D012C /* PsycatsHoney.mlmodel */; };
+		3B5FBC802656FE03009D012C /* PsycatsIce.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FBC7F2656FE03009D012C /* PsycatsIce.mlmodel */; };
+		3B5FBC812656FE03009D012C /* PsycatsIce.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FBC7F2656FE03009D012C /* PsycatsIce.mlmodel */; };
+		3B5FBCBE26571687009D012C /* PsycatsJuice.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FBCBD26571687009D012C /* PsycatsJuice.mlmodel */; };
+		3B5FBCBF26571687009D012C /* PsycatsJuice.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FBCBD26571687009D012C /* PsycatsJuice.mlmodel */; };
 		3B6666822651E4040039D9F3 /* DynamicOverlay in Frameworks */ = {isa = PBXBuildFile; productRef = 3B6666812651E4040039D9F3 /* DynamicOverlay */; };
 		3B6666832651EA040039D9F3 /* AppCompactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F0726264E1035006CAECE /* AppCompactView.swift */; };
 		3B6666852651EAAA0039D9F3 /* InboxDrawerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6666842651EAA90039D9F3 /* InboxDrawerView.swift */; };
@@ -98,6 +110,12 @@
 		3B5FBC4E265636FF009D012C /* PsycatsBlueberry.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PsycatsBlueberry.mlmodel; sourceTree = "<group>"; };
 		3B5FBC5526563794009D012C /* PsycatsCherry.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PsycatsCherry.mlmodel; sourceTree = "<group>"; };
 		3B5FBC5C26563FEC009D012C /* PsycatsDate.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PsycatsDate.mlmodel; sourceTree = "<group>"; };
+		3B5FBC632656E443009D012C /* PsycatsEmp.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PsycatsEmp.mlmodel; sourceTree = "<group>"; };
+		3B5FBC6A2656EE7F009D012C /* PsycatsFruit.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PsycatsFruit.mlmodel; sourceTree = "<group>"; };
+		3B5FBC712656EF30009D012C /* PsycatsGrape.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PsycatsGrape.mlmodel; sourceTree = "<group>"; };
+		3B5FBC782656FB2B009D012C /* PsycatsHoney.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PsycatsHoney.mlmodel; sourceTree = "<group>"; };
+		3B5FBC7F2656FE03009D012C /* PsycatsIce.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PsycatsIce.mlmodel; sourceTree = "<group>"; };
+		3B5FBCBD26571687009D012C /* PsycatsJuice.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PsycatsJuice.mlmodel; sourceTree = "<group>"; };
 		3B6666842651EAA90039D9F3 /* InboxDrawerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InboxDrawerView.swift; sourceTree = "<group>"; };
 		3B6666862651EACD0039D9F3 /* OverlayBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayBackgroundView.swift; sourceTree = "<group>"; };
 		3B6666882651EAE70039D9F3 /* SearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
@@ -190,6 +208,12 @@
 		3B9B9F6E2634B16900E3A8B2 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				3B5FBCBD26571687009D012C /* PsycatsJuice.mlmodel */,
+				3B5FBC7F2656FE03009D012C /* PsycatsIce.mlmodel */,
+				3B5FBC782656FB2B009D012C /* PsycatsHoney.mlmodel */,
+				3B5FBC712656EF30009D012C /* PsycatsGrape.mlmodel */,
+				3B5FBC6A2656EE7F009D012C /* PsycatsFruit.mlmodel */,
+				3B5FBC632656E443009D012C /* PsycatsEmp.mlmodel */,
 				3B5FBC5C26563FEC009D012C /* PsycatsDate.mlmodel */,
 				3B5FBC5526563794009D012C /* PsycatsCherry.mlmodel */,
 				3B5FBC4E265636FF009D012C /* PsycatsBlueberry.mlmodel */,
@@ -597,7 +621,9 @@
 				3B9B9F9D2634B16A00E3A8B2 /* MushroomMailApp.swift in Sources */,
 				3B6666EF2652383D0039D9F3 /* psymail.xcdatamodeld in Sources */,
 				3B9B9FD42634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel in Sources */,
+				3B5FBC642656E443009D012C /* PsycatsEmp.mlmodel in Sources */,
 				3B9B9FD02634E26A00E3A8B2 /* NewsletterClassifier.mlmodel in Sources */,
+				3B5FBC792656FB2B009D012C /* PsycatsHoney.mlmodel in Sources */,
 				3B6666852651EAAA0039D9F3 /* InboxDrawerView.swift in Sources */,
 				3B6666832651EA040039D9F3 /* AppCompactView.swift in Sources */,
 				3B9B9FA12634B16A00E3A8B2 /* Persistence.swift in Sources */,
@@ -608,11 +634,15 @@
 				3B66668F2651F3B00039D9F3 /* TabBarView.swift in Sources */,
 				3B9B9FD22634E26A00E3A8B2 /* MarketingRecognizer.mlmodel in Sources */,
 				3B9B9FC02634B20600E3A8B2 /* MailModel.swift in Sources */,
+				3B5FBC802656FE03009D012C /* PsycatsIce.mlmodel in Sources */,
 				3B5FBC5626563794009D012C /* PsycatsCherry.mlmodel in Sources */,
 				3B66668D2651EB000039D9F3 /* FavoriteCell.swift in Sources */,
 				3B5FBC4F265636FF009D012C /* PsycatsBlueberry.mlmodel in Sources */,
 				3BD150A4265332010058B094 /* rainbow.swift in Sources */,
 				3B66669626521A810039D9F3 /* VisualEffectBlur.swift in Sources */,
+				3B5FBCBE26571687009D012C /* PsycatsJuice.mlmodel in Sources */,
+				3B5FBC6B2656EE7F009D012C /* PsycatsFruit.mlmodel in Sources */,
+				3B5FBC722656EF30009D012C /* PsycatsGrape.mlmodel in Sources */,
 				3B9B9F9F2634B16A00E3A8B2 /* ContentView.swift in Sources */,
 				3B66668B2651EAED0039D9F3 /* ActionCell.swift in Sources */,
 			);
@@ -629,6 +659,7 @@
 				3B9B9FD52634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel in Sources */,
 				3B9B9FD12634E26A00E3A8B2 /* NewsletterClassifier.mlmodel in Sources */,
 				3B9B9FA22634B16A00E3A8B2 /* Persistence.swift in Sources */,
+				3B5FBC6C2656EE7F009D012C /* PsycatsFruit.mlmodel in Sources */,
 				3B5FBC5726563794009D012C /* PsycatsCherry.mlmodel in Sources */,
 				3B5FBC5E26563FEC009D012C /* PsycatsDate.mlmodel in Sources */,
 				3B9B9FD32634E26A00E3A8B2 /* MarketingRecognizer.mlmodel in Sources */,
@@ -638,9 +669,14 @@
 				3B5FBC342655EF85009D012C /* EmailClassifierAgnes.mlmodel in Sources */,
 				3B66669E26522DE90039D9F3 /* AppDelegate.swift in Sources */,
 				3B5FBC50265636FF009D012C /* PsycatsBlueberry.mlmodel in Sources */,
+				3B5FBCBF26571687009D012C /* PsycatsJuice.mlmodel in Sources */,
+				3B5FBC732656EF30009D012C /* PsycatsGrape.mlmodel in Sources */,
 				3B5FBC4226562B8F009D012C /* EmailClassifierCay.mlmodel in Sources */,
 				3B6666F02652383D0039D9F3 /* psymail.xcdatamodeld in Sources */,
+				3B5FBC812656FE03009D012C /* PsycatsIce.mlmodel in Sources */,
+				3B5FBC652656E443009D012C /* PsycatsEmp.mlmodel in Sources */,
 				3B9B9FA02634B16A00E3A8B2 /* ContentView.swift in Sources */,
+				3B5FBC7A2656FB2B009D012C /* PsycatsHoney.mlmodel in Sources */,
 				3B5ABAF826545D3200601F26 /* QuotedPrintable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
