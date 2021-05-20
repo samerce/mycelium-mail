@@ -38,8 +38,9 @@ struct InboxDrawerView: View {
   // MARK: - View
   
   var body: some View {
+    let bottomSpace = CGFloat.maximum(18, 54 - (CGFloat(translationProgress) / 0.50) * 54)
 //    let hiddenSectionOpacity = translationProgress > 0 ? translationProgress + 0.48 : 0
-    VStack(alignment: .center, spacing: 0) {
+    return VStack(alignment: .center, spacing: 0) {
       Capsule()
         .fill(Color(UIColor.darkGray))
         .frame(width: 36, height: 5, alignment: .center)
@@ -55,12 +56,13 @@ struct InboxDrawerView: View {
         }
       }
       .padding(.horizontal, 20)
+      .draggable()
       
       Spacer().frame(height: 4)
+      toolbar
+      Spacer().frame(height: bottomSpace)
       
       ScrollView {
-        toolbar
-        Spacer().frame(height: 12)
         groupBySection
         Spacer().frame(height: 18)
         filterSection
@@ -74,26 +76,26 @@ struct InboxDrawerView: View {
   let HeaderHeight: CGFloat = 27
   private var perspectiveHeader: some View {
     let height = CGFloat.minimum(HeaderHeight, CGFloat.maximum(0, (CGFloat(translationProgress) / 0.5) * HeaderHeight))
-    let padding = CGFloat.minimum(-3, CGFloat.maximum(0, (CGFloat(translationProgress) / 0.5) * -3))
     let opacity = CGFloat.minimum(1, CGFloat.maximum(0, (CGFloat(translationProgress) / 0.5) * 1))
     return HStack(alignment: .center, spacing: 0) {
       Text("PERSPECTIVES")
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity, maxHeight: height, alignment: .leading)
         .font(.system(size: 12, weight: .light, design: .default))
         .foregroundColor(Color(UIColor.gray))
+        .clipped()
       Spacer()
       Button(action: addPerspective) {
         Image(systemName: "plus")
           .resizable()
           .aspectRatio(contentMode: .fit)
           .foregroundColor(.green)
-          .frame(width: 16, height: 16)
+          .frame(width: 16, height: height)
           .font(.system(size: 12, weight: .light, design: .default))
       }
       .clipped()
       .cornerRadius(12)
     }
-    .animation(.interactiveSpring(), value: translationProgress)
+//    .animation(.interactiveSpring(), value: translationProgress)
     .padding(.horizontal, 18)
     .opacity(Double(opacity))
     .frame(height: height)
@@ -108,7 +110,6 @@ struct InboxDrawerView: View {
   private var toolbar: some View {
     let height = CGFloat.maximum(0, ToolbarHeight - (CGFloat(translationProgress) / 0.50) * ToolbarHeight)
     let dividerHeight = CGFloat.maximum(0, 12 - (CGFloat(translationProgress) / 0.50) * 12)
-    let bottomSpace = CGFloat.maximum(0, 54 - (CGFloat(translationProgress) / 0.50) * 54)
     let opacity = CGFloat.maximum(0, 1 - (CGFloat(translationProgress) / 0.50))
     return VStack(alignment: .center, spacing: 0) {
       Divider().frame(height: dividerHeight)
@@ -118,26 +119,25 @@ struct InboxDrawerView: View {
             .resizable()
             .aspectRatio(contentMode: .fit)
             .foregroundColor(.green)
-            .frame(maxWidth: 22, maxHeight: .infinity)
+            .frame(maxWidth: 22, maxHeight: height)
             .font(.system(size: 22, weight: .light, design: .default))
         }
         Text("updated just now")
           .font(.system(size: 14, weight: .light, design: .rounded))
           .foregroundColor(.primary)
-          .frame(maxWidth: .infinity)
+          .frame(maxWidth: .infinity, maxHeight: height)
           .multilineTextAlignment(.center)
+          .clipped()
         Image(systemName: "square.and.pencil")
           .resizable()
           .aspectRatio(contentMode: .fit)
           .foregroundColor(.green)
-          .frame(maxWidth: 22, maxHeight: .infinity)
+          .frame(maxWidth: 22, maxHeight: height)
           .font(.system(size: 22, weight: .light, design: .default))
       }
+//      .animation(.interactiveSpring(), value: translationProgress)
       .frame(height: height)
-      
-      Spacer().padding(0).frame(height: bottomSpace)
     }
-    .animation(.interactiveSpring(), value: translationProgress)
     .padding(.horizontal, 22)
     .opacity(Double(opacity))
     .clipped()

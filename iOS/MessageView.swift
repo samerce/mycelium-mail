@@ -6,35 +6,28 @@
 //
 
 import SwiftUI
+import Postal
 
 struct MessageView: View {
   @EnvironmentObject private var model: MailModel
   
-  private var uid: UInt
-  @State private var message: String = ""
+  private var message: FetchResult
+  @State private var messageAsHTML: String = ""
   
-  init(_ messageUID: UInt) {
-    uid = messageUID
+  init(_ _message: FetchResult) {
+    message = _message
   }
   
   var body: some View {
     VStack {
-      WebView(message)
+      WebView(messageAsHTML)
         .ignoresSafeArea()
         .navigationBarTitle(Text(""), displayMode: .inline)
         .background(Color.primary)
   //      .navigationBarTitle("")
   //      .navigationBarBackButtonHidden(true)
         .onAppear {
-          model.getMessage(uid) { msg in
-            let htmlPart = msg.body?.allParts.first(where: { part in
-              part.mimeType.subtype == "html"
-            })
-            if (htmlPart?.data != nil) {
-              let rawDataAsHtmlString: String = String(data: (htmlPart?.data!.rawData)!, encoding: .utf8)!
-              message = QuotedPrintable.decode(rawDataAsHtmlString)
-            }
-          }
+          messageAsHTML = model.htmlFor(message)
         }
     }
   }

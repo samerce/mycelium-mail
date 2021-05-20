@@ -8,7 +8,6 @@ enum Notch: CaseIterable, Equatable {
     case min, mid, max
 }
 
-let categories = ["marketing", "newsletters", "other", "politics"]
 let tabs = ["DMs", "events", "digests", "commerce", "society"]
 
 struct AppCompactView: View {
@@ -18,7 +17,7 @@ struct AppCompactView: View {
   @State var notch: Notch = .min
   @State var isEditing = false
   @State var translationProgress = 0.0
-  @State var selectedTab = 0
+  @State var selectedTab = 2
   @State var selectedRow:Int? = 0
   
   var body: some View {
@@ -26,7 +25,7 @@ struct AppCompactView: View {
       ZStack {
         ScrollView {
           LazyVStack {
-            let messages = model.sortedEmails[categories[selectedTab]]!
+            let messages = model.sortedEmails[tabs[selectedTab]] ?? []
             ForEach(messages, id: \.uid) { msg in
               let row = getListRow(msg)
               if (Double(msg.uid).truncatingRemainder(dividingBy: 3.5)) == 0 {
@@ -40,9 +39,10 @@ struct AppCompactView: View {
             }
             .onDelete { _ in print("deleted") }
           }
+          .animation(.interactiveSpring())
           .padding(.horizontal, 6)
           
-          Spacer().frame(height: 118)
+          Spacer().frame(height: 124)
         }
         .padding(.horizontal, -2)
       
@@ -99,7 +99,7 @@ struct AppCompactView: View {
       .padding(.horizontal, 6)
       .padding(.vertical, 12)
       
-      NavigationLink(destination: MessageView(msg.uid), tag: Int(msg.uid), selection: $selectedRow) {
+      NavigationLink(destination: MessageView(msg), tag: Int(msg.uid), selection: $selectedRow) {
         EmptyView()
       }
     }
@@ -150,7 +150,7 @@ struct AppCompactView: View {
       case .mid:
         return .fractional(0.54)
       case .min:
-        return .fractional(0.17)
+        return .fractional(0.10)
       }
     }
     .disable(.min, isEditing)

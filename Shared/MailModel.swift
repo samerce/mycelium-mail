@@ -9,11 +9,20 @@ struct PostalAdaptor {
   
 }
 
+let PerspectiveCategories = [
+  "DMs": Set(["Games", "Computers & Electronics"]),
+  "events": Set(["Travel"]),
+  "digests": Set(["Science", "Reference", "Pets & Animals", "Home & Garden", "Hobbies & Leisure", "Books & Literature", "Arts & Entertainment"]),
+  "commerce": Set(["Shopping", "Online Communities", "Internet & Telecom", "Health", "Food & Drink", "Finance", "Business & Industrial", "Beauty & Fitness"]),
+  "society": Set(["Sports", "Sensitive Subjects", "People & Society", "News", "Law & Government", "Jobs & Education"])
+]
+
 class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
   var persistenceController = PersistenceController.shared
   
   private var accessToken: String = ""
   private var oracles: [String: NLModel] = [:]
+  private var oracle: NLModel?
   
   @Published private(set) var emails: [FetchResult] = []
   @Published private(set) var sortedEmails:[String: [FetchResult]] = [:]
@@ -27,26 +36,29 @@ class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
     ]
     
     do {
-      let models = [
-        "newsletters": try? NewsletterClassifier(
-          configuration: MLModelConfiguration()
-        ).model,
-        "politics": try? PoliticsRecognizer(
-          configuration: MLModelConfiguration()
-        ).model,
-        "marketing": try? MarketingRecognizer(
-          configuration: MLModelConfiguration()
-        ).model,
-        "other": nil
-      ]
-      for (category, mlModel) in models {
-        if mlModel != nil {
-          oracles[category] = try NLModel(mlModel: mlModel!)
-        }
-        sortedEmails[category] = []
-      }
+      oracle = try NLModel(mlModel: EmailClassifierAgnes(configuration: MLModelConfiguration()).model)
+//      let models = [
+//        "newsletters": try? NewsletterClassifier(
+//          configuration: MLModelConfiguration()
+//        ).model,
+//        "politics": try? PoliticsRecognizer(
+//          configuration: MLModelConfiguration()
+//        ).model,
+//        "marketing": try? MarketingRecognizer(
+//          configuration: MLModelConfiguration()
+//        ).model,
+//        "other": nil
+//      ]
+//      for (category, mlModel) in models {
+//        if mlModel != nil {
+//          oracles[category] = try NLModel(mlModel: mlModel!)
+//        }
+//        sortedEmails[category] = []
+//      }
     } catch {
-      
+    }
+    for (perspective, _) in PerspectiveCategories {
+      self.sortedEmails[perspective] = []
     }
   }
   
@@ -56,41 +68,71 @@ class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
   
   func sortEmails() {
     for email in self.emails {
-      let emailString = getEmailString(email)
-      let aiCategory = getSmartCategory(emailString)
-      self.sortedEmails[aiCategory]?.insert(email, at: 0)
+      let perspective = getPerspectiveFor(emailAsString(email))
+      self.sortedEmails[perspective]?.insert(email, at: 0)
     }
   }
   
   // MARK: - Helpers
   
-  func getEmailString(_ msg: FetchResult) -> String {
+  func emailAsString(_ msg: FetchResult) -> String {
     if msg.body == nil || msg.header == nil { return "" }
+    
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
     let date = dateFormatter.date(from: (msg.header?.receivedDate!.description)!) ?? Date()
+    
+    var from = ""
+    if (msg.header?.from.count ?? 0) > 0 {
+      from = msg.header?.from[0].email ?? ""
+    }
+    
+    var to = ""
+    if (msg.header?.to.count ?? 0) > 0 {
+      to = msg.header?.to[0].email ?? ""
+    }
+    
     return """
-          From: \(msg.header!.from[0].email)
-          Subject: \(msg.header!.subject)
+          From: \(from)
+          Subject: \(msg.header?.subject ?? "")
           Date: \(date)
-          To: \(msg.header!.to[0].email)\n
-          \(msg.body!)
+          To: \(to)\n
+          \(htmlFor(msg))
       """
   }
   
-  func getSmartCategory(_ email: String) -> String {
-    var categoryPrediction = "other"
-    //        var bestPredictionConfidence = 0
-    
-    for (category, oracle) in self.oracles {
-      let prediction = oracle.predictedLabel(for: email)
-      if prediction == "yes" /*&& prediction!.confidence > bestPredictionConfidence*/ {
-        categoryPrediction = category
-        //                bestPredictionConfidence = prediction.confidence
+  func getPerspectiveFor(_ email: String) -> String {
+    let prediction = oracle?.predictedLabel(for: email) ?? ""
+    for (perspective, categorySet) in PerspectiveCategories {
+      if categorySet.contains(prediction) {
+        return perspective
       }
     }
+    return "other"
     
-    return categoryPrediction
+    //        var bestPredictionConfidence = 0
+    
+//    for (category, oracle) in self.oracles {
+//      let prediction = oracle.predictedLabel(for: email)
+//      if prediction == "yes" /*&& prediction!.confidence > bestPredictionConfidence*/ {
+//        categoryPrediction = category
+//        //                bestPredictionConfidence = prediction.confidence
+//      }
+//    }
+//
+//    return categoryPrediction
+  }
+  
+  func htmlFor(_ message: FetchResult) -> String {
+    var html = ""
+    let htmlPart = message.body?.allParts.first(where: { part in
+      part.mimeType.subtype == "html"
+    })
+    if (htmlPart?.data != nil) {
+      let rawDataAsHtmlString: String = String(data: (htmlPart?.data!.rawData)!, encoding: .utf8)!
+      html = QuotedPrintable.decode(rawDataAsHtmlString)
+    }
+    return html
   }
   
   func getMessage(_ messageUID: UInt, _ completion: @escaping (FetchResult) -> Void) {
@@ -166,7 +208,7 @@ class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
     postal.connect(timeout: Postal.defaultTimeout, completion: { [weak self] result in
       switch result {
       case .success:
-        postal.fetchLast("INBOX", last: 300, flags: [.flags, .fullHeaders, .internalDate],
+        postal.fetchLast("INBOX", last: 300, flags: [.flags, .fullHeaders, .internalDate, .body],
                          onMessage: { email in self?.emails.append(email) },
                          onComplete: { error in self?.sortEmails() })
         

@@ -38,7 +38,7 @@ struct WebView: UIViewRepresentable {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-      webView.frame.size.height = 1
+//      webView.frame.size.height = 1
       webView.frame.size = webView.scrollView.contentSize
     }
   }
