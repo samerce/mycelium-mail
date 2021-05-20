@@ -34,7 +34,6 @@ struct TabBarItem: View {
         Text(label)
             .font(.caption)
       }
-      .padding([.top, .bottom], 6)
       .frame(maxWidth: .infinity)
       .foregroundColor(fgColor())
       .contentShape(Rectangle())

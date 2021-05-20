@@ -29,7 +29,7 @@ struct AppCompactView: View {
             let messages = model.sortedEmails[categories[selectedTab]]!
             ForEach(messages, id: \.uid) { msg in
               let row = getListRow(msg)
-              if Int.random(in:0...10) > 5 {
+              if (Double(msg.uid).truncatingRemainder(dividingBy: 3.5)) == 0 {
                 row
                   .overlay(RainbowGlowBorder().opacity(0.96))
                   .background(Color(UIColor.secondarySystemBackground))
@@ -41,9 +41,10 @@ struct AppCompactView: View {
             .onDelete { _ in print("deleted") }
           }
           .padding(.horizontal, 6)
+          
+          Spacer().frame(height: 118)
         }
         .padding(.horizontal, -2)
-        .padding(.bottom, 118)
       
         backdropView.opacity(translationProgress)
       }
@@ -112,7 +113,7 @@ struct AppCompactView: View {
   
   private func getRowBackground(_ msg: FetchResult) -> some View {
     var background: AnyView
-    if Int.random(in: 0...10) > 5 {
+    if (Double(msg.uid).truncatingRemainder(dividingBy: 3.5)) == 0  {
       background = AnyView(Rectangle())
     } else {
       let rect = RainbowGlowBorder()
@@ -145,11 +146,11 @@ struct AppCompactView: View {
     MagneticNotchOverlayBehavior<Notch> { notch in
       switch notch {
       case .max:
-        return .fractional(0.92)
+        return .fractional(0.88)
       case .mid:
         return .fractional(0.54)
       case .min:
-        return .fractional(0.19)
+        return .fractional(0.17)
       }
     }
     .disable(.min, isEditing)
