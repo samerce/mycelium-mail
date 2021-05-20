@@ -18,7 +18,7 @@ struct AppCompactView: View {
   @State var isEditing = false
   @State var translationProgress = 0.0
   @State var selectedTab = 2
-  @State var selectedRow:Int? = 0
+  @State var selectedRow:UInt? = 0
   
   var body: some View {
     NavigationView {
@@ -30,8 +30,8 @@ struct AppCompactView: View {
               let row = getListRow(msg)
               if (Double(msg.uid).truncatingRemainder(dividingBy: 3.5)) == 0 {
                 row
-                  .overlay(RainbowGlowBorder().opacity(0.96))
-                  .background(Color(UIColor.secondarySystemBackground))
+                  .overlay(RainbowGlowBorder().opacity(0.98))
+                  .background(VisualEffectBlur(blurStyle: .prominent))
                   .cornerRadius(12)
               } else {
                 row
@@ -39,10 +39,10 @@ struct AppCompactView: View {
             }
             .onDelete { _ in print("deleted") }
           }
-          .animation(.interactiveSpring())
+//          .animation(.interactiveSpring())
           .padding(.horizontal, 6)
           
-          Spacer().frame(height: 124)
+          Spacer().frame(height: 138)
         }
         .padding(.horizontal, -2)
       
@@ -53,15 +53,19 @@ struct AppCompactView: View {
       .ignoresSafeArea()
       .navigationBarTitle(tabs[selectedTab])
       .navigationBarItems(
-        leading: Image(systemName: "mail")
-          .resizable()
-          .aspectRatio(contentMode: .fit)
-          .font(.system(size: 27, weight: .light, design: .default))
-          .foregroundColor(.green)
-          .frame(width: 27, height: 27),
-        trailing: EditButton()
-          .foregroundColor(.green)
-          .font(.system(size: 17, weight: .regular, design: .default))
+        leading:
+          rainbowGradientHorizontal.mask(
+            Image(systemName: "mail")
+              .resizable()
+              .aspectRatio(contentMode: .fit)
+              .font(.system(size: 27, weight: .light, design: .default))
+              .frame(width: 27, height: 27)
+          ).frame(width: 27, height: 27),
+        trailing:
+          rainbowGradientHorizontal.mask(
+            EditButton()
+              .font(.system(size: 17, weight: .regular, design: .default))
+          ).frame(width: 32, height: 36)
       )
     }
   }
@@ -84,12 +88,14 @@ struct AppCompactView: View {
           Text(date)
             .font(.system(size: 12, weight: .light, design: .default))
             .foregroundColor(Color.secondary)
-          Image(systemName: "chevron.right")
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .foregroundColor(.gray)
-            .frame(width: 12, height: 12)
-            .offset(x: 0, y: 1)
+          rainbowGradientVertical.mask(
+            Image(systemName: "chevron.right")
+              .resizable()
+              .aspectRatio(contentMode: .fit)
+              .foregroundColor(.gray)
+              .frame(width: 12, height: 12)
+              .offset(x: 0, y: 1)
+          ).frame(width: 12, height: 12)
         }
         Text(subject)
           .font(.system(size: 15, weight: .light, design: .default))
@@ -99,7 +105,7 @@ struct AppCompactView: View {
       .padding(.horizontal, 6)
       .padding(.vertical, 12)
       
-      NavigationLink(destination: MessageView(msg), tag: Int(msg.uid), selection: $selectedRow) {
+      NavigationLink(destination: MessageView(msg), tag: msg.uid, selection: $selectedRow) {
         EmptyView()
       }
     }
@@ -107,7 +113,7 @@ struct AppCompactView: View {
     .padding(.horizontal, 6)
     .contentShape(Rectangle())
     .onTapGesture {
-      selectedRow = Int(msg.uid)
+      selectedRow = msg.uid
     }
   }
   
@@ -150,7 +156,7 @@ struct AppCompactView: View {
       case .mid:
         return .fractional(0.54)
       case .min:
-        return .fractional(0.10)
+        return .fractional(0.12)
       }
     }
     .disable(.min, isEditing)

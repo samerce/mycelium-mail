@@ -19,6 +19,7 @@ struct TabBarView: View {
   
   var body: some View {
     HStack(alignment: .lastTextBaseline) {
+      Spacer()
       TabBarItem(iconName: "person",
                  label: "DMs",
                  selection: selection,
@@ -39,6 +40,7 @@ struct TabBarView: View {
                  label: "society",
                  selection: selection,
                  tag: 4)
+      Spacer()
     }
   }
   

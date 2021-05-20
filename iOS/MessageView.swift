@@ -27,7 +27,9 @@ struct MessageView: View {
   //      .navigationBarTitle("")
   //      .navigationBarBackButtonHidden(true)
         .onAppear {
-          messageAsHTML = model.htmlFor(message)
+          model.getMessage(message.uid) { msg in
+            messageAsHTML = model.htmlFor(msg)
+          }
         }
     }
   }

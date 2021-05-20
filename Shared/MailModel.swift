@@ -10,11 +10,11 @@ struct PostalAdaptor {
 }
 
 let PerspectiveCategories = [
-  "DMs": Set(["Games", "Computers & Electronics"]),
-  "events": Set(["Travel"]),
-  "digests": Set(["Science", "Reference", "Pets & Animals", "Home & Garden", "Hobbies & Leisure", "Books & Literature", "Arts & Entertainment"]),
-  "commerce": Set(["Shopping", "Online Communities", "Internet & Telecom", "Health", "Food & Drink", "Finance", "Business & Industrial", "Beauty & Fitness"]),
-  "society": Set(["Sports", "Sensitive Subjects", "People & Society", "News", "Law & Government", "Jobs & Education"])
+  "DMs": Set(["Games", "Computers & Electronics", "DMs"]),
+  "events": Set(["Travel", "events"]),
+  "digests": Set(["Science", "Reference", "Pets & Animals", "Home & Garden", "Hobbies & Leisure", "Books & Literature", "Arts & Entertainment", "digests"]),
+  "commerce": Set(["Shopping", "Online Communities", "Internet & Telecom", "Health", "Food & Drink", "Finance", "Business & Industrial", "Beauty & Fitness", "commerce"]),
+  "society": Set(["Sports", "Sensitive Subjects", "People & Society", "News", "Law & Government", "Jobs & Education", "society"])
 ]
 
 class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
@@ -36,7 +36,7 @@ class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
     ]
     
     do {
-      oracle = try NLModel(mlModel: EmailClassifierAgnes(configuration: MLModelConfiguration()).model)
+      oracle = try NLModel(mlModel: PsycatsDate(configuration: MLModelConfiguration()).model)
 //      let models = [
 //        "newsletters": try? NewsletterClassifier(
 //          configuration: MLModelConfiguration()
@@ -68,7 +68,7 @@ class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
   
   func sortEmails() {
     for email in self.emails {
-      let perspective = getPerspectiveFor(emailAsString(email))
+      let perspective = perspectiveFor(emailAsString(email))
       self.sortedEmails[perspective]?.insert(email, at: 0)
     }
   }
@@ -101,7 +101,7 @@ class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
       """
   }
   
-  func getPerspectiveFor(_ email: String) -> String {
+  func perspectiveFor(_ email: String) -> String {
     let prediction = oracle?.predictedLabel(for: email) ?? ""
     for (perspective, categorySet) in PerspectiveCategories {
       if categorySet.contains(prediction) {

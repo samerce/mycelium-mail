@@ -34,6 +34,14 @@ extension View {
       }
     }
   }
+  
+  func rainbow(_ isOn: Bool) -> some View {
+    if isOn {
+      return AnyView(rainbowGradientHorizontal.mask(self))
+    } else {
+      return AnyView(self)
+    }
+  }
 }
 
 struct RainbowBorder: View {

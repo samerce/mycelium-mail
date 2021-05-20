@@ -55,10 +55,8 @@ struct InboxDrawerView: View {
           eventHandler(.didTapTab)
         }
       }
-      .padding(.horizontal, 20)
-      .draggable()
+      .padding(.bottom, 9)
       
-      Spacer().frame(height: 4)
       toolbar
       Spacer().frame(height: bottomSpace)
       
@@ -84,16 +82,17 @@ struct InboxDrawerView: View {
         .foregroundColor(Color(UIColor.gray))
         .clipped()
       Spacer()
-      Button(action: addPerspective) {
-        Image(systemName: "plus")
-          .resizable()
-          .aspectRatio(contentMode: .fit)
-          .foregroundColor(.green)
-          .frame(width: 16, height: height)
-          .font(.system(size: 12, weight: .light, design: .default))
-      }
-      .clipped()
-      .cornerRadius(12)
+      rainbowGradientVertical.mask(
+        Button(action: addPerspective) {
+          Image(systemName: "plus")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 16, height: height)
+            .font(.system(size: 12, weight: .light, design: .default))
+        }
+        .clipped()
+        .cornerRadius(12)
+      ).frame(width: 16, height: height)
     }
 //    .animation(.interactiveSpring(), value: translationProgress)
     .padding(.horizontal, 18)
@@ -106,34 +105,39 @@ struct InboxDrawerView: View {
     
   }
   
-  let ToolbarHeight: CGFloat = 36
+  let ToolbarHeight: CGFloat = 27
   private var toolbar: some View {
     let height = CGFloat.maximum(0, ToolbarHeight - (CGFloat(translationProgress) / 0.50) * ToolbarHeight)
-    let dividerHeight = CGFloat.maximum(0, 12 - (CGFloat(translationProgress) / 0.50) * 12)
+    let dividerHeight = CGFloat.maximum(0, 18 - (CGFloat(translationProgress) / 0.50) * 18)
     let opacity = CGFloat.maximum(0, 1 - (CGFloat(translationProgress) / 0.50))
+    let iconSize: CGFloat = 24
     return VStack(alignment: .center, spacing: 0) {
       Divider().frame(height: dividerHeight)
       HStack(alignment: .center) {
-        Button(action: loginWithGoogle) {
-          Image(systemName: "wand.and.stars.inverse")
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .foregroundColor(.green)
-            .frame(maxWidth: 22, maxHeight: height)
-            .font(.system(size: 22, weight: .light, design: .default))
-        }
+        rainbowGradientVertical.mask(
+          Button(action: loginWithGoogle) {
+            Image(systemName: "wand.and.stars.inverse")
+              .resizable()
+              .aspectRatio(contentMode: .fit)
+              .foregroundColor(.green)
+              .frame(maxWidth: iconSize, maxHeight: height)
+              .font(.system(size: iconSize, weight: .light, design: .default))
+          }
+        ).frame(maxWidth: iconSize, maxHeight: height)
         Text("updated just now")
           .font(.system(size: 14, weight: .light, design: .rounded))
-          .foregroundColor(.primary)
+          .foregroundColor(.secondary)
           .frame(maxWidth: .infinity, maxHeight: height)
           .multilineTextAlignment(.center)
           .clipped()
-        Image(systemName: "square.and.pencil")
-          .resizable()
-          .aspectRatio(contentMode: .fit)
-          .foregroundColor(.green)
-          .frame(maxWidth: 22, maxHeight: height)
-          .font(.system(size: 22, weight: .light, design: .default))
+         rainbowGradientVertical.mask(
+          Image(systemName: "square.and.pencil")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .foregroundColor(.green)
+            .frame(maxWidth: iconSize, maxHeight: height)
+            .font(.system(size: iconSize, weight: .light, design: .default))
+        ).frame(maxWidth: iconSize, maxHeight: height)
       }
 //      .animation(.interactiveSpring(), value: translationProgress)
       .frame(height: height)
