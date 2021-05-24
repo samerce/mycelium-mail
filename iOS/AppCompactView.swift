@@ -72,13 +72,24 @@ struct AppCompactView: View {
     }
   }
   
+  let oneDay = 24.0 * 3600
+  let twoDays = 48.0 * 3600
+  let oneWeek = 24.0 * 7 * 3600
   private func getListRow(_ msg: FetchResult) -> some View {
     let sender = msg.header?.from[0].displayName ?? "Unknown"
     let subject = msg.header?.subject ?? "---"
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "h:mm a"
-    dateFormatter.amSymbol = "AM"
-    dateFormatter.pmSymbol = "PM"
+    let timeSinceMessage = msg.internalDate?.distance(to: Date()) ?? Double.infinity
+    if  timeSinceMessage > oneDay && timeSinceMessage < twoDays   {
+      dateFormatter.doesRelativeDateFormatting = true
+      dateFormatter.dateStyle = .short
+      dateFormatter.timeStyle = .short
+    } else if timeSinceMessage > twoDays && timeSinceMessage < oneWeek {
+      dateFormatter.dateFormat = "E h:mm a"
+    } else if timeSinceMessage > oneWeek {
+      dateFormatter.dateFormat = "M/d/yy"
+    }
     let date = (msg.internalDate != nil) ? dateFormatter.string(from: msg.internalDate!) : ""
     return ZStack {
       VStack(alignment: .leading, spacing: 2) {
@@ -90,14 +101,14 @@ struct AppCompactView: View {
           Text(date)
             .font(.system(size: 12, weight: .light, design: .default))
             .foregroundColor(Color.secondary)
-          rainbowGradientVertical.mask(
+//          rainbowGradientVertical.mask(
             Image(systemName: "chevron.right")
               .resizable()
               .aspectRatio(contentMode: .fit)
               .foregroundColor(.gray)
               .frame(width: 12, height: 12)
               .offset(x: 0, y: 1)
-          ).frame(width: 12, height: 12)
+//          ).frame(width: 12, height: 12)
         }
         Text(subject)
           .font(.system(size: 15, weight: .light, design: .default))
