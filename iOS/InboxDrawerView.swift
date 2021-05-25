@@ -38,9 +38,9 @@ struct InboxDrawerView: View {
   // MARK: - View
   
   var body: some View {
-    let bottomSpace = CGFloat.maximum(18, 54 - (CGFloat(translationProgress) / 0.50) * 54)
+    let bottomSpace = CGFloat.maximum(27, 54 - (CGFloat(translationProgress) / 0.50) * 54)
 //    let hiddenSectionOpacity = translationProgress > 0 ? translationProgress + 0.48 : 0
-    return VStack(alignment: .center, spacing: 0) {
+    return VStack(spacing: 0) {
       Capsule()
         .fill(Color(UIColor.darkGray))
         .frame(width: 36, height: 5, alignment: .center)
@@ -55,26 +55,27 @@ struct InboxDrawerView: View {
           eventHandler(.didTapTab)
         }
       }
-      
+
       toolbar
       Spacer().frame(height: bottomSpace)
-      
+
       ScrollView {
         groupBySection
-        Spacer().frame(height: 18)
+        Spacer().frame(height: 27)
         filterSection
       }
       .drivingScrollView()
       .padding(0)
     }
     .background(OverlayBackgroundView())
+    .ignoresSafeArea()
   }
   
   let HeaderHeight: CGFloat = 27
   private var perspectiveHeader: some View {
     let height = CGFloat.minimum(HeaderHeight, CGFloat.maximum(0, (CGFloat(translationProgress) / 0.5) * HeaderHeight))
     let opacity = CGFloat.minimum(1, CGFloat.maximum(0, (CGFloat(translationProgress) / 0.5) * 1))
-    return HStack(alignment: .center, spacing: 0) {
+    return HStack(spacing: 0) {
       Text("PERSPECTIVES")
         .frame(maxWidth: .infinity, maxHeight: height, alignment: .leading)
         .font(.system(size: 12, weight: .light, design: .default))

@@ -19,7 +19,7 @@ struct TabBarView: View {
   let eventHandler: (Event) -> Void
   
   let TabBarHeight: CGFloat = 48
-  let SpacerHeight: CGFloat = 18
+  let SpacerHeight: CGFloat = 27
   var body: some View {
     let spacerHeight = CGFloat.minimum(SpacerHeight, CGFloat.maximum(0, (CGFloat(translationProgress) / 0.5) * SpacerHeight))
     let variableTabBarHeight = CGFloat.minimum(TabBarHeight, CGFloat.maximum(0, (CGFloat(translationProgress) / 0.5) * TabBarHeight))
@@ -96,6 +96,12 @@ struct TabBarView: View {
                    label: "notifications",
                    selection: $selection,
                    tag: 7)
+          .frame(height: bottomTabBarHeight)
+          .clipped()
+        TabBarItem(iconName: "infinity",
+                   label: "everything",
+                   selection: $selection,
+                   tag: 8)
           .frame(height: bottomTabBarHeight)
           .clipped()
         
