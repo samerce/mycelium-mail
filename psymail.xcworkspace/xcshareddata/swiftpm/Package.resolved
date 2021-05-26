@@ -21,10 +21,19 @@
       },
       {
         "package": "DynamicOverlay",
-        "repositoryURL": "https://github.com/fabernovel/DynamicOverlay.git",
+        "repositoryURL": "https://github.com/samerce/DynamicOverlay.git",
+        "state": {
+          "branch": "main",
+          "revision": "75fe1cca88007a636e1c0dc0c1a5c2adddbde25d",
+          "version": null
+        }
+      },
+      {
+        "package": "MailCore2",
+        "repositoryURL": "https://github.com/MailCore/mailcore2",
         "state": {
           "branch": null,
-          "revision": "05b3fdf9087078689488102df70bd4c42aaa6beb",
+          "revision": "1434761709b4d9dd5acc5b7185a3b32aa4845ba8",
           "version": null
         }
       },
@@ -35,6 +44,15 @@
           "branch": null,
           "revision": "bbe003027053b968c6be6e970f0e610271bbfae6",
           "version": "3.5.1"
+        }
+      },
+      {
+        "package": "Introspect",
+        "repositoryURL": "https://github.com/siteline/SwiftUI-Introspect.git",
+        "state": {
+          "branch": null,
+          "revision": "2e09be8af614401bc9f87d40093ec19ce56ccaf2",
+          "version": "0.1.3"
         }
       }
     ]

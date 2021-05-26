@@ -53,9 +53,8 @@ struct WebView: UIViewRepresentable {
     style.type = 'text/css';
     style.appendChild(document.createTextNode('\
     @media (prefers-color-scheme: dark) {\
-      html{filter: invert(1)  hue-rotate(.5turn);background: white;}\
-      body{background: white;}\
-      img {filter: invert(1)  hue-rotate(.5turn);}\
+      :root {color-scheme: light dark;}\
+      body {color: white;}\
     }'));
     document.getElementsByTagName('head')[0].appendChild(style);
 

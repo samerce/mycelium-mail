@@ -1,13 +1,8 @@
-import Postal
 import CoreML
 import NaturalLanguage
 import CoreData
 import GoogleSignIn
-
-struct PostalAdaptor {
-  private var postal: Postal
-  
-}
+import MailCore
 
 let PerspectiveCategories = [
   "DMs": Set(["Games", "Computers & Electronics", "DMs"]),
@@ -17,21 +12,35 @@ let PerspectiveCategories = [
   "society": Set(["Sports", "Sensitive Subjects", "People & Society", "News", "Law & Government", "Jobs & Education", "society"]),
   "marketing": Set(["marketing"]),
   "news": Set(["news"]),
-  "notifications": Set(["notifications"])
+  "notifications": Set(["notifications"]),
+  "everything": Set([""])
 ]
 
-class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
-  var persistenceController = PersistenceController.shared
-  
+struct Email {
+  var uid: UInt32
+  var message: MCOIMAPMessage
+  var html: String
+}
+
+class MailModel: NSObject, ObservableObject, GIDSignInDelegate, MCOHTMLRendererIMAPDelegate {
+  private var persistenceController = PersistenceController.shared
   private var accessToken: String = ""
   private var oracles: [String: NLModel] = [:]
   private var oracle: NLModel?
+  private var session: MCOIMAPSession = MCOIMAPSession()
   
-  @Published private(set) var emails: [FetchResult] = []
-  @Published private(set) var sortedEmails:[String: [FetchResult]] = [:]
+  private(set) var emails: [UInt32: Email] = [:]
+  @Published private(set) var sortedEmails:[String: [Email]] = [:]
   
   override init() {
     super.init()
+    
+    session.hostname = "imap.gmail.com"
+    session.port = 993
+    session.username = "samerce@gmail.com"
+    session.authType = .xoAuth2
+    session.connectionType = .TLS
+    
     GIDSignIn.sharedInstance().clientID = "941559531688-m6ve00j5ofshqf5ksfqng92ga7kbkbb6.apps.googleusercontent.com"
     GIDSignIn.sharedInstance().delegate = self
     GIDSignIn.sharedInstance().scopes = [
@@ -39,25 +48,7 @@ class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
     ]
     
     do {
-      oracle = try NLModel(mlModel: PsycatsJuice(configuration: MLModelConfiguration()).model)
-//      let models = [
-//        "newsletters": try? NewsletterClassifier(
-//          configuration: MLModelConfiguration()
-//        ).model,
-//        "politics": try? PoliticsRecognizer(
-//          configuration: MLModelConfiguration()
-//        ).model,
-//        "marketing": try? MarketingRecognizer(
-//          configuration: MLModelConfiguration()
-//        ).model,
-//        "other": nil
-//      ]
-//      for (category, mlModel) in models {
-//        if mlModel != nil {
-//          oracles[category] = try NLModel(mlModel: mlModel!)
-//        }
-//        sortedEmails[category] = []
-//      }
+      oracle = try NLModel(mlModel: PsycatsKiwi(configuration: MLModelConfiguration()).model)
     } catch {
     }
     for (perspective, _) in PerspectiveCategories {
@@ -69,42 +60,17 @@ class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
     GIDSignIn.sharedInstance().restorePreviousSignIn()
   }
   
-  func sortEmails() {
-    for email in self.emails {
-      let perspective = perspectiveFor(emailAsString(email))
-      self.sortedEmails[perspective]?.insert(email, at: 0)
+  private func sortEmails() {
+    for (_, email) in emails {
+      let perspective = perspectiveFor(email.html)
+      sortedEmails[perspective]?.insert(email, at: 0)
+      sortedEmails["everything"]?.insert(email, at: 0)
     }
   }
   
   // MARK: - Helpers
   
-  func emailAsString(_ msg: FetchResult) -> String {
-    if msg.body == nil || msg.header == nil { return "" }
-    
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
-    let date = dateFormatter.date(from: (msg.header?.receivedDate!.description)!) ?? Date()
-    
-    var from = ""
-    if (msg.header?.from.count ?? 0) > 0 {
-      from = msg.header?.from[0].email ?? ""
-    }
-    
-    var to = ""
-    if (msg.header?.to.count ?? 0) > 0 {
-      to = msg.header?.to[0].email ?? ""
-    }
-    
-    return """
-          From: \(from)
-          Subject: \(msg.header?.subject ?? "")
-          Date: \(date)
-          To: \(to)\n
-          \(htmlFor(msg))
-      """
-  }
-  
-  func perspectiveFor(_ email: String) -> String {
+  func perspectiveFor(_ email: String = "") -> String {
     let prediction = oracle?.predictedLabel(for: email) ?? ""
     for (perspective, categorySet) in PerspectiveCategories {
       if categorySet.contains(prediction) {
@@ -112,57 +78,38 @@ class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
       }
     }
     return "other"
-    
-    //        var bestPredictionConfidence = 0
-    
-//    for (category, oracle) in self.oracles {
-//      let prediction = oracle.predictedLabel(for: email)
-//      if prediction == "yes" /*&& prediction!.confidence > bestPredictionConfidence*/ {
-//        categoryPrediction = category
-//        //                bestPredictionConfidence = prediction.confidence
-//      }
-//    }
-//
-//    return categoryPrediction
   }
   
-  func htmlFor(_ message: FetchResult) -> String {
-    var html = ""
-    let htmlPart = message.body?.allParts.first(where: { part in
-      part.mimeType.subtype == "html"
-    })
-    if (htmlPart?.data != nil) {
-      let rawDataAsHtmlString: String = String(data: (htmlPart?.data!.rawData)!, encoding: .utf8)!
-      html = QuotedPrintable.decode(rawDataAsHtmlString)
-    }
-    return html
+  func fullHtmlFor(_ message: MCOIMAPMessage, _ completion: @escaping (String?) -> Void) {
+    let fetchMessage = session.fetchParsedMessageOperation(withFolder: "INBOX", uid: message.uid)
+    fetchMessage?.start({ (error: Error?, parser: MCOMessageParser?) in
+      completion(parser?.htmlRendering(with: nil) ?? "")
+    }) ?? completion("")
   }
   
-  func getMessage(_ messageUID: UInt, _ completion: @escaping (FetchResult) -> Void) {
-    var configuration: Configuration! {
-      .gmail(
-        login: "samerce@gmail.com",
-        password: .accessToken(accessToken)
-      )
-    }
-    let postal = Postal(configuration: configuration)
-    postal.connect(timeout: Postal.defaultTimeout, completion: { result in
-      switch result {
-      case .success:
-        postal.fetchMessages("INBOX", uids: IndexSet([Int(messageUID)]), flags: [.body],
-                             onMessage: { result in completion(result) },
-                             onComplete: { error in print(error ?? "") })
-        
-      case .failure(let error):
-        print(error)
+  func bodyHtmlFor(_ message: MCOIMAPMessage, _ completion: @escaping (String?) -> Void) {
+    let fetchMessage = session.fetchParsedMessageOperation(withFolder: "INBOX", uid: message.uid)
+    fetchMessage?.start({ (error: Error?, parser: MCOMessageParser?) in
+      completion(parser?.htmlBodyRendering() ?? "")
+    }) ?? completion("")
+  }
+  
+  func markSeen(_ email: Email) {
+    let updateFlags = session.storeFlagsOperation(
+      withFolder: "INBOX", uids: MCOIndexSet(index: UInt64(email.uid)), kind: .set, flags: .seen
+    )
+    updateFlags?.start { error in
+      if error != nil {
+        print("Error updating seen flag: \(String(describing: error))")
+        return
       }
-    })
+      email.message.flags.insert(.seen)
+    }
   }
   
   // MARK: - google
   
-  func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!,
-            withError error: Error!) {
+  func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
     if let error = error {
       if (error as NSError).code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue {
         print("The user has not signed in before or they have since signed out.")
@@ -171,9 +118,8 @@ class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
       }
       return
     }
-    // Perform any operations on signed in user here.
+
 //    let userId = user.userID                  // For client-side use only!
-    accessToken = user.authentication.accessToken // Safe to send to the server
 //    let fullName = user.profile.name
 //    let givenName = user.profile.givenName
 //    let familyName = user.profile.familyName
@@ -201,30 +147,43 @@ class MailModel: NSObject, ObservableObject, GIDSignInDelegate {
 //      print("Could not fetch. \(error), \(error.userInfo)")
 //    }
     
-    var configuration: Configuration! {
-      .gmail(
-        login: "samerce@gmail.com",
-        password: .accessToken(accessToken)
-      )
-    }
-    let postal = Postal(configuration: configuration)
-    postal.connect(timeout: Postal.defaultTimeout, completion: { [weak self] result in
-      switch result {
-      case .success:
-        postal.fetchLast("INBOX", last: 400, flags: [.flags, .fullHeaders, .internalDate, .body],
-                         onMessage: { email in self?.emails.append(email) },
-                         onComplete: { error in self?.sortEmails() })
-        
-      case .failure(let error):
-        print(error)
-      }
-    })
+    accessToken = user.authentication.accessToken // Safe to send to the server
+    session.oAuth2Token = accessToken
+    fetchLatest()
   }
   
-  func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!,
-            withError error: Error!) {
+  func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
     // Perform any operations when the user disconnects from app here.
-    // ...
+  }
+  
+  var uids = MCOIndexSet(range: MCORangeMake(70500, UINT64_MAX))
+  
+  func fetchLatest() {
+    print("fetching")
+    let fetchHeadersAndFlags = session.fetchMessagesOperation(
+      withFolder: "INBOX", requestKind: [.fullHeaders, .flags], uids: uids
+    )
+    fetchHeadersAndFlags?.start(didReceiveHeadersAndFlags)
+  }
+  
+  func didReceiveHeadersAndFlags(error: Error?, messages: [MCOIMAPMessage]?, vanishedMessages: MCOIndexSet?) {
+    if error != nil {
+      print("Error downloading message headers: \(String(describing: error))")
+      return
+    }
+    
+    for message in messages! {
+      fullHtmlFor(message) { emailAsHtml in
+        let email = Email(uid: message.uid, message: message, html: emailAsHtml ?? "")
+        let perspective = self.perspectiveFor(emailAsHtml ?? "")
+        self.sortedEmails[perspective]?.insert(email, at: 0)
+        self.sortedEmails["everything"]?.insert(email, at: 0)
+        
+        if message == messages?.last {
+          print("done fetching!")
+        }
+      }
+    }
   }
   
 }

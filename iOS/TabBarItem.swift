@@ -33,7 +33,7 @@ struct TabBarItem: View {
           .font(.system(size: 27, weight: .light, design: .default))
           .contentShape(Rectangle())
         Text(label)
-            .font(.caption)
+            .font(.system(size: 12, weight: .light, design: .default))
           .contentShape(Rectangle())
       }
       .foregroundColor(fgColor())

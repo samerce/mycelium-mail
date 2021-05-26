@@ -19,17 +19,17 @@ struct AppSplitView: View {
 
   var body: some View {
     List {
-        let messages = model.sortedEmails[self.tabs[self.selectedTab]]!
-        ForEach(messages, id: \.uid) { msg in
-            let sender = msg.header?.from[0].displayName ?? "Unknown"
-            let subject = msg.header?.subject ?? "---"
-
-            VStack(alignment: .leading) {
-                Text(sender)
-                Text(subject)
-            }
-            Spacer()
-        }
+//        let messages = model.sortedEmails[self.tabs[self.selectedTab]]!
+//        ForEach(messages, id: \.uid) { msg in
+//            let sender = msg.header?.from.displayName ?? "Unknown"
+//            let subject = msg.header?.subject ?? "---"
+//
+//            VStack(alignment: .leading) {
+//                Text(sender)
+//                Text(subject)
+//            }
+//            Spacer()
+//        }
     }
     .toolbar {
         ToolbarItem(placement: .principal) {
