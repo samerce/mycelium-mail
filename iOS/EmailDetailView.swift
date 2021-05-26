@@ -9,19 +9,15 @@ import SwiftUI
 import MailCore
 
 struct EmailDetailView: View {
-  @EnvironmentObject var model: MailModel
+  var email: Email
   
-  private var email: Email
+  @EnvironmentObject private var model: MailModel
   @State private var emailAsHtml: String = ""
   @State private var seenTimer: Timer?
   
-  init(_ email: Email) {
-    self.email = email
-  }
-  
   var body: some View {
     VStack {
-      WebView(emailAsHtml)
+      WebView(content: emailAsHtml)
         .navigationBarTitle(Text(""), displayMode: .inline)
         .background(Color(.systemBackground))
   //      .navigationBarTitle("")
@@ -40,6 +36,7 @@ struct EmailDetailView: View {
     }
     .onDisappear {
       seenTimer?.invalidate()
+      seenTimer = nil
     }
   }
   

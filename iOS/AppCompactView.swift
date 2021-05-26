@@ -8,7 +8,13 @@ enum Notch: CaseIterable, Equatable {
     case min, mid, max
 }
 
-let tabs = ["DMs", "events", "digests", "commerce", "society", "marketing", "news", "notifications", "everything"]
+let tabs = [
+  "DMs", "events", "digests", "commerce", "society",
+  "marketing", "news", "notifications", "everything"
+]
+let oneDay = 24.0 * 3600
+let twoDays = 48.0 * 3600
+let oneWeek = 24.0 * 7 * 3600
 
 struct AppCompactView: View {
   @Environment(\.managedObjectContext) private var viewContext
@@ -44,12 +50,6 @@ struct AppCompactView: View {
             Spacer().frame(height: 138)
           }
           .padding(.horizontal, -2)
-//          .introspectScrollView { scrollView in
-//            let waveAnimation = SineWaveAnimationView(frontColor: .orange, backColor: .purple, waveHeight: 10.0)
-//            waveAnimation.delegate = scrollView
-//            waveAnimation.parentView = scrollView
-//            waveAnimation.setupRefreshControl()
-//          }
       
         backdropView.opacity(translationProgress)
       }
@@ -59,27 +59,20 @@ struct AppCompactView: View {
       .navigationBarTitle(tabs[selectedTab])
       .navigationBarItems(
         leading:
-//          rainbowGradientHorizontal.mask(
             Image(systemName: "mail")
               .resizable()
               .aspectRatio(contentMode: .fit)
               .font(.system(size: 27, weight: .light, design: .default))
               .frame(width: 27, height: 27)
           .foregroundColor(.pink),
-//          ).frame(width: 27, height: 27),
         trailing:
-//          rainbowGradientHorizontal.mask(
             EditButton()
               .font(.system(size: 17, weight: .regular, design: .default))
           .foregroundColor(.pink)
-//          ).frame(width: 32, height: 36)
       )
     }
   }
   
-  let oneDay = 24.0 * 3600
-  let twoDays = 48.0 * 3600
-  let oneWeek = 24.0 * 7 * 3600
   private func getListRow(_ email: Email) -> some View {
     let header = email.message.header
     let sender = header?.from.displayName ?? "Unknown"
@@ -91,17 +84,15 @@ struct AppCompactView: View {
             .font(.system(size: 15, weight: .bold, design: .default))
             .lineLimit(1)
           Spacer()
-          Text(getFormattedDateFor(email))
+          Text(formattedDateFor(email))
             .font(.system(size: 12, weight: .light, design: .default))
             .foregroundColor(Color.secondary)
-//          rainbowGradientVertical.mask(
             Image(systemName: "chevron.right")
               .resizable()
               .aspectRatio(contentMode: .fit)
               .foregroundColor(.gray)
               .frame(width: 12, height: 12)
               .offset(x: 0, y: 1)
-//          ).frame(width: 12, height: 12)
         }
         Text(subject)
           .font(.system(size: 15, weight: .light, design: .default))
@@ -111,7 +102,9 @@ struct AppCompactView: View {
       .padding(.horizontal, 6)
       .padding(.vertical, 12)
       
-      NavigationLink(destination: EmailDetailView(email), tag: email.uid, selection: $selectedRow) {
+      NavigationLink(
+        destination: EmailDetailView(email: email), tag: email.uid, selection: $selectedRow
+      ) {
         EmptyView()
       }
     }
@@ -123,7 +116,7 @@ struct AppCompactView: View {
     }
   }
   
-  private func getFormattedDateFor(_ email: Email) -> String {
+  private func formattedDateFor(_ email: Email) -> String {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "h:mm a"
     let date = email.message.header.receivedDate
@@ -138,17 +131,6 @@ struct AppCompactView: View {
       dateFormatter.dateFormat = "M/d/yy"
     }
     return (date != nil) ? dateFormatter.string(from: date!) : ""
-  }
-  
-  private func getRowBackground(_ msg: MCOIMAPMessage) -> some View {
-    var background: AnyView
-    if (Double(msg.uid).truncatingRemainder(dividingBy: 3.5)) == 0  {
-      background = AnyView(Rectangle())
-    } else {
-      let rect = RainbowGlowBorder()
-      background = AnyView(rect)
-    }
-    return background
   }
   
   private var backdropView: some View {
@@ -193,44 +175,7 @@ struct AppCompactView: View {
     
   }
   
-  //    private func addItem() {
-  //        withAnimation {
-  //            let newItem = Item(context: viewContext)
-  //            newItem.timestamp = Date()
-  //
-  //            do {
-  //                try viewContext.save()
-  //            } catch {
-  //                // Replace this implementation with code to handle the error appropriately.
-  //                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-  //                let nsError = error as NSError
-  //                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-  //            }
-  //        }
-  //    }
-  //
-  //    private func deleteItems(offsets: IndexSet) {
-  //        withAnimation {
-  //            offsets.map { items[$0] }.forEach(viewContext.delete)
-  //
-  //            do {
-  //                try viewContext.save()
-  //            } catch {
-  //                // Replace this implementation with code to handle the error appropriately.
-  //                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-  //                let nsError = error as NSError
-  //                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-  //            }
-  //        }
-  //    }
 }
-
-private let itemFormatter: DateFormatter = {
-  let formatter = DateFormatter()
-  formatter.dateStyle = .short
-  formatter.timeStyle = .medium
-  return formatter
-}()
 
 struct AppCompactView_Previews: PreviewProvider {
   static var previews: some View {

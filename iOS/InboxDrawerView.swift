@@ -1,11 +1,3 @@
-//
-//  OverlayView.swift
-//  DynamicOverlay_Example
-//
-//  Created by Gaétan Zanella on 17/04/2021.
-//  Copyright © 2021 Fabernovel. All rights reserved.
-//
-
 import Foundation
 import SwiftUI
 import DynamicOverlay
@@ -21,6 +13,8 @@ enum Grouping: String, CaseIterable, Identifiable {
 }
 
 let DefaultToolbarHeight: CGFloat = 54.0
+let HeaderHeight: CGFloat = 27
+let ToolbarHeight: CGFloat = 27
 
 struct InboxDrawerView: View {
   @State private var selectedGrouping = Grouping.emailAddress
@@ -71,7 +65,6 @@ struct InboxDrawerView: View {
     .ignoresSafeArea()
   }
   
-  let HeaderHeight: CGFloat = 27
   private var perspectiveHeader: some View {
     let height = CGFloat.minimum(HeaderHeight, CGFloat.maximum(0, (CGFloat(translationProgress) / 0.5) * HeaderHeight))
     let opacity = CGFloat.minimum(1, CGFloat.maximum(0, (CGFloat(translationProgress) / 0.5) * 1))
@@ -82,7 +75,6 @@ struct InboxDrawerView: View {
         .foregroundColor(Color(UIColor.gray))
         .clipped()
       Spacer()
-//      rainbowGradientVertical.mask(
         Button(action: addPerspective) {
           Image(systemName: "plus")
             .resizable()
@@ -93,9 +85,7 @@ struct InboxDrawerView: View {
         }
         .clipped()
         .cornerRadius(12)
-//      ).frame(width: 16, height: height)
     }
-//    .animation(.interactiveSpring(), value: translationProgress)
     .padding(.horizontal, 18)
     .opacity(Double(opacity))
     .frame(height: height)
@@ -106,7 +96,6 @@ struct InboxDrawerView: View {
     
   }
   
-  let ToolbarHeight: CGFloat = 27
   private var toolbar: some View {
     let height = CGFloat.maximum(0, ToolbarHeight - (CGFloat(translationProgress) / 0.50) * ToolbarHeight)
     let dividerHeight = CGFloat.maximum(0, 18 - (CGFloat(translationProgress) / 0.50) * 18)
@@ -115,7 +104,6 @@ struct InboxDrawerView: View {
     return VStack(alignment: .center, spacing: 0) {
       Divider().frame(height: dividerHeight)
       HStack(alignment: .center) {
-//        rainbowGradientVertical.mask(
           Button(action: loginWithGoogle) {
             Image(systemName: "wand.and.stars.inverse")
               .resizable()
@@ -124,23 +112,19 @@ struct InboxDrawerView: View {
               .frame(maxWidth: iconSize, maxHeight: height)
               .font(.system(size: iconSize, weight: .light, design: .default))
           }
-//        ).frame(maxWidth: iconSize, maxHeight: height)
         Text("updated just now")
           .font(.system(size: 14, weight: .light, design: .rounded))
           .foregroundColor(.secondary)
           .frame(maxWidth: .infinity, maxHeight: height)
           .multilineTextAlignment(.center)
           .clipped()
-//         rainbowGradientVertical.mask(
           Image(systemName: "square.and.pencil")
             .resizable()
             .aspectRatio(contentMode: .fit)
             .foregroundColor(.pink)
             .frame(maxWidth: iconSize, maxHeight: height)
             .font(.system(size: iconSize, weight: .light, design: .default))
-//        ).frame(maxWidth: iconSize, maxHeight: height)
       }
-//      .animation(.interactiveSpring(), value: translationProgress)
       .frame(height: height)
     }
     .padding(.horizontal, 22)
@@ -176,26 +160,6 @@ struct InboxDrawerView: View {
       .font(.system(size: 12, weight: .light, design: .default))
       .foregroundColor(Color(UIColor.systemGray))
       .frame(maxWidth: .infinity, alignment: .leading)
-  }
-  
-  // MARK: - Private\
-  
-  private var list: some View {
-    List {
-      Section(header: Text("Favorites")) {
-        ScrollView(.horizontal) {
-          HStack {
-            FavoriteCell(imageName: "house.fill", title: "House")
-            FavoriteCell(imageName: "briefcase.fill", title: "Work")
-            FavoriteCell(imageName: "plus", title: "Add")
-          }
-        }
-      }
-      Section(header: Text("My Guides")) {
-        ActionCell()
-      }
-    }
-    .listStyle(GroupedListStyle())
   }
   
   private func loginWithGoogle() {

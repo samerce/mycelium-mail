@@ -10,21 +10,16 @@ import SwiftUI
 
 struct WebView: UIViewRepresentable {
   let content: String
-  var webView: WKWebView
   
-  init(_ htmlContent: String) {
-    content = htmlContent
-    webView = WKWebView()
+  func makeUIView(context: Context) -> WKWebView {
+    let webView = WKWebView()
     webView.layoutMargins = UIEdgeInsets.zero
     webView.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 118, right: 0)
     webView.scrollView.backgroundColor = .systemBackground
     webView.backgroundColor = .systemBackground
-    
-    configure()
-  }
-  
-  func makeUIView(context: Context) -> WKWebView {
-    webView
+    webView.navigationDelegate = context.coordinator
+    configure(webView)
+    return webView
   }
   
   func updateUIView(_ view: WKWebView, context: Context) {
@@ -32,7 +27,7 @@ struct WebView: UIViewRepresentable {
   }
   
   func makeCoordinator() -> Coordinator {
-    Coordinator(webView)
+    Coordinator()
   }
   
   var domPurifyConfiguration: String {
@@ -46,8 +41,8 @@ struct WebView: UIViewRepresentable {
       }
       """.replacingOccurrences(of: "\n", with: "")
   }
-  private func configure() {
-    let left = "@media (prefers-color-scheme: dark) {body {color: white;}}:root {color-scheme: light dark;}"
+  private func configure(_ webView: WKWebView) {
+//    let left = "@media (prefers-color-scheme: dark) {body {color: white;}}:root {color-scheme: light dark;}"
     let sanitizeRaw = """
     var style = document.createElement('style');
     style.type = 'text/css';
@@ -95,11 +90,7 @@ struct WebView: UIViewRepresentable {
   }
   
   class Coordinator: NSObject, WKNavigationDelegate {
-    init(_ webView: WKWebView) {
-      super.init()
-      webView.navigationDelegate = self
-    }
-    
+
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
       webView.frame.size.height = 1
       webView.frame.size = webView.scrollView.contentSize

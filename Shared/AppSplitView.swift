@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 import CoreData
-import Postal
 
 struct AppSplitView: View {
   @Environment(\.managedObjectContext) private var viewContext
