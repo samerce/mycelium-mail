@@ -10,7 +10,7 @@ import CoreData
 import GoogleSignIn
 
 @main
-struct MushroomMailApp: App {
+struct PsymailApp: App {
   let persistenceController = PersistenceController.shared
   
   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate

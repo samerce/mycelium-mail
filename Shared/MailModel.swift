@@ -48,7 +48,7 @@ class MailModel: NSObject, ObservableObject, GIDSignInDelegate, MCOHTMLRendererI
     ]
     
     do {
-      oracle = try NLModel(mlModel: PsycatsKiwi(configuration: MLModelConfiguration()).model)
+      oracle = try NLModel(mlModel: PsycatsJuice(configuration: MLModelConfiguration()).model)
     } catch {
     }
     for (perspective, _) in PerspectiveCategories {
