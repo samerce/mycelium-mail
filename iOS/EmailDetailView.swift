@@ -6,18 +6,16 @@
 //
 
 import SwiftUI
-import MailCore
 
 struct EmailDetailView: View {
   var email: Email
   
-  @EnvironmentObject private var model: MailModel
-  @State private var emailAsHtml: String = ""
   @State private var seenTimer: Timer?
+  private let mailCtrl = MailController.shared
   
   var body: some View {
     VStack {
-      WebView(content: emailAsHtml)
+      WebView(content: email.html ?? "")
         .navigationBarTitle(Text(""), displayMode: .inline)
         .background(Color(.systemBackground))
   //      .navigationBarTitle("")
@@ -25,13 +23,11 @@ struct EmailDetailView: View {
     }
     .ignoresSafeArea()
     .onAppear {
-      model.bodyHtmlFor(email.message) { html in
-        emailAsHtml = html ?? ""
-      }
-      
       seenTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
         seenTimer = nil
-        model.markSeen(email)
+        mailCtrl.markSeen([email]) { error in
+          // tell person about error
+        }
       }
     }
     .onDisappear {

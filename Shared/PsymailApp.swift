@@ -7,7 +7,6 @@
 
 import SwiftUI
 import CoreData
-import GoogleSignIn
 
 @main
 struct PsymailApp: App {
@@ -15,26 +14,25 @@ struct PsymailApp: App {
   
   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
   @Environment(\.scenePhase) var scenePhase
-  @StateObject private var model = MailModel()
-  //    @StateObject private var store = Store()
-  
-  @State private var didAppear = false
+//  @StateObject private var mailCtrl = MailController.shared
+//  @StateObject private var store = Store()
   
   var body: some Scene {
     WindowGroup {
       ContentView()
         .environment(\.managedObjectContext, persistenceController.container.viewContext)
-        .environmentObject(model)
-        .onAppear {
-          if didAppear { return }
-          didAppear = true
-          GIDSignIn.sharedInstance()?.restorePreviousSignIn()
+//        .environmentObject(mailCtrl)
+//        .environmentObject(store)
+        .onReceive(NotificationCenter.default.publisher(
+            for: UIApplication.willEnterForegroundNotification
+        )) { _ in
+//          AccountController.shared.restoreSignIn()
         }
-      //                .environmentObject(store)
     }
     .commands {
       SidebarCommands()
-    }.onChange(of: scenePhase) { _ in
+    }
+    .onChange(of: scenePhase) { _ in
       persistenceController.save()
     }
   }
