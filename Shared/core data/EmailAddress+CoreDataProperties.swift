@@ -2,7 +2,7 @@
 //  EmailAddress+CoreDataProperties.swift
 //  psymail
 //
-//  Created by bubbles on 5/27/21.
+//  Created by bubbles on 5/28/21.
 //
 //
 
@@ -16,8 +16,8 @@ extension EmailAddress {
         return NSFetchRequest<EmailAddress>(entityName: "EmailAddress")
     }
 
-    @NSManaged public var displayName: String?
     @NSManaged public var address: String?
+    @NSManaged public var displayName: String?
     @NSManaged public var header: EmailHeader?
 
 }

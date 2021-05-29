@@ -17,7 +17,7 @@ struct AppCompactView: View {
   var body: some View {
     NavigationView {
       ZStack {
-//        EmailListView(selectedTab: $selectedTab)
+        EmailListView(selectedTab: $selectedTab)
         backdropView.opacity(translationProgress)
       }
       .dynamicOverlay(overlay)
@@ -74,11 +74,7 @@ struct AppCompactView: View {
     .disable(.min, isEditing)
     .notchChange($notch)
     .onTranslation { translation in
-      if abs(translationProgress - translation.progress) > 0.15 {
-        withAnimation {
-          translationProgress = translation.progress
-        }
-      } else {
+      withAnimation(.linear(duration: 0.15)) {
         translationProgress = translation.progress
       }
     }

@@ -24,10 +24,24 @@ class AccountController: NSObject, GIDSignInDelegate {
     ]
   }
   
+  // MARK: - public
+  
+  func signIn() {
+    GIDSignIn.sharedInstance().presentingViewController = UIApplication.shared.windows.last?.rootViewController
+    GIDSignIn.sharedInstance().signIn()
+  }
+  
+  func restoreSignIn() {
+    GIDSignIn.sharedInstance().presentingViewController = UIApplication.shared.windows.last?.rootViewController
+    GIDSignIn.sharedInstance()?.restorePreviousSignIn()
+  }
+  
+  // MARK: - google delegate
+  
   func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
     if let error = error {
       if (error as NSError).code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue {
-        print("The user has not signed in before or they have since signed out.")
+        print("google: no one has signed in before or they have since signed out.")
       } else {
         print("\(error.localizedDescription)")
       }
@@ -41,10 +55,6 @@ class AccountController: NSObject, GIDSignInDelegate {
   
   func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
     loggedIn = false
-  }
-  
-  func restoreSignIn() {
-    GIDSignIn.sharedInstance()?.restorePreviousSignIn()
   }
   
 }

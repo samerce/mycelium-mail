@@ -24,9 +24,11 @@ struct PsymailApp: App {
 //        .environmentObject(mailCtrl)
 //        .environmentObject(store)
         .onReceive(NotificationCenter.default.publisher(
-            for: UIApplication.willEnterForegroundNotification
+          for: UIApplication.didBecomeActiveNotification
         )) { _ in
-//          AccountController.shared.restoreSignIn()
+        }
+        .onAppear {
+          AccountController.shared.restoreSignIn()
         }
     }
     .commands {

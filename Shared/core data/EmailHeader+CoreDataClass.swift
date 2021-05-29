@@ -27,7 +27,7 @@ public class EmailHeader: NSManagedObject {
     userAgent = header.userAgent
     
     from = EmailAddress(
-      displayName: header.from.displayName,
+      displayName: header.from.displayName ?? header.from.mailbox,
       address: header.from.mailbox,
       context: managedObjectContext!
     )

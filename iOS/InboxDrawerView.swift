@@ -163,9 +163,7 @@ struct InboxDrawerView: View {
   }
   
   private func loginWithGoogle() {
-    GIDSignIn.sharedInstance()?.presentingViewController = UIApplication.shared.windows.last?.rootViewController
-//    GIDSignIn.sharedInstance()?.restorePreviousSignIn()
-    GIDSignIn.sharedInstance().signIn()
+    AccountController.shared.signIn()
   }
   
 }

@@ -28,11 +28,10 @@ public class Email: NSManagedObject {
 //    email.gmailLabels = message.gmailLabels
     gmailThreadId = Int64(message.gmailThreadID)
     gmailMessageId = Int64(message.gmailMessageID)
-    date = message.header.receivedDate
 //    email.sender = email.header.from
     size = Int32(message.size)
     originalFlags = Int16(message.originalFlags.rawValue)
-    customFlags = (message.customFlags as! Array).joined(separator: ",")
+//    customFlags = (message.customFlags as! Array).joined(separator: ",")
     modSeqValue = Int64(message.modSeqValue)
     html = emailAsHtml
     perspective = _perspective
@@ -40,8 +39,10 @@ public class Email: NSManagedObject {
     header = EmailHeader(header: message.header, context: managedObjectContext!)
     header?.email = self
 
-    mimePart = EmailPart(part: message.mainPart, context: managedObjectContext!)
-    mimePart?.email = self
+    if let part = message.mainPart {
+      mimePart = EmailPart(part: part, context: managedObjectContext!)
+      mimePart?.email = self
+    }
   }
 
   func markSeen() {

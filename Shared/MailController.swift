@@ -12,11 +12,11 @@ import Combine
 class MailController: ObservableObject {
   static let shared = MailController()
   
+  @Published var model: MailModel = MailModel()
+  
   private var accountCtrl = AccountController.shared
   private var session: MCOIMAPSession = MCOIMAPSession()
-  private var subscribers: [AnyCancellable] = []
-  
-  var model: MailModel = MailModel()
+  var subscribers: [AnyCancellable] = []
   
   private init() {
     session.hostname = "imap.gmail.com"
@@ -25,8 +25,9 @@ class MailController: ObservableObject {
     session.connectionType = .TLS
     
     accountCtrl.$loggedIn
-      .receive(on: DispatchQueue.main)
+      .receive(on: RunLoop.main)
       .sink { loggedIn in
+        print("loggedIn: \(loggedIn)")
         if loggedIn {
           self.session.username = self.accountCtrl.username
           self.session.oAuth2Token = self.accountCtrl.oAuthToken
@@ -43,7 +44,10 @@ class MailController: ObservableObject {
   func fetchLatest() {
     print("fetching")
     
-    let uids = MCOIndexSet(range: MCORangeMake(model.mostRecentSavedUid, UINT64_MAX))
+    let startUid = model.mostRecentSavedUid + 1
+    let endUid = UINT64_MAX - model.mostRecentSavedUid - 1
+    let uids = MCOIndexSet(range: MCORangeMake(startUid, endUid))
+    
     let fetchHeadersAndFlags = session.fetchMessagesOperation(
       withFolder: "INBOX", requestKind: [.fullHeaders, .flags], uids: uids
     )
@@ -60,12 +64,13 @@ class MailController: ObservableObject {
       withFolder: "INBOX", uids: uidSet, kind: .set, flags: .seen
     )
     updateFlags?.start { error in
-      if error != nil {
-        print("error updating seen flag: \(String(describing: error))")
+      if let error = error {
+        print("error updating seen flag: \(error.localizedDescription)")
+        completion(error)
         return
       }
       
-      completion(error)
+      completion(self.model.markSeen(emails))
       
     } ?? print("error updating seen flag: couldn't create operation.")
   }
@@ -77,13 +82,13 @@ class MailController: ObservableObject {
   func onReceiveHeadersAndFlags(
     error: Error?, messages: [MCOIMAPMessage]?, vanishedMessages: MCOIndexSet?
   ) {
-    if error != nil {
-      print("Error downloading message headers: \(String(describing: error))")
+    if let error = error {
+      print("error downloading message headers: \(error.localizedDescription)")
       return
     }
     
     for message in messages! {
-      htmlForEmail(withUid: message.uid) { emailAsHtml in
+      bodyHtmlForEmail(withUid: message.uid) { emailAsHtml in
         self.model.makeAndSaveEmail(withMessage: message, html: emailAsHtml)
         
         if message == messages?.last {
@@ -93,10 +98,17 @@ class MailController: ObservableObject {
     }
   }
   
-  func htmlForEmail(withUid uid: UInt32, _ completion: @escaping (String?) -> Void) {
+  func fullHtmlForEmail(withUid uid: UInt32, _ completion: @escaping (String?) -> Void) {
     let fetchMessage = session.fetchParsedMessageOperation(withFolder: "INBOX", uid: uid)
     fetchMessage?.start() { (error: Error?, parser: MCOMessageParser?) in
       completion(parser?.htmlRendering(with: nil) ?? "")
+    } ?? completion("")
+  }
+  
+  func bodyHtmlForEmail(withUid uid: UInt32, _ completion: @escaping (String?) -> Void) {
+    let fetchMessage = session.fetchParsedMessageOperation(withFolder: "INBOX", uid: uid)
+    fetchMessage?.start() { (error: Error?, parser: MCOMessageParser?) in
+      completion(parser?.htmlBodyRendering() ?? "")
     } ?? completion("")
   }
   

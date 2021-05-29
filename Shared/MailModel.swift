@@ -21,7 +21,7 @@ let Tabs = [
 
 class MailModel: ObservableObject {
   @Published private(set) var sortedEmails:[String: [Email]] = [:]
-  @Published var mostRecentSavedUid: UInt64 = 0
+  var mostRecentSavedUid: UInt64 = 70700
   
   private var oracle: NLModel?
   private var managedContext:NSManagedObjectContext {
@@ -34,7 +34,8 @@ class MailModel: ObservableObject {
   init() {
     do {
       oracle = try NLModel(mlModel: PsycatsJuice(configuration: MLModelConfiguration()).model)
-    } catch let error {
+    }
+    catch let error {
       print("error creating ai model: \(error)")
     }
     
@@ -43,24 +44,36 @@ class MailModel: ObservableObject {
     }
     
     do {
-      let emails = try managedContext.fetch(Email.fetchRequest()) as [Email]
-      for email in emails {
+//      let deleteRequest = NSBatchDeleteRequest(fetchRequest: Email.fetchRequest())
+//      try managedContext.execute(deleteRequest)
+      
+      let emailFetchRequest:NSFetchRequest<Email> = Email.fetchRequest()
+      emailFetchRequest.sortDescriptors = [NSSortDescriptor(key: "uid", ascending: true)]
+      let fetchedEmails = try managedContext.fetch(Email.fetchRequest()) as [Email]
+      for email in fetchedEmails {
         let perspective = email.perspective ?? ""
         self.sortedEmails[perspective]?.insert(email, at: 0)
         self.sortedEmails["everything"]?.insert(email, at: 0)
       }
       
       updateMostRecentSavedUid()
-      
-    } catch let error {
+    }
+    catch let error {
       print("error fetching emails from core data: \(error)")
     }
   }
   
   // MARK: - public
   
-  func markSeen(_ emails: [Email]) {
+  func markSeen(_ emails: [Email]) -> Error? {
     for email in emails { email.markSeen() }
+    do {
+      try managedContext.save()
+    }
+    catch let error {
+      return error
+    }
+    return nil
   }
   
   func makeAndSaveEmail(withMessage message: MCOIMAPMessage, html emailAsHtml: String?) {
@@ -75,8 +88,8 @@ class MailModel: ObservableObject {
       sortedEmails["everything"]?.insert(email, at: 0)
       
       updateMostRecentSavedUid()
-      
-    } catch let error as NSError {
+    }
+    catch let error as NSError {
       print("error saving new email to core data: \(error)")
     }
   }

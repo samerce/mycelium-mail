@@ -6,15 +6,15 @@
 
 import SwiftUI
 
-fileprivate let oneDay = 24.0 * 3600
-fileprivate let twoDays = 48.0 * 3600
-fileprivate let oneWeek = 24.0 * 7 * 3600
+private let oneDay = 24.0 * 3600
+private let twoDays = 48.0 * 3600
+private let oneWeek = 24.0 * 7 * 3600
 
 struct EmailListView: View {
+  @StateObject var model = MailController.shared.model
   @Binding var selectedTab: Int
   @State var selectedRow:Int32? = 0
   
-  private let mailCtrl = MailController.shared
   private var selectedTabKey: String {
     Tabs[selectedTab]
   }
@@ -22,7 +22,7 @@ struct EmailListView: View {
   var body: some View {
     ScrollView {
       LazyVStack {
-        let emails = mailCtrl.model.sortedEmails[selectedTabKey] ?? []
+        let emails = model.sortedEmails[selectedTabKey] ?? []
         ForEach(emails, id: \.uid) { email in
           let row = getListRow(email)
           if email.seen {
@@ -73,7 +73,9 @@ struct EmailListView: View {
       .padding(.vertical, 12)
       
       NavigationLink(
-        destination: EmailDetailView(email: email), tag: email.uid, selection: $selectedRow
+        destination: EmailDetailView(email: email),
+        tag: email.uid,
+        selection: $selectedRow
       ) {
         EmptyView()
       }

@@ -2,7 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20F71" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="Email" representedClassName="Email" syncable="YES">
         <attribute name="customFlags" optional="YES" attributeType="String"/>
-        <attribute name="date" optional="YES" attributeType="Date" derived="YES" derivationExpression="header.@receivedDate" usesScalarValueType="NO"/>
+        <attribute name="date" optional="YES" attributeType="Date" derived="YES" derivationExpression="header.receivedDate" usesScalarValueType="NO"/>
         <attribute name="flags" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="gmailLabels" optional="YES" attributeType="Transformable"/>
         <attribute name="gmailMessageId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -16,16 +16,13 @@
         <attribute name="uid" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="header" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EmailHeader" inverseName="email" inverseEntity="EmailHeader"/>
         <relationship name="mimePart" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EmailPart" inverseName="email" inverseEntity="EmailPart"/>
-        <fetchIndex name="byDate">
-            <fetchIndexElement property="date" type="Binary" order="descending"/>
-        </fetchIndex>
     </entity>
-    <entity name="EmailAddress" representedClassName="EmailAddress" syncable="YES" codeGenerationType="class">
+    <entity name="EmailAddress" representedClassName="EmailAddress" syncable="YES">
         <attribute name="address" attributeType="String" defaultValueString=""/>
         <attribute name="displayName" optional="YES" attributeType="String" defaultValueString=""/>
         <relationship name="header" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EmailHeader" inverseName="from" inverseEntity="EmailHeader"/>
     </entity>
-    <entity name="EmailHeader" representedClassName="EmailHeader" syncable="YES" codeGenerationType="class">
+    <entity name="EmailHeader" representedClassName="EmailHeader" syncable="YES">
         <attribute name="bcc" optional="YES" attributeType="Transformable"/>
         <attribute name="cc" optional="YES" attributeType="Transformable"/>
         <attribute name="inReplyTo" optional="YES" attributeType="Transformable"/>
@@ -38,7 +35,7 @@
         <relationship name="email" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Email" inverseName="header" inverseEntity="Email"/>
         <relationship name="from" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EmailAddress" inverseName="header" inverseEntity="EmailAddress"/>
     </entity>
-    <entity name="EmailPart" representedClassName="EmailPart" syncable="YES" codeGenerationType="class">
+    <entity name="EmailPart" representedClassName="EmailPart" syncable="YES">
         <attribute name="charset" optional="YES" attributeType="String"/>
         <attribute name="contentDescription" optional="YES" attributeType="String"/>
         <attribute name="contentId" optional="YES" attributeType="String"/>
@@ -53,8 +50,8 @@
     </entity>
     <elements>
         <element name="Email" positionX="-63" positionY="-9" width="128" height="254"/>
-        <element name="EmailHeader" positionX="-63" positionY="63" width="128" height="194"/>
         <element name="EmailAddress" positionX="-45" positionY="72" width="128" height="74"/>
+        <element name="EmailHeader" positionX="-63" positionY="63" width="128" height="194"/>
         <element name="EmailPart" positionX="-36" positionY="135" width="128" height="194"/>
     </elements>
 </model>
