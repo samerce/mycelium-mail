@@ -11,7 +11,7 @@ import SwiftUI
 struct OverlayBackgroundView: View {
   
   var body: some View {
-    VisualEffectBlur(blurStyle: .prominent)
+    VisualEffectBlur(blurStyle: .systemUltraThinMaterial)
       .cornerRadius(9.0, corners: [.topLeft, .topRight])
       .shadow(color: Color.black.opacity(0.36), radius: 9.0)
   }

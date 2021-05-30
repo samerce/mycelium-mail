@@ -87,6 +87,10 @@ class MailController: ObservableObject {
       return
     }
     
+    if messages == nil || messages?.count == 0 {
+      print("done fetching!")
+    }
+    
     for message in messages! {
       bodyHtmlForEmail(withUid: message.uid) { emailAsHtml in
         self.model.makeAndSaveEmail(withMessage: message, html: emailAsHtml)
@@ -98,17 +102,17 @@ class MailController: ObservableObject {
     }
   }
   
-  func fullHtmlForEmail(withUid uid: UInt32, _ completion: @escaping (String?) -> Void) {
-    let fetchMessage = session.fetchParsedMessageOperation(withFolder: "INBOX", uid: uid)
-    fetchMessage?.start() { (error: Error?, parser: MCOMessageParser?) in
-      completion(parser?.htmlRendering(with: nil) ?? "")
-    } ?? completion("")
-  }
-  
   func bodyHtmlForEmail(withUid uid: UInt32, _ completion: @escaping (String?) -> Void) {
     let fetchMessage = session.fetchParsedMessageOperation(withFolder: "INBOX", uid: uid)
     fetchMessage?.start() { (error: Error?, parser: MCOMessageParser?) in
       completion(parser?.htmlBodyRendering() ?? "")
+    } ?? completion("")
+  }
+  
+  func fullHtmlForEmail(withUid uid: UInt32, _ completion: @escaping (String?) -> Void) {
+    let fetchMessage = session.fetchParsedMessageOperation(withFolder: "INBOX", uid: uid)
+    fetchMessage?.start() { (error: Error?, parser: MCOMessageParser?) in
+      completion(parser?.htmlRendering(with: nil) ?? "")
     } ?? completion("")
   }
   

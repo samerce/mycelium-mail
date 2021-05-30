@@ -8,14 +8,15 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "7634D88E-437F-42B4-A9A3-FBBC3F5C3B7F"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
+            condition = "message.header.subject.contains(&quot;Fearlessness&quot;)"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Shared/MailModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
             landmarkName = "makeAndSaveEmail(withMessage:html:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -24,7 +25,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "4A6A2A17-C0E8-42D8-943F-76EFF14DC864"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Shared/MailController.swift"
@@ -39,22 +40,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "9706A925-57D0-4349-9729-2A132BC0DD2D"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Shared/MailModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
-            landmarkName = "updateMostRecentSavedUid()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "7D1800E8-2761-4B1C-82C9-D47B3667C02A"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -62,8 +47,8 @@
             filePath = "Shared/EmailListView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
             landmarkName = "body"
             landmarkType = "24">
             <Locations>
@@ -119,16 +104,65 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "EBC29847-F9A1-4E60-B701-9EAB684CC579"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Shared/MailModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
             landmarkName = "init()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1B342B9A-92AC-4AF8-95C6-31A2020248D2"
+            shouldBeEnabled = "Yes"
+            condition = "header.subject != nil &amp;&amp; header.subject.contains(&quot;Fearlessness Arises&quot;)"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Shared/EmailListView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "getListRow(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "1B342B9A-92AC-4AF8-95C6-31A2020248D2 - d4ee02d44ad17204"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "psymail.EmailListView.getListRow(psymail.Email) -&gt; some"
+                  moduleName = "psymail"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bubbles/dev/psymail/Shared/EmailListView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "58"
+                  endingLineNumber = "58"
+                  offsetFromSymbolStart = "2448">
+               </Location>
+               <Location
+                  uuid = "1B342B9A-92AC-4AF8-95C6-31A2020248D2 - 4fd821241fa0433f"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; SwiftUI.TupleView&lt;(&lt;&lt;opaque return type of SwiftUI.View.padding(SwiftUI.Edge.Set, Swift.Optional&lt;CoreGraphics.CGFloat&gt;) -&gt; some&gt;&gt;.0, SwiftUI.NavigationLink&lt;SwiftUI.EmptyView, psymail.EmailDetailView&gt;)&gt; in psymail.EmailListView.getListRow(psymail.Email) -&gt; some"
+                  moduleName = "psymail"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bubbles/dev/psymail/Shared/EmailListView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "59"
+                  endingLineNumber = "59"
+                  offsetFromSymbolStart = "692">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

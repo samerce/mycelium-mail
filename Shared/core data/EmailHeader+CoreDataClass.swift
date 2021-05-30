@@ -3,8 +3,6 @@
 //  psymail
 //
 //  Created by bubbles on 5/27/21.
-//
-//
 
 import Foundation
 import CoreData
@@ -16,22 +14,44 @@ public class EmailHeader: NSManagedObject {
   convenience init(header: MCOMessageHeader, context: NSManagedObjectContext) {
     self.init(context: context)
     
-//    inReplyTo = header?.inReplyTo
-    sentDate = header.date
+    inReplyTo = header.inReplyTo as? [String] ?? []
     receivedDate = header.receivedDate
-//    header.to = header?.to
-//    header.cc = header?.cc
-//    header.bcc = header?.bcc
-//    header.replyTo = header?.replyTo
+    sentDate = header.date
     subject = header.subject
     userAgent = header.userAgent
+    references = header.references as? [String] ?? []
     
-    from = EmailAddress(
-      displayName: header.from.displayName ?? header.from.mailbox,
-      address: header.from.mailbox,
+    to = makeAddresses(header.to)
+    bcc = makeAddresses(header.bcc)
+    cc = makeAddresses(header.cc)
+    replyTo = makeAddresses(header.replyTo)
+    
+    from = makeAddress(header.from)
+    sender = header.sender != nil ? makeAddress(header.sender) : nil
+  }
+  
+  private func makeAddresses(_ theirAddressesGeneric: [Any]?) -> NSSet {
+    let myAddresses = NSMutableSet()
+    
+    if let theirAddresses = theirAddressesGeneric as? [MCOAddress] {
+      for address in theirAddresses {
+        let myAddress = makeAddress(address)
+        myAddress.header = self
+        myAddresses.add(myAddress)
+      }
+    }
+    
+    return myAddresses
+  }
+  
+  private func makeAddress(_ theirAddress: MCOAddress) -> EmailAddress {
+    let address = EmailAddress(
+      displayName: theirAddress.displayName ?? "",
+      address: theirAddress.mailbox,
       context: managedObjectContext!
     )
-    from?.header = self
+    address.header = self
+    return address
   }
   
 }

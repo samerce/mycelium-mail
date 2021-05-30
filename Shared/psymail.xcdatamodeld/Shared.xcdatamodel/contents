@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20F71" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="Email" representedClassName="Email" syncable="YES">
-        <attribute name="customFlags" optional="YES" attributeType="String"/>
+        <attribute name="customFlags" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
         <attribute name="date" optional="YES" attributeType="Date" derived="YES" derivationExpression="header.receivedDate" usesScalarValueType="NO"/>
         <attribute name="flags" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="gmailLabels" optional="YES" attributeType="Transformable"/>
+        <attribute name="gmailLabels" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
         <attribute name="gmailMessageId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="gmailThreadId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="html" attributeType="String" defaultValueString=""/>
         <attribute name="modSeqValue" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="originalFlags" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="perspective" attributeType="String" defaultValueString=""/>
-        <attribute name="sender" optional="YES" attributeType="String"/>
         <attribute name="size" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="uid" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="header" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EmailHeader" inverseName="email" inverseEntity="EmailHeader"/>
@@ -20,20 +19,27 @@
     <entity name="EmailAddress" representedClassName="EmailAddress" syncable="YES">
         <attribute name="address" attributeType="String" defaultValueString=""/>
         <attribute name="displayName" optional="YES" attributeType="String" defaultValueString=""/>
+        <relationship name="bccHeader" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EmailHeader" inverseName="bcc" inverseEntity="EmailHeader"/>
+        <relationship name="ccHeader" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EmailHeader" inverseName="cc" inverseEntity="EmailHeader"/>
         <relationship name="header" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EmailHeader" inverseName="from" inverseEntity="EmailHeader"/>
+        <relationship name="replyToHeader" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EmailHeader" inverseName="replyTo" inverseEntity="EmailHeader"/>
+        <relationship name="senderHeader" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EmailHeader" inverseName="sender" inverseEntity="EmailHeader"/>
+        <relationship name="toHeader" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EmailHeader" inverseName="to" inverseEntity="EmailHeader"/>
     </entity>
     <entity name="EmailHeader" representedClassName="EmailHeader" syncable="YES">
-        <attribute name="bcc" optional="YES" attributeType="Transformable"/>
-        <attribute name="cc" optional="YES" attributeType="Transformable"/>
-        <attribute name="inReplyTo" optional="YES" attributeType="Transformable"/>
+        <attribute name="inReplyTo" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
         <attribute name="receivedDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="replyTo" optional="YES" attributeType="Transformable"/>
+        <attribute name="references" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
         <attribute name="sentDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="subject" attributeType="String" defaultValueString=""/>
-        <attribute name="to" optional="YES" attributeType="Transformable"/>
         <attribute name="userAgent" optional="YES" attributeType="String" defaultValueString=""/>
+        <relationship name="bcc" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EmailAddress" inverseName="bccHeader" inverseEntity="EmailAddress"/>
+        <relationship name="cc" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EmailAddress" inverseName="ccHeader" inverseEntity="EmailAddress"/>
         <relationship name="email" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Email" inverseName="header" inverseEntity="Email"/>
         <relationship name="from" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EmailAddress" inverseName="header" inverseEntity="EmailAddress"/>
+        <relationship name="replyTo" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EmailAddress" inverseName="replyToHeader" inverseEntity="EmailAddress"/>
+        <relationship name="sender" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EmailAddress" inverseName="senderHeader" inverseEntity="EmailAddress"/>
+        <relationship name="to" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EmailAddress" inverseName="toHeader" inverseEntity="EmailAddress"/>
     </entity>
     <entity name="EmailPart" representedClassName="EmailPart" syncable="YES">
         <attribute name="charset" optional="YES" attributeType="String"/>
@@ -49,9 +55,9 @@
         <relationship name="email" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Email" inverseName="mimePart" inverseEntity="Email"/>
     </entity>
     <elements>
-        <element name="Email" positionX="-63" positionY="-9" width="128" height="254"/>
-        <element name="EmailAddress" positionX="-45" positionY="72" width="128" height="74"/>
-        <element name="EmailHeader" positionX="-63" positionY="63" width="128" height="194"/>
-        <element name="EmailPart" positionX="-36" positionY="135" width="128" height="194"/>
+        <element name="Email" positionX="-258.3497314453125" positionY="-176.0603179931641" width="128" height="239"/>
+        <element name="EmailAddress" positionX="-977.1917724609375" positionY="-68.92247009277344" width="128" height="163"/>
+        <element name="EmailHeader" positionX="-639.457275390625" positionY="21.86758422851562" width="128" height="238"/>
+        <element name="EmailPart" positionX="-340.2655029296875" positionY="132.3669128417969" width="128" height="194"/>
     </elements>
 </model>

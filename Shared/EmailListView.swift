@@ -10,6 +10,10 @@ private let oneDay = 24.0 * 3600
 private let twoDays = 48.0 * 3600
 private let oneWeek = 24.0 * 7 * 3600
 
+private let dateFormatterWithinLastDay = DateFormatterWithinLastDay()
+private let dateFormatterWithinLastWeek = DateFormatterWithinLastWeek()
+private let dateFormatterMoreThanAWeek = DateFormatterMoreThanAWeek()
+
 struct EmailListView: View {
   @StateObject var model = MailController.shared.model
   @Binding var selectedTab: Int
@@ -44,17 +48,20 @@ struct EmailListView: View {
   }
   
   private func getListRow(_ email: Email) -> some View {
-    let header = email.header
-    let sender = header?.from?.displayName ?? "Unknown"
-    let subject = header?.subject ?? "---"
+    let header = email.header!
+    let from = header.from!
+    let sender = header.sender
+    let fromLine = sender?.displayName ?? from.displayName ?? sender?.address ?? from.address ?? "Unknown"
+    let subject = header.subject ?? "None"
+    
     return ZStack {
       VStack(alignment: .leading, spacing: 2) {
         HStack(alignment: .lastTextBaseline) {
-          Text(sender)
+          Text(fromLine)
             .font(.system(size: 15, weight: .bold, design: .default))
             .lineLimit(1)
           Spacer()
-          Text(formattedDateFor(email))
+          Text(formattedDateFor(header))
             .font(.system(size: 12, weight: .light, design: .default))
             .foregroundColor(Color.secondary)
             Image(systemName: "chevron.right")
@@ -88,21 +95,20 @@ struct EmailListView: View {
     }
   }
   
-  private func formattedDateFor(_ email: Email) -> String {
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "h:mm a"
-    let date = email.date
+  private func formattedDateFor(_ header: EmailHeader) -> String {
+    var formatter: DateFormatter
+    let date = header.receivedDate
     let timeSinceMessage = date?.distance(to: Date()) ?? Double.infinity
+    
     if  timeSinceMessage > oneDay && timeSinceMessage < twoDays   {
-      dateFormatter.doesRelativeDateFormatting = true
-      dateFormatter.dateStyle = .short
-      dateFormatter.timeStyle = .short
+      formatter = dateFormatterWithinLastDay
     } else if timeSinceMessage > twoDays && timeSinceMessage < oneWeek {
-      dateFormatter.dateFormat = "E h:mm a"
-    } else if timeSinceMessage > oneWeek {
-      dateFormatter.dateFormat = "M/d/yy"
+      formatter = dateFormatterWithinLastWeek
+    } else {
+      formatter = dateFormatterMoreThanAWeek
     }
-    return (date != nil) ? dateFormatter.string(from: date!) : ""
+    
+    return (date != nil) ? formatter.string(from: date!) : ""
   }
   
 }
@@ -112,4 +118,46 @@ struct EmailListView_Previews: PreviewProvider {
   static var previews: some View {
     EmailListView(selectedTab: $selectedTab)
   }
+}
+
+private class DateFormatterWithinLastDay: DateFormatter {
+  
+  override init() {
+    super.init()
+    dateFormat = "h:mm a"
+    doesRelativeDateFormatting = true
+    dateStyle = .short
+    timeStyle = .short
+  }
+  
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+  }
+  
+}
+
+private class DateFormatterWithinLastWeek: DateFormatter {
+  
+  override init() {
+    super.init()
+    dateFormat = "E h:mm a"
+  }
+  
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+  }
+  
+}
+
+private class DateFormatterMoreThanAWeek: DateFormatter {
+  
+  override init() {
+    super.init()
+    dateFormat = "M/d/yy"
+  }
+  
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+  }
+  
 }

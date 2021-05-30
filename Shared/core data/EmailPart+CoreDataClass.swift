@@ -3,8 +3,6 @@
 //  psymail
 //
 //  Created by bubbles on 5/27/21.
-//
-//
 
 import Foundation
 import CoreData
@@ -27,5 +25,5 @@ public class EmailPart: NSManagedObject {
     isAttachment = part.isAttachment
     partType = Int16(part.partType.rawValue)
   }
-
+  
 }

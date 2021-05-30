@@ -21,9 +21,11 @@ let Tabs = [
 
 class MailModel: ObservableObject {
   @Published private(set) var sortedEmails:[String: [Email]] = [:]
-  var mostRecentSavedUid: UInt64 = 70700
+  var mostRecentSavedUid: UInt64 = 71000
   
   private var oracle: NLModel?
+  private let dateFormatter = DateFormatter()
+  
   private var managedContext:NSManagedObjectContext {
     PersistenceController.shared.container.viewContext
   }
@@ -32,6 +34,12 @@ class MailModel: ObservableObject {
   }
   
   init() {
+    dateFormatter.dateFormat = "MMM d, yyyy' at 'H:mm:ss a zzz"
+    
+    for (perspective, _) in PerspectiveCategories {
+      self.sortedEmails[perspective] = []
+    }
+
     do {
       oracle = try NLModel(mlModel: PsycatsJuice(configuration: MLModelConfiguration()).model)
     }
@@ -39,17 +47,23 @@ class MailModel: ObservableObject {
       print("error creating ai model: \(error)")
     }
     
-    for (perspective, _) in PerspectiveCategories {
-      self.sortedEmails[perspective] = []
-    }
-    
     do {
-//      let deleteRequest = NSBatchDeleteRequest(fetchRequest: Email.fetchRequest())
+//      var deleteRequest = NSBatchDeleteRequest(fetchRequest: Email.fetchRequest())
+//      try managedContext.execute(deleteRequest)
+//      
+//      deleteRequest = NSBatchDeleteRequest(fetchRequest: EmailAddress.fetchRequest())
+//      try managedContext.execute(deleteRequest)
+//      
+//      deleteRequest = NSBatchDeleteRequest(fetchRequest: EmailHeader.fetchRequest())
+//      try managedContext.execute(deleteRequest)
+//      
+//      deleteRequest = NSBatchDeleteRequest(fetchRequest: EmailPart.fetchRequest())
 //      try managedContext.execute(deleteRequest)
       
       let emailFetchRequest:NSFetchRequest<Email> = Email.fetchRequest()
       emailFetchRequest.sortDescriptors = [NSSortDescriptor(key: "uid", ascending: true)]
       let fetchedEmails = try managedContext.fetch(Email.fetchRequest()) as [Email]
+      
       for email in fetchedEmails {
         let perspective = email.perspective ?? ""
         self.sortedEmails[perspective]?.insert(email, at: 0)
@@ -77,7 +91,8 @@ class MailModel: ObservableObject {
   }
   
   func makeAndSaveEmail(withMessage message: MCOIMAPMessage, html emailAsHtml: String?) {
-    let perspective = perspectiveFor(emailAsHtml ?? "")
+    let fullHtml = headerAsHtml(message.header) + (emailAsHtml ?? "")
+    let perspective = perspectiveFor(fullHtml)
     let email = Email(
       message: message, html: emailAsHtml, perspective: perspective, context: managedContext
     )
@@ -96,8 +111,16 @@ class MailModel: ObservableObject {
   
   // MARK: - private
   
+  private func updateMostRecentSavedUid() {
+    if let uid = emails.first?.uid {
+      mostRecentSavedUid = UInt64(uid)
+    }
+  }
+  
   private func perspectiveFor(_ emailAsHtml: String = "") -> String {
     let prediction = oracle?.predictedLabel(for: emailAsHtml) ?? ""
+    if prediction == "" { return "other" }
+    
     for (perspective, categorySet) in PerspectiveCategories {
       if categorySet.contains(prediction) {
         return perspective
@@ -106,10 +129,23 @@ class MailModel: ObservableObject {
     return "other"
   }
   
-  private func updateMostRecentSavedUid() {
-    if let uid = emails.first?.uid {
-      mostRecentSavedUid = UInt64(uid)
+  private func headerAsHtml(_ header: MCOMessageHeader?) -> String {
+    let from = header?.from
+    let recipients = header?.to as! [MCOAddress]
+    var toLine = ""
+    for to in recipients {
+      toLine += "\(to.displayName ?? "") <\(to.mailbox ?? "")>, "
     }
+    return """
+      From: \(from?.displayName ?? "") <\(from?.mailbox ?? "")\n
+      To: \(toLine)\n
+      Subject: \(header?.subject ?? "")\n
+      Date: \(localizedDate(header?.receivedDate))\n
+    """
+  }
+  
+  private func localizedDate(_ date: Date?) -> String {
+    return (date != nil) ? dateFormatter.string(from: date!) : ""
   }
   
 }
