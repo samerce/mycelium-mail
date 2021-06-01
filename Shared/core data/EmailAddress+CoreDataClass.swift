@@ -3,8 +3,6 @@
 //  psymail
 //
 //  Created by bubbles on 5/27/21.
-//
-//
 
 import Foundation
 import CoreData
@@ -13,7 +11,7 @@ import CoreData
 public class EmailAddress: NSManagedObject {
   
   convenience init(
-    displayName: String, address: String, context: NSManagedObjectContext
+    displayName: String?, address: String?, context: NSManagedObjectContext
   ) {
     self.init(context: context)
     self.displayName = displayName

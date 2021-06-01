@@ -12,7 +12,7 @@ import MailCore
 public class Email: NSManagedObject {
   
   var seen: Bool {
-    MCOMessageFlag(rawValue: Int(flags)).contains(.seen)
+    flags.contains(.seen)
   }
   
   convenience init(
@@ -21,14 +21,15 @@ public class Email: NSManagedObject {
   ) {
     self.init(context: context)
     
+    uuid = UUID()
     uid = Int32(message.uid)
-    flags = Int16(message.flags.rawValue)
-    gmailLabels = message.gmailLabels as? [String] ?? []
+    flags = message.flags
+    gmailLabels = Set(message.gmailLabels as? [String] ?? [])
     gmailThreadId = Int64(message.gmailThreadID)
     gmailMessageId = Int64(message.gmailMessageID)
     size = Int32(message.size)
-    originalFlags = Int16(message.originalFlags.rawValue)
-    customFlags = message.customFlags as? [String] ?? []
+    originalFlags = message.originalFlags
+    customFlags = Set(message.customFlags as? [String] ?? [])
     modSeqValue = Int64(message.modSeqValue)
     html = emailAsHtml
     perspective = _perspective
@@ -41,11 +42,21 @@ public class Email: NSManagedObject {
       mimePart?.email = self
     }
   }
-
-  func markSeen() {
-    var newFlags = MCOMessageFlag(rawValue: Int(flags))
-    newFlags.insert(.seen)
-    flags = Int16(newFlags.rawValue)
+  
+  func setFlags(_ setFlags: [MCOMessageFlag]) {
+    var newFlags = flags
+    for flag in setFlags {
+      newFlags.insert(flag)
+    }
+    flags = newFlags
   }
   
+  func removeFlags(_ removeFlags: [MCOMessageFlag]) {
+    var newFlags = flags
+    for flag in removeFlags {
+      newFlags.remove(flag)
+    }
+    flags = newFlags
+  }
+
 }

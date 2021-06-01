@@ -27,7 +27,7 @@ struct EmailListView: View {
     ScrollView {
       LazyVStack {
         let emails = model.sortedEmails[selectedTabKey] ?? []
-        ForEach(emails, id: \.uid) { email in
+        ForEach(emails, id: \.uuid) { email in
           let row = getListRow(email)
           if email.seen {
             row
@@ -49,9 +49,9 @@ struct EmailListView: View {
   
   private func getListRow(_ email: Email) -> some View {
     let header = email.header!
-    let from = header.from!
+    let from = header.from
     let sender = header.sender
-    let fromLine = sender?.displayName ?? from.displayName ?? sender?.address ?? from.address ?? "Unknown"
+    let fromLine = from?.displayName ?? sender?.displayName ?? from?.address ?? sender?.address ?? "Unknown"
     let subject = header.subject ?? "None"
     
     return ZStack {
@@ -88,7 +88,7 @@ struct EmailListView: View {
       }
     }
     .listRowInsets(EdgeInsets())
-    .padding(.horizontal, 6)
+    .padding(.horizontal, 8)
     .contentShape(Rectangle())
     .onTapGesture {
       selectedRow = email.uid

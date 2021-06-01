@@ -1,41 +1,29 @@
-//
-//  mushroom_mailApp.swift
-//  Shared
-//
-//  Created by bubbles on 4/24/21.
-//
-
+import Foundation
 import SwiftUI
 import CoreData
 
 @main
 struct PsymailApp: App {
-  let persistenceController = PersistenceController.shared
+  let persistenceCtrl = PersistenceController.shared
   
   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
   @Environment(\.scenePhase) var scenePhase
-//  @StateObject private var mailCtrl = MailController.shared
-//  @StateObject private var store = Store()
   
   var body: some Scene {
     WindowGroup {
       ContentView()
-        .environment(\.managedObjectContext, persistenceController.container.viewContext)
-//        .environmentObject(mailCtrl)
-//        .environmentObject(store)
-        .onReceive(NotificationCenter.default.publisher(
-          for: UIApplication.didBecomeActiveNotification
-        )) { _ in
-        }
-        .onAppear {
-          AccountController.shared.restoreSignIn()
-        }
+        .environment(\.managedObjectContext, persistenceCtrl.container.viewContext)
     }
     .commands {
       SidebarCommands()
     }
-    .onChange(of: scenePhase) { _ in
-      persistenceController.save()
+    .onChange(of: scenePhase) { phase in
+      print(phase)
+      persistenceCtrl.save()
+      
+      if phase == .active {
+        AccountController.shared.restoreSignIn()
+      }
     }
   }
   

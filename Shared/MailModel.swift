@@ -21,10 +21,14 @@ let Tabs = [
 
 class MailModel: ObservableObject {
   @Published private(set) var sortedEmails:[String: [Email]] = [:]
-  var mostRecentSavedUid: UInt64 = 71000
   
-  private var oracle: NLModel?
+  var lastSavedEmailUid: UInt64 {
+    if emails.count > 0 { return UInt64(emails.first!.uid) }
+    else { return 71000 }
+  }
+
   private let dateFormatter = DateFormatter()
+  private var oracle: NLModel?
   
   private var managedContext:NSManagedObjectContext {
     PersistenceController.shared.container.viewContext
@@ -39,6 +43,12 @@ class MailModel: ObservableObject {
     for (perspective, _) in PerspectiveCategories {
       self.sortedEmails[perspective] = []
     }
+    
+    for email in fetchEmailsByDateDescending() {
+      let perspective = email.perspective ?? ""
+      self.sortedEmails[perspective]?.insert(email, at: 0)
+      self.sortedEmails["everything"]?.insert(email, at: 0)
+    }
 
     do {
       oracle = try NLModel(mlModel: PsycatsJuice(configuration: MLModelConfiguration()).model)
@@ -47,40 +57,19 @@ class MailModel: ObservableObject {
       print("error creating ai model: \(error)")
     }
     
-    do {
-//      var deleteRequest = NSBatchDeleteRequest(fetchRequest: Email.fetchRequest())
+//    do {
+//      let deleteRequest = NSBatchDeleteRequest(fetchRequest: Email.fetchRequest())
 //      try managedContext.execute(deleteRequest)
-//      
-//      deleteRequest = NSBatchDeleteRequest(fetchRequest: EmailAddress.fetchRequest())
-//      try managedContext.execute(deleteRequest)
-//      
-//      deleteRequest = NSBatchDeleteRequest(fetchRequest: EmailHeader.fetchRequest())
-//      try managedContext.execute(deleteRequest)
-//      
-//      deleteRequest = NSBatchDeleteRequest(fetchRequest: EmailPart.fetchRequest())
-//      try managedContext.execute(deleteRequest)
-      
-      let emailFetchRequest:NSFetchRequest<Email> = Email.fetchRequest()
-      emailFetchRequest.sortDescriptors = [NSSortDescriptor(key: "uid", ascending: true)]
-      let fetchedEmails = try managedContext.fetch(Email.fetchRequest()) as [Email]
-      
-      for email in fetchedEmails {
-        let perspective = email.perspective ?? ""
-        self.sortedEmails[perspective]?.insert(email, at: 0)
-        self.sortedEmails["everything"]?.insert(email, at: 0)
-      }
-      
-      updateMostRecentSavedUid()
-    }
-    catch let error {
-      print("error fetching emails from core data: \(error)")
-    }
+//    }
+//    catch let error {
+//      print("error fetching emails from core data: \(error)")
+//    }
   }
   
   // MARK: - public
   
   func markSeen(_ emails: [Email]) -> Error? {
-    for email in emails { email.markSeen() }
+    for email in emails { email.setFlags([.seen]) }
     do {
       try managedContext.save()
     }
@@ -90,19 +79,22 @@ class MailModel: ObservableObject {
     return nil
   }
   
-  func makeAndSaveEmail(withMessage message: MCOIMAPMessage, html emailAsHtml: String?) {
+  func makeAndSaveEmail(
+    withMessage message: MCOIMAPMessage, html emailAsHtml: String?, account: Account
+  ) {
     let fullHtml = headerAsHtml(message.header) + (emailAsHtml ?? "")
     let perspective = perspectiveFor(fullHtml)
+    
     let email = Email(
       message: message, html: emailAsHtml, perspective: perspective, context: managedContext
     )
+    email.account = account
+    account.addToEmails(email)
     
     do {
       try managedContext.save()
       sortedEmails[perspective]?.insert(email, at: 0)
       sortedEmails["everything"]?.insert(email, at: 0)
-      
-      updateMostRecentSavedUid()
     }
     catch let error as NSError {
       print("error saving new email to core data: \(error)")
@@ -111,10 +103,18 @@ class MailModel: ObservableObject {
   
   // MARK: - private
   
-  private func updateMostRecentSavedUid() {
-    if let uid = emails.first?.uid {
-      mostRecentSavedUid = UInt64(uid)
+  private func fetchEmailsByDateDescending() -> [Email] {
+    let emailFetchRequest:NSFetchRequest<Email> = Email.fetchRequest()
+    emailFetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+    
+    do {
+      return try managedContext.fetch(emailFetchRequest)
     }
+    catch let error {
+      print("error fetching emails from core data: \(error.localizedDescription)")
+    }
+    
+    return []
   }
   
   private func perspectiveFor(_ emailAsHtml: String = "") -> String {
@@ -129,19 +129,32 @@ class MailModel: ObservableObject {
     return "other"
   }
   
-  private func headerAsHtml(_ header: MCOMessageHeader?) -> String {
-    let from = header?.from
-    let recipients = header?.to as! [MCOAddress]
-    var toLine = ""
-    for to in recipients {
-      toLine += "\(to.displayName ?? "") <\(to.mailbox ?? "")>, "
-    }
+  private func headerAsHtml(_ header: MCOMessageHeader) -> String {
+    let from = header.from
+    let to: String = addressesAsString(header.to as? [MCOAddress], prefix: "To: ")
+    let cc: String = addressesAsString(header.cc as? [MCOAddress], prefix: "CC: ")
+    let bcc: String = addressesAsString(header.bcc as? [MCOAddress], prefix: "BCC: ")
+    
     return """
       From: \(from?.displayName ?? "") <\(from?.mailbox ?? "")\n
-      To: \(toLine)\n
-      Subject: \(header?.subject ?? "")\n
-      Date: \(localizedDate(header?.receivedDate))\n
+      \(to)
+      \(cc)
+      \(bcc)
+      Subject: \(header.subject ?? "")\n
+      Date: \(localizedDate(header.receivedDate))\n
     """
+  }
+  
+  private func addressesAsString(_ addresses: [MCOAddress]?, prefix: String = "") -> String {
+    var result = ""
+
+    if let addresses = addresses {
+      for a in addresses {
+        result += "\(a.displayName ?? "") <\(a.mailbox ?? "")>, "
+      }
+    }
+    
+    return result.isEmpty ? "" : prefix + result + "\n"
   }
   
   private func localizedDate(_ date: Date?) -> String {

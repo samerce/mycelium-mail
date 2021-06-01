@@ -23,7 +23,7 @@ public class EmailPart: NSManagedObject {
     contentDescription = part.contentDescription
     isInlineAttachment = part.isInlineAttachment
     isAttachment = part.isAttachment
-    partType = Int16(part.partType.rawValue)
+    partType = part.partType
   }
   
 }

@@ -14,12 +14,12 @@ public class EmailHeader: NSManagedObject {
   convenience init(header: MCOMessageHeader, context: NSManagedObjectContext) {
     self.init(context: context)
     
-    inReplyTo = header.inReplyTo as? [String] ?? []
+    inReplyTo = Set(header.inReplyTo as? [String] ?? [])
     receivedDate = header.receivedDate
     sentDate = header.date
     subject = header.subject
     userAgent = header.userAgent
-    references = header.references as? [String] ?? []
+    references = Set(header.references as? [String] ?? [])
     
     to = makeAddresses(header.to)
     bcc = makeAddresses(header.bcc)
@@ -35,9 +35,7 @@ public class EmailHeader: NSManagedObject {
     
     if let theirAddresses = theirAddressesGeneric as? [MCOAddress] {
       for address in theirAddresses {
-        let myAddress = makeAddress(address)
-        myAddress.header = self
-        myAddresses.add(myAddress)
+        myAddresses.add(makeAddress(address))
       }
     }
     
@@ -46,7 +44,7 @@ public class EmailHeader: NSManagedObject {
   
   private func makeAddress(_ theirAddress: MCOAddress) -> EmailAddress {
     let address = EmailAddress(
-      displayName: theirAddress.displayName ?? "",
+      displayName: theirAddress.displayName,
       address: theirAddress.mailbox,
       context: managedObjectContext!
     )

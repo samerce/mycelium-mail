@@ -15,9 +15,9 @@
             filePath = "Shared/MailModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
-            landmarkName = "makeAndSaveEmail(withMessage:html:)"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "makeAndSaveEmail(withMessage:html:account:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -31,9 +31,9 @@
             filePath = "Shared/MailController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
-            landmarkName = "fetchLatest()"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "fetchLatest(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -103,24 +103,8 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "EBC29847-F9A1-4E60-B701-9EAB684CC579"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Shared/MailModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
-            landmarkName = "init()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "1B342B9A-92AC-4AF8-95C6-31A2020248D2"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             condition = "header.subject != nil &amp;&amp; header.subject.contains(&quot;Fearlessness Arises&quot;)"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -133,8 +117,8 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "1B342B9A-92AC-4AF8-95C6-31A2020248D2 - d4ee02d44ad17204"
-                  shouldBeEnabled = "No"
+                  uuid = "1B342B9A-92AC-4AF8-95C6-31A2020248D2 - d4ee02d44ad172eb"
+                  shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "psymail.EmailListView.getListRow(psymail.Email) -&gt; some"
@@ -143,13 +127,13 @@
                   urlString = "file:///Users/bubbles/dev/psymail/Shared/EmailListView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "58"
-                  endingLineNumber = "58"
+                  startingLineNumber = "57"
+                  endingLineNumber = "57"
                   offsetFromSymbolStart = "2448">
                </Location>
                <Location
-                  uuid = "1B342B9A-92AC-4AF8-95C6-31A2020248D2 - 4fd821241fa0433f"
-                  shouldBeEnabled = "No"
+                  uuid = "1B342B9A-92AC-4AF8-95C6-31A2020248D2 - 4fd821241fa0431e"
+                  shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "closure #1 () -&gt; SwiftUI.TupleView&lt;(&lt;&lt;opaque return type of SwiftUI.View.padding(SwiftUI.Edge.Set, Swift.Optional&lt;CoreGraphics.CGFloat&gt;) -&gt; some&gt;&gt;.0, SwiftUI.NavigationLink&lt;SwiftUI.EmptyView, psymail.EmailDetailView&gt;)&gt; in psymail.EmailListView.getListRow(psymail.Email) -&gt; some"
@@ -158,11 +142,28 @@
                   urlString = "file:///Users/bubbles/dev/psymail/Shared/EmailListView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "59"
-                  endingLineNumber = "59"
+                  startingLineNumber = "58"
+                  endingLineNumber = "58"
                   offsetFromSymbolStart = "692">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6B8A20C4-37E9-4497-A9FC-EBAAB16A77D2"
+            shouldBeEnabled = "No"
+            condition = "header.subject.contains(&quot;dumbest words&quot;)"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Shared/EmailListView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "getListRow(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

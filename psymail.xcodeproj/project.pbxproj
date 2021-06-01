@@ -77,8 +77,12 @@
 		3BF1AD832661861F002F1062 /* EmailPart+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AD7C2661861F002F1062 /* EmailPart+CoreDataProperties.swift */; };
 		3BF1AD842661861F002F1062 /* EmailAddress+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AD7D2661861F002F1062 /* EmailAddress+CoreDataProperties.swift */; };
 		3BF1AD852661861F002F1062 /* EmailAddress+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AD7D2661861F002F1062 /* EmailAddress+CoreDataProperties.swift */; };
-		3BF1AD8726635A2F002F1062 /* EmailAddressTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AD8626635A2F002F1062 /* EmailAddressTransformer.swift */; };
-		3BF1AD8826635A2F002F1062 /* EmailAddressTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AD8626635A2F002F1062 /* EmailAddressTransformer.swift */; };
+		3BF1AD8B2663EA2C002F1062 /* Account+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AD892663EA2C002F1062 /* Account+CoreDataClass.swift */; };
+		3BF1AD8C2663EA2C002F1062 /* Account+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AD892663EA2C002F1062 /* Account+CoreDataClass.swift */; };
+		3BF1AD8D2663EA2C002F1062 /* Account+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AD8A2663EA2C002F1062 /* Account+CoreDataProperties.swift */; };
+		3BF1AD8E2663EA2C002F1062 /* Account+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AD8A2663EA2C002F1062 /* Account+CoreDataProperties.swift */; };
+		3BF1AD902663F8F0002F1062 /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AD8F2663F8F0002F1062 /* AccountModel.swift */; };
+		3BF1AD912663F8F0002F1062 /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AD8F2663F8F0002F1062 /* AccountModel.swift */; };
 		3F968887777D7B0730C9B3B8 /* Pods_psymail__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 399CC61715E34E128033326B /* Pods_psymail__iOS_.framework */; };
 		7E17C93A34D56B49D4BC931E /* Pods_psymail__macOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8F4944D476A40856691F844 /* Pods_psymail__macOS_.framework */; };
 /* End PBXBuildFile section */
@@ -163,7 +167,9 @@
 		3BF1AD7B2661861F002F1062 /* EmailHeader+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailHeader+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3BF1AD7C2661861F002F1062 /* EmailPart+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailPart+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3BF1AD7D2661861F002F1062 /* EmailAddress+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailAddress+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		3BF1AD8626635A2F002F1062 /* EmailAddressTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAddressTransformer.swift; sourceTree = "<group>"; };
+		3BF1AD892663EA2C002F1062 /* Account+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Account+CoreDataClass.swift"; sourceTree = "<group>"; };
+		3BF1AD8A2663EA2C002F1062 /* Account+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Account+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		3BF1AD8F2663F8F0002F1062 /* AccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
 		3E35B10F6A88FE4A90A5E820 /* Pods-psymail (macOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-psymail (macOS).release.xcconfig"; path = "Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS).release.xcconfig"; sourceTree = "<group>"; };
 		5373F94F41453FE8AB093878 /* Pods-psymail (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-psymail (iOS).debug.xcconfig"; path = "Target Support Files/Pods-psymail (iOS)/Pods-psymail (iOS).debug.xcconfig"; sourceTree = "<group>"; };
 		7007A9069DB99A4BC20380FC /* Pods-psymail (macOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-psymail (macOS).debug.xcconfig"; path = "Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS).debug.xcconfig"; sourceTree = "<group>"; };
@@ -212,6 +218,8 @@
 		3B6F6560265EF4F000E07FE7 /* core data */ = {
 			isa = PBXGroup;
 			children = (
+				3BF1AD892663EA2C002F1062 /* Account+CoreDataClass.swift */,
+				3BF1AD8A2663EA2C002F1062 /* Account+CoreDataProperties.swift */,
 				3B7917B52660A0F400E764C1 /* Email+CoreDataClass.swift */,
 				3BF1AD7A2661861F002F1062 /* Email+CoreDataProperties.swift */,
 				3B7917B12660A0F400E764C1 /* EmailAddress+CoreDataClass.swift */,
@@ -220,7 +228,6 @@
 				3BF1AD7B2661861F002F1062 /* EmailHeader+CoreDataProperties.swift */,
 				3B7917B32660A0F400E764C1 /* EmailPart+CoreDataClass.swift */,
 				3BF1AD7C2661861F002F1062 /* EmailPart+CoreDataProperties.swift */,
-				3BF1AD8626635A2F002F1062 /* EmailAddressTransformer.swift */,
 			);
 			path = "core data";
 			sourceTree = "<group>";
@@ -258,6 +265,7 @@
 				3BF1AD602660ACF0002F1062 /* MailController.swift */,
 				3BF1AD6326615F18002F1062 /* AccountController.swift */,
 				3BF1AD6626617746002F1062 /* EmailListView.swift */,
+				3BF1AD8F2663F8F0002F1062 /* AccountModel.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -650,6 +658,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BF1AD8B2663EA2C002F1062 /* Account+CoreDataClass.swift in Sources */,
 				3BF1AD822661861F002F1062 /* EmailPart+CoreDataProperties.swift in Sources */,
 				3BF1AD842661861F002F1062 /* EmailAddress+CoreDataProperties.swift in Sources */,
 				3BF1AD6D26617E1A002F1062 /* psymail.xcdatamodeld in Sources */,
@@ -680,13 +689,14 @@
 				3B9B9FD22634E26A00E3A8B2 /* MarketingRecognizer.mlmodel in Sources */,
 				3B9B9FC02634B20600E3A8B2 /* MailModel.swift in Sources */,
 				3B66668D2651EB000039D9F3 /* FavoriteCell.swift in Sources */,
+				3BF1AD902663F8F0002F1062 /* AccountModel.swift in Sources */,
 				3BD150A4265332010058B094 /* rainbow.swift in Sources */,
 				3B66669626521A810039D9F3 /* VisualEffectBlur.swift in Sources */,
 				3B5FBCBE26571687009D012C /* PsycatsJuice.mlmodel in Sources */,
+				3BF1AD8D2663EA2C002F1062 /* Account+CoreDataProperties.swift in Sources */,
 				3B9B9F9F2634B16A00E3A8B2 /* ContentView.swift in Sources */,
 				3B66668B2651EAED0039D9F3 /* ActionCell.swift in Sources */,
 				3BF1AD802661861F002F1062 /* EmailHeader+CoreDataProperties.swift in Sources */,
-				3BF1AD8726635A2F002F1062 /* EmailAddressTransformer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -699,6 +709,7 @@
 				3B9B9F9E2634B16A00E3A8B2 /* PsymailApp.swift in Sources */,
 				3B5ABAFF265461C100601F26 /* WebView.swift in Sources */,
 				3B7917BE2660A0F400E764C1 /* EmailPart+CoreDataClass.swift in Sources */,
+				3BF1AD912663F8F0002F1062 /* AccountModel.swift in Sources */,
 				3BF1AD832661861F002F1062 /* EmailPart+CoreDataProperties.swift in Sources */,
 				3BF1AD6526615F18002F1062 /* AccountController.swift in Sources */,
 				3B9B9FD52634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel in Sources */,
@@ -706,11 +717,12 @@
 				3B9B9FD12634E26A00E3A8B2 /* NewsletterClassifier.mlmodel in Sources */,
 				3B9B9FA22634B16A00E3A8B2 /* Persistence.swift in Sources */,
 				3B9B9FD32634E26A00E3A8B2 /* MarketingRecognizer.mlmodel in Sources */,
-				3BF1AD8826635A2F002F1062 /* EmailAddressTransformer.swift in Sources */,
 				3BF1AD812661861F002F1062 /* EmailHeader+CoreDataProperties.swift in Sources */,
 				3B9B9FC12634B20600E3A8B2 /* MailModel.swift in Sources */,
+				3BF1AD8E2663EA2C002F1062 /* Account+CoreDataProperties.swift in Sources */,
 				3BD150A5265332010058B094 /* rainbow.swift in Sources */,
 				3BF1AD622660ACF0002F1062 /* MailController.swift in Sources */,
+				3BF1AD8C2663EA2C002F1062 /* Account+CoreDataClass.swift in Sources */,
 				3BF1AD7F2661861F002F1062 /* Email+CoreDataProperties.swift in Sources */,
 				3BF1AD852661861F002F1062 /* EmailAddress+CoreDataProperties.swift in Sources */,
 				3B5FBC342655EF85009D012C /* EmailClassifierAgnes.mlmodel in Sources */,

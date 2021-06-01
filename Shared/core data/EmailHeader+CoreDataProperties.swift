@@ -3,12 +3,9 @@
 //  psymail
 //
 //  Created by bubbles on 5/30/21.
-//
-//
 
 import Foundation
 import CoreData
-
 
 extension EmailHeader {
   
@@ -16,12 +13,12 @@ extension EmailHeader {
     return NSFetchRequest<EmailHeader>(entityName: "EmailHeader")
   }
   
-  @NSManaged public var inReplyTo: [String]?
+  @NSManaged public var inReplyTo: Set<String>? // message ids
   @NSManaged public var receivedDate: Date?
   @NSManaged public var sentDate: Date?
   @NSManaged public var subject: String?
-  @NSManaged public var userAgent: String?
-  @NSManaged public var references: [String]?
+  @NSManaged public var userAgent: String? // x-mailer header
+  @NSManaged public var references: Set<String>? // message ids
   @NSManaged public var from: EmailAddress?
   @NSManaged public var email: Email?
   @NSManaged public var bcc: NSSet?

@@ -18,12 +18,11 @@ extension EmailAddress {
   @NSManaged public var header: EmailHeader?
   
   // MARK: - not used, always nil
-  
+  @NSManaged public var toHeader: EmailHeader?
   @NSManaged public var bccHeader: EmailHeader?
   @NSManaged public var ccHeader: EmailHeader?
   @NSManaged public var replyToHeader: EmailHeader?
   @NSManaged public var senderHeader: EmailHeader?
-  @NSManaged public var toHeader: EmailHeader?
   
 }
 
