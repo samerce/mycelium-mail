@@ -40,11 +40,10 @@ struct EmailListView: View {
         }
         .onDelete { _ in print("deleted") }
       }
-      .padding(.horizontal, 6)
+      .padding(.horizontal, 10)
       
       Spacer().frame(height: 138)
     }
-    .padding(.horizontal, -2)
   }
   
   private func getListRow(_ email: Email) -> some View {
@@ -55,7 +54,7 @@ struct EmailListView: View {
     let subject = header.subject ?? "None"
     
     return ZStack {
-      VStack(alignment: .leading, spacing: 2) {
+      VStack(alignment: .leading, spacing: 3) {
         HStack(alignment: .lastTextBaseline) {
           Text(fromLine)
             .font(.system(size: 15, weight: .bold, design: .default))
@@ -76,8 +75,8 @@ struct EmailListView: View {
           .lineLimit(2)
       }
       .foregroundColor(Color.primary)
-      .padding(.horizontal, 6)
       .padding(.vertical, 12)
+      .padding(.horizontal, 12)
       
       NavigationLink(
         destination: EmailDetailView(email: email),
@@ -88,7 +87,6 @@ struct EmailListView: View {
       }
     }
     .listRowInsets(EdgeInsets())
-    .padding(.horizontal, 8)
     .contentShape(Rectangle())
     .onTapGesture {
       selectedRow = email.uid

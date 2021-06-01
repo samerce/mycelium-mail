@@ -34,7 +34,7 @@ class MailController: ObservableObject {
     print("fetching")
     
     let startUid = model.lastSavedEmailUid + 1
-    let endUid = UINT64_MAX - model.lastSavedEmailUid - 1
+    let endUid = UINT64_MAX - startUid
     let uids = MCOIndexSet(range: MCORangeMake(startUid, endUid))
     print("startUid: \(startUid), endUid: \(endUid)")
     
