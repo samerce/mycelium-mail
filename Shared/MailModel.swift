@@ -21,6 +21,7 @@ let Tabs = [
 
 class MailModel: ObservableObject {
   @Published private(set) var sortedEmails:[String: [Email]] = [:]
+  @Published var selectedEmail: Email?
   
   var lastSavedEmailUid: UInt64 {
     if emails.count > 0 { return UInt64(emails.first!.uid) }

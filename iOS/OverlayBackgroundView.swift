@@ -11,15 +11,15 @@ import SwiftUI
 struct OverlayBackgroundView: View {
   
   var body: some View {
-    VisualEffectBlur(blurStyle: .systemUltraThinMaterial)
-      .cornerRadius(9.0, corners: [.topLeft, .topRight])
-      .shadow(color: Color.black.opacity(0.36), radius: 9.0)
+    VisualEffectBlur(blurStyle: .prominent)
+      .roundedCorners(12, corners: [.topLeft, .topRight])
+      .shadow(color: Color.black.opacity(0.36), radius: 6)
   }
 }
 
-private extension View {
+extension View {
   
-  func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+  func roundedCorners(_ radius: CGFloat, corners: UIRectCorner) -> some View {
     clipShape(RoundedCorner(radius: radius, corners: corners))
   }
 }

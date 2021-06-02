@@ -1,18 +1,47 @@
-//
-//  Email+CoreDataClass.swift
-//  psymail
-//
-//  Created by bubbles on 5/27/21.
-
 import Foundation
 import CoreData
 import MailCore
+
+private let oneDay = 24.0 * 3600
+private let twoDays = 48.0 * 3600
+private let oneWeek = 24.0 * 7 * 3600
+
+private let dateFormatterWithinLastDay = DateFormatterWithinLastDay()
+private let dateFormatterWithinLastWeek = DateFormatterWithinLastWeek()
+private let dateFormatterMoreThanAWeek = DateFormatterMoreThanAWeek()
 
 @objc(Email)
 public class Email: NSManagedObject {
   
   var seen: Bool {
     flags.contains(.seen)
+  }
+  
+  var from: EmailAddress? { header!.from }
+  var sender: EmailAddress? { header!.sender }
+  
+  var subject: String {
+    header!.subject?.replacingOccurrences(of: "\r\n", with: "") ?? "None"
+  }
+  var fromLine: String {
+    from?.displayName ?? sender?.displayName ??
+      from?.address ?? sender?.address ?? "Unknown"
+  }
+  
+  var displayDate: String {
+    var formatter: DateFormatter
+    let date = header!.receivedDate
+    let timeSinceMessage = date?.distance(to: Date()) ?? Double.infinity
+    
+    if  timeSinceMessage > oneDay && timeSinceMessage < twoDays   {
+      formatter = dateFormatterWithinLastDay
+    } else if timeSinceMessage > twoDays && timeSinceMessage < oneWeek {
+      formatter = dateFormatterWithinLastWeek
+    } else {
+      formatter = dateFormatterMoreThanAWeek
+    }
+    
+    return (date != nil) ? formatter.string(from: date!) : ""
   }
   
   convenience init(
@@ -58,5 +87,48 @@ public class Email: NSManagedObject {
     }
     flags = newFlags
   }
-
+  
 }
+
+private class DateFormatterWithinLastDay: DateFormatter {
+  
+  override init() {
+    super.init()
+    dateFormat = "h:mm a"
+    doesRelativeDateFormatting = true
+    dateStyle = .short
+    timeStyle = .short
+  }
+  
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+  }
+  
+}
+
+private class DateFormatterWithinLastWeek: DateFormatter {
+  
+  override init() {
+    super.init()
+    dateFormat = "E h:mm a"
+  }
+  
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+  }
+  
+}
+
+private class DateFormatterMoreThanAWeek: DateFormatter {
+  
+  override init() {
+    super.init()
+    dateFormat = "M/d/yy"
+  }
+  
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+  }
+  
+}
+

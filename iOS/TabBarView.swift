@@ -12,12 +12,6 @@ struct TabBarView: View {
   @Binding var selection: Int
   @Binding var translationProgress: Double
   
-  enum Event {
-    case didTapTab
-  }
-  
-  let eventHandler: (Event) -> Void
-  
   let TabBarHeight: CGFloat = 48
   let SpacerHeight: CGFloat = 27
   var body: some View {
@@ -118,8 +112,6 @@ struct TabBarView_Previews: PreviewProvider {
   @State static var selectedTab = 0
   @State static var translationProgress: Double = 0
   static var previews: some View {
-    TabBarView(selection: $selectedTab, translationProgress: $translationProgress) { event in
-      
-    }
+    TabBarView(selection: $selectedTab, translationProgress: $translationProgress)
   }
 }

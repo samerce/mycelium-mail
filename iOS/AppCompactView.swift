@@ -1,88 +1,44 @@
 import SwiftUI
-import CoreData
-import MailCore
-import UIKit
-import DynamicOverlay
 
 struct AppCompactView: View {
-  @State private var notch: Notch = .min
-  @State private var isEditing = false
-  @State var translationProgress = 0.0
-  @State var selectedTab = 2
   
-  private enum Notch: CaseIterable, Equatable {
-      case min, mid, max
+  var body: some View {
+    ZStack {
+      EmailListView()
+      EmailDetailView()
+    }
   }
 
-  var body: some View {
-    NavigationView {
-      ZStack {
-        EmailListView(selectedTab: $selectedTab)
-        backdropView.opacity(translationProgress)
-      }
-      .dynamicOverlay(overlay)
-      .dynamicOverlayBehavior(behavior)
-      .ignoresSafeArea()
-      .navigationBarTitle(Tabs[selectedTab])
-      .navigationBarItems(
-        leading:
-            Image(systemName: "mail")
-              .resizable()
-              .aspectRatio(contentMode: .fit)
-              .font(.system(size: 27, weight: .light, design: .default))
-              .frame(width: 27, height: 27)
-          .foregroundColor(.pink),
-        trailing:
-            EditButton()
-              .font(.system(size: 17, weight: .regular, design: .default))
-          .foregroundColor(.pink)
-      )
-    }
-  }
-  
-  private var backdropView: some View {
-    Color.black.opacity(0.54)
-  }
-  
-  private var overlay: some View {
-    InboxDrawerView(selectedTab: $selectedTab, translationProgress: $translationProgress) { event in
-      switch event {
-      case .didTapTab:
-        isEditing = true
-        withAnimation { notch = .max }
-      }
-    }
-    .onChange(of: selectedTab) { _ in
-      withAnimation {
-        notch = .min
-      }
-    }
-    .zIndex(10)
-  }
-  
-  private var behavior: some DynamicOverlayBehavior {
-    MagneticNotchOverlayBehavior<Notch> { notch in
-      switch notch {
-      case .max:
-        return .fractional(0.82)
-      case .mid:
-        return .fractional(0.54)
-      case .min:
-        return .fractional(0.18)
-      }
-    }
-    .disable(.min, isEditing)
-    .notchChange($notch)
-    .onTranslation { translation in
-      withAnimation(.linear(duration: 0.15)) {
-        translationProgress = translation.progress
-      }
-    }
-  }
-  
-  private func showAbout() {
-    
-  }
+//  var body: some View {
+//    NavigationView {
+//      ZStack {
+//        EmailListView(selectedTab: $selectedTab)
+//        backdropView.opacity(translationProgress)
+//      }
+//      .dynamicOverlay(overlay)
+//      .dynamicOverlayBehavior(behavior)
+//      .ignoresSafeArea()
+//      .navigationBarTitle(Tabs[selectedTab])
+//      .navigationBarItems(
+//        leading:
+//            Image(systemName: "mail")
+//              .resizable()
+//              .aspectRatio(contentMode: .fit)
+//              .font(.system(size: 27, weight: .light, design: .default))
+//              .frame(width: 27, height: 27)
+//          .foregroundColor(.pink),
+//        trailing:
+//            EditButton()
+//              .font(.system(size: 17, weight: .regular, design: .default))
+//          .foregroundColor(.pink)
+//      )
+//    }
+//    .coordinateSpace(name: "root")
+//    .introspectNavigationController { navController in
+//      navController.navigationBar.layer.zPosition = 1
+//      navController.view.layer.zPosition = 1
+//    }
+//  }
   
 }
 

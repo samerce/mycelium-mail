@@ -1,7 +1,5 @@
-import Foundation
 import SwiftUI
 import DynamicOverlay
-import GoogleSignIn
 
 enum Grouping: String, CaseIterable, Identifiable {
     case emailAddress = "email"
@@ -15,6 +13,7 @@ enum Grouping: String, CaseIterable, Identifiable {
 let DefaultToolbarHeight: CGFloat = 54.0
 let HeaderHeight: CGFloat = 27
 let ToolbarHeight: CGFloat = 27
+let FirstExpandedNotch: CGFloat = 0.5
 
 struct InboxDrawerView: View {
   @State private var selectedGrouping = Grouping.emailAddress
@@ -23,32 +22,18 @@ struct InboxDrawerView: View {
   @Binding var selectedTab: Int
   @Binding var translationProgress: Double
   
-  enum Event {
-    case didTapTab
-  }
-  
-  let eventHandler: (Event) -> Void
-  
   // MARK: - View
   
   var body: some View {
-    let bottomSpace = CGFloat.maximum(27, 54 - (CGFloat(translationProgress) / 0.50) * 54)
+    let bottomSpace = CGFloat.maximum(27, 54 - (CGFloat(translationProgress) / FirstExpandedNotch) * 54)
 //    let hiddenSectionOpacity = translationProgress > 0 ? translationProgress + 0.48 : 0
     return VStack(spacing: 0) {
-      Capsule()
-        .fill(Color(UIColor.darkGray))
-        .frame(width: 36, height: 5, alignment: .center)
-        .padding(.top, 6)
+      DrawerCapsule()
       
       perspectiveHeader
       Spacer().frame(height: 12)
       
-      TabBarView(selection: $selectedTab, translationProgress: $translationProgress) { event in
-        switch event {
-        case .didTapTab:
-          eventHandler(.didTapTab)
-        }
-      }
+      TabBarView(selection: $selectedTab, translationProgress: $translationProgress)
 
       toolbar
       Spacer().frame(height: bottomSpace)
@@ -61,13 +46,14 @@ struct InboxDrawerView: View {
       .drivingScrollView()
       .padding(0)
     }
+    .frame(height: UIScreen.main.bounds.height * 0.92)
     .background(OverlayBackgroundView())
     .ignoresSafeArea()
   }
   
   private var perspectiveHeader: some View {
-    let height = CGFloat.minimum(HeaderHeight, CGFloat.maximum(0, (CGFloat(translationProgress) / 0.5) * HeaderHeight))
-    let opacity = CGFloat.minimum(1, CGFloat.maximum(0, (CGFloat(translationProgress) / 0.5) * 1))
+    let height = CGFloat.minimum(HeaderHeight, CGFloat.maximum(0, (CGFloat(translationProgress) / FirstExpandedNotch) * HeaderHeight))
+    let opacity = CGFloat.minimum(1, CGFloat.maximum(0, (CGFloat(translationProgress) / FirstExpandedNotch) * 1))
     return HStack(spacing: 0) {
       Text("PERSPECTIVES")
         .frame(maxWidth: .infinity, maxHeight: height, alignment: .leading)
@@ -97,9 +83,9 @@ struct InboxDrawerView: View {
   }
   
   private var toolbar: some View {
-    let height = CGFloat.maximum(0, ToolbarHeight - (CGFloat(translationProgress) / 0.50) * ToolbarHeight)
-    let dividerHeight = CGFloat.maximum(0, 18 - (CGFloat(translationProgress) / 0.50) * 18)
-    let opacity = CGFloat.maximum(0, 1 - (CGFloat(translationProgress) / 0.50))
+    let height = CGFloat.maximum(0, ToolbarHeight - (CGFloat(translationProgress) / FirstExpandedNotch) * ToolbarHeight)
+    let dividerHeight = CGFloat.maximum(0, 18 - (CGFloat(translationProgress) / FirstExpandedNotch) * 18)
+    let opacity = CGFloat.maximum(0, 1 - (CGFloat(translationProgress) / FirstExpandedNotch))
     let iconSize: CGFloat = 24
     return VStack(alignment: .center, spacing: 0) {
       Divider().frame(height: dividerHeight)
@@ -173,8 +159,6 @@ struct InboxDrawerView_Previews: PreviewProvider {
   @State static var selectedTab = 0
   static var previews: some View {
     InboxDrawerView(selectedTab: $selectedTab,
-                    translationProgress: $progress) { event in
-    }
-    .drivingScrollView()
+                    translationProgress: $progress)
   }
 }

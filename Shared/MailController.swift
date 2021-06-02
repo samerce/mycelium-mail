@@ -1,6 +1,7 @@
 import Foundation
 import MailCore
 import Combine
+import SwiftUI
 
 class MailController: ObservableObject {
   static let shared = MailController()
@@ -10,6 +11,10 @@ class MailController: ObservableObject {
   private var accountCtrl = AccountController.shared
   private var sessions = [Account: MCOIMAPSession]()
   private var subscribers: [AnyCancellable] = []
+  
+  private var animation: Animation {
+    .interactiveSpring(response: 0.36, dampingFraction: 0.74)
+  }
   
   private init() {
     for (address, account) in accountCtrl.model.accounts {
@@ -94,6 +99,14 @@ class MailController: ObservableObject {
     
     queue.waitUntilAllOperationsAreFinished()
     completion(errors)
+  }
+  
+  func selectEmail(_ email: Email) {
+    withAnimation(animation) { model.selectedEmail = email }
+  }
+  
+  func deselectEmail() {
+    withAnimation(animation) { model.selectedEmail = nil }
   }
   
 //  func setFlags(uids: IndexSet, flags: [])
