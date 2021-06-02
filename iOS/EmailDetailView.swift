@@ -14,24 +14,45 @@ struct EmailDetailView: View {
   @State private var seenTimer: Timer?
   @State private var notch: Notch = .min
   @State var translationProgress = 0.0
+  @State var backGestureDistanceFromEdge: CGFloat?
   
   private let mailCtrl = MailController.shared
   private var email: Email? { model.selectedEmail }
+  
+  var backGesture: some Gesture {
+    DragGesture()
+      .onChanged { gesture in
+        if gesture.startLocation.x < 36 {
+          self.backGestureDistanceFromEdge =
+            abs(gesture.location.x - gesture.startLocation.x)
+        }
+      }
+      .onEnded { gesture in
+        if let distance = self.backGestureDistanceFromEdge, distance > 54 {
+          withAnimation { self.backGestureDistanceFromEdge = screenWidth }
+          mailCtrl.deselectEmail()
+        }
+        self.backGestureDistanceFromEdge = nil
+      }
+  }
   
   var body: some View {
     ZStack(alignment: .top) {
       if email != nil {
         DetailView
-        EmailListRow(email: email!, mode: .details)
+          .dynamicOverlay(ToolsDrawer)
+          .dynamicOverlayBehavior(toolsDrawerBehavior)
           .ignoresSafeArea()
+          .clipped()
+        
+        EmailSenderDrawerView(email: email)
+          .clipped()
       }
     }
-    .dynamicOverlay(ToolsDrawer)
-    .dynamicOverlayBehavior(toolsDrawerBehavior)
-    .ignoresSafeArea()
     .frame(width: rootWidth, height: rootHeight, alignment: .top)
-    .clipped()
     .background(Color(.systemBackground))
+    .clipped()
+    .gesture(backGesture)
   }
   
   private var DetailView: some View {
@@ -55,14 +76,23 @@ struct EmailDetailView: View {
   
   private var ToolsDrawer: some View {
     EmailToolsDrawerView(email: email)
+      .clipped()
   }
-
+  
   private var rootWidth: CGFloat {
-    UIScreen.main.bounds.width
+    if let fromEdge = backGestureDistanceFromEdge {
+      let percentOfScreen = fromEdge / UIScreen.main.bounds.width
+      return screenWidth - (screenWidth * percentOfScreen)
+    }
+    return screenWidth
   }
   
   private var rootHeight: CGFloat {
-    email == nil ? 0 : UIScreen.main.bounds.height
+//    if let distanceFromEdge = backGestureDistanceFromEdge {
+//      let percentOfScreen = distanceFromEdge / UIScreen.main.bounds.width
+//      return screenHeight - (screenHeight * percentOfScreen)
+//    }
+    return email == nil ? 0 : screenHeight
   }
   
   private var toolsDrawerBehavior: some DynamicOverlayBehavior {
@@ -73,7 +103,7 @@ struct EmailDetailView: View {
       case .mid:
         return .fractional(0.54)
       case .min:
-        return .fractional(0.19)
+        return .fractional(0.16)
       }
     }
     .notchChange($notch)
@@ -82,6 +112,13 @@ struct EmailDetailView: View {
         translationProgress = translation.progress
       }
     }
+  }
+  
+  private var screenWidth: CGFloat {
+    UIScreen.main.bounds.width
+  }
+  private var screenHeight: CGFloat {
+    UIScreen.main.bounds.height
   }
   
 //  private func onOpenDetails() {

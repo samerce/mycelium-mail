@@ -9,6 +9,7 @@ struct EmailToolsDrawerView: View {
   var body: some View {
     VStack(alignment: .center, spacing: 0) {
       DrawerCapsule()
+        .padding(.vertical, 6)
       
       Spacer().frame(height: 9)
       
@@ -23,33 +24,33 @@ struct EmailToolsDrawerView: View {
       }
       
       VStack(alignment: .center, spacing: 0) {
-        Divider().frame(height: 24)
+        Divider()
+          .padding(.top, 12)
+          .padding(.bottom, 4)
         
         HStack {
-          toolbarButton("tray", expand: false) { mailCtrl.deselectEmail() }
-          Spacer().frame(width: 6)
-          
-          VStack {
-            Text(email?.fromLine ?? "")
-              .frame(maxWidth: .infinity)
-              .font(.system(size: 18))
-              .foregroundColor(.primary)
-              .multilineTextAlignment(.center)
-              .lineLimit(1)
-            
-            Text(email?.displayDate.uppercased() ?? "")
-              .frame(maxWidth: .infinity)
-              .font(.system(size: 14, weight: .light))
-              .foregroundColor(.secondary)
-              .multilineTextAlignment(.center)
-              .lineLimit(1)
+          Button(action: { mailCtrl.deselectEmail() }) {
+            SystemImage("mail.stack", size: 27)
           }
-          .frame(maxWidth: .infinity)
+          .frame(width: 36, height: 40)
           
           Spacer().frame(width: 6)
-          toolbarButton("square.and.pencil", expand: false)
+          
+          Text(email?.displayDate ?? "")
+            .frame(maxWidth: .infinity)
+            .font(.system(size: 16, weight: .light))
+            .foregroundColor(.secondary)
+            .multilineTextAlignment(.center)
+            .lineLimit(1)
+          
+          Spacer().frame(width: 6)
+          
+          Button(action: {}) {
+            SystemImage("square.and.pencil", size: 27)
+          }
+          .frame(width: 36, height: 40)
         }
-        .frame(maxWidth: .infinity, minHeight: 36)
+        .frame(maxWidth: .infinity)
       }
       .padding(.horizontal, 24)
       .clipped()
@@ -60,18 +61,22 @@ struct EmailToolsDrawerView: View {
   }
   
   private func toolbarButton(
-    _ name: String, expand: Bool = true, action: @escaping () -> Void = {}
+    _ name: String, action: @escaping () -> Void = {}
   ) -> some View {
     Button(action: action) {
-      Image(systemName: name)
-        .resizable()
-        .aspectRatio(contentMode: .fit)
-        .foregroundColor(.pink)
-        .font(.system(size: 27, weight: .light, design: .default))
-        .frame(width: 27, height: 27)
-        .contentShape(Rectangle())
+      SystemImage(name, size: 24)
     }
-    .if(expand) { view in view.frame(maxWidth: .infinity) }
+    .frame(maxWidth: .infinity)
+  }
+  
+  private func SystemImage(_ name: String, size: CGFloat) -> some View {
+    Image(systemName: name)
+      .resizable()
+      .aspectRatio(contentMode: .fit)
+      .foregroundColor(.pink)
+      .font(.system(size: size, weight: .light, design: .default))
+      .frame(width: size, height: size)
+      .contentShape(Rectangle())
   }
   
 }

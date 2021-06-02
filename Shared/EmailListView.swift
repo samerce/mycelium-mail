@@ -5,8 +5,10 @@ private enum Notch: CaseIterable, Equatable {
     case min, mid, max
 }
 
+private var mailCtrl = MailController.shared
+
 struct EmailListView: View {
-  @StateObject var model = MailController.shared.model
+  @StateObject var model = mailCtrl.model
   @State private var notch: Notch = .min
   @State var translationProgress = 0.0
   @State var selectedTab = 2
@@ -27,6 +29,7 @@ struct EmailListView: View {
       LazyVStack {
         ForEach(emails, id: \.uuid) { email in
           EmailListRow(email: email)
+            .onTapGesture { mailCtrl.selectEmail(email) }
         }
         .onDelete { _ in print("deleted") }
       }

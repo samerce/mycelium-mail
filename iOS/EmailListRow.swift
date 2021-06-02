@@ -5,39 +5,42 @@ enum EmailListRowMode {
   case summary, details
 }
 
+private var mailCtrl = MailController.shared
+
 struct EmailListRow: View {
   var email: Email
   var mode: EmailListRowMode? = .summary
   
-  @ObservedObject private var mailCtrl = MailController.shared
+  @StateObject var model = mailCtrl.model
+  @State var expanded = false
   
   var body: some View {
     ZStack {
-      VStack(alignment: .leading, spacing: 3) {
-        if mode == .details { Spacer().frame(height: 30) }
+      VStack(alignment: .leading, spacing: mode == .summary ? 3 : 6) {
+//        if mode == .details { Spacer().frame(height: 30) }
         
         HStack(alignment: .lastTextBaseline) {
           Text(email.fromLine)
-            .font(.system(size: 15, weight: .bold))
-            .lineLimit(1)
+            .if(mode == .summary) { view in
+              view
+                .font(.system(size: 15, weight: .bold))
+                .lineLimit(1)
+            }
+            .if(mode == .details) { v in v.font(.system(size: 20, weight: .bold)) }
           Spacer()
           Text(email.displayDate)
             .font(.system(size: 12, weight: .light))
             .foregroundColor(Color.secondary)
-          Image(systemName: "chevron.right")
+            .if(mode == .details) { v in v.hidden().frame(width: 0) }
+          Image(systemName: mode == .details ? "chevron.down" : "chevron.right")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .foregroundColor(.gray)
-            .frame(width: 12, height: 12)
+            .foregroundColor(.pink)
+            .if(mode == .details) { v in v.frame(width: 18, height: 18) }
+            .if(mode == .summary) { v in v.frame(width: 12, height: 12) }
             .offset(x: 0, y: 1)
-            .if(mode == .details) { view in view.hidden() }
         }
         .clipped()
-        .if(mode == .details) { view in
-          view
-            .frame(height: 0)
-            .hidden()
-        }
         
         Text(email.subject)
           .if(mode == .summary) { view in
@@ -50,30 +53,17 @@ struct EmailListRow: View {
           }
       }
       .foregroundColor(Color.primary)
-      .padding(.vertical, mode == .summary ? 12 : 12)
-      .padding(.horizontal, mode == .summary ? 12 : 20)
+      .padding(.vertical, 12)
+      .padding(.horizontal, 12)
+      .if(mode == .details) { v in v.padding(.bottom, 6).padding(.horizontal, 20) }
     }
     .listRowInsets(.none)
     .contentShape(Rectangle())
-    .onTapGesture {
-      if mode == .summary {
-        mailCtrl.selectEmail(email)
-      } else {
-        mailCtrl.deselectEmail()
-      }
-    }
     .if(!email.seen && mode == .summary) { view in
       view
         .overlay(RainbowGlowBorder().opacity(0.98))
         .background(VisualEffectBlur(blurStyle: .prominent))
         .cornerRadius(12)
-    }
-    .if(mode == .details) { view in
-      view
-        .frame(alignment: .top)
-        .background(VisualEffectBlur(blurStyle: .prominent))
-//        .roundedCorners(12, corners: .bottomLeft)
-//        .roundedCorners(12, corners: .bottomRight)
     }
   }
   

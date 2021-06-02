@@ -29,6 +29,7 @@ struct InboxDrawerView: View {
 //    let hiddenSectionOpacity = translationProgress > 0 ? translationProgress + 0.48 : 0
     return VStack(spacing: 0) {
       DrawerCapsule()
+        .padding(.top, 6)
       
       perspectiveHeader
       Spacer().frame(height: 12)
@@ -86,7 +87,7 @@ struct InboxDrawerView: View {
     let height = CGFloat.maximum(0, ToolbarHeight - (CGFloat(translationProgress) / FirstExpandedNotch) * ToolbarHeight)
     let dividerHeight = CGFloat.maximum(0, 18 - (CGFloat(translationProgress) / FirstExpandedNotch) * 18)
     let opacity = CGFloat.maximum(0, 1 - (CGFloat(translationProgress) / FirstExpandedNotch))
-    let iconSize: CGFloat = 24
+    let iconSize: CGFloat = 27
     return VStack(alignment: .center, spacing: 0) {
       Divider().frame(height: dividerHeight)
       HStack(alignment: .center) {
@@ -96,24 +97,30 @@ struct InboxDrawerView: View {
               .aspectRatio(contentMode: .fit)
               .foregroundColor(.pink)
               .frame(maxWidth: iconSize, maxHeight: height)
-              .font(.system(size: iconSize, weight: .light, design: .default))
+              .font(.system(size: iconSize, weight: .light))
           }
+          .frame(width: 36, height: 40)
+        
         Text("updated just now")
           .font(.system(size: 14, weight: .light, design: .rounded))
           .foregroundColor(.secondary)
           .frame(maxWidth: .infinity, maxHeight: height)
           .multilineTextAlignment(.center)
           .clipped()
+        
+        Button(action: {}) {
           Image(systemName: "square.and.pencil")
             .resizable()
             .aspectRatio(contentMode: .fit)
             .foregroundColor(.pink)
             .frame(maxWidth: iconSize, maxHeight: height)
-            .font(.system(size: iconSize, weight: .light, design: .default))
+            .font(.system(size: iconSize, weight: .light))
+        }
+        .frame(width: 36, height: 40)
       }
       .frame(height: height)
     }
-    .padding(.horizontal, 22)
+    .padding(.horizontal, 24)
     .opacity(Double(opacity))
     .clipped()
   }

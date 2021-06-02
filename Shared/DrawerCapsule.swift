@@ -5,7 +5,6 @@ struct DrawerCapsule: View {
     Capsule()
       .fill(Color(.gray))
       .frame(width: 36, height: 5, alignment: .center)
-      .padding(.vertical, 6)
   }
 }
 

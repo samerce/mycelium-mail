@@ -102,6 +102,44 @@ class MailModel: ObservableObject {
     }
   }
   
+  func emailsFromSenderOf(_ email: Email) -> [Email] {
+    let senderAddress = email.from?.address ?? email.sender?.address ?? ""
+    if senderAddress.isEmpty { return [] }
+    
+    var predicate: NSPredicate
+    let predicateFormatBase = "header.from.address == %@ OR header.sender.address == %@"
+    
+    let senderDisplayName = email.from?.displayName ?? email.sender?.displayName ?? ""
+    if senderDisplayName.isEmpty {
+      predicate = NSPredicate(
+        format: predicateFormatBase,
+        senderAddress,
+        senderAddress
+      )
+    } else {
+      predicate = NSPredicate(
+        format: predicateFormatBase +
+          " OR header.from.displayName == %@ OR header.sender.displayName == %@",
+        senderAddress,
+        senderAddress,
+        senderDisplayName,
+        senderDisplayName
+      )
+    }
+    
+    let emailFetchRequest:NSFetchRequest<Email> = Email.fetchRequest()
+    emailFetchRequest.predicate = predicate
+    
+    do {
+      return try managedContext.fetch(emailFetchRequest)
+    }
+    catch let error {
+      print("error fetching emails from sender: \(error.localizedDescription)")
+    }
+    
+    return []
+  }
+  
   // MARK: - private
   
   private func fetchEmailsByDateDescending() -> [Email] {

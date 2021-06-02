@@ -12,7 +12,6 @@ struct OverlayBackgroundView: View {
   
   var body: some View {
     VisualEffectBlur(blurStyle: .prominent)
-      .roundedCorners(12, corners: [.topLeft, .topRight])
       .shadow(color: Color.black.opacity(0.36), radius: 6)
   }
 }
