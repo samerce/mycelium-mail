@@ -18,16 +18,14 @@ struct EmailSenderDrawerView: View {
         dragAmount = gesture.translation.height
       }
       .onEnded { gesture in
-        var direction: String?
         let xDist =  abs(gesture.location.x - gesture.startLocation.x)
         let yDist =  abs(gesture.location.y - gesture.startLocation.y)
-        if gesture.startLocation.y <  gesture.location.y && yDist > xDist {
-          direction = "down"
-        }
-        
-        if dragAmount > 54 && direction == "down" {
+        let draggedDown = gesture.startLocation.y <  gesture.location.y && yDist > xDist
+
+        if draggedDown && dragAmount > 54 {
           withAnimation { expanded = true }
         }
+        
         dragAmount = 0
       }
   }

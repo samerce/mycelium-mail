@@ -9,6 +9,14 @@ class AccountModel: ObservableObject {
   }
   
   init() {
+//    do {
+//      let deleteRequest = NSBatchDeleteRequest(fetchRequest: Account.fetchRequest())
+//      try moc.execute(deleteRequest)
+//    }
+//    catch let error {
+//      print("error deleting all accounts from core data: \(error)")
+//    }
+    
     do {
       let fetchedAccounts = try moc.fetch(Account.fetchRequest()) as [Account]
       for account in fetchedAccounts {
@@ -20,18 +28,18 @@ class AccountModel: ObservableObject {
     }
   }
   
-  func makeAndSaveAccount(address: String,
-                          username: String,
-                          oAuthToken: String,
-                          type: AccountType) -> Account? {
+  func makeAndSaveAccount(
+    type: AccountType,
+    address: String, userId: String, firstName: String?, lastName: String?,
+    accessToken: String, accessTokenExpiration: Date, refreshToken: String
+  ) -> Account? {
     let account = Account(
-      address: address,
-      username: username,
-      oAuthToken: oAuthToken,
       type: type,
+      address: address, userId: userId, firstName: firstName, lastName: lastName,
+      accessToken: accessToken, accessTokenExpiration: accessTokenExpiration,
+      refreshToken: refreshToken,
       context: moc
     )
-    account.loggedIn = true
     accounts[account.address!] = account
     
     do {
@@ -41,6 +49,12 @@ class AccountModel: ObservableObject {
       print("error saving account: \(error.localizedDescription)")
     }
     return nil
+  }
+  
+  func save() {
+    do { try moc.save() } catch let error {
+      print("error saving core data account: \(error.localizedDescription)")
+    }
   }
   
 }

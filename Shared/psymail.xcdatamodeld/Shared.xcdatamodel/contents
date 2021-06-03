@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20F71" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="Account" representedClassName="Account" syncable="YES">
+        <attribute name="accessToken" optional="YES" attributeType="String"/>
+        <attribute name="accessTokenExpiration" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="address" optional="YES" attributeType="String"/>
-        <attribute name="oAuthToken" optional="YES" attributeType="String"/>
+        <attribute name="firstName" optional="YES" attributeType="String"/>
+        <attribute name="lastName" optional="YES" attributeType="String"/>
         <attribute name="password" optional="YES" attributeType="String"/>
+        <attribute name="refreshToken" optional="YES" attributeType="String"/>
         <attribute name="typeRaw" optional="YES" attributeType="String" valueTransformerName="NSSecureUnarchiveFromData" customClassName="AccountType"/>
-        <attribute name="username" optional="YES" attributeType="String"/>
+        <attribute name="userId" optional="YES" attributeType="String"/>
         <relationship name="emails" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Email" inverseName="account" inverseEntity="Email"/>
     </entity>
     <entity name="Email" representedClassName="Email" syncable="YES">
@@ -76,6 +80,6 @@
         <element name="EmailAddress" positionX="-977.1917724609375" positionY="-68.92247009277344" width="128" height="163"/>
         <element name="EmailHeader" positionX="-639.457275390625" positionY="21.86758422851562" width="128" height="238"/>
         <element name="EmailPart" positionX="-340.2655029296875" positionY="132.3669128417969" width="128" height="208"/>
-        <element name="Account" positionX="-774" positionY="-18" width="128" height="119"/>
+        <element name="Account" positionX="-774" positionY="-18" width="128" height="179"/>
     </elements>
 </model>

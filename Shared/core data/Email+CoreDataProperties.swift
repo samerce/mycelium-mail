@@ -1,17 +1,19 @@
-//
-//  Email+CoreDataProperties.swift
-//  psymail
-//
-//  Created by bubbles on 5/30/21.
-
 import Foundation
 import CoreData
 import MailCore
+
+private let byDateDescending = NSSortDescriptor(key: "date", ascending: false)
 
 extension Email {
   
   @nonobjc public class func fetchRequest() -> NSFetchRequest<Email> {
     return NSFetchRequest<Email>(entityName: "Email")
+  }
+  
+  @nonobjc public class func fetchRequestByDate() -> NSFetchRequest<Email> {
+    let fetchRequest = NSFetchRequest<Email>(entityName: "Email")
+    fetchRequest.sortDescriptors = [byDateDescending]
+    return fetchRequest
   }
   
   @NSManaged public var customFlags: Set<String>?
@@ -27,27 +29,10 @@ extension Email {
   @NSManaged public var size: Int32
   @NSManaged public var uid: Int32 // email id from server
   @NSManaged public var uuid: UUID? // core data id
+
+  @NSManaged public var account: Account?
   @NSManaged public var header: EmailHeader?
   @NSManaged public var mimePart: EmailPart?
-  @NSManaged public var account: Account?
-  
-  var flags: MCOMessageFlag {
-    get {
-      return MCOMessageFlag(rawValue: Int(flagsRaw))
-    }
-    set {
-      flagsRaw = Int16(newValue.rawValue)
-    }
-  }
-  
-  var originalFlags: MCOMessageFlag {
-    get {
-      return MCOMessageFlag(rawValue: Int(originalFlagsRaw))
-    }
-    set {
-      originalFlagsRaw = Int16(newValue.rawValue)
-    }
-  }
   
 }
 

@@ -90,33 +90,35 @@ struct InboxDrawerView: View {
     let iconSize: CGFloat = 27
     return VStack(alignment: .center, spacing: 0) {
       Divider().frame(height: dividerHeight)
-      HStack(alignment: .center) {
+      HStack(spacing: 0) {
           Button(action: loginWithGoogle) {
-            Image(systemName: "wand.and.stars.inverse")
-              .resizable()
-              .aspectRatio(contentMode: .fit)
-              .foregroundColor(.pink)
-              .frame(maxWidth: iconSize, maxHeight: height)
-              .font(.system(size: iconSize, weight: .light))
+            ZStack {
+              Image(systemName: "wand.and.stars.inverse")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .foregroundColor(.pink)
+                .frame(maxWidth: iconSize, maxHeight: height)
+                .font(.system(size: iconSize, weight: .light))
+            }.frame(width: 54, height: 50, alignment: .leading)
           }
-          .frame(width: 36, height: 40)
         
         Text("updated just now")
-          .font(.system(size: 14, weight: .light, design: .rounded))
+          .font(.system(size: 16, weight: .light, design: .rounded))
           .foregroundColor(.secondary)
           .frame(maxWidth: .infinity, maxHeight: height)
           .multilineTextAlignment(.center)
           .clipped()
         
         Button(action: {}) {
-          Image(systemName: "square.and.pencil")
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .foregroundColor(.pink)
-            .frame(maxWidth: iconSize, maxHeight: height)
-            .font(.system(size: iconSize, weight: .light))
+          ZStack {
+            Image(systemName: "square.and.pencil")
+              .resizable()
+              .aspectRatio(contentMode: .fit)
+              .foregroundColor(.pink)
+              .frame(maxWidth: iconSize, maxHeight: height)
+              .font(.system(size: iconSize, weight: .light))
+          }.frame(width: 54, height: 50, alignment: .trailing)
         }
-        .frame(width: 36, height: 40)
       }
       .frame(height: height)
     }

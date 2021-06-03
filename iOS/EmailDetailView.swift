@@ -81,7 +81,7 @@ struct EmailDetailView: View {
   
   private var rootWidth: CGFloat {
     if let fromEdge = backGestureDistanceFromEdge {
-      let percentOfScreen = fromEdge / UIScreen.main.bounds.width
+      let percentOfScreen = fromEdge / screenWidth
       return screenWidth - (screenWidth * percentOfScreen)
     }
     return screenWidth
@@ -103,7 +103,7 @@ struct EmailDetailView: View {
       case .mid:
         return .fractional(0.54)
       case .min:
-        return .fractional(0.16)
+        return .fractional(0.15)
       }
     }
     .notchChange($notch)
@@ -112,13 +112,6 @@ struct EmailDetailView: View {
         translationProgress = translation.progress
       }
     }
-  }
-  
-  private var screenWidth: CGFloat {
-    UIScreen.main.bounds.width
-  }
-  private var screenHeight: CGFloat {
-    UIScreen.main.bounds.height
   }
   
 //  private func onOpenDetails() {

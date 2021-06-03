@@ -13,44 +13,49 @@ struct EmailToolsDrawerView: View {
       
       Spacer().frame(height: 9)
       
-      HStack {
-        Spacer()
+      HStack(spacing: 0) {
         toolbarButton("archivebox")
         toolbarButton("tag")
         toolbarButton("trash")
         toolbarButton("flag")
         toolbarButton("arrowshape.turn.up.left")
-        Spacer()
       }
+      .frame(maxWidth: .infinity)
+      .padding(.horizontal, 24)
       
-      VStack(alignment: .center, spacing: 0) {
+      VStack(spacing: 0) {
         Divider()
           .padding(.top, 12)
-          .padding(.bottom, 4)
         
-        HStack {
+        HStack(spacing: 0) {
+          Spacer()
+          
           Button(action: { mailCtrl.deselectEmail() }) {
-            SystemImage("mail.stack", size: 27)
+            ZStack {
+              SystemImage("mail.stack", size: 27)
+            }.frame(width: 54, height: 50, alignment: .leading)
           }
-          .frame(width: 36, height: 40)
           
-          Spacer().frame(width: 6)
+          Spacer().frame(width: 9)
           
-          Text(email?.displayDate ?? "")
-            .frame(maxWidth: .infinity)
+          Text(email?.longDisplayDate ?? "")
+            .frame(maxWidth: .infinity, minHeight: 50, alignment: .center)
             .font(.system(size: 16, weight: .light))
             .foregroundColor(.secondary)
             .multilineTextAlignment(.center)
             .lineLimit(1)
           
-          Spacer().frame(width: 6)
+          Spacer().frame(width: 9)
           
           Button(action: {}) {
-            SystemImage("square.and.pencil", size: 27)
+            ZStack {
+              SystemImage("square.and.pencil", size: 27)
+            }.frame(width: 54, height: 50, alignment: .trailing)
           }
-          .frame(width: 36, height: 40)
         }
         .frame(maxWidth: .infinity)
+        
+        Spacer()
       }
       .padding(.horizontal, 24)
       .clipped()

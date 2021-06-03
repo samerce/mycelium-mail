@@ -1,9 +1,3 @@
-//
-//  Account+CoreDataProperties.swift
-//  psymail
-//
-//  Created by bubbles on 5/31/21.
-
 import Foundation
 import CoreData
 
@@ -13,12 +7,16 @@ extension Account {
     return NSFetchRequest<Account>(entityName: "Account")
   }
   
-  @NSManaged public var username: String?
-  @NSManaged public var oAuthToken: String?
-  @NSManaged public var password: String?
-  @NSManaged public var typeRaw: String?
+  @NSManaged public var accessToken: String?
+  @NSManaged public var accessTokenExpiration: Date?
   @NSManaged public var address: String?
   @NSManaged public var emails: NSSet?
+  @NSManaged public var firstName: String?
+  @NSManaged public var lastName: String?
+  @NSManaged public var password: String?
+  @NSManaged public var refreshToken: String?
+  @NSManaged public var typeRaw: String?
+  @NSManaged public var userId: String?
   
   var type: AccountType {
     get {
@@ -27,6 +25,13 @@ extension Account {
     set {
       typeRaw = newValue.rawValue
     }
+  }
+  
+  var fullName: String? {
+    if let firstName = firstName {
+      return firstName + (lastName ?? "")
+    }
+    return nil
   }
   
 }

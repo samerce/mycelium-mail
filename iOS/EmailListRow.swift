@@ -28,7 +28,7 @@ struct EmailListRow: View {
             }
             .if(mode == .details) { v in v.font(.system(size: 20, weight: .bold)) }
           Spacer()
-          Text(email.displayDate)
+          Text(email.displayDate ?? "")
             .font(.system(size: 12, weight: .light))
             .foregroundColor(Color.secondary)
             .if(mode == .details) { v in v.hidden().frame(width: 0) }

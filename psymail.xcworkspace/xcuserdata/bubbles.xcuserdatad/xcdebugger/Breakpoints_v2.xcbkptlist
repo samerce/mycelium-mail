@@ -7,17 +7,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7634D88E-437F-42B4-A9A3-FBBC3F5C3B7F"
+            uuid = "810E2289-9B93-4E9A-8D99-2353E8B0608A"
             shouldBeEnabled = "No"
-            condition = "message.header.subject.contains(&quot;Fearlessness&quot;)"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Shared/MailModel.swift"
+            filePath = "Shared/MailController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
-            landmarkName = "makeAndSaveEmail(withMessage:html:account:)"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "fetchLatest(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5684B6CB-67F1-4F78-983B-C2EEDA6D488A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Shared/AccountController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "sign(_:didSignInFor:withError:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

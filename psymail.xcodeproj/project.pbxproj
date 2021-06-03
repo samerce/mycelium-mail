@@ -92,6 +92,8 @@
 		3BF1AE252666FF2A002F1062 /* DrawerCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE232666FF2A002F1062 /* DrawerCapsule.swift */; };
 		3BF1AE2726672A57002F1062 /* EmailSenderDrawerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE2626672A57002F1062 /* EmailSenderDrawerView.swift */; };
 		3BF1AE2826672A57002F1062 /* EmailSenderDrawerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE2626672A57002F1062 /* EmailSenderDrawerView.swift */; };
+		3BF1AE2A26683514002F1062 /* View+screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE2926683514002F1062 /* View+screen.swift */; };
+		3BF1AE2B26683514002F1062 /* View+screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE2926683514002F1062 /* View+screen.swift */; };
 		3F968887777D7B0730C9B3B8 /* Pods_psymail__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 399CC61715E34E128033326B /* Pods_psymail__iOS_.framework */; };
 		7E17C93A34D56B49D4BC931E /* Pods_psymail__macOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8F4944D476A40856691F844 /* Pods_psymail__macOS_.framework */; };
 /* End PBXBuildFile section */
@@ -184,6 +186,7 @@
 		3BF1AE202666FCE6002F1062 /* EmailToolsDrawerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailToolsDrawerView.swift; sourceTree = "<group>"; };
 		3BF1AE232666FF2A002F1062 /* DrawerCapsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerCapsule.swift; sourceTree = "<group>"; };
 		3BF1AE2626672A57002F1062 /* EmailSenderDrawerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSenderDrawerView.swift; sourceTree = "<group>"; };
+		3BF1AE2926683514002F1062 /* View+screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+screen.swift"; sourceTree = "<group>"; };
 		3E35B10F6A88FE4A90A5E820 /* Pods-psymail (macOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-psymail (macOS).release.xcconfig"; path = "Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS).release.xcconfig"; sourceTree = "<group>"; };
 		5373F94F41453FE8AB093878 /* Pods-psymail (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-psymail (iOS).debug.xcconfig"; path = "Target Support Files/Pods-psymail (iOS)/Pods-psymail (iOS).debug.xcconfig"; sourceTree = "<group>"; };
 		7007A9069DB99A4BC20380FC /* Pods-psymail (macOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-psymail (macOS).debug.xcconfig"; path = "Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS).debug.xcconfig"; sourceTree = "<group>"; };
@@ -362,6 +365,7 @@
 				3B5ABAF626545D2900601F26 /* QuotedPrintable.swift */,
 				3BD150A3265332010058B094 /* rainbow.swift */,
 				3BF1AE1A2665FA89002F1062 /* View+if.swift */,
+				3BF1AE2926683514002F1062 /* View+screen.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -699,6 +703,7 @@
 				3B9B9FD02634E26A00E3A8B2 /* NewsletterClassifier.mlmodel in Sources */,
 				3BF1AD7E2661861F002F1062 /* Email+CoreDataProperties.swift in Sources */,
 				3B6666852651EAAA0039D9F3 /* InboxDrawerView.swift in Sources */,
+				3BF1AE2A26683514002F1062 /* View+screen.swift in Sources */,
 				3B6666832651EA040039D9F3 /* AppCompactView.swift in Sources */,
 				3BF1AE1B2665FA89002F1062 /* View+if.swift in Sources */,
 				3B9B9FA12634B16A00E3A8B2 /* Persistence.swift in Sources */,
@@ -748,6 +753,7 @@
 				3BF1AD812661861F002F1062 /* EmailHeader+CoreDataProperties.swift in Sources */,
 				3B9B9FC12634B20600E3A8B2 /* MailModel.swift in Sources */,
 				3BF1AD8E2663EA2C002F1062 /* Account+CoreDataProperties.swift in Sources */,
+				3BF1AE2B26683514002F1062 /* View+screen.swift in Sources */,
 				3BD150A5265332010058B094 /* rainbow.swift in Sources */,
 				3BF1AD622660ACF0002F1062 /* MailController.swift in Sources */,
 				3BF1AD8C2663EA2C002F1062 /* Account+CoreDataClass.swift in Sources */,

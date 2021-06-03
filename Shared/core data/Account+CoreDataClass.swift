@@ -1,12 +1,5 @@
-//
-//  Account+CoreDataClass.swift
-//  psymail
-//
-//  Created by bubbles on 5/30/21.
-
 import Foundation
 import CoreData
-import MailCore
 
 public enum AccountType: String {
   case gmail
@@ -18,14 +11,21 @@ public class Account: NSManagedObject {
   @Published var loggedIn = false
   
   convenience init(
-    address: String, username: String, oAuthToken: String, type: AccountType,
+    type: AccountType,
+    address: String, userId: String,
+    firstName: String?, lastName: String?,
+    accessToken: String, accessTokenExpiration: Date, refreshToken: String,
     context: NSManagedObjectContext
   ) {
     self.init(context: context)
-    self.address = address
-    self.username = username
-    self.oAuthToken = oAuthToken
     self.type = type
+    self.address = address
+    self.userId = userId
+    self.firstName = firstName
+    self.lastName = lastName
+    self.accessToken = accessToken
+    self.accessTokenExpiration = accessTokenExpiration
+    self.refreshToken = refreshToken
   }
   
 }

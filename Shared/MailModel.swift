@@ -25,7 +25,7 @@ class MailModel: ObservableObject {
   
   var lastSavedEmailUid: UInt64 {
     if emails.count > 0 { return UInt64(emails.first!.uid) }
-    else { return 71000 }
+    else { return 0 }
   }
 
   private let dateFormatter = DateFormatter()
@@ -39,6 +39,14 @@ class MailModel: ObservableObject {
   }
   
   init() {
+//    do {
+//      let deleteRequest = NSBatchDeleteRequest(fetchRequest: Email.fetchRequest())
+//      try managedContext.execute(deleteRequest)
+//    }
+//    catch let error {
+//      print("error deleting all emails from core data: \(error)")
+//    }
+    
     dateFormatter.dateFormat = "MMM d, yyyy' at 'H:mm:ss a zzz"
     
     for (perspective, _) in PerspectiveCategories {
@@ -57,20 +65,12 @@ class MailModel: ObservableObject {
     catch let error {
       print("error creating ai model: \(error)")
     }
-    
-//    do {
-//      let deleteRequest = NSBatchDeleteRequest(fetchRequest: Email.fetchRequest())
-//      try managedContext.execute(deleteRequest)
-//    }
-//    catch let error {
-//      print("error fetching emails from core data: \(error)")
-//    }
   }
   
   // MARK: - public
   
-  func markSeen(_ emails: [Email]) -> Error? {
-    for email in emails { email.setFlags([.seen]) }
+  func setFlags(_ flags: MCOMessageFlag, for emails: [Email]) -> Error? {
+    for email in emails { email.setFlags(flags) }
     do {
       try managedContext.save()
     }
@@ -127,7 +127,7 @@ class MailModel: ObservableObject {
       )
     }
     
-    let emailFetchRequest:NSFetchRequest<Email> = Email.fetchRequest()
+    let emailFetchRequest:NSFetchRequest<Email> = Email.fetchRequestByDate()
     emailFetchRequest.predicate = predicate
     
     do {
@@ -143,11 +143,8 @@ class MailModel: ObservableObject {
   // MARK: - private
   
   private func fetchEmailsByDateDescending() -> [Email] {
-    let emailFetchRequest:NSFetchRequest<Email> = Email.fetchRequest()
-    emailFetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
-    
     do {
-      return try managedContext.fetch(emailFetchRequest)
+      return try managedContext.fetch(Email.fetchRequestByDate())
     }
     catch let error {
       print("error fetching emails from core data: \(error.localizedDescription)")

@@ -85,7 +85,7 @@ struct EmailListView: View {
       case .mid:
         return .fractional(0.54)
       case .min:
-        return .fractional(0.19)
+        return .fractional(0.18)
       }
     }
     .notchChange($notch)

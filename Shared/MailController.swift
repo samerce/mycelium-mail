@@ -65,40 +65,15 @@ class MailController: ObservableObject {
     }
   }
   
-  func markSeen(_ theEmails: [Email], _ completion: @escaping ([Error]?) -> Void) {
-    let queue = OperationQueue()
-    var errors = [Error]()
-    
-    for (account, emails) in emailsByAccount(theEmails) {
-      let uidSet = MCOIndexSet()
-      for email in emails {
-        uidSet.add(UInt64(email.uid))
-      }
-      
-      let session = sessions[account]!
-      let updateFlags = session.storeFlagsOperation(
-        withFolder: "INBOX", uids: uidSet, kind: .set, flags: .seen
-      )
-      
-      queue.addBarrierBlock {
-        updateFlags?.start { error in
-          if let error = error {
-            print("error updating seen flag: \(error.localizedDescription)")
-            errors.append(error)
-            return
-          }
-            
-          if let error = self.model.markSeen(emails) {
-            print("error saving seen flag update to core data: \(error)")
-            errors.append(error)
-          }
-          
-        } ?? print("error updating seen flag: couldn't create operation.")
-      }
+  func markSeen(_ emails: [Email], _ completion: @escaping ([Error]?) -> Void) {
+    completion(setFlags(.seen, for: emails))
+  }
+  
+  func deleteEmails(_ emails: [Email]) {
+    let errors = setFlags(.deleted, for: emails)
+    if !errors.isEmpty {
+      // tell view about it
     }
-    
-    queue.waitUntilAllOperationsAreFinished()
-    completion(errors)
   }
   
   func selectEmail(_ email: Email) {
@@ -116,7 +91,7 @@ class MailController: ObservableObject {
   private func onLoggedIn(_ account: Account) {
     let session = sessionForType(account.type)
     session.username = account.address
-    session.oAuth2Token = account.oAuthToken
+    session.oAuth2Token = account.accessToken
     self.sessions[account] = session
 
     fetchLatest(account)
@@ -136,6 +111,14 @@ class MailController: ObservableObject {
     
     return result
   }
+    
+  private func uidSetForEmails(_ emails: [Email]) -> MCOIndexSet {
+    let uidSet = MCOIndexSet()
+    for email in emails {
+      uidSet.add(UInt64(email.uid))
+    }
+    return uidSet
+  }
   
   func saveMessages(_ messages: [MCOIMAPMessage], account: Account) {
     for message in messages {
@@ -149,6 +132,38 @@ class MailController: ObservableObject {
         }
       }
     }
+  }
+  
+  func setFlags(_ flags: MCOMessageFlag, for _emails: [Email]) -> [Error] {
+    let queue = OperationQueue()
+    var errors = [Error]()
+    
+    for (account, emails) in emailsByAccount(_emails) {
+      let session = sessions[account]!
+      let updateFlags = session.storeFlagsOperation(
+        withFolder: "INBOX", uids: uidSetForEmails(emails),
+        kind: .set, flags: flags
+      )
+      
+      queue.addBarrierBlock {
+        updateFlags?.start { error in
+          if let error = error {
+            print("error setting flags: \(error.localizedDescription)")
+            errors.append(error)
+            return
+          }
+            
+          if let error = self.model.setFlags(flags, for: emails) {
+            print("error setting flags in core data: \(error)")
+            errors.append(error)
+          }
+          
+        } ?? print("error setting flags: couldn't create operation.")
+      }
+    }
+    
+    queue.waitUntilAllOperationsAreFinished()
+    return errors
   }
   
   func bodyHtmlForEmail(withUid uid: UInt32, account: Account, _ completion: @escaping (String?) -> Void) {

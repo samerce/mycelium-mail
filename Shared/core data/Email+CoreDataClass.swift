@@ -28,20 +28,41 @@ public class Email: NSManagedObject {
       from?.address ?? sender?.address ?? "Unknown"
   }
   
-  var displayDate: String {
-    var formatter: DateFormatter
-    let date = header!.receivedDate
-    let timeSinceMessage = date?.distance(to: Date()) ?? Double.infinity
-    
-    if  timeSinceMessage > oneDay && timeSinceMessage < twoDays   {
-      formatter = dateFormatterWithinLastDay
-    } else if timeSinceMessage > twoDays && timeSinceMessage < oneWeek {
-      formatter = dateFormatterWithinLastWeek
-    } else {
-      formatter = dateFormatterMoreThanAWeek
+  var displayDate: String? {
+    if let date = date {
+      var formatter: DateFormatter
+      let timeSinceMessage = date.distance(to: Date())
+      
+      if  timeSinceMessage > oneDay && timeSinceMessage < twoDays   {
+        formatter = dateFormatterWithinLastDay
+      } else if timeSinceMessage > twoDays && timeSinceMessage < oneWeek {
+        formatter = dateFormatterWithinLastWeek
+      } else {
+        formatter = dateFormatterMoreThanAWeek
+      }
+      
+      return formatter.string(from: date)
     }
-    
-    return (date != nil) ? formatter.string(from: date!) : ""
+    return nil
+  }
+  
+  var longDisplayDate: String? {
+    if let date = date {
+      var formatter: DateFormatter
+      let timeSinceMessage = date.distance(to: Date())
+      
+      if  timeSinceMessage > oneDay && timeSinceMessage < twoDays   {
+        formatter = dateFormatterWithinLastDay
+      } else if timeSinceMessage > twoDays && timeSinceMessage < oneWeek {
+        formatter = dateFormatterWithinLastWeek
+      } else {
+        formatter = dateFormatterMoreThanAWeek
+        formatter.dateFormat = "MMM d, yyyy, h:mm a"
+      }
+      
+      return formatter.string(from: date)
+    }
+    return nil
   }
   
   convenience init(
@@ -72,19 +93,33 @@ public class Email: NSManagedObject {
     }
   }
   
-  func setFlags(_ setFlags: [MCOMessageFlag]) {
-    var newFlags = flags
-    for flag in setFlags {
-      newFlags.insert(flag)
+  private var flags: MCOMessageFlag {
+    get {
+      return MCOMessageFlag(rawValue: Int(flagsRaw))
     }
+    set {
+      flagsRaw = Int16(newValue.rawValue)
+    }
+  }
+  
+  private(set) var originalFlags: MCOMessageFlag {
+    get {
+      return MCOMessageFlag(rawValue: Int(originalFlagsRaw))
+    }
+    set {
+      originalFlagsRaw = Int16(newValue.rawValue)
+    }
+  }
+  
+  func setFlags(_ _flags: MCOMessageFlag) {
+    var newFlags = flags
+    newFlags.insert(_flags)
     flags = newFlags
   }
   
-  func removeFlags(_ removeFlags: [MCOMessageFlag]) {
+  func removeFlags(_ _flags: MCOMessageFlag) {
     var newFlags = flags
-    for flag in removeFlags {
-      newFlags.remove(flag)
-    }
+    newFlags.remove(_flags)
     flags = newFlags
   }
   
