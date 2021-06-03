@@ -69,15 +69,39 @@ class MailModel: ObservableObject {
   
   // MARK: - public
   
-  func setFlags(_ flags: MCOMessageFlag, for emails: [Email]) -> Error? {
-    for email in emails { email.setFlags(flags) }
+  func deleteEmails(_ _emails: [Email], _ completion: @escaping (Error?) -> Void) {
+    setFlags(.deleted, for: _emails) { error in
+      if let error = error {
+        completion(error)
+        return
+      }
+      
+      for e in _emails {
+        self.managedContext.delete(e)
+        let i = self.sortedEmails["everything"]?.firstIndex(of: e)
+        if let i = i { self.sortedEmails["everything"]?.remove(at: i) }
+        
+        let j = self.sortedEmails[e.perspective ?? ""]?.firstIndex(of: e)
+        if let j = j { self.sortedEmails[e.perspective ?? ""]?.remove(at: j) }
+      }
+      
+      do {
+        try self.managedContext.save()
+        completion(nil)
+      }
+      catch let error { completion(error) }
+    }
+  }
+  
+  func setFlags(_ flags: MCOMessageFlag, for _emails: [Email],
+                _ completion: @escaping (Error?) -> Void) {
+    _emails.forEach { e in e.setFlags(flags) }
+    
     do {
       try managedContext.save()
+      completion(nil)
     }
-    catch let error {
-      return error
-    }
-    return nil
+    catch let error { completion(error) }
   }
   
   func makeAndSaveEmail(

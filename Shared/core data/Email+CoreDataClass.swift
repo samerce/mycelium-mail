@@ -57,7 +57,7 @@ public class Email: NSManagedObject {
         formatter = dateFormatterWithinLastWeek
       } else {
         formatter = dateFormatterMoreThanAWeek
-        formatter.dateFormat = "MMM d, yyyy, h:mm a"
+        formatter.dateFormat = "MMMM d, yyyy, h:mm a"
       }
       
       return formatter.string(from: date)

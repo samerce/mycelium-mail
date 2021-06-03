@@ -13,6 +13,7 @@ extension Email {
   @nonobjc public class func fetchRequestByDate() -> NSFetchRequest<Email> {
     let fetchRequest = NSFetchRequest<Email>(entityName: "Email")
     fetchRequest.sortDescriptors = [byDateDescending]
+    fetchRequest.fetchLimit = 500
     return fetchRequest
   }
   

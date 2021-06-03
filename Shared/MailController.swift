@@ -36,12 +36,11 @@ class MailController: ObservableObject {
   // MARK: - public
   
   func fetchLatest(_ account: Account) {
-    print("fetching")
-    
     let startUid = model.lastSavedEmailUid + 1
     let endUid = UINT64_MAX - startUid
     let uids = MCOIndexSet(range: MCORangeMake(startUid, endUid))
-    print("startUid: \(startUid), endUid: \(endUid)")
+    
+    print("fetching — startUid: \(startUid), endUid: \(endUid)")
     
     let session = sessions[account]!
     let fetchHeadersAndFlags = session.fetchMessagesOperation(
@@ -66,13 +65,30 @@ class MailController: ObservableObject {
   }
   
   func markSeen(_ emails: [Email], _ completion: @escaping ([Error]?) -> Void) {
-    completion(setFlags(.seen, for: emails))
+    setFlags(.seen, for: emails) { errors in
+      if let errors = errors, !errors.isEmpty {
+        completion(errors)
+      } else {
+        completion(nil)
+      }
+    }
   }
   
   func deleteEmails(_ emails: [Email]) {
-    let errors = setFlags(.deleted, for: emails)
-    if !errors.isEmpty {
-      // tell view about it
+    model.deleteEmails(emails) { error in
+      if error != nil {
+        // tell view about it
+      } else {
+        self.deselectEmail()
+      }
+    }
+  }
+  
+  func flagEmails(_ emails: [Email]) {
+    setFlags(.flagged, for: emails) { errors in
+      if let errors = errors, !errors.isEmpty {
+        // tell view about it
+      }
     }
   }
   
@@ -84,8 +100,6 @@ class MailController: ObservableObject {
     withAnimation(animation) { model.selectedEmail = nil }
   }
   
-//  func setFlags(uids: IndexSet, flags: [])
-  
   // MARK: - private
   
   private func onLoggedIn(_ account: Account) {
@@ -95,6 +109,43 @@ class MailController: ObservableObject {
     self.sessions[account] = session
 
     fetchLatest(account)
+  }
+  
+  private func setFlags(_ flags: MCOMessageFlag, for _emails: [Email],
+                _ completion: ([Error]?) -> Void) {
+    let queue = OperationQueue()
+    var errors = [Error]()
+    
+    for (account, emails) in emailsByAccount(_emails) {
+      let session = sessions[account]!
+      guard let updateFlags = session.storeFlagsOperation(
+        withFolder: "INBOX", uids: uidSetForEmails(emails),
+        kind: .set, flags: flags
+      ) else {
+        completion([]) // TODO set error
+        return
+      }
+      
+      queue.addBarrierBlock {
+        updateFlags.start { error in
+          if let error = error {
+            print("error setting flags: \(error.localizedDescription)")
+            errors.append(error)
+            return
+          }
+            
+          self.model.setFlags(flags, for: emails) { error in
+            if let error = error {
+              print("error setting flags in core data: \(error)")
+              errors.append(error)
+            }
+          }
+        }
+      }
+    }
+    
+    queue.waitUntilAllOperationsAreFinished()
+    completion(errors.isEmpty ? nil : errors)
   }
   
   private func emailsByAccount(_ emails: [Email]) -> [Account: [Email]] {
@@ -120,7 +171,7 @@ class MailController: ObservableObject {
     return uidSet
   }
   
-  func saveMessages(_ messages: [MCOIMAPMessage], account: Account) {
+  private func saveMessages(_ messages: [MCOIMAPMessage], account: Account) {
     for message in messages {
       bodyHtmlForEmail(withUid: message.uid, account: account) { emailAsHtml in
         self.model.makeAndSaveEmail(
@@ -132,38 +183,6 @@ class MailController: ObservableObject {
         }
       }
     }
-  }
-  
-  func setFlags(_ flags: MCOMessageFlag, for _emails: [Email]) -> [Error] {
-    let queue = OperationQueue()
-    var errors = [Error]()
-    
-    for (account, emails) in emailsByAccount(_emails) {
-      let session = sessions[account]!
-      let updateFlags = session.storeFlagsOperation(
-        withFolder: "INBOX", uids: uidSetForEmails(emails),
-        kind: .set, flags: flags
-      )
-      
-      queue.addBarrierBlock {
-        updateFlags?.start { error in
-          if let error = error {
-            print("error setting flags: \(error.localizedDescription)")
-            errors.append(error)
-            return
-          }
-            
-          if let error = self.model.setFlags(flags, for: emails) {
-            print("error setting flags in core data: \(error)")
-            errors.append(error)
-          }
-          
-        } ?? print("error setting flags: couldn't create operation.")
-      }
-    }
-    
-    queue.waitUntilAllOperationsAreFinished()
-    return errors
   }
   
   func bodyHtmlForEmail(withUid uid: UInt32, account: Account, _ completion: @escaping (String?) -> Void) {
