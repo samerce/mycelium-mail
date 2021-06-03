@@ -75,7 +75,6 @@ public class Email: NSManagedObject {
     uid = Int32(message.uid)
     flags = message.flags
     gmailLabels = Set(message.gmailLabels as? [String] ?? [])
-    gmailThreadId = Int64(message.gmailThreadID)
     gmailMessageId = Int64(message.gmailMessageID)
     size = Int32(message.size)
     originalFlags = message.originalFlags
@@ -91,6 +90,9 @@ public class Email: NSManagedObject {
       mimePart = EmailPart(part: part, context: context)
       mimePart?.email = self
     }
+    
+    thread = fetchOrMakeThread(id: message.gmailThreadID, context: context)
+    thread?.addToEmails(self)
   }
   
   private var flags: MCOMessageFlag {
@@ -121,6 +123,26 @@ public class Email: NSManagedObject {
     var newFlags = flags
     newFlags.remove(_flags)
     flags = newFlags
+  }
+  
+  private func fetchOrMakeThread(id: UInt64, context: NSManagedObjectContext) -> EmailThread? {
+    let threadFetchRequest: NSFetchRequest<EmailThread> = EmailThread.fetchRequest()
+    threadFetchRequest.predicate = NSPredicate(format: "id == %@", id)
+
+    do {
+      let threads = try context.fetch(threadFetchRequest) as [EmailThread]
+      if !threads.isEmpty {
+        return threads.first
+      } else {
+        return EmailThread(id: Int64(id), context: context)
+      }
+    }
+    catch let error {
+      print("error fetching thread: \(error.localizedDescription)")
+    }
+    
+    print("warning: failed to create EmailThread, returning nil")
+    return nil
   }
   
 }

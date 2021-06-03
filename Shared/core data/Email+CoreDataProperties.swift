@@ -13,7 +13,13 @@ extension Email {
   @nonobjc public class func fetchRequestByDate() -> NSFetchRequest<Email> {
     let fetchRequest = NSFetchRequest<Email>(entityName: "Email")
     fetchRequest.sortDescriptors = [byDateDescending]
-    fetchRequest.fetchLimit = 500
+    fetchRequest.fetchBatchSize = 324
+    return fetchRequest
+  }
+  
+  @nonobjc public class func fetchRequestByDateAndPerspective(_ perspective: String) -> NSFetchRequest<Email> {
+    let fetchRequest = fetchRequestByDate()
+    fetchRequest.predicate = NSPredicate(format: "perspective == %@", perspective)
     return fetchRequest
   }
   
@@ -34,6 +40,7 @@ extension Email {
   @NSManaged public var account: Account?
   @NSManaged public var header: EmailHeader?
   @NSManaged public var mimePart: EmailPart?
+  @NSManaged public var thread: EmailThread?
   
 }
 

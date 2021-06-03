@@ -7,6 +7,7 @@ class MailController: ObservableObject {
   static let shared = MailController()
   
   @Published var model: MailModel = MailModel()
+  @Published var selectedEmail: Email?
   
   private var accountCtrl = AccountController.shared
   private var sessions = [Account: MCOIMAPSession]()
@@ -34,35 +35,6 @@ class MailController: ObservableObject {
   }
   
   // MARK: - public
-  
-  func fetchLatest(_ account: Account) {
-    let startUid = model.lastSavedEmailUid + 1
-    let endUid = UINT64_MAX - startUid
-    let uids = MCOIndexSet(range: MCORangeMake(startUid, endUid))
-    
-    print("fetching — startUid: \(startUid), endUid: \(endUid)")
-    
-    let session = sessions[account]!
-    let fetchHeadersAndFlags = session.fetchMessagesOperation(
-      withFolder: "INBOX", requestKind: [.fullHeaders, .flags], uids: uids
-    )
-    
-    fetchHeadersAndFlags?.start {
-      (error: Error?, messages: [MCOIMAPMessage]?, vanishedMessages: MCOIndexSet?) in
-      if let error = error {
-        print("error downloading message headers: \(error.localizedDescription)")
-        return
-      }
-      
-      if messages?.count == 0 {
-        print("done fetching!")
-      }
-      
-      if messages != nil {
-        self.saveMessages(messages!, account: account)
-      }
-    }
-  }
   
   func markSeen(_ emails: [Email], _ completion: @escaping ([Error]?) -> Void) {
     setFlags(.seen, for: emails) { errors in
@@ -93,22 +65,54 @@ class MailController: ObservableObject {
   }
   
   func selectEmail(_ email: Email) {
-    withAnimation(animation) { model.selectedEmail = email }
+    withAnimation(animation) { selectedEmail = email }
   }
   
   func deselectEmail() {
-    withAnimation(animation) { model.selectedEmail = nil }
+    withAnimation(animation) { selectedEmail = nil }
   }
   
   // MARK: - private
   
   private func onLoggedIn(_ account: Account) {
-    let session = sessionForType(account.type)
-    session.username = account.address
-    session.oAuth2Token = account.accessToken
-    self.sessions[account] = session
-
+    var session = sessions[account]
+    if session == nil {
+      session = sessionForType(account.type)
+      sessions[account] = session
+    }
+    
+    session!.username = account.address
+    session!.oAuth2Token = account.accessToken
     fetchLatest(account)
+  }
+  
+  private func fetchLatest(_ account: Account) {
+    let startUid = model.lastSavedEmailUid + 1
+    let endUid = UINT64_MAX - startUid
+    let uids = MCOIndexSet(range: MCORangeMake(startUid, endUid))
+    
+    print("fetching — startUid: \(startUid), endUid: \(endUid)")
+    
+    let session = sessions[account]!
+    let fetchHeadersAndFlags = session.fetchMessagesOperation(
+      withFolder: "INBOX", requestKind: [.fullHeaders, .flags], uids: uids
+    )
+    
+    fetchHeadersAndFlags?.start {
+      (error: Error?, messages: [MCOIMAPMessage]?, vanishedMessages: MCOIndexSet?) in
+      if let error = error {
+        print("error downloading message headers: \(error.localizedDescription)")
+        return
+      }
+      
+      if messages?.count == 0 {
+        print("done fetching!")
+      }
+      
+      if messages != nil {
+        self.saveMessages(messages!, account: account)
+      }
+    }
   }
   
   private func setFlags(_ flags: MCOMessageFlag, for _emails: [Email],

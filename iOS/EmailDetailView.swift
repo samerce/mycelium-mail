@@ -9,14 +9,12 @@ private enum Notch: CaseIterable, Equatable {
 private let mailCtrl = MailController.shared
 
 struct EmailDetailView: View {
-  @StateObject private var model = mailCtrl.model
+  @State private var email = mailCtrl.selectedEmail
   @State private var seenTimer: Timer?
   @State private var notch: Notch = .min
   @State private var translationProgress = 0.0
   @State private var backGestureDistanceFromEdge: CGFloat?
   @State private var keyboardVisible = false
-  
-  private var email: Email? { model.selectedEmail }
   
   var body: some View {
     ZStack(alignment: .top) {

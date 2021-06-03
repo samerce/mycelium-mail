@@ -17,9 +17,6 @@ struct EmailListView: View {
   private var perspective: String {
     Tabs[selectedTab]
   }
-  private var emails: [Email] {
-    model.sortedEmails[perspective] ?? []
-  }
   
   var body: some View {
     ScrollView {
@@ -27,7 +24,7 @@ struct EmailListView: View {
         .padding(.horizontal, 10)
       
       LazyVStack {
-        ForEach(emails, id: \.uuid) { email in
+        ForEach(model.emails[perspective] ?? [], id: \.uuid) { email in
           EmailListRow(email: email)
             .onTapGesture { mailCtrl.selectEmail(email) }
         }

@@ -18,7 +18,7 @@
         <attribute name="flagsRaw" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="gmailLabels" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="Set&lt;String&gt;"/>
         <attribute name="gmailMessageId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="gmailThreadId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="gmailThreadId" optional="YES" attributeType="Integer 64" derived="YES" derivationExpression="thread.id" usesScalarValueType="YES"/>
         <attribute name="html" attributeType="String" defaultValueString=""/>
         <attribute name="modSeqValue" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="originalFlagsRaw" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -29,6 +29,7 @@
         <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="emails" inverseEntity="Account"/>
         <relationship name="header" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EmailHeader" inverseName="email" inverseEntity="EmailHeader"/>
         <relationship name="mimePart" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EmailPart" inverseName="email" inverseEntity="EmailPart"/>
+        <relationship name="thread" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EmailThread" inverseName="emails" inverseEntity="EmailThread"/>
         <fetchIndex name="byDate">
             <fetchIndexElement property="date" type="Binary" order="descending"/>
         </fetchIndex>
@@ -75,11 +76,16 @@
         <attribute name="uid" attributeType="String" defaultValueString=""/>
         <relationship name="email" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Email" inverseName="mimePart" inverseEntity="Email"/>
     </entity>
+    <entity name="EmailThread" representedClassName="EmailThread" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="emails" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Email" inverseName="thread" inverseEntity="Email"/>
+    </entity>
     <elements>
-        <element name="Email" positionX="-258.3497314453125" positionY="-176.0603179931641" width="128" height="28"/>
+        <element name="Email" positionX="-258.3497314453125" positionY="-176.0603179931641" width="128" height="298"/>
         <element name="EmailAddress" positionX="-977.1917724609375" positionY="-68.92247009277344" width="128" height="163"/>
         <element name="EmailHeader" positionX="-639.457275390625" positionY="21.86758422851562" width="128" height="238"/>
         <element name="EmailPart" positionX="-340.2655029296875" positionY="132.3669128417969" width="128" height="208"/>
         <element name="Account" positionX="-774" positionY="-18" width="128" height="179"/>
+        <element name="EmailThread" positionX="-765" positionY="-9" width="128" height="59"/>
     </elements>
 </model>
