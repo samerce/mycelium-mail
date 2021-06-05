@@ -1,10 +1,3 @@
-//
-//  multicolor-glow.swift
-//  psymail
-//
-//  Created by bubbles on 5/17/21.
-//
-
 import Foundation
 import SwiftUI
 

@@ -14,6 +14,7 @@ extension Email {
     let fetchRequest = NSFetchRequest<Email>(entityName: "Email")
     fetchRequest.sortDescriptors = [byDateDescending]
     fetchRequest.fetchBatchSize = 324
+    fetchRequest.shouldRefreshRefetchedObjects = true
     return fetchRequest
   }
   

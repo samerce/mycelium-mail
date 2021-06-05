@@ -171,7 +171,7 @@ struct EmailToolsDrawerView: View {
     Image(systemName: name)
       .resizable()
       .aspectRatio(contentMode: .fit)
-      .foregroundColor(.pink)
+      .foregroundColor(.psyAccent)
       .font(.system(size: size, weight: .light, design: .default))
       .frame(width: size, height: size)
       .contentShape(Rectangle())

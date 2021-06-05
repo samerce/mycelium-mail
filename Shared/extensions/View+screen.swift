@@ -10,4 +10,8 @@ extension View {
     UIScreen.main.bounds.height
   }
   
+  var safeAreaInsets: UIEdgeInsets {
+    UIApplication.shared.windows.first?.safeAreaInsets ?? UIEdgeInsets.zero
+  }
+  
 }

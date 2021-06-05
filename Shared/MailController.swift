@@ -7,7 +7,7 @@ class MailController: ObservableObject {
   static let shared = MailController()
   
   @Published var model: MailModel = MailModel()
-  @Published var selectedEmail: Email?
+  @Published private(set) var selectedEmail: Email?
   
   private var accountCtrl = AccountController.shared
   private var sessions = [Account: MCOIMAPSession]()
@@ -115,16 +115,18 @@ class MailController: ObservableObject {
     }
   }
   
-  private func setFlags(_ flags: MCOMessageFlag, for _emails: [Email],
-                _ completion: ([Error]?) -> Void) {
+  private func setFlags(_ flags: MCOMessageFlag, for theEmails: [Email],
+                        _ completion: ([Error]?) -> Void) {
     let queue = OperationQueue()
     var errors = [Error]()
     
-    for (account, emails) in emailsByAccount(_emails) {
+    for (account, theEmails) in emailsByAccount(theEmails) {
       let session = sessions[account]!
       guard let updateFlags = session.storeFlagsOperation(
-        withFolder: "INBOX", uids: uidSetForEmails(emails),
-        kind: .set, flags: flags
+        withFolder: "INBOX",
+        uids: uidSetForEmails(theEmails),
+        kind: .set,
+        flags: flags
       ) else {
         completion([]) // TODO set error
         return
@@ -137,8 +139,8 @@ class MailController: ObservableObject {
             errors.append(error)
             return
           }
-            
-          self.model.setFlags(flags, for: emails) { error in
+          
+          self.model.setFlags(flags, for: theEmails) { error in
             if let error = error {
               print("error setting flags in core data: \(error)")
               errors.append(error)
@@ -156,17 +158,18 @@ class MailController: ObservableObject {
     var result = [Account: [Email]]()
     
     for email in emails {
-      var emailList: [Email]? = result[email.account!]
-      if emailList == nil {
-        emailList = []
-        result[email.account!] = emailList
+      guard let account = email.account else { continue }
+      
+      if result[account] == nil {
+        result[account] = []
       }
-      emailList!.append(email)
+      
+      result[account]!.append(email)
     }
     
     return result
   }
-    
+  
   private func uidSetForEmails(_ emails: [Email]) -> MCOIndexSet {
     let uidSet = MCOIndexSet()
     for email in emails {

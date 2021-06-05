@@ -8,64 +8,67 @@ private enum Notch: CaseIterable, Equatable {
 private var mailCtrl = MailController.shared
 
 struct EmailListView: View {
-  @StateObject var model = mailCtrl.model
+  @StateObject private var model = mailCtrl.model
   @State private var notch: Notch = .min
-  @State var translationProgress = 0.0
-  @State var selectedTab = 2
-  @State var expandedEmail: Email?
+  @State private var translationProgress = 0.0
+  @State private var selectedTab = 2
+  @State private var scrollViewOffsetY: CGFloat?
+  @State private var safeAreaBackdropOpacity: Double = 0
+  @Namespace var headerId
   
-  private var perspective: String {
-    Tabs[selectedTab]
-  }
+  private var perspective: String { Tabs[selectedTab] }
   
   var body: some View {
-    ScrollView {
-      Text(perspective).font(.title)
-        .padding(.horizontal, 10)
+    ZStack(alignment: .topLeading) {
+      SafeAreaBackdrop
       
-      LazyVStack {
-        ForEach(model.emails[perspective] ?? [], id: \.uuid) { email in
-          EmailListRow(email: email)
-            .onTapGesture { mailCtrl.selectEmail(email) }
+      ScrollViewReader { scrollProxy in
+        ScrollView {
+          Text(perspective)
+            .font(.system(size: 36, weight: .black))
+            .padding(.top, 9)
+            .id(headerId)
+            
+          
+          LazyVStack(spacing: 2) {
+            ForEach(model.emails[perspective] ?? [], id: \.uuid) { email in
+              EmailListRow(email: email)
+                .onTapGesture { mailCtrl.selectEmail(email) }
+            }
+            .onDelete { _ in print("deleted") }
+          }
+          .ignoresSafeArea()
+          .padding(.horizontal, 10)
+          
+          Spacer().frame(height: 138)
         }
-        .onDelete { _ in print("deleted") }
+        .dynamicOverlay(EmailListDrawer)
+        .dynamicOverlayBehavior(behavior)
+        .ignoresSafeArea()
+        .onChange(of: selectedTab) { _ in
+          scrollProxy.scrollTo(headerId)
+        }
+        .introspectScrollView { scrollView in
+          scrollViewOffsetY = scrollView.contentOffset.y
+        }
       }
-      .ignoresSafeArea()
-      .padding(.horizontal, 10)
-      
-      Spacer().frame(height: 138)
     }
-    .dynamicOverlay(overlay)
-    .dynamicOverlayBehavior(behavior)
-    .ignoresSafeArea()
   }
   
-//  var toolbarHeader: some View {
-//    HStack {
-//      Image(systemName: "mail")
-//        .resizable()
-//        .aspectRatio(contentMode: .fit)
-//        .font(.system(size: 27, weight: .light, design: .default))
-//        .frame(width: 27, height: 27)
-//        .foregroundColor(.pink)
-//
-//      Spacer()
-//
-//      EditButton()
-//        .font(.system(size: 17, weight: .regular, design: .default))
-//        .foregroundColor(.pink)
-//    }
-//    .ignoresSafeArea()
-//    .padding(.top, 36)
-//    .background(VisualEffectBlur(blurStyle: .systemUltraThinMaterial))
-//    .zIndex(1)
-//  }
+  private var SafeAreaBackdrop: some View {
+    VisualEffectBlur(blurStyle: .prominent)
+      .frame(maxWidth: .infinity, maxHeight: safeAreaInsets.top)
+      .opacity(safeAreaBackdropOpacity)
+      .onChange(of: scrollViewOffsetY) { _ in
+        withAnimation { safeAreaBackdropOpacity = 1 }
+      }
+  }
   
-  private var backdropView: some View {
+  private var BackdropView: some View {
     Color.black.opacity(0.54)
   }
   
-  private var overlay: some View {
+  private var EmailListDrawer: some View {
     InboxDrawerView(selectedTab: $selectedTab, translationProgress: $translationProgress)
       .onChange(of: selectedTab) { _ in
         withAnimation {

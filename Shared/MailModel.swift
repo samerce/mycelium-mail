@@ -12,11 +12,12 @@ let PerspectiveCategories = [
   "marketing": Set(["marketing"]),
   "news": Set(["news"]),
   "notifications": Set(["notifications"]),
-  "everything": Set([""])
+  "everything": Set([""]),
+  "health": Set([""])
 ]
 let Tabs = [
   "DMs", "events", "digests", "commerce", "society",
-  "marketing", "news", "notifications", "everything"
+  "marketing", "health", "news", "notifications", "everything"
 ]
 
 class MailModel: ObservableObject {
@@ -31,14 +32,14 @@ class MailModel: ObservableObject {
   private let dateFormatter = DateFormatter()
   private var oracle: NLModel?
   
-  private var managedContext:NSManagedObjectContext {
+  private var moc:NSManagedObjectContext {
     PersistenceController.shared.container.viewContext
   }
   
   init() {
 //    do {
 //      let deleteRequest = NSBatchDeleteRequest(fetchRequest: Email.fetchRequest())
-//      try managedContext.execute(deleteRequest)
+//      try moc.execute(deleteRequest)
 //    }
 //    catch let error {
 //      print("error deleting all emails from core data: \(error)")
@@ -57,6 +58,12 @@ class MailModel: ObservableObject {
       self.emails[perspective] = fetchEmailsByPerspective(perspective)
     }
     self.emails["everything"] = fetchEmailsByDateDescending()
+    
+//    let email = self.emails["marketing"]?.first(where: { e in
+//      e.subject.contains("Pre-enroll in The Freelancer")
+//    })
+//
+//    print(email?.html)
   }
   
   // MARK: - public
@@ -68,10 +75,10 @@ class MailModel: ObservableObject {
         return
       }
       
-      _emails.forEach(self.managedContext.delete)
+      _emails.forEach(self.moc.delete)
       
       do {
-        try self.managedContext.save()
+        try self.moc.save()
         completion(nil)
       }
       catch let error { completion(error) }
@@ -83,7 +90,7 @@ class MailModel: ObservableObject {
     _emails.forEach { e in e.setFlags(flags) }
     
     do {
-      try managedContext.save()
+      try moc.save()
       completion(nil)
     }
     catch let error { completion(error) }
@@ -94,14 +101,19 @@ class MailModel: ObservableObject {
     let fullHtml = headerAsHtml(message.header) + (emailAsHtml ?? "")
     let perspective = perspectiveFor(fullHtml)
     
+    guard fetchEmailByUid(message.uid, account: account) == nil else {
+      print("tried to add email already stored in core data")
+      return
+    }
+    
     let email = Email(
-      message: message, html: emailAsHtml, perspective: perspective, context: managedContext
+      message: message, html: emailAsHtml, perspective: perspective, context: moc
     )
     email.account = account
     account.addToEmails(email)
     
     do {
-      try managedContext.save()
+      try moc.save()
     }
     catch let error as NSError {
       print("error saving new email to core data: \(error)")
@@ -137,7 +149,7 @@ class MailModel: ObservableObject {
     emailFetchRequest.predicate = predicate
     
     do {
-      return try managedContext.fetch(emailFetchRequest)
+      return try moc.fetch(emailFetchRequest)
     }
     catch let error {
       print("error fetching emails from sender: \(error.localizedDescription)")
@@ -150,7 +162,7 @@ class MailModel: ObservableObject {
   
   private func fetchEmailsByPerspective(_ perspective: String) -> [Email] {
     do {
-      return try managedContext.fetch(Email.fetchRequestByDateAndPerspective(perspective))
+      return try moc.fetch(Email.fetchRequestByDateAndPerspective(perspective))
     }
     catch let error {
       print("error fetching emails from core data: \(error.localizedDescription)")
@@ -161,13 +173,29 @@ class MailModel: ObservableObject {
   
   private func fetchEmailsByDateDescending() -> [Email] {
     do {
-      return try managedContext.fetch(Email.fetchRequestByDate())
+      return try moc.fetch(Email.fetchRequestByDate())
     }
     catch let error {
       print("error fetching emails from core data: \(error.localizedDescription)")
     }
     
     return []
+  }
+  
+  private func fetchEmailByUid(_ uid: UInt32, account: Account) -> Email? {
+    let fetchRequest: NSFetchRequest<Email> = Email.fetchRequest()
+    fetchRequest.predicate = NSPredicate(
+      format: "uid == %d && account.address == %@",
+      Int32(uid), account.address ?? ""
+    )
+    do {
+      return try moc.fetch(fetchRequest).first
+    }
+    catch let error {
+      print("error fetching email by uid: \(error.localizedDescription)")
+    }
+    
+    return nil
   }
   
   private func perspectiveFor(_ emailAsHtml: String = "") -> String {

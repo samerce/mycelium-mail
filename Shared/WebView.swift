@@ -43,16 +43,16 @@ struct WebView: UIViewRepresentable {
   }
   private func configure(_ webView: WKWebView) {
 //    let left = "@media (prefers-color-scheme: dark) {body {color: white;}}:root {color-scheme: light dark;}"
+    
+//    var style = document.createElement('style');
+//    style.type = 'text/css';
+//    style.appendChild(document.createTextNode('\
+//    @media (prefers-color-scheme: dark) {\
+//      :root {color-scheme: light dark;}\
+//      body {color: white;}\
+//    }'));
+//    document.getElementsByTagName('head')[0].appendChild(style);
     let sanitizeRaw = """
-    var style = document.createElement('style');
-    style.type = 'text/css';
-    style.appendChild(document.createTextNode('\
-    @media (prefers-color-scheme: dark) {\
-      :root {color-scheme: light dark;}\
-      body {color: white;}\
-    }'));
-    document.getElementsByTagName('head')[0].appendChild(style);
-
     var metaWidth = document.createElement('meta');
     metaWidth.name = "viewport";
     metaWidth.content = "width=device-width,initial-scale=1";

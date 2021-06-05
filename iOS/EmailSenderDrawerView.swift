@@ -72,7 +72,7 @@ struct EmailSenderDrawerView: View {
           Image(systemName: "chevron.down")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .foregroundColor(.pink)
+            .foregroundColor(.psyAccent)
             .rotationEffect(expanded ? Angle(degrees: 180) : Angle(degrees: 0))
             .frame(width: 18, height: 18)
             .contentShape(Rectangle())

@@ -1,69 +1,59 @@
-//
-//  CustomTabBarItem.swift
-//  SwiftUICustomTabBar
-//
-//  Created by Arda Tugay on 12/13/19.
-//  Copyright © 2019 ardatugay. All rights reserved.
-//
-
 import SwiftUI
 
+private let LabelHeight: CGFloat = 18
+private let FirstExpandedNotch: CGFloat = 0.5
+
 struct TabBarItem: View {
-    let iconName: String
-    let label: String
-    let selection: Binding<Int>
-    let tag: Int
-    
-    init(iconName: String,
-         label: String,
-         selection: Binding<Int>,
-         tag: Int) {
-        self.iconName = iconName
-        self.label = label
-        self.selection = selection
-        self.tag = tag
+  let iconName: String
+  let label: String
+  let tag: Int
+  
+  @Binding var selection: Int
+  @Binding var translationProgress: Double
+  
+  private var labelHeight: CGFloat {
+    min(LabelHeight, max(0, (CGFloat(translationProgress) / FirstExpandedNotch) * LabelHeight))
+  }
+  private var labelOpacity: Double {
+    min(1, max(0, (translationProgress / 0.5) * 1))
+  }
+  
+  var body: some View {
+    VStack(alignment: .center) {
+      Image(systemName: iconName)
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+        .frame(width: 27, height: 27)
+        .font(.system(size: 27, weight: .light))
+        .contentShape(Rectangle())
+      Text(label)
+        .font(.system(size: 12, weight: .light))
+        .frame(height: labelHeight)
+        .opacity(labelOpacity)
+        .clipped()
     }
-    
-    var body: some View {
-      VStack(alignment: .center) {
-        Image(systemName: iconName)
-          .resizable()
-          .aspectRatio(contentMode: .fit)
-          .frame(width: 27, height: 27)
-          .font(.system(size: 27, weight: .light, design: .default))
-          .contentShape(Rectangle())
-        Text(label)
-            .font(.system(size: 12, weight: .light, design: .default))
-          .contentShape(Rectangle())
-      }
-      .foregroundColor(fgColor())
-//      .rainbow(selection.wrappedValue == tag)
-      .frame(maxWidth: .infinity, maxHeight: 48)
-      .contentShape(Rectangle())
-      .onTapGesture { selection.wrappedValue = tag }
-    }
-      
-//      if selection.wrappedValue == tag {
-//        return AnyView(rainbowGradientVertical.mask(inner))
-//      } else {
-//        return AnyView(inner)
-//      }
-    
-    private func fgColor() -> Color {
-      return selection.wrappedValue == tag ? .pink : Color(.secondaryLabel)
-    }
+    .foregroundColor(fgColor())
+    .frame(maxWidth: .infinity)
+    .contentShape(Rectangle())
+    .onTapGesture { selection = tag }
+  }
+  
+  private func fgColor() -> Color {
+    return selection == tag ? .psyAccent : Color(.secondaryLabel)
+  }
 }
 
-struct TabBarItem_Previews: PreviewProvider {
-    static var selection: Int = 0
-    static var selectionBinding = Binding<Int>(get: { selection }, set: { selection = $0 })
-    
-    static var previews: some View {
-        TabBarItem(
-          iconName: "clock.fill",
-          label: "Recents",
-          selection: selectionBinding,
-          tag: 0)
-        .previewLayout(.fixed(width: 80, height: 80))
-    }
-}
+//struct TabBarItem_Previews: PreviewProvider {
+//  static var selection: Int = 0
+//  static var selectionBinding = Binding<Int>(get: { selection }, set: { selection = $0 })
+//
+//  static var previews: some View {
+//    TabBarItem(
+//      iconName: "clock.fill",
+//      label: "Recents",
+//      selection: selectionBinding,
+//      tag: 0,
+//      translationProgress: )
+//      .previewLayout(.fixed(width: 80, height: 80))
+//  }
+//}

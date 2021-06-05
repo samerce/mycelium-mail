@@ -6,15 +6,15 @@ private enum Notch: CaseIterable, Equatable {
     case min, mid, max
 }
 
-private let mailCtrl = MailController.shared
-
 struct EmailDetailView: View {
-  @State private var email = mailCtrl.selectedEmail
+  @StateObject private var mailCtrl = MailController.shared
   @State private var seenTimer: Timer?
   @State private var notch: Notch = .min
   @State private var translationProgress = 0.0
   @State private var backGestureDistanceFromEdge: CGFloat?
   @State private var keyboardVisible = false
+  
+  private var email: Email? { mailCtrl.selectedEmail }
   
   var body: some View {
     ZStack(alignment: .top) {

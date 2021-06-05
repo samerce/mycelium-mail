@@ -1,28 +1,20 @@
-//
-//  ContentView.swift
-//  SwiftUICustomTabBar
-//
-//  Created by Arda Tugay on 12/12/19.
-//  Copyright © 2019 ardatugay. All rights reserved.
-//
-
 import SwiftUI
 
 struct TabBarView: View {
   @Binding var selection: Int
   @Binding var translationProgress: Double
   
-  let TabBarHeight: CGFloat = 48
-  let SpacerHeight: CGFloat = 27
+  let TabBarHeight: CGFloat = 54
+  let SpacerHeight: CGFloat = 18
   var body: some View {
-    let spacerHeight = CGFloat.minimum(SpacerHeight, CGFloat.maximum(0, (CGFloat(translationProgress) / 0.5) * SpacerHeight))
-    let variableTabBarHeight = CGFloat.minimum(TabBarHeight, CGFloat.maximum(0, (CGFloat(translationProgress) / 0.5) * TabBarHeight))
-    let variableOpacity = CGFloat.minimum(1, CGFloat.maximum(0, (CGFloat(translationProgress) / 0.5) * 1))
+    let spacerHeight = min(SpacerHeight, max(0, (CGFloat(translationProgress) / 0.5) * SpacerHeight))
+    let variableTabBarHeight = min(TabBarHeight, max(0, (CGFloat(translationProgress) / 0.5) * TabBarHeight))
+    let variableOpacity = min(1, max(0, (translationProgress / 0.5) * 1))
     
     var topTabBarHeight = TabBarHeight
     var bottomTabBarHeight = TabBarHeight
-    var topBarOpacity:CGFloat = 1
-    var bottomBarOpacity:CGFloat = 1
+    var topBarOpacity: Double = 1
+    var bottomBarOpacity: Double = 1
     if selection < 5 {
       bottomTabBarHeight = variableTabBarHeight
       bottomBarOpacity = variableOpacity
@@ -34,41 +26,46 @@ struct TabBarView: View {
     return VStack(alignment: .center, spacing: 0) {
       HStack(alignment: .lastTextBaseline) {
         Spacer()
-        TabBarItem(iconName: "person",
+        TabBarItem(iconName: "person.2",
                    label: "DMs",
+                   tag: 0,
                    selection: $selection,
-                   tag: 0)
+                   translationProgress: $translationProgress)
           .frame(height: topTabBarHeight)
           .clipped()
         TabBarItem(iconName: "calendar",
                    label: "events",
+                   tag: 1,
                    selection: $selection,
-                   tag: 1)
+                   translationProgress: $translationProgress)
           .frame(height: topTabBarHeight)
           .clipped()
-        TabBarItem(iconName: "book",
+        TabBarItem(iconName: "newspaper",
                    label: "digests",
+                   tag: 2,
                    selection: $selection,
-                   tag: 2)
+                   translationProgress: $translationProgress)
           .frame(height: topTabBarHeight)
           .clipped()
         TabBarItem(iconName: "creditcard",
                    label: "commerce",
+                   tag: 3,
                    selection: $selection,
-                   tag: 3)
+                   translationProgress: $translationProgress)
           .frame(height: topTabBarHeight)
           .clipped()
         TabBarItem(iconName: "building.2",
                    label: "society",
+                   tag: 4,
                    selection: $selection,
-                   tag: 4)
+                   translationProgress: $translationProgress)
           .frame(height: topTabBarHeight)
           .clipped()
         
         Spacer()
       }
       .frame(height: topTabBarHeight)
-      .opacity(Double(topBarOpacity))
+      .opacity(topBarOpacity)
       
       Spacer().frame(height: spacerHeight)
       
@@ -76,33 +73,44 @@ struct TabBarView: View {
         Spacer()
         TabBarItem(iconName: "megaphone",
                    label: "marketing",
+                   tag: 5,
                    selection: $selection,
-                   tag: 5)
+                   translationProgress: $translationProgress)
           .frame(height: bottomTabBarHeight)
           .clipped()
-        TabBarItem(iconName: "newspaper",
-                   label: "news",
+        TabBarItem(iconName: "heart",
+                   label: "health",
+                   tag: 6,
                    selection: $selection,
-                   tag: 6)
+                   translationProgress: $translationProgress)
+          .frame(height: bottomTabBarHeight)
+          .clipped()
+        TabBarItem(iconName: "network",
+                   label: "news",
+                   tag: 7,
+                   selection: $selection,
+                   translationProgress: $translationProgress)
           .frame(height: bottomTabBarHeight)
           .clipped()
         TabBarItem(iconName: "bell.badge",
                    label: "notifications",
+                   tag: 8,
                    selection: $selection,
-                   tag: 7)
+                   translationProgress: $translationProgress)
           .frame(height: bottomTabBarHeight)
           .clipped()
         TabBarItem(iconName: "infinity",
                    label: "everything",
+                   tag: 9,
                    selection: $selection,
-                   tag: 8)
+                   translationProgress: $translationProgress)
           .frame(height: bottomTabBarHeight)
           .clipped()
         
         Spacer()
       }
       .frame(height: bottomTabBarHeight)
-      .opacity(Double(bottomBarOpacity))
+      .opacity(bottomBarOpacity)
     }
   }
   
