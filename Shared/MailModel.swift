@@ -20,7 +20,7 @@ let Tabs = [
   "marketing", "health", "news", "notifications", "everything"
 ]
 
-class MailModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate {
+class MailModel: ObservableObject {
   @Published private(set) var emails:[String: [Email]] = [:]
   
   var lastSavedEmailUid: UInt64 {
@@ -39,8 +39,7 @@ class MailModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate 
     PersistenceController.shared.container.viewContext
   }
   
-  override init() {
-    super.init()
+  init() {
 //    do {
 //      let deleteRequest = NSBatchDeleteRequest(fetchRequest: Email.fetchRequest())
 //      try moc.execute(deleteRequest)
@@ -59,7 +58,7 @@ class MailModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate 
     }
     
     for (perspective, _) in PerspectiveCategories {
-      self.emails[perspective] = fetcherFor(perspective)
+      emails[perspective] = fetchEmails(for: perspective)
     }
     
 //    let email = self.emails["marketing"]?.first(where: { e in
@@ -169,11 +168,11 @@ class MailModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate 
     return []
   }
   
-//  func fetchMore(for perspective: String, lastSeen email: Email) {
-//    guard let emailsInPerspective = emails[perspective]
-//    else { return }
+  func fetchMore(for perspective: String) {
+    guard let emailsInPerspective = emails[perspective]
+    else { return }
 //
-//    let emailCount = emailsInPerspective.count
+    let emailCount = emailsInPerspective.count
 //    let triggerFetchIndex = emailCount - 12
 //
 //    guard triggerFetchIndex >= 0 && triggerFetchIndex < emailCount
@@ -181,37 +180,20 @@ class MailModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate 
 //
 //    let triggerEmail = emailsInPerspective[triggerFetchIndex]
 //    if email.objectID == triggerEmail.objectID {
-//      emails[perspective] = fetcherFor(perspective, offset: emailCount - 1)
+//      print("\(perspective) fetching at offset: \(emailCount)")
+      let newEmails = fetchEmails(for: perspective, offset: emailCount)
+      emails[perspective]?.append(contentsOf: newEmails)
 //    }
-//  }
+  }
   
   // MARK: - private
   
   private
-  func fetcherFor(_ perspective: String, offset: Int = 0) -> [Email] {
-    let request = Email.fetchRequestByDateAndPerspective(perspective)
-    let fetcher = NSFetchedResultsController(fetchRequest: request,
-                                             managedObjectContext: moc,
-                                             sectionNameKeyPath: nil,
-                                             cacheName: nil)
-    fetcher.delegate = self
-    self.fetchers[perspective] = fetcher
+  func fetchEmails(for perspective: String, offset: Int = 0) -> [Email] {
+    let request = Email.fetchRequestByDate(offset: offset, for: perspective)
     
     do {
-      try fetcher.performFetch()
-      return fetcher.fetchedObjects!
-    }
-    catch let error {
-      print("error fetching emails from core data: \(error.localizedDescription)")
-    }
-    
-    return []
-  }
-  
-  private
-  func fetchEmailsByDateDescending() -> [Email] {
-    do {
-      return try moc.fetch(Email.fetchRequestByDate())
+      return try moc.fetch(request)
     }
     catch let error {
       print("error fetching emails from core data: \(error.localizedDescription)")
@@ -283,16 +265,6 @@ class MailModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate 
   private
   func localizedDate(_ date: Date?) -> String {
     return (date != nil) ? dateFormatter.string(from: date!) : ""
-  }
-  
-  // MARK: - NSFetchedResultsController delegate
-  
-  func controllerDidChangeContent(_ theFetcher: NSFetchedResultsController<NSFetchRequestResult>) {
-    for (perspective, fetcher) in fetchers {
-      if theFetcher == fetcher {
-        emails[perspective] = fetcher.fetchedObjects ?? emails[perspective]
-      }
-    }
   }
   
 }

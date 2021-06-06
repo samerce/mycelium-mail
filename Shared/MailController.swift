@@ -82,9 +82,9 @@ class MailController: ObservableObject {
     withAnimation(animation) { selectedEmail = nil }
   }
   
-//  func fetchMore(for perspective: String, lastSeen email: Email) {
-//    model.fetchMore(for: perspective, lastSeen: email)
-//  }
+  func fetchMore(for perspective: String) {
+    model.fetchMore(for: perspective)
+  }
   
   // MARK: - private
   

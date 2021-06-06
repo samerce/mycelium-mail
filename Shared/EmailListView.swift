@@ -17,6 +17,7 @@ struct EmailListView: View {
   @Namespace var headerId
   
   private var perspective: String { Tabs[selectedTab] }
+  private var emails: [Email] { model.emails[perspective]! }
   
   var body: some View {
     ZStack(alignment: .topLeading) {
@@ -33,12 +34,15 @@ struct EmailListView: View {
             .onPreferenceChange(ViewOffsetKey.self) { scrollOffsetY = $0 }
             
           LazyVStack(spacing: 2) {
-            ForEach(model.emails[perspective] ?? [], id: \.objectID) { email in
-              EmailListRow(email: email)
-                .onTapGesture { mailCtrl.selectEmail(email) }
-//                .onAppear { mailCtrl.fetchMore(for: perspective, lastSeen: email) }
+            ForEach(Array(zip(emails.indices, emails)), id: \.0) { index, email in
+              EmailListRow(email: emails[index])
+                .onTapGesture { mailCtrl.selectEmail(emails[index]) }
+                .onAppear {
+                  if index > emails.count - 9 {
+                    mailCtrl.fetchMore(for: perspective)
+                  }
+                }
             }
-            .onDelete { _ in print("deleted") }
           }
           .ignoresSafeArea()
           .padding(.horizontal, 10)

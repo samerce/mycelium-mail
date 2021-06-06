@@ -71,7 +71,6 @@ public class Email: NSManagedObject {
   ) {
     self.init(context: context)
     
-    uuid = UUID()
     uid = Int32(message.uid)
     flags = message.flags
     gmailLabels = Set(message.gmailLabels as? [String] ?? [])

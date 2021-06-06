@@ -12,19 +12,17 @@ extension Email {
   }
   
   @nonobjc public class
-  func fetchRequestByDate() -> NSFetchRequest<Email> {
+  func fetchRequestByDate(offset: Int = 0, for perspective: String = "") -> NSFetchRequest<Email> {
     let fetchRequest = NSFetchRequest<Email>(entityName: "Email")
     fetchRequest.sortDescriptors = [byDateDescending]
     fetchRequest.shouldRefreshRefetchedObjects = true
-    return fetchRequest
-  }
-  
-  @nonobjc public class
-  func fetchRequestByDateAndPerspective(_ perspective: String) -> NSFetchRequest<Email> {
-    let fetchRequest = fetchRequestByDate()
-    if perspective != "everything" {
+    fetchRequest.fetchBatchSize = 324
+    fetchRequest.fetchOffset = offset
+    
+    if !perspective.isEmpty && perspective != "everything" {
       fetchRequest.predicate = NSPredicate(format: "perspective == %@", perspective)
     }
+    
     return fetchRequest
   }
   
