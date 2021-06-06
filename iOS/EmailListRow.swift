@@ -13,7 +13,7 @@ struct EmailListRow: View {
       if !email.seen && mode == .summary {
         Rectangle()
           .fill(Color.psyAccent)
-          .frame(maxWidth: 1, maxHeight: 54)
+          .frame(maxWidth: 1.54, maxHeight: 54)
           .cornerRadius(2)
       }
       VStack(alignment: .leading, spacing: mode == .summary ? 4 : 6) {

@@ -24,7 +24,9 @@ class MailModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate 
   @Published private(set) var emails:[String: [Email]] = [:]
   
   var lastSavedEmailUid: UInt64 {
-    let allEmails = emails["everything"]!
+    guard let allEmails = emails["everything"]
+    else { return 0 }
+    
     if allEmails.count > 0 { return UInt64(allEmails.first!.uid) }
     else { return 0 }
   } // TODO update to use core data fetch

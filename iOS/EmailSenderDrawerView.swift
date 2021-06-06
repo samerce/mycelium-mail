@@ -38,7 +38,7 @@ struct EmailSenderDrawerView: View {
 
       ScrollView {
         LazyVStack {
-          ForEach(emailsFromSender, id: \.uuid) { email_ in
+          ForEach(emailsFromSender, id: \.objectID) { email_ in
             EmailListRow(email: email_)
               .onTapGesture { mailCtrl.selectEmail(email_) }
           }

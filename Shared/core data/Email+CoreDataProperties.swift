@@ -40,7 +40,6 @@ extension Email {
   @NSManaged public var perspective: String? // aka ai category
   @NSManaged public var size: Int32
   @NSManaged public var uid: Int32 // imap id
-  @NSManaged public var uuid: UUID? // core data id
 
   @NSManaged public var account: Account?
   @NSManaged public var header: EmailHeader?

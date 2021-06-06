@@ -33,7 +33,7 @@ struct EmailListView: View {
             .onPreferenceChange(ViewOffsetKey.self) { scrollOffsetY = $0 }
             
           LazyVStack(spacing: 2) {
-            ForEach(model.emails[perspective] ?? [], id: \.uuid) { email in
+            ForEach(model.emails[perspective] ?? [], id: \.objectID) { email in
               EmailListRow(email: email)
                 .onTapGesture { mailCtrl.selectEmail(email) }
 //                .onAppear { mailCtrl.fetchMore(for: perspective, lastSeen: email) }
