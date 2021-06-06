@@ -82,6 +82,10 @@ class MailController: ObservableObject {
     withAnimation(animation) { selectedEmail = nil }
   }
   
+//  func fetchMore(for perspective: String, lastSeen email: Email) {
+//    model.fetchMore(for: perspective, lastSeen: email)
+//  }
+  
   // MARK: - private
   
   private func onLoggedIn(_ account: Account) {

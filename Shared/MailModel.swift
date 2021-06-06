@@ -167,9 +167,26 @@ class MailModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate 
     return []
   }
   
+//  func fetchMore(for perspective: String, lastSeen email: Email) {
+//    guard let emailsInPerspective = emails[perspective]
+//    else { return }
+//
+//    let emailCount = emailsInPerspective.count
+//    let triggerFetchIndex = emailCount - 12
+//
+//    guard triggerFetchIndex >= 0 && triggerFetchIndex < emailCount
+//    else { return }
+//
+//    let triggerEmail = emailsInPerspective[triggerFetchIndex]
+//    if email.objectID == triggerEmail.objectID {
+//      emails[perspective] = fetcherFor(perspective, offset: emailCount - 1)
+//    }
+//  }
+  
   // MARK: - private
   
-  private func fetcherFor(_ perspective: String) -> [Email] {
+  private
+  func fetcherFor(_ perspective: String, offset: Int = 0) -> [Email] {
     let request = Email.fetchRequestByDateAndPerspective(perspective)
     let fetcher = NSFetchedResultsController(fetchRequest: request,
                                              managedObjectContext: moc,
@@ -189,7 +206,8 @@ class MailModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate 
     return []
   }
   
-  private func fetchEmailsByDateDescending() -> [Email] {
+  private
+  func fetchEmailsByDateDescending() -> [Email] {
     do {
       return try moc.fetch(Email.fetchRequestByDate())
     }
@@ -200,7 +218,8 @@ class MailModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate 
     return []
   }
   
-  private func fetchEmailByUid(_ uid: UInt32, account: Account) -> Email? {
+  private
+  func fetchEmailByUid(_ uid: UInt32, account: Account) -> Email? {
     let fetchRequest: NSFetchRequest<Email> = Email.fetchRequest()
     fetchRequest.predicate = NSPredicate(
       format: "uid == %d && account.address == %@",
@@ -216,7 +235,8 @@ class MailModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate 
     return nil
   }
   
-  private func perspectiveFor(_ emailAsHtml: String = "") -> String {
+  private
+  func perspectiveFor(_ emailAsHtml: String = "") -> String {
     let prediction = oracle?.predictedLabel(for: emailAsHtml) ?? ""
     if prediction == "" { return "other" }
     
@@ -228,7 +248,8 @@ class MailModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate 
     return "other"
   }
   
-  private func headerAsHtml(_ header: MCOMessageHeader) -> String {
+  private
+  func headerAsHtml(_ header: MCOMessageHeader) -> String {
     let from = header.from
     let to: String = addressesAsString(header.to as? [MCOAddress], prefix: "To: ")
     let cc: String = addressesAsString(header.cc as? [MCOAddress], prefix: "CC: ")
@@ -244,7 +265,8 @@ class MailModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate 
     """
   }
   
-  private func addressesAsString(_ addresses: [MCOAddress]?, prefix: String = "") -> String {
+  private
+  func addressesAsString(_ addresses: [MCOAddress]?, prefix: String = "") -> String {
     var result = ""
 
     if let addresses = addresses {
@@ -256,7 +278,8 @@ class MailModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate 
     return result.isEmpty ? "" : prefix + result + "\n"
   }
   
-  private func localizedDate(_ date: Date?) -> String {
+  private
+  func localizedDate(_ date: Date?) -> String {
     return (date != nil) ? dateFormatter.string(from: date!) : ""
   }
   

@@ -6,19 +6,21 @@ private let byDateDescending = NSSortDescriptor(key: "date", ascending: false)
 
 extension Email {
   
-  @nonobjc public class func fetchRequest() -> NSFetchRequest<Email> {
+  @nonobjc public class
+  func fetchRequest() -> NSFetchRequest<Email> {
     return NSFetchRequest<Email>(entityName: "Email")
   }
   
-  @nonobjc public class func fetchRequestByDate() -> NSFetchRequest<Email> {
+  @nonobjc public class
+  func fetchRequestByDate() -> NSFetchRequest<Email> {
     let fetchRequest = NSFetchRequest<Email>(entityName: "Email")
     fetchRequest.sortDescriptors = [byDateDescending]
-    fetchRequest.fetchBatchSize = 324
     fetchRequest.shouldRefreshRefetchedObjects = true
     return fetchRequest
   }
   
-  @nonobjc public class func fetchRequestByDateAndPerspective(_ perspective: String) -> NSFetchRequest<Email> {
+  @nonobjc public class
+  func fetchRequestByDateAndPerspective(_ perspective: String) -> NSFetchRequest<Email> {
     let fetchRequest = fetchRequestByDate()
     if perspective != "everything" {
       fetchRequest.predicate = NSPredicate(format: "perspective == %@", perspective)
@@ -37,7 +39,7 @@ extension Email {
   @NSManaged public var originalFlagsRaw: Int16 // flags when first fetched
   @NSManaged public var perspective: String? // aka ai category
   @NSManaged public var size: Int32
-  @NSManaged public var uid: Int32 // email id from server
+  @NSManaged public var uid: Int32 // imap id
   @NSManaged public var uuid: UUID? // core data id
 
   @NSManaged public var account: Account?

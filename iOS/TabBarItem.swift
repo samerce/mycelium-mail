@@ -27,7 +27,7 @@ struct TabBarItem: View {
         .font(.system(size: 27, weight: .light))
         .contentShape(Rectangle())
       Text(label)
-        .font(.system(size: 12, weight: .light))
+        .font(.system(size: 11, weight: .light))
         .frame(height: labelHeight)
         .opacity(labelOpacity)
         .clipped()

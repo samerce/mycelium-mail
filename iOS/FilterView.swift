@@ -3,10 +3,13 @@ import SwiftUI
 private let Filters = [
   "today": "sun.max",
   "last week": "calendar.badge.clock",
-  "unread": "envelope.badge",
-  "starred": "star",
+  "unread": "envelope",
+  "read": "envelope.open",
+  "starred": "star.fill",
   "contacts": "rectangle.stack.person.crop",
-  "vip": "person.crop.circle.badge.exclamationmark"
+  "vip": "person.crop.circle.badge.exclamationmark",
+  "attachments": "paperclip",
+  "tickets": "wallet.pass"
 ]
 
 private let FilterImageSize: CGFloat = 36
@@ -24,11 +27,11 @@ struct FilterView: View {
               .resizable()
               .aspectRatio(contentMode: .fit)
               .frame(width: FilterImageSize, height: FilterImageSize)
-              .font(.system(size: FilterImageSize))
+              .font(.system(size: FilterImageSize, weight: .light))
               .contentShape(Rectangle())
             
             Text(filter)
-              .font(.system(size: 14))
+              .font(.system(size: 13))
           }
           .frame(maxWidth: .infinity, maxHeight: 108)
           .padding(18)

@@ -12,7 +12,7 @@ struct EmailListView: View {
   @State private var notch: Notch = .min
   @State private var translationProgress = 0.0
   @State private var selectedTab = 2
-  @State private var scrollViewOffsetY: CGFloat?
+  @State private var scrollOffsetY: CGFloat = 0
   @State private var safeAreaBackdropOpacity: Double = 0
   @Namespace var headerId
   
@@ -20,26 +20,29 @@ struct EmailListView: View {
   
   var body: some View {
     ZStack(alignment: .topLeading) {
-      SafeAreaBackdrop
-      
       ScrollViewReader { scrollProxy in
         ScrollView {
           Text(perspective)
             .font(.system(size: 36, weight: .black))
             .padding(.top, 9)
             .id(headerId)
+            .background(GeometryReader {
+              Color.clear.preference(key: ViewOffsetKey.self,
+                                     value: -$0.frame(in: .global).minY)
+            })
+            .onPreferenceChange(ViewOffsetKey.self) { scrollOffsetY = $0 }
             
-          
           LazyVStack(spacing: 2) {
             ForEach(model.emails[perspective] ?? [], id: \.uuid) { email in
               EmailListRow(email: email)
                 .onTapGesture { mailCtrl.selectEmail(email) }
+//                .onAppear { mailCtrl.fetchMore(for: perspective, lastSeen: email) }
             }
             .onDelete { _ in print("deleted") }
           }
           .ignoresSafeArea()
           .padding(.horizontal, 10)
-          
+
           Spacer().frame(height: 138)
         }
         .dynamicOverlay(EmailListDrawer)
@@ -48,19 +51,21 @@ struct EmailListView: View {
         .onChange(of: selectedTab) { _ in
           scrollProxy.scrollTo(headerId)
         }
-        .introspectScrollView { scrollView in
-          scrollViewOffsetY = scrollView.contentOffset.y
-        }
       }
+      
+      SafeAreaHeader
     }
   }
   
-  private var SafeAreaBackdrop: some View {
+  private var SafeAreaHeader: some View {
     VisualEffectBlur(blurStyle: .prominent)
       .frame(maxWidth: .infinity, maxHeight: safeAreaInsets.top)
       .opacity(safeAreaBackdropOpacity)
-      .onChange(of: scrollViewOffsetY) { _ in
-        withAnimation { safeAreaBackdropOpacity = 1 }
+      .onChange(of: scrollOffsetY) { _ in
+        let newOpacity: Double = scrollOffsetY > -33 ? 1 : 0
+        if safeAreaBackdropOpacity != newOpacity {
+          withAnimation(.spring(response: 0.36)) { safeAreaBackdropOpacity = newOpacity }
+        }
       }
   }
   
@@ -104,3 +109,10 @@ struct EmailListView_Previews: PreviewProvider {
   }
 }
 
+struct ViewOffsetKey: PreferenceKey {
+  typealias Value = CGFloat
+  static var defaultValue = CGFloat.zero
+  static func reduce(value: inout Value, nextValue: () -> Value) {
+    value += nextValue()
+  }
+}
