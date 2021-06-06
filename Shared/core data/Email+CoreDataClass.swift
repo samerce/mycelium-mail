@@ -97,7 +97,7 @@ public class Email: NSManagedObject {
   
   private var flags: MCOMessageFlag {
     get {
-      return MCOMessageFlag(rawValue: Int(flagsRaw))
+      MCOMessageFlag(rawValue: Int(flagsRaw))
     }
     set {
       flagsRaw = Int16(newValue.rawValue)
@@ -106,14 +106,14 @@ public class Email: NSManagedObject {
   
   private(set) var originalFlags: MCOMessageFlag {
     get {
-      return MCOMessageFlag(rawValue: Int(originalFlagsRaw))
+      MCOMessageFlag(rawValue: Int(originalFlagsRaw))
     }
     set {
       originalFlagsRaw = Int16(newValue.rawValue)
     }
   }
   
-  func setFlags(_ _flags: MCOMessageFlag) {
+  func addFlags(_ _flags: MCOMessageFlag) {
     var newFlags = flags
     newFlags.insert(_flags)
     flags = newFlags

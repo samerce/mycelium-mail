@@ -26,8 +26,8 @@ struct TabBarView: View {
     return VStack(alignment: .center, spacing: 0) {
       HStack(alignment: .lastTextBaseline) {
         Spacer()
-        TabBarItem(iconName: "person.2",
-                   label: "DMs",
+        TabBarItem(iconName: "building.2",
+                   label: "society",
                    tag: 0,
                    selection: $selection,
                    translationProgress: $translationProgress)
@@ -54,14 +54,13 @@ struct TabBarView: View {
                    translationProgress: $translationProgress)
           .frame(height: topTabBarHeight)
           .clipped()
-        TabBarItem(iconName: "building.2",
-                   label: "society",
+        TabBarItem(iconName: "person.2",
+                   label: "DMs",
                    tag: 4,
                    selection: $selection,
                    translationProgress: $translationProgress)
           .frame(height: topTabBarHeight)
           .clipped()
-        
         Spacer()
       }
       .frame(height: topTabBarHeight)

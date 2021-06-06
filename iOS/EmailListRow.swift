@@ -1,18 +1,12 @@
 import SwiftUI
-import UIKit
 
 enum EmailListRowMode {
   case summary, details
 }
 
-private var mailCtrl = MailController.shared
-
 struct EmailListRow: View {
   var email: Email
   var mode: EmailListRowMode = .summary
-  
-  @StateObject var model = mailCtrl.model
-  @State var expanded = false
   
   var body: some View {
     ZStack(alignment: .leading) {

@@ -90,7 +90,10 @@ struct EmailToolsDrawerView: View {
   
   private var TrashButton: some View {
     Button(action: { mailCtrl.deleteEmails([email]) }) {
-      SystemImage("trash", size: 24)
+      ZStack {
+        SystemImage("trash", size: 24)
+      }
+      .frame(maxWidth: .infinity, maxHeight: 36)
     }
     .frame(maxWidth: replying ? 0 : .infinity)
     .opacity(replying ? 0 : 1)

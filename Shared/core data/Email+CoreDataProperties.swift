@@ -20,7 +20,9 @@ extension Email {
   
   @nonobjc public class func fetchRequestByDateAndPerspective(_ perspective: String) -> NSFetchRequest<Email> {
     let fetchRequest = fetchRequestByDate()
-    fetchRequest.predicate = NSPredicate(format: "perspective == %@", perspective)
+    if perspective != "everything" {
+      fetchRequest.predicate = NSPredicate(format: "perspective == %@", perspective)
+    }
     return fetchRequest
   }
   

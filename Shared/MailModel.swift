@@ -16,11 +16,11 @@ let PerspectiveCategories = [
   "health": Set([""])
 ]
 let Tabs = [
-  "DMs", "events", "digests", "commerce", "society",
+  "society", "events", "digests", "commerce", "DMs",
   "marketing", "health", "news", "notifications", "everything"
 ]
 
-class MailModel: ObservableObject {
+class MailModel: NSObject, ObservableObject, NSFetchedResultsControllerDelegate {
   @Published private(set) var emails:[String: [Email]] = [:]
   
   var lastSavedEmailUid: UInt64 {
@@ -29,6 +29,7 @@ class MailModel: ObservableObject {
     else { return 0 }
   } // TODO update to use core data fetch
 
+  private var fetchers = [String: NSFetchedResultsController<Email>]()
   private let dateFormatter = DateFormatter()
   private var oracle: NLModel?
   
@@ -36,7 +37,8 @@ class MailModel: ObservableObject {
     PersistenceController.shared.container.viewContext
   }
   
-  init() {
+  override init() {
+    super.init()
 //    do {
 //      let deleteRequest = NSBatchDeleteRequest(fetchRequest: Email.fetchRequest())
 //      try moc.execute(deleteRequest)
@@ -55,9 +57,8 @@ class MailModel: ObservableObject {
     }
     
     for (perspective, _) in PerspectiveCategories {
-      self.emails[perspective] = fetchEmailsByPerspective(perspective)
+      self.emails[perspective] = fetcherFor(perspective)
     }
-    self.emails["everything"] = fetchEmailsByDateDescending()
     
 //    let email = self.emails["marketing"]?.first(where: { e in
 //      e.subject.contains("Pre-enroll in The Freelancer")
@@ -68,32 +69,40 @@ class MailModel: ObservableObject {
   
   // MARK: - public
   
-  func deleteEmails(_ _emails: [Email], _ completion: @escaping (Error?) -> Void) {
-    setFlags(.deleted, for: _emails) { error in
-      if let error = error {
-        completion(error)
-        return
-      }
-      
-      _emails.forEach(self.moc.delete)
+  func addFlags(_ flags: MCOMessageFlag, for theEmails: [Email],
+                _ completion: @escaping (Error?) -> Void) {
+    moc.performAndWait {
+      theEmails.forEach { e in e.addFlags(flags) }
       
       do {
-        try self.moc.save()
+        try moc.save()
         completion(nil)
       }
-      catch let error { completion(error) }
+      catch let error as NSError {
+        print("error saving new email to core data: \(error)")
+        completion(error)
+      }
     }
   }
   
-  func setFlags(_ flags: MCOMessageFlag, for _emails: [Email],
-                _ completion: @escaping (Error?) -> Void) {
-    _emails.forEach { e in e.setFlags(flags) }
-    
-    do {
-      try moc.save()
-      completion(nil)
+  func deleteEmails(_ theEmails: [Email], _ completion: @escaping (Error?) -> Void) {
+    moc.performAndWait {
+      for e in theEmails {
+        e.addFlags(.deleted)
+        // TODO remove this deletion and instead
+        // update the fetch predicate to omit all emails with that flag
+        moc.delete(e)
+      }
+      
+      do {
+        try moc.save()
+        completion(nil)
+      }
+      catch let error {
+        print("error deleting emails from core data: \(error.localizedDescription)")
+        completion(error)
+      }
     }
-    catch let error { completion(error) }
   }
   
   func makeAndSaveEmail(withMessage message: MCOIMAPMessage, html emailAsHtml: String?,
@@ -160,9 +169,18 @@ class MailModel: ObservableObject {
   
   // MARK: - private
   
-  private func fetchEmailsByPerspective(_ perspective: String) -> [Email] {
+  private func fetcherFor(_ perspective: String) -> [Email] {
+    let request = Email.fetchRequestByDateAndPerspective(perspective)
+    let fetcher = NSFetchedResultsController(fetchRequest: request,
+                                             managedObjectContext: moc,
+                                             sectionNameKeyPath: nil,
+                                             cacheName: nil)
+    fetcher.delegate = self
+    self.fetchers[perspective] = fetcher
+    
     do {
-      return try moc.fetch(Email.fetchRequestByDateAndPerspective(perspective))
+      try fetcher.performFetch()
+      return fetcher.fetchedObjects!
     }
     catch let error {
       print("error fetching emails from core data: \(error.localizedDescription)")
@@ -240,6 +258,16 @@ class MailModel: ObservableObject {
   
   private func localizedDate(_ date: Date?) -> String {
     return (date != nil) ? dateFormatter.string(from: date!) : ""
+  }
+  
+  // MARK: - NSFetchedResultsController delegate
+  
+  func controllerDidChangeContent(_ theFetcher: NSFetchedResultsController<NSFetchRequestResult>) {
+    for (perspective, fetcher) in fetchers {
+      if theFetcher == fetcher {
+        emails[perspective] = fetcher.fetchedObjects ?? emails[perspective]
+      }
+    }
   }
   
 }

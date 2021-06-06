@@ -37,7 +37,7 @@ class MailController: ObservableObject {
   // MARK: - public
   
   func markSeen(_ emails: [Email], _ completion: @escaping ([Error]?) -> Void) {
-    setFlags(.seen, for: emails) { errors in
+    addFlags(.seen, for: emails) { errors in
       if let errors = errors, !errors.isEmpty {
         completion(errors)
       } else {
@@ -47,17 +47,27 @@ class MailController: ObservableObject {
   }
   
   func deleteEmails(_ emails: [Email]) {
-    model.deleteEmails(emails) { error in
+    deselectEmail()
+    moveEmailsToTrash(emails) { error in
       if error != nil {
-        // tell view about it
-      } else {
-        self.deselectEmail()
+        // let view know
+        return
+      }
+      
+      Timer.scheduledTimer(withTimeInterval: 0.36, repeats: false) { _ in
+        withAnimation(self.animation) {
+          self.model.deleteEmails(emails) { error in
+            if error != nil {
+              // let view know
+            }
+          }
+        }
       }
     }
   }
   
   func flagEmails(_ emails: [Email]) {
-    setFlags(.flagged, for: emails) { errors in
+    addFlags(.flagged, for: emails) { errors in
       if let errors = errors, !errors.isEmpty {
         // tell view about it
       }
@@ -115,7 +125,7 @@ class MailController: ObservableObject {
     }
   }
   
-  private func setFlags(_ flags: MCOMessageFlag, for theEmails: [Email],
+  private func addFlags(_ flags: MCOMessageFlag, for theEmails: [Email],
                         _ completion: ([Error]?) -> Void) {
     let queue = OperationQueue()
     var errors = [Error]()
@@ -125,11 +135,12 @@ class MailController: ObservableObject {
       guard let updateFlags = session.storeFlagsOperation(
         withFolder: "INBOX",
         uids: uidSetForEmails(theEmails),
-        kind: .set,
+        kind: .add,
         flags: flags
       ) else {
-        completion([]) // TODO set error
-        return
+        // TODO append an error
+        print("error creating update flags operation")
+        continue
       }
       
       queue.addBarrierBlock {
@@ -140,7 +151,7 @@ class MailController: ObservableObject {
             return
           }
           
-          self.model.setFlags(flags, for: theEmails) { error in
+          self.model.addFlags(flags, for: theEmails) { error in
             if let error = error {
               print("error setting flags in core data: \(error)")
               errors.append(error)
@@ -152,6 +163,50 @@ class MailController: ObservableObject {
     
     queue.waitUntilAllOperationsAreFinished()
     completion(errors.isEmpty ? nil : errors)
+  }
+  
+  private func moveEmailsToTrash(_ emails: [Email],
+                                 _ completion: @escaping (Error?) -> Void) {
+    let queue = OperationQueue()
+    var errors = [Error]()
+    
+    for (account, emails) in emailsByAccount(emails) {
+      let uids = uidSetForEmails(emails)
+      guard let session = sessions[account],
+            let addTrashLabel = session.storeLabelsOperation(
+              withFolder: "INBOX",
+              uids: uids,
+              kind: .add,
+              labels: ["\\Trash"]),
+            let expunge = session.expungeOperation("INBOX")
+      else {
+        // TODO append an error
+        print("error creating session operations")
+        continue
+      }
+
+      queue.addBarrierBlock {
+        addTrashLabel.start { error in
+          if let error = error {
+            print("error adding trash label: \(error.localizedDescription)")
+            errors.append(error)
+          }
+        }
+      }
+      
+      queue.addBarrierBlock {
+        expunge.start { error in
+          if let error = error {
+            print("error expunging: \(error.localizedDescription)")
+            errors.append(error)
+          }
+        }
+      }
+      
+    }
+    
+    queue.waitUntilAllOperationsAreFinished()
+    completion(errors.isEmpty ? nil : errors[0]) // TODO send all back?
   }
   
   private func emailsByAccount(_ emails: [Email]) -> [Account: [Email]] {
@@ -218,6 +273,7 @@ private class GmailSession: MCOIMAPSession {
     port = 993
     authType = .xoAuth2
     connectionType = .TLS
+    allowsFolderConcurrentAccessEnabled = true
   }
   
 }
