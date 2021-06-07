@@ -46,8 +46,8 @@
             filePath = "Shared/MailModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
             landmarkName = "fetchMore(for:)"
             landmarkType = "7">
          </BreakpointContent>

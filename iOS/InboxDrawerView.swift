@@ -19,13 +19,13 @@ struct InboxDrawerView: View {
   @State private var selectedGrouping = Grouping.emailAddress
   @State private var hiddenViewOpacity = 0.0
   @State private var toolbarHeight = DefaultToolbarHeight
-  @Binding var selectedTab: Int
+  @Binding var perspective: String
   @Binding var translationProgress: Double
   
   // MARK: - View
   
   var body: some View {
-    let bottomSpace = CGFloat.maximum(12, 54 - (CGFloat(translationProgress) / FirstExpandedNotch) * 54)
+    let bottomSpace = CGFloat.maximum(6, 54 - (CGFloat(translationProgress) / FirstExpandedNotch) * 54)
 //    let hiddenSectionOpacity = translationProgress > 0 ? translationProgress + 0.48 : 0
     return VStack(spacing: 0) {
       DrawerCapsule()
@@ -34,14 +34,12 @@ struct InboxDrawerView: View {
       
       perspectiveHeader
       
-      TabBarView(selection: $selectedTab, translationProgress: $translationProgress)
+      TabBarView(selection: $perspective, translationProgress: $translationProgress)
 
       toolbar
       Spacer().frame(height: bottomSpace)
 
       ScrollView {
-        groupBySection
-        Spacer().frame(height: 32)
         filterSection
       }
       .drivingScrollView()
@@ -52,7 +50,7 @@ struct InboxDrawerView: View {
     .ignoresSafeArea()
   }
   
-  private let HeaderBottomPadding: CGFloat = 6
+  private let HeaderBottomPadding: CGFloat = 18
   private var perspectiveHeader: some View {
     let height = min(HeaderHeight, max(0, (CGFloat(translationProgress) / FirstExpandedNotch) * HeaderHeight))
     let bottomPadding = min(HeaderBottomPadding, max(0, CGFloat(translationProgress) / FirstExpandedNotch) * HeaderBottomPadding)
@@ -150,7 +148,27 @@ struct InboxDrawerView: View {
   }
   
   private var filterSection: some View {
-    Section(header: header("FILTERS")) {
+    VStack(spacing: 18) {
+      HStack(spacing: 0) {
+        Text("FILTERS")
+          .font(.system(size: 12, weight: .light))
+          .foregroundColor(Color(.gray))
+        
+        Spacer()
+        
+        Button(action: {}) {
+          ZStack {
+            Image(systemName: "plus")
+              .resizable()
+              .aspectRatio(contentMode: .fit)
+              .frame(maxWidth: 16, maxHeight: .infinity)
+              .foregroundColor(.psyAccent)
+              .font(.system(size: 12, weight: .light))
+          }
+          .frame(width: 54, alignment: .trailing)
+        }
+      }
+      
       FilterView()
     }
     .padding(.horizontal, 18)
@@ -171,9 +189,9 @@ struct InboxDrawerView: View {
 
 struct InboxDrawerView_Previews: PreviewProvider {
   @State static var progress = 0.0
-  @State static var selectedTab = 0
+  @State static var perspective = "latest"
   static var previews: some View {
-    InboxDrawerView(selectedTab: $selectedTab,
+    InboxDrawerView(perspective: $perspective,
                     translationProgress: $progress)
   }
 }

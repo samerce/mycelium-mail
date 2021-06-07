@@ -4,7 +4,7 @@ struct AppCompactView: View {
   
   var body: some View {
     ZStack(alignment: .topTrailing) {
-      EmailListView()
+      InboxView()
       EmailDetailView()
     }
     .ignoresSafeArea()

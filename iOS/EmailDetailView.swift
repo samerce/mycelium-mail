@@ -67,11 +67,11 @@ struct EmailDetailView: View {
     MagneticNotchOverlayBehavior<Notch> { notch in
       switch notch {
       case .max:
-        return .fractional(0.92)
+        return .fractional(0.72)
       case .mid:
         return .fractional(0.54)
       case .min:
-        return keyboardVisible ? .fractional(0.04) : .fractional(0.15)
+        return keyboardVisible ? .fractional(0.04) : .fractional(0.12)
       }
     }
     .notchChange($notch)

@@ -9,7 +9,7 @@ private let Filters = [
   "contacts": "rectangle.stack.person.crop",
   "vip": "person.crop.circle.badge.exclamationmark",
   "attachments": "paperclip",
-  "tickets": "wallet.pass"
+  "tags": "tag",
 ]
 
 private let FilterImageSize: CGFloat = 36
@@ -37,7 +37,7 @@ struct FilterView: View {
           .padding(18)
           .background(Color(.tertiarySystemBackground))
           .cornerRadius(9)
-          .shadow(radius: 6)
+          .shadow(radius: 3)
           .foregroundColor(Color(.secondaryLabel))
         }
       }

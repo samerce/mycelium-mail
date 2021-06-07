@@ -7,16 +7,15 @@ private enum Notch: CaseIterable, Equatable {
 
 private var mailCtrl = MailController.shared
 
-struct EmailListView: View {
+struct InboxView: View {
   @StateObject private var model = mailCtrl.model
   @State private var notch: Notch = .min
   @State private var translationProgress = 0.0
-  @State private var selectedTab = 2
+  @State private var perspective = "latest"
   @State private var scrollOffsetY: CGFloat = 0
   @State private var safeAreaBackdropOpacity: Double = 0
   @Namespace var headerId
   
-  private var perspective: String { Tabs[selectedTab] }
   private var emails: [Email] { model.emails[perspective]! }
   
   var body: some View {
@@ -52,7 +51,7 @@ struct EmailListView: View {
         .dynamicOverlay(EmailListDrawer)
         .dynamicOverlayBehavior(behavior)
         .ignoresSafeArea()
-        .onChange(of: selectedTab) { _ in
+        .onChange(of: perspective) { _ in
           scrollProxy.scrollTo(headerId)
         }
       }
@@ -78,8 +77,8 @@ struct EmailListView: View {
   }
   
   private var EmailListDrawer: some View {
-    InboxDrawerView(selectedTab: $selectedTab, translationProgress: $translationProgress)
-      .onChange(of: selectedTab) { _ in
+    InboxDrawerView(perspective: $perspective, translationProgress: $translationProgress)
+      .onChange(of: perspective) { _ in
         withAnimation {
           notch = .min
         }
@@ -109,7 +108,7 @@ struct EmailListView: View {
 
 struct EmailListView_Previews: PreviewProvider {
   static var previews: some View {
-    EmailListView()
+    InboxView()
   }
 }
 

@@ -3,21 +3,10 @@ import NaturalLanguage
 import CoreData
 import MailCore
 
-let PerspectiveCategories = [
-  "DMs": Set(["Games", "Computers & Electronics", "DMs"]),
-  "events": Set(["Travel", "events"]),
-  "digests": Set(["Science", "Reference", "Pets & Animals", "Home & Garden", "Hobbies & Leisure", "Books & Literature", "Arts & Entertainment", "digests"]),
-  "commerce": Set(["Shopping", "Online Communities", "Internet & Telecom", "Health", "Food & Drink", "Finance", "Business & Industrial", "Beauty & Fitness", "commerce"]),
-  "society": Set(["Sports", "Sensitive Subjects", "People & Society", "News", "Law & Government", "Jobs & Education", "society"]),
-  "marketing": Set(["marketing"]),
-  "news": Set(["news"]),
-  "notifications": Set(["notifications"]),
-  "everything": Set([""]),
-  "health": Set([""])
-]
-let Tabs = [
-  "society", "events", "digests", "commerce", "DMs",
-  "marketing", "health", "news", "notifications", "everything"
+let Perspectives = [
+  "events", "commerce", "latest", "digests", "DMs",
+  "marketing", "society", "news", "notifications", "everything",
+  "trash", "folders", "sent"
 ]
 
 class MailModel: ObservableObject {
@@ -57,7 +46,7 @@ class MailModel: ObservableObject {
       print("error creating ai model: \(error)")
     }
     
-    for (perspective, _) in PerspectiveCategories {
+    for perspective in Perspectives {
       emails[perspective] = fetchEmails(for: perspective)
     }
     
@@ -223,13 +212,7 @@ class MailModel: ObservableObject {
   func perspectiveFor(_ emailAsHtml: String = "") -> String {
     let prediction = oracle?.predictedLabel(for: emailAsHtml) ?? ""
     if prediction == "" { return "other" }
-    
-    for (perspective, categorySet) in PerspectiveCategories {
-      if categorySet.contains(prediction) {
-        return perspective
-      }
-    }
-    return "other"
+    return prediction
   }
   
   private

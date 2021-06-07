@@ -1,122 +1,102 @@
 import SwiftUI
 
+struct TabRow: Identifiable {
+  var label: String
+  var icon: String
+  
+  var id: String { label }
+}
+
+let TabConfig = [
+  [
+    TabRow(label: "events", icon: "calendar"),
+    TabRow(label: "commerce", icon: "creditcard"),
+    TabRow(label: "latest", icon: "tray.full"),
+    TabRow(label: "digests", icon: "newspaper"),
+    TabRow(label: "DMs", icon: "person.2")
+  ],
+  [
+    TabRow(label: "marketing", icon: "megaphone"),
+    TabRow(label: "society", icon: "building.2"),
+    TabRow(label: "news", icon: "network"),
+    TabRow(label: "notifications", icon: "bell"),
+    TabRow(label: "everything", icon: "infinity")
+  ],
+//  [
+//    (label: "trash", icon: "trash"),
+//    (label: "folders", icon: "folder"),
+//    (label: "sent", icon: "paperplane"),
+//  ]
+]
+
+private let TabBarHeight: CGFloat = 54
+private let SpacerHeight: CGFloat = 18
+
 struct TabBarView: View {
-  @Binding var selection: Int
+  @Binding var selection: String
   @Binding var translationProgress: Double
   
-  let TabBarHeight: CGFloat = 54
-  let SpacerHeight: CGFloat = 18
   var body: some View {
-    let spacerHeight = min(SpacerHeight, max(0, (CGFloat(translationProgress) / 0.5) * SpacerHeight))
-    let variableTabBarHeight = min(TabBarHeight, max(0, (CGFloat(translationProgress) / 0.5) * TabBarHeight))
-    let variableOpacity = min(1, max(0, (translationProgress / 0.5) * 1))
-    
-    var topTabBarHeight = TabBarHeight
-    var bottomTabBarHeight = TabBarHeight
-    var topBarOpacity: Double = 1
-    var bottomBarOpacity: Double = 1
-    if selection < 5 {
-      bottomTabBarHeight = variableTabBarHeight
-      bottomBarOpacity = variableOpacity
-    } else {
-      topTabBarHeight = variableTabBarHeight
-      topBarOpacity = variableOpacity
-    }
-    
-    return VStack(alignment: .center, spacing: 0) {
-      HStack(alignment: .lastTextBaseline) {
-        Spacer()
-        TabBarItem(iconName: "building.2",
-                   label: "society",
-                   tag: 0,
-                   selection: $selection,
-                   translationProgress: $translationProgress)
-          .frame(height: topTabBarHeight)
-          .clipped()
-        TabBarItem(iconName: "calendar",
-                   label: "events",
-                   tag: 1,
-                   selection: $selection,
-                   translationProgress: $translationProgress)
-          .frame(height: topTabBarHeight)
-          .clipped()
-        TabBarItem(iconName: "newspaper",
-                   label: "digests",
-                   tag: 2,
-                   selection: $selection,
-                   translationProgress: $translationProgress)
-          .frame(height: topTabBarHeight)
-          .clipped()
-        TabBarItem(iconName: "creditcard",
-                   label: "commerce",
-                   tag: 3,
-                   selection: $selection,
-                   translationProgress: $translationProgress)
-          .frame(height: topTabBarHeight)
-          .clipped()
-        TabBarItem(iconName: "person.2",
-                   label: "DMs",
-                   tag: 4,
-                   selection: $selection,
-                   translationProgress: $translationProgress)
-          .frame(height: topTabBarHeight)
-          .clipped()
-        Spacer()
-      }
-      .frame(height: topTabBarHeight)
-      .opacity(topBarOpacity)
-      
-      Spacer().frame(height: spacerHeight)
-      
-      HStack(alignment: .lastTextBaseline) {
-        Spacer()
-        TabBarItem(iconName: "megaphone",
-                   label: "marketing",
-                   tag: 5,
-                   selection: $selection,
-                   translationProgress: $translationProgress)
-          .frame(height: bottomTabBarHeight)
-          .clipped()
-        TabBarItem(iconName: "heart",
-                   label: "health",
-                   tag: 6,
-                   selection: $selection,
-                   translationProgress: $translationProgress)
-          .frame(height: bottomTabBarHeight)
-          .clipped()
-        TabBarItem(iconName: "network",
-                   label: "news",
-                   tag: 7,
-                   selection: $selection,
-                   translationProgress: $translationProgress)
-          .frame(height: bottomTabBarHeight)
-          .clipped()
-        TabBarItem(iconName: "bell.badge",
-                   label: "notifications",
-                   tag: 8,
-                   selection: $selection,
-                   translationProgress: $translationProgress)
-          .frame(height: bottomTabBarHeight)
-          .clipped()
-        TabBarItem(iconName: "infinity",
-                   label: "everything",
-                   tag: 9,
-                   selection: $selection,
-                   translationProgress: $translationProgress)
-          .frame(height: bottomTabBarHeight)
-          .clipped()
+    VStack(alignment: .center, spacing: 0) {
+      ForEach(0..<TabConfig.count) { rowIndex in
+        let tabRowHeight = heightForTabRow(rowIndex)
+        let tabRowOpacity = opacityForTabRow(rowIndex)
+        HStack(alignment: .lastTextBaseline) {
+          Spacer()
+          
+          ForEach(TabConfig[rowIndex], id: \.label) { item in
+            TabBarItem(
+              iconName: item.icon,
+              label: item.label,
+              selected: selection == item.label,
+              translationProgress: $translationProgress
+            )
+            .frame(height: tabRowHeight)
+            .clipped()
+            .onTapGesture { selection = item.label }
+          }
+          
+          Spacer()
+        }
+        .frame(height: tabRowHeight)
+        .opacity(tabRowOpacity)
         
-        Spacer()
+        Spacer().frame(height: spacerHeight)
       }
-      .frame(height: bottomTabBarHeight)
-      .opacity(bottomBarOpacity)
     }
+  }
+  
+  private func heightForTabRow(_ row: Int) -> CGFloat {
+    let variableTabBarHeight =
+      min(TabBarHeight, max(0, (CGFloat(translationProgress) / 0.5) * TabBarHeight))
+    
+    return row == rowForSelection ? TabBarHeight : variableTabBarHeight
+  }
+  
+  private func opacityForTabRow(_ row: Int) -> Double {
+    let variableOpacity = min(1, max(0, (translationProgress / 0.5) * 1))
+    return row == rowForSelection ? 1 : variableOpacity
+  }
+  
+  private var spacerHeight: CGFloat {
+    min(SpacerHeight, max(0, (CGFloat(translationProgress) / 0.5) * SpacerHeight))
+  }
+  
+  private var rowForSelection: Int {
+    for (rowIndex, tabRowItems) in TabConfig.enumerated() {
+      for item in tabRowItems {
+        if item.label == selection {
+          return rowIndex
+        }
+      }
+    }
+    return -1
   }
   
 }
 
 struct TabBarView_Previews: PreviewProvider {
-  @State static var selectedTab = 0
+  @State static var selectedTab = "latest"
   @State static var translationProgress: Double = 0
   static var previews: some View {
     TabBarView(selection: $selectedTab, translationProgress: $translationProgress)

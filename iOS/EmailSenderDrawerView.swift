@@ -50,9 +50,6 @@ struct EmailSenderDrawerView: View {
       .padding(0)
       .padding(.top, (expanded || dragAmount > 0) ? 12 : 0)
       .clipped()
-
-      DrawerCapsule()
-        .padding(.bottom, 6)
     }
     .padding(.horizontal, 20)
     .background(OverlayBackgroundView())
@@ -86,6 +83,7 @@ struct EmailSenderDrawerView: View {
         .frame(height: subjectHeight)
         .clipped()
         .opacity((expanded || dragAmount > 0) ? 0 : 1)
+        .padding(.bottom, 12)
     }
     .padding(0)
     .contentShape(Rectangle())

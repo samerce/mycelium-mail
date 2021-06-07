@@ -6,9 +6,8 @@ private let FirstExpandedNotch: CGFloat = 0.5
 struct TabBarItem: View {
   let iconName: String
   let label: String
-  let tag: Int
   
-  @Binding var selection: Int
+  var selected: Bool
   @Binding var translationProgress: Double
   
   private var labelHeight: CGFloat {
@@ -35,11 +34,10 @@ struct TabBarItem: View {
     .foregroundColor(fgColor())
     .frame(maxWidth: .infinity)
     .contentShape(Rectangle())
-    .onTapGesture { selection = tag }
   }
   
   private func fgColor() -> Color {
-    return selection == tag ? .psyAccent : Color(.secondaryLabel)
+    return selected ? .psyAccent : Color(.secondaryLabel)
   }
 }
 

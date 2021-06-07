@@ -19,7 +19,7 @@ extension Email {
     fetchRequest.fetchBatchSize = 324
     fetchRequest.fetchOffset = offset
     
-    if !perspective.isEmpty && perspective != "everything" {
+    if !perspective.isEmpty && perspective != "everything" && perspective != "latest" {
       fetchRequest.predicate = NSPredicate(format: "perspective == %@", perspective)
     }
     
