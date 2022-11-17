@@ -11,7 +11,7 @@ let TabConfig = [
   [
     TabRow(label: "events", icon: "calendar"),
     TabRow(label: "commerce", icon: "creditcard"),
-    TabRow(label: "latest", icon: "tray.full"),
+    TabRow(label: "everything", icon: "infinity"),
     TabRow(label: "digests", icon: "newspaper"),
     TabRow(label: "DMs", icon: "person.2")
   ],
@@ -20,7 +20,7 @@ let TabConfig = [
     TabRow(label: "society", icon: "building.2"),
     TabRow(label: "news", icon: "network"),
     TabRow(label: "notifications", icon: "bell"),
-    TabRow(label: "everything", icon: "infinity")
+    TabRow(label: "packages", icon: "shippingbox")
   ],
 //  [
 //    (label: "trash", icon: "trash"),

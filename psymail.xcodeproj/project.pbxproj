@@ -3,13 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		3B2F072C264F72EA006CAECE /* AppSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F072B264F72EA006CAECE /* AppSplitView.swift */; };
 		3B2F072D264F72EA006CAECE /* AppSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F072B264F72EA006CAECE /* AppSplitView.swift */; };
 		3B36447E2652629700956E27 /* EmailDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B36447D2652629700956E27 /* EmailDetailView.swift */; };
+		3B5103AA29256D030084B6B2 /* UIApplication+window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5103A929256D030084B6B2 /* UIApplication+window.swift */; };
+		3B5103AB29256D030084B6B2 /* UIApplication+window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5103A929256D030084B6B2 /* UIApplication+window.swift */; };
+		3B5103C029257BAB0084B6B2 /* DynamicOverlay in Frameworks */ = {isa = PBXBuildFile; productRef = 3B5103BF29257BAB0084B6B2 /* DynamicOverlay */; };
 		3B5ABAF726545D3200601F26 /* QuotedPrintable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5ABAF626545D2900601F26 /* QuotedPrintable.swift */; };
 		3B5ABAF826545D3200601F26 /* QuotedPrintable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5ABAF626545D2900601F26 /* QuotedPrintable.swift */; };
 		3B5ABAFE265461C100601F26 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5ABAFD265461C100601F26 /* WebView.swift */; };
@@ -27,10 +30,7 @@
 		3B66668D2651EB000039D9F3 /* FavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B66668C2651EB000039D9F3 /* FavoriteCell.swift */; };
 		3B66668F2651F3B00039D9F3 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B66668E2651F3B00039D9F3 /* TabBarView.swift */; };
 		3B6666912651F3DD0039D9F3 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6666902651F3DD0039D9F3 /* TabBarItem.swift */; };
-		3B6666942651F6C50039D9F3 /* ASCollectionView in Frameworks */ = {isa = PBXBuildFile; productRef = 3B6666932651F6C50039D9F3 /* ASCollectionView */; };
 		3B66669626521A810039D9F3 /* VisualEffectBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B66669526521A810039D9F3 /* VisualEffectBlur.swift */; };
-		3B66669D26522DE90039D9F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B66669C26522DE90039D9F3 /* AppDelegate.swift */; };
-		3B66669E26522DE90039D9F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B66669C26522DE90039D9F3 /* AppDelegate.swift */; };
 		3B6666F02652383D0039D9F3 /* psymail.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3B6666ED2652383D0039D9F3 /* psymail.xcdatamodeld */; };
 		3B7917B92660A0F400E764C1 /* EmailAddress+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7917B12660A0F400E764C1 /* EmailAddress+CoreDataClass.swift */; };
 		3B7917BA2660A0F400E764C1 /* EmailAddress+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7917B12660A0F400E764C1 /* EmailAddress+CoreDataClass.swift */; };
@@ -40,6 +40,8 @@
 		3B7917C22660A0F400E764C1 /* Email+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7917B52660A0F400E764C1 /* Email+CoreDataClass.swift */; };
 		3B7917C52660A0F400E764C1 /* EmailHeader+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7917B72660A0F400E764C1 /* EmailHeader+CoreDataClass.swift */; };
 		3B7917C62660A0F400E764C1 /* EmailHeader+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7917B72660A0F400E764C1 /* EmailHeader+CoreDataClass.swift */; };
+		3B94B91229247D2B00C85B8C /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 3B94B91129247D2B00C85B8C /* GoogleSignIn */; };
+		3B94B91429247D2B00C85B8C /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3B94B91329247D2B00C85B8C /* GoogleSignInSwift */; };
 		3B9B9F8E2634B16A00E3A8B2 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F8D2634B16A00E3A8B2 /* Tests_iOS.swift */; };
 		3B9B9F992634B16A00E3A8B2 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F982634B16A00E3A8B2 /* Tests_macOS.swift */; };
 		3B9B9F9D2634B16A00E3A8B2 /* PsymailApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F712634B16900E3A8B2 /* PsymailApp.swift */; };
@@ -58,8 +60,6 @@
 		3B9B9FD32634E26A00E3A8B2 /* MarketingRecognizer.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9FCE2634E26A00E3A8B2 /* MarketingRecognizer.mlmodel */; };
 		3B9B9FD42634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9FCF2634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel */; };
 		3B9B9FD52634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9FCF2634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel */; };
-		3BA7DC55265C6EF5009623EF /* DynamicOverlay in Frameworks */ = {isa = PBXBuildFile; productRef = 3BA7DC54265C6EF5009623EF /* DynamicOverlay */; };
-		3BA7DC67265CB70E009623EF /* MailCore2 in Frameworks */ = {isa = PBXBuildFile; productRef = 3BA7DC66265CB70E009623EF /* MailCore2 */; };
 		3BD150A4265332010058B094 /* rainbow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD150A3265332010058B094 /* rainbow.swift */; };
 		3BD150A5265332010058B094 /* rainbow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD150A3265332010058B094 /* rainbow.swift */; };
 		3BE50195266B34AE001C2939 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE50194266B34AE001C2939 /* FilterView.swift */; };
@@ -106,8 +106,7 @@
 		3BF1AE3526697A35002F1062 /* EmailThread+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE3226697A35002F1062 /* EmailThread+CoreDataClass.swift */; };
 		3BF1AE3626697A35002F1062 /* EmailThread+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE3326697A35002F1062 /* EmailThread+CoreDataProperties.swift */; };
 		3BF1AE3726697A35002F1062 /* EmailThread+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE3326697A35002F1062 /* EmailThread+CoreDataProperties.swift */; };
-		3F968887777D7B0730C9B3B8 /* Pods_psymail__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 399CC61715E34E128033326B /* Pods_psymail__iOS_.framework */; };
-		7E17C93A34D56B49D4BC931E /* Pods_psymail__macOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8F4944D476A40856691F844 /* Pods_psymail__macOS_.framework */; };
+		3BFFE1C329254A2000476C09 /* MailCore2 in Frameworks */ = {isa = PBXBuildFile; productRef = 3BFFE1C229254A2000476C09 /* MailCore2 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,7 +127,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		3BA7DC6C265CB718009623EF /* CopyFiles */ = {
+		3BF06672292545BD006DAF7F /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
@@ -140,10 +139,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		399CC61715E34E128033326B /* Pods_psymail__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_psymail__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B2F0726264E1035006CAECE /* AppCompactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCompactView.swift; sourceTree = "<group>"; };
 		3B2F072B264F72EA006CAECE /* AppSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSplitView.swift; sourceTree = "<group>"; };
 		3B36447D2652629700956E27 /* EmailDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailDetailView.swift; sourceTree = "<group>"; };
+		3B5103A929256D030084B6B2 /* UIApplication+window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+window.swift"; sourceTree = "<group>"; };
 		3B5ABAF626545D2900601F26 /* QuotedPrintable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuotedPrintable.swift; sourceTree = "<group>"; };
 		3B5ABAFD265461C100601F26 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		3B5FBC322655EF85009D012C /* EmailClassifierAgnes.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = EmailClassifierAgnes.mlmodel; sourceTree = "<group>"; };
@@ -156,13 +155,13 @@
 		3B66668E2651F3B00039D9F3 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		3B6666902651F3DD0039D9F3 /* TabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		3B66669526521A810039D9F3 /* VisualEffectBlur.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualEffectBlur.swift; sourceTree = "<group>"; };
-		3B66669C26522DE90039D9F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3B6666EE2652383D0039D9F3 /* Shared.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shared.xcdatamodel; sourceTree = "<group>"; };
 		3B7917B12660A0F400E764C1 /* EmailAddress+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailAddress+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3B7917B32660A0F400E764C1 /* EmailPart+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailPart+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3B7917B52660A0F400E764C1 /* Email+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Email+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3B7917B72660A0F400E764C1 /* EmailHeader+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailHeader+CoreDataClass.swift"; sourceTree = "<group>"; };
-		3B925F222637A4D300B00B29 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		3B94B918292489D900C85B8C /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
+		3B94B91C29248E2400C85B8C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.1.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
 		3B9B9F712634B16900E3A8B2 /* PsymailApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsymailApp.swift; sourceTree = "<group>"; };
 		3B9B9F722634B16900E3A8B2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3B9B9F732634B16900E3A8B2 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -205,11 +204,6 @@
 		3BF1AE2F26688150002F1062 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		3BF1AE3226697A35002F1062 /* EmailThread+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailThread+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3BF1AE3326697A35002F1062 /* EmailThread+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailThread+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		3E35B10F6A88FE4A90A5E820 /* Pods-psymail (macOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-psymail (macOS).release.xcconfig"; path = "Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS).release.xcconfig"; sourceTree = "<group>"; };
-		5373F94F41453FE8AB093878 /* Pods-psymail (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-psymail (iOS).debug.xcconfig"; path = "Target Support Files/Pods-psymail (iOS)/Pods-psymail (iOS).debug.xcconfig"; sourceTree = "<group>"; };
-		7007A9069DB99A4BC20380FC /* Pods-psymail (macOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-psymail (macOS).debug.xcconfig"; path = "Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS).debug.xcconfig"; sourceTree = "<group>"; };
-		9F87DF261F0BC06CC67C83A7 /* Pods-psymail (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-psymail (iOS).release.xcconfig"; path = "Target Support Files/Pods-psymail (iOS)/Pods-psymail (iOS).release.xcconfig"; sourceTree = "<group>"; };
-		A8F4944D476A40856691F844 /* Pods_psymail__macOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_psymail__macOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,11 +211,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F968887777D7B0730C9B3B8 /* Pods_psymail__iOS_.framework in Frameworks */,
+				3B5103C029257BAB0084B6B2 /* DynamicOverlay in Frameworks */,
 				3B5FBCFC26587F59009D012C /* Introspect in Frameworks */,
-				3B6666942651F6C50039D9F3 /* ASCollectionView in Frameworks */,
-				3BA7DC55265C6EF5009623EF /* DynamicOverlay in Frameworks */,
-				3BA7DC67265CB70E009623EF /* MailCore2 in Frameworks */,
+				3B94B91229247D2B00C85B8C /* GoogleSignIn in Frameworks */,
+				3B94B91429247D2B00C85B8C /* GoogleSignInSwift in Frameworks */,
+				3BFFE1C329254A2000476C09 /* MailCore2 in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,7 +223,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7E17C93A34D56B49D4BC931E /* Pods_psymail__macOS_.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,18 +262,25 @@
 			path = "core data";
 			sourceTree = "<group>";
 		};
+		3B94B917292489D900C85B8C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3B94B91C29248E2400C85B8C /* CFNetwork.framework */,
+				3B94B918292489D900C85B8C /* Security.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		3B9B9F692634B16900E3A8B2 = {
 			isa = PBXGroup;
 			children = (
-				3B925F222637A4D300B00B29 /* Podfile */,
-				C4BA0104F196CF0F3293B02C /* Frameworks */,
 				3B9B9F7B2634B16A00E3A8B2 /* iOS */,
 				3B9B9F822634B16A00E3A8B2 /* macOS */,
-				5DC4F02DCAECE413E5132127 /* Pods */,
 				3B9B9F7A2634B16A00E3A8B2 /* Products */,
 				3B9B9F6E2634B16900E3A8B2 /* Shared */,
 				3B9B9F8C2634B16A00E3A8B2 /* Tests iOS */,
 				3B9B9F972634B16A00E3A8B2 /* Tests macOS */,
+				3B94B917292489D900C85B8C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -288,7 +288,6 @@
 			isa = PBXGroup;
 			children = (
 				3B6F6560265EF4F000E07FE7 /* core data */,
-				3B66669C26522DE90039D9F3 /* AppDelegate.swift */,
 				3B2F072B264F72EA006CAECE /* AppSplitView.swift */,
 				3B9B9F742634B16A00E3A8B2 /* Assets.xcassets */,
 				3B9B9F722634B16900E3A8B2 /* ContentView.swift */,
@@ -390,28 +389,9 @@
 				3BF1AE2C2668812B002F1062 /* Publishers.swift */,
 				3BF1AE2F26688150002F1062 /* Notification.swift */,
 				3BE50197266B4B0A001C2939 /* Color+psy.swift */,
+				3B5103A929256D030084B6B2 /* UIApplication+window.swift */,
 			);
 			path = extensions;
-			sourceTree = "<group>";
-		};
-		5DC4F02DCAECE413E5132127 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				5373F94F41453FE8AB093878 /* Pods-psymail (iOS).debug.xcconfig */,
-				9F87DF261F0BC06CC67C83A7 /* Pods-psymail (iOS).release.xcconfig */,
-				7007A9069DB99A4BC20380FC /* Pods-psymail (macOS).debug.xcconfig */,
-				3E35B10F6A88FE4A90A5E820 /* Pods-psymail (macOS).release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
-		C4BA0104F196CF0F3293B02C /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				399CC61715E34E128033326B /* Pods_psymail__iOS_.framework */,
-				A8F4944D476A40856691F844 /* Pods_psymail__macOS_.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -421,13 +401,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3B9B9FA72634B16A00E3A8B2 /* Build configuration list for PBXNativeTarget "psymail (iOS)" */;
 			buildPhases = (
-				656A4FF235EA115548BCA104 /* [CP] Check Pods Manifest.lock */,
 				3B9B9F752634B16A00E3A8B2 /* Sources */,
 				3B9B9F762634B16A00E3A8B2 /* Frameworks */,
 				3B9B9F772634B16A00E3A8B2 /* Resources */,
-				77A678D85036E96B5658D945 /* [CP] Embed Pods Frameworks */,
-				FE67E9C3004EA506155D4C8D /* [CP] Copy Pods Resources */,
-				3BA7DC6C265CB718009623EF /* CopyFiles */,
+				3BF06672292545BD006DAF7F /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -435,10 +412,11 @@
 			);
 			name = "psymail (iOS)";
 			packageProductDependencies = (
-				3B6666932651F6C50039D9F3 /* ASCollectionView */,
 				3B5FBCFB26587F59009D012C /* Introspect */,
-				3BA7DC54265C6EF5009623EF /* DynamicOverlay */,
-				3BA7DC66265CB70E009623EF /* MailCore2 */,
+				3B94B91129247D2B00C85B8C /* GoogleSignIn */,
+				3B94B91329247D2B00C85B8C /* GoogleSignInSwift */,
+				3BFFE1C229254A2000476C09 /* MailCore2 */,
+				3B5103BF29257BAB0084B6B2 /* DynamicOverlay */,
 			);
 			productName = "mushroom-mail (iOS)";
 			productReference = 3B9B9F792634B16A00E3A8B2 /* psymail.app */;
@@ -448,12 +426,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3B9B9FAA2634B16A00E3A8B2 /* Build configuration list for PBXNativeTarget "psymail (macOS)" */;
 			buildPhases = (
-				794814F520AC0EA08214D4CE /* [CP] Check Pods Manifest.lock */,
 				3B9B9F7D2634B16A00E3A8B2 /* Sources */,
 				3B9B9F7E2634B16A00E3A8B2 /* Frameworks */,
 				3B9B9F7F2634B16A00E3A8B2 /* Resources */,
-				18B523E0AD75629591725F46 /* [CP] Embed Pods Frameworks */,
-				9515221290123CF5BB6DD191 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -506,7 +481,7 @@
 		3B9B9F6A2634B16900E3A8B2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1240;
+				LastSwiftUpdateCheck = 1410;
 				LastUpgradeCheck = 1240;
 				TargetAttributes = {
 					3B9B9F782634B16A00E3A8B2 = {
@@ -526,7 +501,7 @@
 				};
 			};
 			buildConfigurationList = 3B9B9F6D2634B16900E3A8B2 /* Build configuration list for PBXProject "psymail" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -535,10 +510,10 @@
 			);
 			mainGroup = 3B9B9F692634B16900E3A8B2;
 			packageReferences = (
-				3B6666922651F6C50039D9F3 /* XCRemoteSwiftPackageReference "ASCollectionView" */,
 				3B5FBCFA26587F58009D012C /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
-				3BA7DC53265C6EF5009623EF /* XCRemoteSwiftPackageReference "DynamicOverlay" */,
-				3BA7DC65265CB70E009623EF /* XCRemoteSwiftPackageReference "mailcore2" */,
+				3B94B91029247D2B00C85B8C /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				3BFFE1C129254A2000476C09 /* XCRemoteSwiftPackageReference "mailcore2" */,
+				3B5103BE29257BAB0084B6B2 /* XCRemoteSwiftPackageReference "DynamicOverlay" */,
 			);
 			productRefGroup = 3B9B9F7A2634B16A00E3A8B2 /* Products */;
 			projectDirPath = "";
@@ -585,121 +560,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		18B523E0AD75629591725F46 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS)-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS)-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS)-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		656A4FF235EA115548BCA104 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-psymail (iOS)-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		77A678D85036E96B5658D945 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-psymail (iOS)/Pods-psymail (iOS)-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-psymail (iOS)/Pods-psymail (iOS)-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-psymail (iOS)/Pods-psymail (iOS)-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		794814F520AC0EA08214D4CE /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-psymail (macOS)-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9515221290123CF5BB6DD191 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS)-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS)-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-psymail (macOS)/Pods-psymail (macOS)-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FE67E9C3004EA506155D4C8D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-psymail (iOS)/Pods-psymail (iOS)-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-psymail (iOS)/Pods-psymail (iOS)-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-psymail (iOS)/Pods-psymail (iOS)-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		3B9B9F752634B16A00E3A8B2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -717,7 +577,6 @@
 				3BE50195266B34AE001C2939 /* FilterView.swift in Sources */,
 				3B5ABAFE265461C100601F26 /* WebView.swift in Sources */,
 				3B2F072C264F72EA006CAECE /* AppSplitView.swift in Sources */,
-				3B66669D26522DE90039D9F3 /* AppDelegate.swift in Sources */,
 				3B6666912651F3DD0039D9F3 /* TabBarItem.swift in Sources */,
 				3B36447E2652629700956E27 /* EmailDetailView.swift in Sources */,
 				3BF1AD612660ACF0002F1062 /* MailController.swift in Sources */,
@@ -731,6 +590,7 @@
 				3BF1AD7E2661861F002F1062 /* Email+CoreDataProperties.swift in Sources */,
 				3B6666852651EAAA0039D9F3 /* InboxDrawerView.swift in Sources */,
 				3BF1AE2A26683514002F1062 /* View+screen.swift in Sources */,
+				3B5103AA29256D030084B6B2 /* UIApplication+window.swift in Sources */,
 				3B6666832651EA040039D9F3 /* AppCompactView.swift in Sources */,
 				3BF1AE1B2665FA89002F1062 /* View+if.swift in Sources */,
 				3B9B9FA12634B16A00E3A8B2 /* Persistence.swift in Sources */,
@@ -797,11 +657,11 @@
 				3BF1AD852661861F002F1062 /* EmailAddress+CoreDataProperties.swift in Sources */,
 				3B5FBC342655EF85009D012C /* EmailClassifierAgnes.mlmodel in Sources */,
 				3B7917BA2660A0F400E764C1 /* EmailAddress+CoreDataClass.swift in Sources */,
-				3B66669E26522DE90039D9F3 /* AppDelegate.swift in Sources */,
 				3BF1AD6826617746002F1062 /* InboxView.swift in Sources */,
 				3B5FBCBF26571687009D012C /* PsycatsJuice.mlmodel in Sources */,
 				3B6666F02652383D0039D9F3 /* psymail.xcdatamodeld in Sources */,
 				3B9B9FA02634B16A00E3A8B2 /* ContentView.swift in Sources */,
+				3B5103AB29256D030084B6B2 /* UIApplication+window.swift in Sources */,
 				3B5ABAF826545D3200601F26 /* QuotedPrintable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -951,18 +811,26 @@
 		};
 		3B9B9FA82634B16A00E3A8B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5373F94F41453FE8AB093878 /* Pods-psymail (iOS).debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8444VB8288;
 				ENABLE_PREVIEWS = YES;
+				EXCLUDED_ARCHS = armv7;
 				INFOPLIST_FILE = iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-liconv",
+					"-lresolv",
+					"$(inherited)",
+					"-objc",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = cum.expressyourmess.psymail;
 				PRODUCT_NAME = psymail;
@@ -974,18 +842,26 @@
 		};
 		3B9B9FA92634B16A00E3A8B2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9F87DF261F0BC06CC67C83A7 /* Pods-psymail (iOS).release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8444VB8288;
 				ENABLE_PREVIEWS = YES;
+				EXCLUDED_ARCHS = armv7;
 				INFOPLIST_FILE = iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-liconv",
+					"-lresolv",
+					"$(inherited)",
+					"-objc",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = cum.expressyourmess.psymail;
 				PRODUCT_NAME = psymail;
@@ -998,7 +874,6 @@
 		};
 		3B9B9FAB2634B16A00E3A8B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7007A9069DB99A4BC20380FC /* Pods-psymail (macOS).debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1021,7 +896,6 @@
 		};
 		3B9B9FAC2634B16A00E3A8B2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3E35B10F6A88FE4A90A5E820 /* Pods-psymail (macOS).release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1178,6 +1052,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		3B5103BE29257BAB0084B6B2 /* XCRemoteSwiftPackageReference "DynamicOverlay" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/faberNovel/DynamicOverlay.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		3B5FBCFA26587F58009D012C /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
@@ -1186,51 +1068,48 @@
 				minimumVersion = 0.1.3;
 			};
 		};
-		3B6666922651F6C50039D9F3 /* XCRemoteSwiftPackageReference "ASCollectionView" */ = {
+		3B94B91029247D2B00C85B8C /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apptekstudios/ASCollectionView";
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
+				minimumVersion = 6.0.0;
 			};
 		};
-		3BA7DC53265C6EF5009623EF /* XCRemoteSwiftPackageReference "DynamicOverlay" */ = {
+		3BFFE1C129254A2000476C09 /* XCRemoteSwiftPackageReference "mailcore2" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/samerce/DynamicOverlay.git";
+			repositoryURL = "https://github.com/MailCore/mailcore2.git";
 			requirement = {
-				branch = main;
+				branch = master;
 				kind = branch;
-			};
-		};
-		3BA7DC65265CB70E009623EF /* XCRemoteSwiftPackageReference "mailcore2" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/MailCore/mailcore2";
-			requirement = {
-				kind = revision;
-				revision = 1434761709b4d9dd5acc5b7185a3b32aa4845ba8;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3B5103BF29257BAB0084B6B2 /* DynamicOverlay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B5103BE29257BAB0084B6B2 /* XCRemoteSwiftPackageReference "DynamicOverlay" */;
+			productName = DynamicOverlay;
+		};
 		3B5FBCFB26587F59009D012C /* Introspect */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3B5FBCFA26587F58009D012C /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
 			productName = Introspect;
 		};
-		3B6666932651F6C50039D9F3 /* ASCollectionView */ = {
+		3B94B91129247D2B00C85B8C /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3B6666922651F6C50039D9F3 /* XCRemoteSwiftPackageReference "ASCollectionView" */;
-			productName = ASCollectionView;
+			package = 3B94B91029247D2B00C85B8C /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
 		};
-		3BA7DC54265C6EF5009623EF /* DynamicOverlay */ = {
+		3B94B91329247D2B00C85B8C /* GoogleSignInSwift */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3BA7DC53265C6EF5009623EF /* XCRemoteSwiftPackageReference "DynamicOverlay" */;
-			productName = DynamicOverlay;
+			package = 3B94B91029247D2B00C85B8C /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
 		};
-		3BA7DC66265CB70E009623EF /* MailCore2 */ = {
+		3BFFE1C229254A2000476C09 /* MailCore2 */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3BA7DC65265CB70E009623EF /* XCRemoteSwiftPackageReference "mailcore2" */;
+			package = 3BFFE1C129254A2000476C09 /* XCRemoteSwiftPackageReference "mailcore2" */;
 			productName = MailCore2;
 		};
 /* End XCSwiftPackageProductDependency section */

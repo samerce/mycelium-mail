@@ -11,7 +11,7 @@ private enum Grouping: String, CaseIterable, Identifiable {
 }
 
 private let DefaultToolbarHeight: CGFloat = 54.0
-private let HeaderHeight: CGFloat = 32
+private let HeaderHeight: CGFloat = 42
 private let ToolbarHeight: CGFloat = 27
 private let FirstExpandedNotch: CGFloat = 0.5
 
@@ -30,48 +30,52 @@ struct InboxDrawerView: View {
     return VStack(spacing: 0) {
       DrawerCapsule()
         .padding(.top, 6)
-        .padding(.bottom, 2)
+        .padding(.bottom, 4)
       
-      perspectiveHeader
-      
-      TabBarView(selection: $perspective, translationProgress: $translationProgress)
+        perspectiveHeader
+        
+        TabBarView(selection: $perspective, translationProgress: $translationProgress)
 
-      toolbar
-      Spacer().frame(height: bottomSpace)
+        toolbar
+        Spacer().frame(height: bottomSpace)
 
       ScrollView {
-        filterSection
+        MailboxSection
+          .padding(.bottom, 18)
+        AppSection
       }
       .drivingScrollView()
       .padding(0)
     }
-    .frame(height: UIScreen.main.bounds.height * 0.92)
+    .frame(height: UIScreen.main.bounds.height)
     .background(OverlayBackgroundView())
     .ignoresSafeArea()
   }
   
   private let HeaderBottomPadding: CGFloat = 18
   private var perspectiveHeader: some View {
-    let height = min(HeaderHeight, max(0, (CGFloat(translationProgress) / FirstExpandedNotch) * HeaderHeight))
-    let bottomPadding = min(HeaderBottomPadding, max(0, CGFloat(translationProgress) / FirstExpandedNotch) * HeaderBottomPadding)
+    let heightWhileDragging = (CGFloat(translationProgress) / FirstExpandedNotch) * HeaderHeight
+    let height = min(HeaderHeight, max(0, heightWhileDragging))
+    
+    let bottomPaddingWhileDragging = (CGFloat(translationProgress) / FirstExpandedNotch) * HeaderBottomPadding
+    let bottomPadding = min(HeaderBottomPadding, max(0, bottomPaddingWhileDragging))
     let opacity = min(1, max(0, (translationProgress / Double(FirstExpandedNotch)) * 1))
     
     return HStack(spacing: 0) {
-      Text("PERSPECTIVES")
+      Text("BUNDLES")
         .frame(maxHeight: height, alignment: .leading)
-        .font(.system(size: 12, weight: .light))
+        .font(.system(size: 14, weight: .light))
         .foregroundColor(Color(.gray))
       Spacer()
       Button(action: addPerspective) {
         ZStack {
-          Image(systemName: "plus")
+          Image(systemName: "gear")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(maxWidth: 16, maxHeight: .infinity)
             .foregroundColor(.psyAccent)
-            .font(.system(size: 12, weight: .light))
+            .font(.system(size: 16, weight: .light))
         }
-        .frame(width: 54, alignment: .trailing)
+        .frame(width: 20, alignment: .trailing)
       }
     }
     .padding(.horizontal, 18)
@@ -133,45 +137,54 @@ struct InboxDrawerView: View {
     .clipped()
   }
   
-  private var groupBySection: some View {
-    Section(header: header("GROUPING")) {
-      Picker("group by", selection: $selectedGrouping) {
-        ForEach(Grouping.allCases) { grouping in
-          Text(grouping.rawValue)
-            .font(.system(size: 14))
-            .foregroundColor(Color(.darkGray))
-        }
-      }
-      .pickerStyle(SegmentedPickerStyle())
-    }
-    .padding(.horizontal, 18)
-  }
-  
-  private var filterSection: some View {
+  private var MailboxSection: some View {
     VStack(spacing: 18) {
       HStack(spacing: 0) {
-        Text("FILTERS")
-          .font(.system(size: 12, weight: .light))
+        Text("MAILBOXES")
+          .font(.system(size: 14, weight: .light))
           .foregroundColor(Color(.gray))
         
         Spacer()
         
         Button(action: {}) {
           ZStack {
-            Image(systemName: "plus")
+            Image(systemName: "gear")
               .resizable()
               .aspectRatio(contentMode: .fit)
-              .frame(maxWidth: 16, maxHeight: .infinity)
               .foregroundColor(.psyAccent)
-              .font(.system(size: 12, weight: .light))
+              .font(.system(size: 16, weight: .light))
           }
-          .frame(width: 54, alignment: .trailing)
+          .frame(width: 20, alignment: .trailing)
         }
       }
       
-      FilterView()
+      Mailbox("samerce@gmail.com")
+      Mailbox("bubbles@expressyouryes.org")
+      Mailbox("petals@expressyouryes.org")
     }
     .padding(.horizontal, 18)
+    .clipped()
+  }
+  
+  private var AppSection: some View {
+    VStack(alignment: .leading, spacing: 18) {
+      Text("APP")
+        .font(.system(size: 14, weight: .light))
+        .foregroundColor(Color(.gray))
+      
+      Mailbox("Settings")
+      Mailbox("About")
+      Mailbox("Feedback")
+      Mailbox("Donate")
+    }
+    .padding(.horizontal, 18)
+  }
+  
+  private func Mailbox(_ name: String) -> some View {
+    Text(name)
+      .padding()
+      .overlay(RoundedRectangle(cornerRadius: 12.0).stroke(.gray))
+      .frame(maxWidth: .infinity, alignment: .leading)
   }
   
   private func header(_ text: String) -> some View {

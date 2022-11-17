@@ -14,4 +14,8 @@ extension View {
     UIApplication.shared.windows.first?.safeAreaInsets ?? UIEdgeInsets.zero
   }
   
+  var screenHeightSafe: CGFloat {
+    self.screenHeight - safeAreaInsets.top - safeAreaInsets.bottom
+  }
+  
 }

@@ -6,13 +6,15 @@ import CoreData
 struct PsymailApp: App {
   let persistenceCtrl = PersistenceController.shared
   
-  @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
   @Environment(\.scenePhase) var scenePhase
   
   var body: some Scene {
     WindowGroup {
       ContentView()
         .environment(\.managedObjectContext, persistenceCtrl.container.viewContext)
+        .onOpenURL { url in
+            AccountController.shared.handleGoogleUrl(url)
+        }
     }
     .commands {
       SidebarCommands()

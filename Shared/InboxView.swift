@@ -11,7 +11,7 @@ struct InboxView: View {
   @StateObject private var model = mailCtrl.model
   @State private var notch: Notch = .min
   @State private var translationProgress = 0.0
-  @State private var perspective = "latest"
+  @State private var perspective = "everything"
   @State private var scrollOffsetY: CGFloat = 0
   @State private var safeAreaBackdropOpacity: Double = 0
   @Namespace var headerId
@@ -48,7 +48,7 @@ struct InboxView: View {
 
           Spacer().frame(height: 138)
         }
-        .dynamicOverlay(EmailListDrawer)
+        .dynamicOverlay(Sheet)
         .dynamicOverlayBehavior(behavior)
         .ignoresSafeArea()
         .onChange(of: perspective) { _ in
@@ -76,7 +76,7 @@ struct InboxView: View {
     Color.black.opacity(0.54)
   }
   
-  private var EmailListDrawer: some View {
+  private var Sheet: some View {
     InboxDrawerView(perspective: $perspective, translationProgress: $translationProgress)
       .onChange(of: perspective) { _ in
         withAnimation {
@@ -89,11 +89,11 @@ struct InboxView: View {
     MagneticNotchOverlayBehavior<Notch> { notch in
       switch notch {
       case .max:
-        return .fractional(0.92)
+        return .absolute(self.screenHeightSafe)
       case .mid:
         return .fractional(0.54)
       case .min:
-        return .fractional(0.18)
+        return .absolute(92)
       }
     }
     .notchChange($notch)
@@ -102,6 +102,7 @@ struct InboxView: View {
         translationProgress = translation.progress
       }
     }
+    .contentAdjustmentMode(.none)
   }
   
 }
