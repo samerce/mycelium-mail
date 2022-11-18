@@ -17,6 +17,9 @@ struct InboxView: View {
   @Namespace var headerId
   
   private var emails: [Email] { model.emails[perspective]! }
+  private var zippedEmails: Array<EnumeratedSequence<[Email]>.Element> {
+    Array(zip(emails.indices, emails))
+  }
   
   var body: some View {
     ZStack(alignment: .topLeading) {
@@ -32,15 +35,15 @@ struct InboxView: View {
             })
             .onPreferenceChange(ViewOffsetKey.self) { scrollOffsetY = $0 }
             
-          LazyVStack(spacing: 2) {
-            ForEach(Array(zip(emails.indices, emails)), id: \.0) { index, email in
-              EmailListRow(email: emails[index])
-                .onTapGesture { mailCtrl.selectEmail(emails[index]) }
-                .onAppear {
-                  if index > emails.count - 9 {
-                    mailCtrl.fetchMore(for: perspective)
-                  }
-                }
+          LazyVStack(spacing: 1) {
+            ForEach(emails) { email in
+              EmailListRow(email: email)
+                .onTapGesture { mailCtrl.selectEmail(email) }
+//                .onAppear {
+//                  if index > emails.count - 9 {
+//                    mailCtrl.fetchMore(for: perspective)
+//                  }
+//                }
             }
           }
           .ignoresSafeArea()
@@ -51,6 +54,7 @@ struct InboxView: View {
         .dynamicOverlay(Sheet)
         .dynamicOverlayBehavior(behavior)
         .ignoresSafeArea()
+        .padding(.top, safeAreaInsets.top)
         .onChange(of: perspective) { _ in
           scrollProxy.scrollTo(headerId)
         }

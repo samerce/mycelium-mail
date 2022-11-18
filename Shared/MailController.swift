@@ -131,6 +131,7 @@ class MailController: ObservableObject {
   
   private func addFlags(_ flags: MCOMessageFlag, for theEmails: [Email],
                         _ completion: ([Error]?) -> Void) {
+    print("adding flags")
     let queue = OperationQueue()
     var errors = [Error]()
     
@@ -171,6 +172,7 @@ class MailController: ObservableObject {
   
   private func moveEmailsToTrash(_ emails: [Email],
                                  _ completion: @escaping (Error?) -> Void) {
+    print("moving emails to trash")
     let queue = OperationQueue()
     var errors = [Error]()
     

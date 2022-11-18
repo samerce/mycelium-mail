@@ -16,7 +16,7 @@ extension Email {
     let fetchRequest = NSFetchRequest<Email>(entityName: "Email")
     fetchRequest.sortDescriptors = [byDateDescending]
     fetchRequest.shouldRefreshRefetchedObjects = true
-    fetchRequest.fetchBatchSize = 324
+    fetchRequest.fetchBatchSize = 54
     fetchRequest.fetchOffset = offset
     
     if !perspective.isEmpty && perspective != "everything" && perspective != "latest" {

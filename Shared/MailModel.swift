@@ -24,7 +24,7 @@ class MailModel: ObservableObject {
   private let dateFormatter = DateFormatter()
   private var oracle: NLModel?
   
-  private var moc:NSManagedObjectContext {
+  private var context:NSManagedObjectContext {
     PersistenceController.shared.container.viewContext
   }
   
@@ -61,11 +61,11 @@ class MailModel: ObservableObject {
   
   func addFlags(_ flags: MCOMessageFlag, for theEmails: [Email],
                 _ completion: @escaping (Error?) -> Void) {
-    moc.performAndWait {
+    context.performAndWait {
       theEmails.forEach { e in e.addFlags(flags) }
       
       do {
-        try moc.save()
+        try context.save()
         completion(nil)
       }
       catch let error as NSError {
@@ -76,16 +76,16 @@ class MailModel: ObservableObject {
   }
   
   func deleteEmails(_ theEmails: [Email], _ completion: @escaping (Error?) -> Void) {
-    moc.performAndWait {
+    context.performAndWait {
       for e in theEmails {
         e.addFlags(.deleted)
         // TODO remove this deletion and instead
         // update the fetch predicate to omit all emails with that flag
-        moc.delete(e)
+        context.delete(e)
       }
       
       do {
-        try moc.save()
+        try context.save()
         completion(nil)
       }
       catch let error {
@@ -106,13 +106,13 @@ class MailModel: ObservableObject {
     }
     
     let email = Email(
-      message: message, html: emailAsHtml, perspective: perspective, context: moc
+      message: message, html: emailAsHtml, perspective: perspective, context: context
     )
     email.account = account
     account.addToEmails(email)
     
     do {
-      try moc.save()
+      try context.save()
     }
     catch let error as NSError {
       print("error saving new email to core data: \(error)")
@@ -148,7 +148,7 @@ class MailModel: ObservableObject {
     emailFetchRequest.predicate = predicate
     
     do {
-      return try moc.fetch(emailFetchRequest)
+      return try context.fetch(emailFetchRequest)
     }
     catch let error {
       print("error fetching emails from sender: \(error.localizedDescription)")
@@ -182,7 +182,7 @@ class MailModel: ObservableObject {
     let request = Email.fetchRequestByDate(offset: offset, for: perspective)
     
     do {
-      return try moc.fetch(request)
+      return try context.fetch(request)
     }
     catch let error {
       print("error fetching emails from core data: \(error.localizedDescription)")
@@ -199,7 +199,7 @@ class MailModel: ObservableObject {
       Int32(uid), account.address ?? ""
     )
     do {
-      return try moc.fetch(fetchRequest).first
+      return try context.fetch(fetchRequest).first
     }
     catch let error {
       print("error fetching email by uid: \(error.localizedDescription)")
