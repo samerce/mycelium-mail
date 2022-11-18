@@ -23,53 +23,70 @@ struct InboxView: View {
   
   var body: some View {
     ZStack(alignment: .topLeading) {
-      ScrollViewReader { scrollProxy in
-        ScrollView {
-          Text(perspective)
-            .font(.system(size: 36, weight: .black))
-            .padding(.top, 9)
-            .id(headerId)
-            .background(GeometryReader {
-              Color.clear.preference(key: ViewOffsetKey.self,
-                                     value: -$0.frame(in: .global).minY)
-            })
-            .onPreferenceChange(ViewOffsetKey.self) { scrollOffsetY = $0 }
-            
-          LazyVStack(spacing: 1) {
-            ForEach(emails) { email in
-              EmailListRow(email: email)
-                .onTapGesture { mailCtrl.selectEmail(email) }
-//                .onAppear {
-//                  if index > emails.count - 9 {
-//                    mailCtrl.fetchMore(for: perspective)
-//                  }
-//                }
-            }
-          }
-          .ignoresSafeArea()
-          .padding(.horizontal, 10)
-
-          Spacer().frame(height: 138)
-        }
-        .dynamicOverlay(Sheet)
-        .dynamicOverlayBehavior(behavior)
-        .ignoresSafeArea()
-        .padding(.top, safeAreaInsets.top)
-        .onChange(of: perspective) { _ in
-          scrollProxy.scrollTo(headerId)
-        }
-      }
-      
-      SafeAreaHeader
+      EmailList
+      SafeAreaBackdrop
     }
   }
   
-  private var SafeAreaHeader: some View {
+  private var Header: some View {
+    Text(perspective)
+      .font(.system(size: 36, weight: .black))
+      .id(headerId)
+      .background(GeometryReader {
+        Color.clear.preference(key: ViewOffsetKey.self,
+                               value: -$0.frame(in: .global).minY)
+      })
+      .onPreferenceChange(ViewOffsetKey.self) { scrollOffsetY = $0 }
+  }
+  
+  private var EmailList: some View {
+    ScrollViewReader { scrollProxy in
+      List {
+        Header
+          .listRowInsets(.init(top: 0, leading: 6, bottom: 9, trailing: 0))
+        
+        ForEach(emails) { email in
+          EmailListRow(email: email)
+            .swipeActions(edge: .trailing) {
+              Button { print("follow up") } label: {
+                Label("follow up", systemImage: "plus.circle")
+              }
+              Button { print("bundle") } label: {
+                Label("bundle", systemImage: "minus.circle")
+              }
+              Button { print("delete") } label: {
+                Label("trash", systemImage: "trash")
+              }
+            }
+//            .onTapGesture { mailCtrl.selectEmail(email) }
+          //                .onAppear {
+          //                  if index > emails.count - 9 {
+          //                    mailCtrl.fetchMore(for: perspective)
+          //                  }
+          //                }
+        }
+        
+        Spacer().frame(height: 120)
+      }
+      .dynamicOverlay(Sheet)
+      .dynamicOverlayBehavior(behavior)
+      .padding(.top, safeAreaInsets.top)
+      .padding(.horizontal, 0)
+      .ignoresSafeArea()
+      .listStyle(.plain)
+      .listRowInsets(.none)
+      .onChange(of: perspective) { _ in
+        scrollProxy.scrollTo(headerId)
+      }
+    }
+  }
+  
+  private var SafeAreaBackdrop: some View {
     VisualEffectBlur(blurStyle: .prominent)
       .frame(maxWidth: .infinity, maxHeight: safeAreaInsets.top)
       .opacity(safeAreaBackdropOpacity)
       .onChange(of: scrollOffsetY) { _ in
-        let newOpacity: Double = scrollOffsetY > -33 ? 1 : 0
+        let newOpacity: Double = scrollOffsetY > -54 ? 1 : 0
         if safeAreaBackdropOpacity != newOpacity {
           withAnimation(.spring(response: 0.36)) { safeAreaBackdropOpacity = newOpacity }
         }
@@ -97,7 +114,7 @@ struct InboxView: View {
       case .mid:
         return .fractional(0.54)
       case .min:
-        return .absolute(92)
+        return .absolute(88)
       }
     }
     .notchChange($notch)

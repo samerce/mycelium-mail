@@ -18,6 +18,7 @@ extension Email {
     fetchRequest.shouldRefreshRefetchedObjects = true
     fetchRequest.fetchBatchSize = 54
     fetchRequest.fetchOffset = offset
+    fetchRequest.fetchLimit = 54
     
     if !perspective.isEmpty && perspective != "everything" && perspective != "latest" {
       fetchRequest.predicate = NSPredicate(format: "perspective == %@", perspective)
