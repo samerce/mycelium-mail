@@ -44,6 +44,7 @@ struct InboxView: View {
       List {
         Header
           .listRowInsets(.init(top: 0, leading: 6, bottom: 9, trailing: 0))
+          .listRowSeparator(.hidden)
         
         ForEach(emails) { email in
           EmailListRow(email: email)
@@ -67,6 +68,8 @@ struct InboxView: View {
         }
         
         Spacer().frame(height: 120)
+          .listRowInsets(.init())
+          .listRowSeparator(.hidden)
       }
       .dynamicOverlay(Sheet)
       .dynamicOverlayBehavior(behavior)
@@ -114,7 +117,7 @@ struct InboxView: View {
       case .mid:
         return .fractional(0.54)
       case .min:
-        return .absolute(88)
+        return .absolute(75)
       }
     }
     .notchChange($notch)

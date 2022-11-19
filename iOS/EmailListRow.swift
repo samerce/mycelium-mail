@@ -55,8 +55,7 @@ struct EmailListRow: View {
           .lineLimit(1)
       }
       .foregroundColor(Color.primary)
-      .padding(.leading, 6)
-      .padding(.trailing, 9)
+      .padding(.horizontal, 9)
       .if(mode == .details) { $0.padding(.bottom, 6).padding(.horizontal, 20) }
     }
     .frame(height: 54)

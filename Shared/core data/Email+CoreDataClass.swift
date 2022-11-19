@@ -2,9 +2,9 @@ import Foundation
 import CoreData
 import MailCore
 
-private let oneDay = 24.0 * 3600
-private let twoDays = 48.0 * 3600
-private let oneWeek = 24.0 * 7 * 3600
+private let oneDay = 24.0 * 60 * 60
+private let twoDays = oneDay * 2
+private let oneWeek = oneDay * 7
 
 private let dateFormatterWithinLastDay = DateFormatterWithinLastDay()
 private let dateFormatterWithinLastWeek = DateFormatterWithinLastWeek()
@@ -33,9 +33,9 @@ public class Email: NSManagedObject {
       var formatter: DateFormatter
       let timeSinceMessage = date.distance(to: Date())
       
-      if  timeSinceMessage > oneDay && timeSinceMessage < twoDays   {
+      if timeSinceMessage <= oneDay {
         formatter = dateFormatterWithinLastDay
-      } else if timeSinceMessage > twoDays && timeSinceMessage < oneWeek {
+      } else if timeSinceMessage > oneDay && timeSinceMessage <= oneWeek {
         formatter = dateFormatterWithinLastWeek
       } else {
         formatter = dateFormatterMoreThanAWeek
@@ -151,9 +151,9 @@ private class DateFormatterWithinLastDay: DateFormatter {
   override init() {
     super.init()
     dateFormat = "h:mm a"
-    doesRelativeDateFormatting = true
-    dateStyle = .short
-    timeStyle = .short
+//    doesRelativeDateFormatting = true
+//    dateStyle = .short
+//    timeStyle = .short
   }
   
   required init?(coder: NSCoder) {

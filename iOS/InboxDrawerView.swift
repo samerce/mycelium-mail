@@ -10,23 +10,22 @@ private enum Grouping: String, CaseIterable, Identifiable {
     var id: String { self.rawValue }
 }
 
-private let DefaultToolbarHeight: CGFloat = 54.0
 private let HeaderHeight: CGFloat = 42
-private let ToolbarHeight: CGFloat = 27
+private let ToolbarHeight: CGFloat = 18
 private let FirstExpandedNotch: CGFloat = 0.5
 
 struct InboxDrawerView: View {
   @State private var selectedGrouping = Grouping.emailAddress
   @State private var hiddenViewOpacity = 0.0
-  @State private var toolbarHeight = DefaultToolbarHeight
   @Binding var perspective: String
   @Binding var translationProgress: Double
   
   // MARK: - View
   
   var body: some View {
-    let bottomSpace = CGFloat.maximum(6, 54 - (CGFloat(translationProgress) / FirstExpandedNotch) * 54)
+    let bottomSpace = CGFloat.maximum(6, 42 - (CGFloat(translationProgress) / FirstExpandedNotch) * 42)
 //    let hiddenSectionOpacity = translationProgress > 0 ? translationProgress + 0.48 : 0
+    let dividerHeight = CGFloat.maximum(0, DividerHeight - (CGFloat(translationProgress) / FirstExpandedNotch) * DividerHeight)
     return VStack(spacing: 0) {
       DrawerCapsule()
         .padding(.top, 6)
@@ -36,7 +35,11 @@ struct InboxDrawerView: View {
         
         TabBarView(selection: $perspective, translationProgress: $translationProgress)
 
-        toolbar
+        Divider()
+          .frame(height: dividerHeight)
+          .padding(.horizontal, 24)
+        Spacer().frame(height: 6)
+        Toolbar
         Spacer().frame(height: bottomSpace)
 
       ScrollView {
@@ -53,6 +56,7 @@ struct InboxDrawerView: View {
   }
   
   private let HeaderBottomPadding: CGFloat = 18
+  
   private var perspectiveHeader: some View {
     let heightWhileDragging = (CGFloat(translationProgress) / FirstExpandedNotch) * HeaderHeight
     let height = min(HeaderHeight, max(0, heightWhileDragging))
@@ -90,20 +94,17 @@ struct InboxDrawerView: View {
   }
   
   private let DividerHeight: CGFloat = 9
-  private let allMailboxesIconSize: CGFloat = 27
+  private let allMailboxesIconSize: CGFloat = 25
   private let composeIconSize: CGFloat = 25
-  private var toolbar: some View {
+  
+  private var Toolbar: some View {
     let height = CGFloat.maximum(0, ToolbarHeight - (CGFloat(translationProgress) / FirstExpandedNotch) * ToolbarHeight)
-    let dividerHeight = CGFloat.maximum(0, DividerHeight - (CGFloat(translationProgress) / FirstExpandedNotch) * DividerHeight)
     let opacity = CGFloat.maximum(0, 1 - (CGFloat(translationProgress) / FirstExpandedNotch))
     return VStack(alignment: .center, spacing: 0) {
-      Divider().frame(height: dividerHeight)
-      Spacer().frame(height: 12)
-      
       HStack(spacing: 0) {
           Button(action: loginWithGoogle) {
             ZStack {
-              Image(systemName: "tray.2")
+              Image(systemName: "line.3.horizontal.decrease.circle")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(.psyAccent)
@@ -113,7 +114,7 @@ struct InboxDrawerView: View {
           }.frame(width: 54, height: 50, alignment: .leading)
         
         Text("updated just now")
-          .font(.system(size: 16, weight: .light))
+          .font(.system(size: 14, weight: .light))
           .foregroundColor(.secondary)
           .frame(maxWidth: .infinity, maxHeight: height)
           .multilineTextAlignment(.center)
