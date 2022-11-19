@@ -67,7 +67,7 @@ public class Email: NSManagedObject {
   
   convenience init(
     message: MCOIMAPMessage, html emailAsHtml: String?,
-    perspective _perspective: String, context: NSManagedObjectContext
+    bundle _perspective: String, context: NSManagedObjectContext
   ) {
     self.init(context: context)
     
@@ -151,9 +151,6 @@ private class DateFormatterWithinLastDay: DateFormatter {
   override init() {
     super.init()
     dateFormat = "h:mm a"
-//    doesRelativeDateFormatting = true
-//    dateStyle = .short
-//    timeStyle = .short
   }
   
   required init?(coder: NSCoder) {

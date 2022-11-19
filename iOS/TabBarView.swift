@@ -9,19 +9,19 @@ struct TabRow: Identifiable {
 
 let TabConfig = [
   [
-    TabRow(label: "events", icon: "calendar"),
+    TabRow(label: "notifications", icon: "bell"),
     TabRow(label: "commerce", icon: "creditcard"),
     TabRow(label: "everything", icon: "infinity"),
-    TabRow(label: "digests", icon: "newspaper"),
-    TabRow(label: "DMs", icon: "person.2")
+    TabRow(label: "newsletters", icon: "newspaper"),
+    TabRow(label: "society", icon: "building.2")
   ],
-  [
-    TabRow(label: "marketing", icon: "megaphone"),
-    TabRow(label: "society", icon: "building.2"),
-    TabRow(label: "news", icon: "network"),
-    TabRow(label: "notifications", icon: "bell"),
-    TabRow(label: "packages", icon: "shippingbox")
-  ],
+//  [
+//    TabRow(label: "marketing", icon: "megaphone"),
+//    TabRow(label: "DMs", icon: "person.2"),
+//    TabRow(label: "news", icon: "network"),
+//    TabRow(label: "events", icon: "calendar"),
+//    TabRow(label: "packages", icon: "shippingbox")
+//  ],
 //  [
 //    (label: "trash", icon: "trash"),
 //    (label: "folders", icon: "folder"),
@@ -29,8 +29,9 @@ let TabConfig = [
 //  ]
 ]
 
-private let TabBarHeight: CGFloat = 54
+private let TabBarHeight: CGFloat = 36
 private let SpacerHeight: CGFloat = 18
+private let TranslationMax = 47.0
 
 struct TabBarView: View {
   @Binding var selection: String
@@ -38,13 +39,14 @@ struct TabBarView: View {
   
   var body: some View {
     VStack(alignment: .center, spacing: 0) {
-      ForEach(0..<TabConfig.count) { rowIndex in
+      ForEach(Array(zip(TabConfig.indices, TabConfig)), id: \.0) { rowIndex, tabRow in
         let tabRowHeight = heightForTabRow(rowIndex)
         let tabRowOpacity = opacityForTabRow(rowIndex)
+        
         HStack(alignment: .lastTextBaseline) {
           Spacer()
           
-          ForEach(TabConfig[rowIndex], id: \.label) { item in
+          ForEach(tabRow, id: \.label) { item in
             TabBarItem(
               iconName: item.icon,
               label: item.label,
@@ -67,19 +69,19 @@ struct TabBarView: View {
   }
   
   private func heightForTabRow(_ row: Int) -> CGFloat {
-    let variableTabBarHeight =
-      min(TabBarHeight, max(0, (CGFloat(translationProgress) / 0.5) * TabBarHeight))
+    let heightWhileDragging = (CGFloat(translationProgress) / TranslationMax) * TabBarHeight
+    let variableTabBarHeight = min(TabBarHeight, max(0, heightWhileDragging))
     
     return row == rowForSelection ? TabBarHeight : variableTabBarHeight
   }
   
   private func opacityForTabRow(_ row: Int) -> Double {
-    let variableOpacity = min(1, max(0, (translationProgress / 0.5) * 1))
+    let variableOpacity = min(1, max(0, (translationProgress / TranslationMax) * 1))
     return row == rowForSelection ? 1 : variableOpacity
   }
   
   private var spacerHeight: CGFloat {
-    min(SpacerHeight, max(0, (CGFloat(translationProgress) / 0.5) * SpacerHeight))
+    min(SpacerHeight, max(0, (CGFloat(translationProgress) / TranslationMax) * SpacerHeight))
   }
   
   private var rowForSelection: Int {

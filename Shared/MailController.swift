@@ -109,7 +109,7 @@ class MailController: ObservableObject {
     
     let session = sessions[account]!
     let fetchHeadersAndFlags = session.fetchMessagesOperation(
-      withFolder: "INBOX", requestKind: [.fullHeaders, .flags], uids: uids
+      withFolder: "INBOX", requestKind: [.fullHeaders, .flags, .gmailLabels], uids: uids
     )
     
     fetchHeadersAndFlags?.start {

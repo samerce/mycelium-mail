@@ -17,7 +17,7 @@ private let FirstExpandedNotch: CGFloat = 0.5
 struct InboxDrawerView: View {
   @State private var selectedGrouping = Grouping.emailAddress
   @State private var hiddenViewOpacity = 0.0
-  @Binding var perspective: String
+  @Binding var bundle: String
   @Binding var translationProgress: Double
   
   // MARK: - View
@@ -26,21 +26,22 @@ struct InboxDrawerView: View {
     let bottomSpace = CGFloat.maximum(6, 42 - (CGFloat(translationProgress) / FirstExpandedNotch) * 42)
 //    let hiddenSectionOpacity = translationProgress > 0 ? translationProgress + 0.48 : 0
     let dividerHeight = CGFloat.maximum(0, DividerHeight - (CGFloat(translationProgress) / FirstExpandedNotch) * DividerHeight)
+    
     return VStack(spacing: 0) {
       DrawerCapsule()
-        .padding(.top, 6)
+        .padding(.top, 7)
         .padding(.bottom, 4)
       
-        perspectiveHeader
-        
-        TabBarView(selection: $perspective, translationProgress: $translationProgress)
+      PerspectiveHeader
+      TabBarView(selection: $bundle, translationProgress: $translationProgress)
 
-        Divider()
-          .frame(height: dividerHeight)
-          .padding(.horizontal, 24)
-        Spacer().frame(height: 6)
-        Toolbar
-        Spacer().frame(height: bottomSpace)
+      Divider()
+        .frame(height: dividerHeight)
+        .padding(.horizontal, 9)
+        .padding(.bottom, 6)
+      
+      Toolbar
+        .padding(.bottom, bottomSpace)
 
       ScrollView {
         MailboxSection
@@ -50,14 +51,13 @@ struct InboxDrawerView: View {
       .drivingScrollView()
       .padding(0)
     }
-    .frame(height: UIScreen.main.bounds.height)
     .background(OverlayBackgroundView())
     .ignoresSafeArea()
   }
   
   private let HeaderBottomPadding: CGFloat = 18
   
-  private var perspectiveHeader: some View {
+  private var PerspectiveHeader: some View {
     let heightWhileDragging = (CGFloat(translationProgress) / FirstExpandedNotch) * HeaderHeight
     let height = min(HeaderHeight, max(0, heightWhileDragging))
     
@@ -205,7 +205,7 @@ struct InboxDrawerView_Previews: PreviewProvider {
   @State static var progress = 0.0
   @State static var perspective = "latest"
   static var previews: some View {
-    InboxDrawerView(perspective: $perspective,
+    InboxDrawerView(bundle: $perspective,
                     translationProgress: $progress)
   }
 }

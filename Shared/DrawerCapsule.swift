@@ -3,7 +3,7 @@ import SwiftUI
 struct DrawerCapsule: View {
   var body: some View {
     Capsule()
-      .fill(Color(.gray))
+      .fill(.tertiary)
       .frame(width: 36, height: 5, alignment: .center)
   }
 }

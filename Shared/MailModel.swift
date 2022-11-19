@@ -3,10 +3,10 @@ import NaturalLanguage
 import CoreData
 import MailCore
 
-let Perspectives = [
-  "events", "commerce", "latest", "digests", "DMs",
-  "marketing", "society", "news", "notifications", "everything",
-  "trash", "folders", "sent"
+let Bundles = [
+  "notifications", "commerce", "everything", "newsletters", "society",
+//  "marketing", "society", "news", "notifications", "everything",
+//  "trash", "folders", "sent"
 ]
 
 class MailModel: ObservableObject {
@@ -24,14 +24,17 @@ class MailModel: ObservableObject {
   private let dateFormatter = DateFormatter()
   private var oracle: NLModel?
   
-  private var context:NSManagedObjectContext {
+  private var context: NSManagedObjectContext {
     PersistenceController.shared.container.viewContext
   }
   
   init() {
 //    do {
-//      let deleteRequest = NSBatchDeleteRequest(fetchRequest: Email.fetchRequest())
-//      try moc.execute(deleteRequest)
+//      let fetchRequest: NSFetchRequest<any NSFetchRequestResult> = Email.fetchRequest()
+//      fetchRequest.fetchLimit = 54
+//      
+//      let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+//      try context.execute(deleteRequest)
 //    }
 //    catch let error {
 //      print("error deleting all emails from core data: \(error)")
@@ -46,8 +49,8 @@ class MailModel: ObservableObject {
       print("error creating ai model: \(error)")
     }
     
-    for perspective in Perspectives {
-      emails[perspective] = fetchEmails(for: perspective)
+    for bundle in Bundles {
+      emails[bundle] = fetchEmails(for: bundle)
     }
     
 //    let email = self.emails["marketing"]?.first(where: { e in
@@ -98,7 +101,7 @@ class MailModel: ObservableObject {
   func makeAndSaveEmail(withMessage message: MCOIMAPMessage, html emailAsHtml: String?,
                         account: Account) {
     let fullHtml = headerAsHtml(message.header) + (emailAsHtml ?? "")
-    let perspective = perspectiveFor(fullHtml)
+    let bundle = bundleFor(message, emailAsHtml: fullHtml)
     
     guard fetchEmailByUid(message.uid, account: account) == nil else {
       print("tried to add email already stored in core data")
@@ -106,7 +109,7 @@ class MailModel: ObservableObject {
     }
     
     let email = Email(
-      message: message, html: emailAsHtml, perspective: perspective, context: context
+      message: message, html: emailAsHtml, bundle: bundle, context: context
     )
     email.account = account
     account.addToEmails(email)
@@ -157,11 +160,11 @@ class MailModel: ObservableObject {
     return []
   }
   
-  func fetchMore(for perspective: String) {
-    guard let emailsInPerspective = emails[perspective]
+  func fetchMore(for bundle: String) {
+    guard let emailsInBundle = emails[bundle]
     else { return }
 //
-    let emailCount = emailsInPerspective.count
+    let emailCount = emailsInBundle.count
 //    let triggerFetchIndex = emailCount - 12
 //
 //    guard triggerFetchIndex >= 0 && triggerFetchIndex < emailCount
@@ -170,16 +173,16 @@ class MailModel: ObservableObject {
 //    let triggerEmail = emailsInPerspective[triggerFetchIndex]
 //    if email.objectID == triggerEmail.objectID {
 //      print("\(perspective) fetching at offset: \(emailCount)")
-      let newEmails = fetchEmails(for: perspective, offset: emailCount)
-      emails[perspective]?.append(contentsOf: newEmails)
+      let newEmails = fetchEmails(for: bundle, offset: emailCount)
+      emails[bundle]?.append(contentsOf: newEmails)
 //    }
   }
   
   // MARK: - private
   
   private
-  func fetchEmails(for perspective: String, offset: Int = 0) -> [Email] {
-    let request = Email.fetchRequestByDate(offset: offset, for: perspective)
+  func fetchEmails(for bundle: String, offset: Int = 0) -> [Email] {
+    let request = Email.fetchRequestByDate(offset: offset, for: bundle)
     
     do {
       return try context.fetch(request)
@@ -209,10 +212,22 @@ class MailModel: ObservableObject {
   }
   
   private
-  func perspectiveFor(_ emailAsHtml: String = "") -> String {
+  func bundleFor(_ emailAsHtml: String = "") -> String {
     let prediction = oracle?.predictedLabel(for: emailAsHtml) ?? ""
-    if prediction == "" { return "other" }
+    if prediction == "" { return "everything" }
     return prediction
+  }
+  
+  private
+  func bundleFor(_ message: MCOIMAPMessage, emailAsHtml: String = "") -> String {
+    let labels = message.gmailLabels as! [String]? ?? []
+    print("labels", labels)
+    if let bundleLabel = labels.first(where: { $0.contains("psymail") }) {
+      return bundleLabel.replacing("psymail/", with: "")
+    }
+    else {
+      return bundleFor(emailAsHtml)
+    }
   }
   
   private

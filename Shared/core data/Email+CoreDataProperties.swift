@@ -12,7 +12,7 @@ extension Email {
   }
   
   @nonobjc public class
-  func fetchRequestByDate(offset: Int = 0, for perspective: String = "") -> NSFetchRequest<Email> {
+  func fetchRequestByDate(offset: Int = 0, for bundle: String = "") -> NSFetchRequest<Email> {
     let fetchRequest = NSFetchRequest<Email>(entityName: "Email")
     fetchRequest.sortDescriptors = [byDateDescending]
     fetchRequest.shouldRefreshRefetchedObjects = true
@@ -20,8 +20,8 @@ extension Email {
     fetchRequest.fetchOffset = offset
     fetchRequest.fetchLimit = 54
     
-    if !perspective.isEmpty && perspective != "everything" && perspective != "latest" {
-      fetchRequest.predicate = NSPredicate(format: "perspective == %@", perspective)
+    if !bundle.isEmpty && bundle != "everything" {
+      fetchRequest.predicate = NSPredicate(format: "perspective == %@", bundle)
     }
     
     return fetchRequest

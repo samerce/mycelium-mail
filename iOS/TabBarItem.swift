@@ -2,6 +2,7 @@ import SwiftUI
 
 private let LabelHeight: CGFloat = 18
 private let FirstExpandedNotch: CGFloat = 0.5
+private let IconSize = 22.0
 
 struct TabBarItem: View {
   let iconName: String
@@ -22,8 +23,8 @@ struct TabBarItem: View {
       Image(systemName: iconName)
         .resizable()
         .aspectRatio(contentMode: .fit)
-        .frame(width: 27, height: 27)
-        .font(.system(size: 27, weight: .light))
+        .frame(width: IconSize, height: IconSize)
+        .font(.system(size: IconSize, weight: .light))
         .contentShape(Rectangle())
       Text(label)
         .font(.system(size: 11, weight: .light))

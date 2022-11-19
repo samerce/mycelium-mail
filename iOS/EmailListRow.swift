@@ -13,16 +13,16 @@ struct EmailListRow: View {
       if !email.seen && mode == .summary {
         Rectangle()
           .fill(Color.psyAccent)
-          .frame(maxWidth: 2, maxHeight: 12)
-          .padding(.top, 3)
-          .cornerRadius(3)
+          .frame(maxWidth: 4, maxHeight: 14)
+          .cornerRadius(4)
+          .offset(y: 2)
       }
       VStack(alignment: .leading, spacing: mode == .summary ? 4 : 6) {
 //        if mode == .details { Spacer().frame(height: 30) }
         
         HStack(alignment: .lastTextBaseline) {
           Text(email.fromLine)
-            .font(.system(size: 15, weight: email.seen ? .bold : .black))
+            .font(.system(size: 15, weight: email.seen ? .semibold : .black))
             .if(mode == .summary) { view in
               view
                 .font(.system(size: 15, weight: .heavy))
@@ -31,13 +31,13 @@ struct EmailListRow: View {
             .if(mode == .details) { $0.font(.system(size: 20, weight: .bold)) }
           Spacer()
           Text(email.displayDate ?? "")
-            .font(.system(size: 12, weight: .light))
+            .font(.system(size: 12, weight: email.seen ? .light : .regular))
             .foregroundColor(Color.secondary)
             .if(mode == .details) { $0.hidden().frame(width: 0) }
           Image(systemName: mode == .details ? "chevron.down" : "chevron.right")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .foregroundColor(email.seen ? Color(.systemGray3) : .psyAccent)
+            .foregroundColor(email.seen ? .secondary : .psyAccent)
             .if(mode == .details) { $0.frame(width: 18, height: 18) }
             .if(mode == .summary) { $0.frame(width: 12, height: 12) }
             .offset(x: 0, y: 1)
@@ -47,7 +47,7 @@ struct EmailListRow: View {
         Text(email.subject)
           .if(mode == .summary) { view in
             view
-              .font(.system(size: 15, weight: .light))
+              .font(.system(size: 15, weight: email.seen ? .light : .regular))
               .lineLimit(2)
           }
           .if(mode == .details) { $0.font(.system(size: 20)) }
@@ -59,7 +59,7 @@ struct EmailListRow: View {
       .if(mode == .details) { $0.padding(.bottom, 6).padding(.horizontal, 20) }
     }
     .frame(height: 54)
-    .listRowInsets(.init())
+    .listRowInsets(.init(top: 3, leading: 0, bottom: 3, trailing: 0))
     .contentShape(Rectangle())
   }
   

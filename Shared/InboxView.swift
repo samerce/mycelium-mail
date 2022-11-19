@@ -11,12 +11,12 @@ struct InboxView: View {
   @StateObject private var model = mailCtrl.model
   @State private var notch: Notch = .min
   @State private var translationProgress = 0.0
-  @State private var perspective = "everything"
+  @State private var bundle = "everything"
   @State private var scrollOffsetY: CGFloat = 0
   @State private var safeAreaBackdropOpacity: Double = 0
   @Namespace var headerId
   
-  private var emails: [Email] { model.emails[perspective]! }
+  private var emails: [Email] { model.emails[bundle]! }
   private var zippedEmails: Array<EnumeratedSequence<[Email]>.Element> {
     Array(zip(emails.indices, emails))
   }
@@ -28,43 +28,36 @@ struct InboxView: View {
     }
   }
   
-  private var Header: some View {
-    Text(perspective)
-      .font(.system(size: 36, weight: .black))
-      .id(headerId)
-      .background(GeometryReader {
-        Color.clear.preference(key: ViewOffsetKey.self,
-                               value: -$0.frame(in: .global).minY)
-      })
-      .onPreferenceChange(ViewOffsetKey.self) { scrollOffsetY = $0 }
-  }
-  
   private var EmailList: some View {
     ScrollViewReader { scrollProxy in
       List {
         Header
-          .listRowInsets(.init(top: 0, leading: 6, bottom: 9, trailing: 0))
-          .listRowSeparator(.hidden)
         
-        ForEach(emails) { email in
+        ForEach(zippedEmails, id: \.0) { index, email in
           EmailListRow(email: email)
-            .swipeActions(edge: .trailing) {
+            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
               Button { print("follow up") } label: {
-                Label("follow up", systemImage: "plus.circle")
+                Label("follow up", systemImage: "pin")
               }
               Button { print("bundle") } label: {
-                Label("bundle", systemImage: "minus.circle")
+                Label("bundle", systemImage: "giftcard")
               }
               Button { print("delete") } label: {
                 Label("trash", systemImage: "trash")
               }
+              Button { print("note") } label: {
+                Label("note", systemImage: "note.text")
+              }
+              Button { print("notification") } label: {
+                Label("notifications", systemImage: "bell")
+              }
+            }
+            .onAppear {
+              if index > emails.count - 9 {
+                mailCtrl.fetchMore(for: bundle)
+              }
             }
 //            .onTapGesture { mailCtrl.selectEmail(email) }
-          //                .onAppear {
-          //                  if index > emails.count - 9 {
-          //                    mailCtrl.fetchMore(for: perspective)
-          //                  }
-          //                }
         }
         
         Spacer().frame(height: 120)
@@ -78,10 +71,24 @@ struct InboxView: View {
       .ignoresSafeArea()
       .listStyle(.plain)
       .listRowInsets(.none)
-      .onChange(of: perspective) { _ in
+      .onChange(of: bundle) { _ in
         scrollProxy.scrollTo(headerId)
       }
     }
+  }
+  
+  private var Header: some View {
+    Text(bundle)
+      .font(.system(size: 36, weight: .black))
+      .id(headerId)
+      .background(GeometryReader {
+        Color.clear.preference(key: ViewOffsetKey.self,
+                               value: -$0.frame(in: .global).minY)
+      })
+      .onPreferenceChange(ViewOffsetKey.self) { scrollOffsetY = $0 }
+      .listRowInsets(.init(top: 0, leading: 6, bottom: 9, trailing: 0))
+      .listRowSeparator(.hidden)
+      .frame(maxWidth: .infinity, alignment: .center)
   }
   
   private var SafeAreaBackdrop: some View {
@@ -101,8 +108,8 @@ struct InboxView: View {
   }
   
   private var Sheet: some View {
-    InboxDrawerView(perspective: $perspective, translationProgress: $translationProgress)
-      .onChange(of: perspective) { _ in
+    InboxDrawerView(bundle: $bundle, translationProgress: $translationProgress)
+      .onChange(of: bundle) { _ in
         withAnimation {
           notch = .min
         }
@@ -113,11 +120,11 @@ struct InboxView: View {
     MagneticNotchOverlayBehavior<Notch> { notch in
       switch notch {
       case .max:
-        return .absolute(self.screenHeightSafe)
+        return .absolute(self.screenHeight - safeAreaInsets.top)
       case .mid:
         return .fractional(0.54)
       case .min:
-        return .absolute(75)
+        return .absolute(120)
       }
     }
     .notchChange($notch)
