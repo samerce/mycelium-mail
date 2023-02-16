@@ -3,8 +3,8 @@ import GoogleSignIn
 
 class AccountController: NSObject {
   static let shared = AccountController()
-  @Published private(set) var model = AccountModel()
   
+  @Published private(set) var model = AccountModel()
   private var config: GIDConfiguration = GIDConfiguration(
     clientID: "941559531688-m6ve00j5ofshqf5ksfqng92ga7kbkbb6.apps.googleusercontent.com"
   )
@@ -35,16 +35,17 @@ class AccountController: NSObject {
   // MARK: - handling responses
   
   func handleSignIn(for user: GIDGoogleUser!, withError error: Error!) {
-    if let error = error {
+//    if let error = error {
 //      if (error as NSError).code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue {
 //        print("gmail: no one has signed in before or they have since signed out.")
 //      } else {
 //        print("\(error.localizedDescription)")
 //      }
-      return
-    }
+//      return
+//    }
     
-    let profile = user.profile!
+    guard let profile = user?.profile
+    else { return }
     let auth = user.authentication
 
     var account = model.accounts[profile.email]

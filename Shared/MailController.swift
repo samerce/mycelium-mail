@@ -3,6 +3,8 @@ import MailCore
 import Combine
 import SwiftUI
 
+let DefaultFolder = "INBOX" //"[Gmail]/All Mail"
+
 class MailController: ObservableObject {
   static let shared = MailController()
   
@@ -82,8 +84,8 @@ class MailController: ObservableObject {
     withAnimation(animation) { selectedEmail = nil }
   }
   
-  func fetchMore(for perspective: String) {
-    model.fetchMore(for: perspective)
+  func fetchMore(_ bundle: String) {
+    model.fetchMore(bundle)
   }
   
   // MARK: - private
@@ -97,6 +99,7 @@ class MailController: ObservableObject {
     
     session!.username = account.address
     session!.oAuth2Token = account.accessToken
+    session?.isVoIPEnabled = false
     fetchLatest(account)
   }
   
@@ -109,7 +112,7 @@ class MailController: ObservableObject {
     
     let session = sessions[account]!
     let fetchHeadersAndFlags = session.fetchMessagesOperation(
-      withFolder: "INBOX", requestKind: [.fullHeaders, .flags, .gmailLabels], uids: uids
+      withFolder: DefaultFolder, requestKind: [.fullHeaders, .flags, .gmailLabels], uids: uids
     )
     
     fetchHeadersAndFlags?.start {
@@ -138,7 +141,7 @@ class MailController: ObservableObject {
     for (account, theEmails) in emailsByAccount(theEmails) {
       let session = sessions[account]!
       guard let updateFlags = session.storeFlagsOperation(
-        withFolder: "INBOX",
+        withFolder: DefaultFolder,
         uids: uidSetForEmails(theEmails),
         kind: .add,
         flags: flags
@@ -180,7 +183,7 @@ class MailController: ObservableObject {
       let uids = uidSetForEmails(emails)
       guard let session = sessions[account],
             let addTrashLabel = session.storeLabelsOperation(
-              withFolder: "INBOX",
+              withFolder: DefaultFolder,
               uids: uids,
               kind: .add,
               labels: ["\\Trash"]),
@@ -255,7 +258,7 @@ class MailController: ObservableObject {
   
   func bodyHtmlForEmail(withUid uid: UInt32, account: Account, _ completion: @escaping (String?) -> Void) {
     let session = sessions[account]!
-    let fetchMessage = session.fetchParsedMessageOperation(withFolder: "INBOX", uid: uid)
+    let fetchMessage = session.fetchParsedMessageOperation(withFolder: DefaultFolder, uid: uid)
     fetchMessage?.start() { (error: Error?, parser: MCOMessageParser?) in
       completion(parser?.htmlBodyRendering() ?? "")
     } ?? completion("")
@@ -263,7 +266,7 @@ class MailController: ObservableObject {
   
   func fullHtmlForEmail(withUid uid: UInt32, account: Account, _ completion: @escaping (String?) -> Void) {
     let session = sessions[account]!
-    let fetchMessage = session.fetchParsedMessageOperation(withFolder: "INBOX", uid: uid)
+    let fetchMessage = session.fetchParsedMessageOperation(withFolder: DefaultFolder, uid: uid)
     fetchMessage?.start() { (error: Error?, parser: MCOMessageParser?) in
       completion(parser?.htmlRendering(with: nil) ?? "")
     } ?? completion("")

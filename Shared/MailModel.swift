@@ -13,9 +13,10 @@ class MailModel: ObservableObject {
   @Published private(set) var emails:[String: [Email]] = [:]
   
   var lastSavedEmailUid: UInt64 {
+    return 80000
     guard let allEmails = emails["everything"]
     else { return 0 }
-    
+
     if allEmails.count > 0 { return UInt64(allEmails.first!.uid) }
     else { return 0 }
   } // TODO update to use core data fetch
@@ -31,8 +32,8 @@ class MailModel: ObservableObject {
   init() {
 //    do {
 //      let fetchRequest: NSFetchRequest<any NSFetchRequestResult> = Email.fetchRequest()
-//      fetchRequest.fetchLimit = 54
-//      
+////      fetchRequest.fetchLimit = 54
+//
 //      let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
 //      try context.execute(deleteRequest)
 //    }
@@ -147,7 +148,7 @@ class MailModel: ObservableObject {
       )
     }
     
-    let emailFetchRequest:NSFetchRequest<Email> = Email.fetchRequestByDate()
+    let emailFetchRequest:NSFetchRequest<Email> = Email.fetchRequestForBundle()
     emailFetchRequest.predicate = predicate
     
     do {
@@ -160,7 +161,7 @@ class MailModel: ObservableObject {
     return []
   }
   
-  func fetchMore(for bundle: String) {
+  func fetchMore(_ bundle: String) {
     guard let emailsInBundle = emails[bundle]
     else { return }
 //
@@ -182,7 +183,7 @@ class MailModel: ObservableObject {
   
   private
   func fetchEmails(for bundle: String, offset: Int = 0) -> [Email] {
-    let request = Email.fetchRequestByDate(offset: offset, for: bundle)
+    let request = Email.fetchRequestForBundle(bundle, offset)
     
     do {
       return try context.fetch(request)
@@ -212,22 +213,23 @@ class MailModel: ObservableObject {
   }
   
   private
-  func bundleFor(_ emailAsHtml: String = "") -> String {
-    let prediction = oracle?.predictedLabel(for: emailAsHtml) ?? ""
-    if prediction == "" { return "everything" }
-    return prediction
-  }
-  
-  private
   func bundleFor(_ message: MCOIMAPMessage, emailAsHtml: String = "") -> String {
     let labels = message.gmailLabels as! [String]? ?? []
-    print("labels", labels)
+//    print("labels", labels)
     if let bundleLabel = labels.first(where: { $0.contains("psymail") }) {
       return bundleLabel.replacing("psymail/", with: "")
     }
     else {
-      return bundleFor(emailAsHtml)
+//      return predictedBundleFor(emailAsHtml)
+      return "everything"
     }
+  }
+  
+  private
+  func predictedBundleFor(_ emailAsHtml: String = "") -> String {
+    let prediction = oracle?.predictedLabel(for: emailAsHtml) ?? ""
+    if prediction == "" { return "everything" }
+    return prediction
   }
   
   private

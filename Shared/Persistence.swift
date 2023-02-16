@@ -1,11 +1,5 @@
-//
-//  Persistence.swift
-//  Shared
-//
-//  Created by bubbles on 4/24/21.
-//
-
 import CoreData
+import Combine
 
 struct PersistenceController {
   static let shared = PersistenceController()
@@ -29,12 +23,26 @@ struct PersistenceController {
   }()
   
   let container: NSPersistentCloudKitContainer
+  private var subscribers: [AnyCancellable] = []
+  private lazy var historyRequestQueue = DispatchQueue(label: "history")
+
   
   init(inMemory: Bool = false) {
     container = NSPersistentCloudKitContainer(name: "psymail")
+    
     if inMemory {
-      container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+      let description = container.persistentStoreDescriptions.first!
+//      description.setOption(
+//        true as NSNumber,
+//        forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey
+//      )
+//      description.setOption(
+//        true as NSNumber,
+//        forKey: NSPersistentHistoryTrackingKey
+//      )
+      description.url = URL(fileURLWithPath: "/dev/null")
     }
+    
     container.loadPersistentStores(completionHandler: { (storeDescription, error) in
       if let error = error as NSError? {
         // Replace this implementation with code to handle the error appropriately.
@@ -51,6 +59,13 @@ struct PersistenceController {
         fatalError("Unresolved error \(error), \(error.userInfo)")
       }
     })
+    
+//    NotificationCenter.default
+//      .publisher(for: .NSPersistentStoreRemoteChange)
+//      .sink { [self] in
+//        storeDidChange($0)
+//      }
+//      .store(in: &subscribers)
   }
   
   func save() {
@@ -64,4 +79,29 @@ struct PersistenceController {
       }
     }
   }
+  
+//  private func storeDidChange(_ note: Notification) {
+//    historyRequestQueue.async {
+//      let backgroundContext = self.container.newBackgroundContext()
+//      backgroundContext.performAndWait {
+//        let request = NSPersistentHistoryChangeRequest
+//          .fetchHistory(after: .distantPast)
+//
+//        do {
+//          let result = try backgroundContext.execute(request) as? NSPersistentHistoryResult
+//          guard
+//            let transactions = result?.result as? [NSPersistentHistoryTransaction], !transactions.isEmpty
+//          else {
+//            return
+//          }
+//
+//          print(transactions)
+//        } catch {
+//          // log any errors
+//        }
+//      }
+//    }
+//
+//  }
+  
 }

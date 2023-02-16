@@ -1,10 +1,3 @@
-//
-//  AppSplitView.swift
-//  mushroom-mail
-//
-//  Created by bubbles on 5/14/21.
-//
-
 import Foundation
 import SwiftUI
 import CoreData

@@ -12,13 +12,13 @@ extension Email {
   }
   
   @nonobjc public class
-  func fetchRequestByDate(offset: Int = 0, for bundle: String = "") -> NSFetchRequest<Email> {
+  func fetchRequestForBundle(_ bundle: String = "", _ offset: Int = 0) -> NSFetchRequest<Email> {
     let fetchRequest = NSFetchRequest<Email>(entityName: "Email")
     fetchRequest.sortDescriptors = [byDateDescending]
     fetchRequest.shouldRefreshRefetchedObjects = true
     fetchRequest.fetchBatchSize = 54
     fetchRequest.fetchOffset = offset
-    fetchRequest.fetchLimit = 54
+    fetchRequest.fetchLimit = 2700
     
     if !bundle.isEmpty && bundle != "everything" {
       fetchRequest.predicate = NSPredicate(format: "perspective == %@", bundle)

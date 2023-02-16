@@ -22,7 +22,7 @@ struct EmailListRow: View {
         
         HStack(alignment: .lastTextBaseline) {
           Text(email.fromLine)
-            .font(.system(size: 15, weight: email.seen ? .semibold : .black))
+            .font(.system(size: 15, weight: email.seen ? .semibold : .heavy))
             .if(mode == .summary) { view in
               view
                 .font(.system(size: 15, weight: .heavy))
@@ -47,7 +47,7 @@ struct EmailListRow: View {
         Text(email.subject)
           .if(mode == .summary) { view in
             view
-              .font(.system(size: 15, weight: email.seen ? .light : .regular))
+              .font(.system(size: 15, weight: email.seen ? .light : .medium))
               .lineLimit(2)
           }
           .if(mode == .details) { $0.font(.system(size: 20)) }

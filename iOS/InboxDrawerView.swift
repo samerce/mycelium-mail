@@ -176,7 +176,7 @@ struct InboxDrawerView: View {
       Mailbox("Settings")
       Mailbox("About")
       Mailbox("Feedback")
-      Mailbox("Donate")
+      Mailbox("Support Us")
     }
     .padding(.horizontal, 18)
   }

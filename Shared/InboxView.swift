@@ -22,19 +22,20 @@ struct InboxView: View {
   }
   
   var body: some View {
-    ZStack(alignment: .topLeading) {
-      EmailList
-      SafeAreaBackdrop
-    }
+    EmailList
+//    ZStack(alignment: .topLeading) {
+//      EmailList
+//      SafeAreaBackdrop
+//    }
   }
   
   private var EmailList: some View {
     ScrollViewReader { scrollProxy in
-      List {
+      VStack(spacing: 0) {
         Header
         
-        ForEach(zippedEmails, id: \.0) { index, email in
-          EmailListRow(email: email)
+        List(emails) {
+          EmailListRow(email: $0)
             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
               Button { print("follow up") } label: {
                 Label("follow up", systemImage: "pin")
@@ -53,27 +54,29 @@ struct InboxView: View {
               }
             }
             .onAppear {
-              if index > emails.count - 9 {
-                mailCtrl.fetchMore(for: bundle)
-              }
+//                if index > emails.count - 9 {
+//                  mailCtrl.fetchMore(bundle)
+//                }
             }
-//            .onTapGesture { mailCtrl.selectEmail(email) }
+          //            .onTapGesture { mailCtrl.selectEmail(email) }
+//          }
         }
+        .onChange(of: bundle) { _ in
+          scrollProxy.scrollTo(headerId)
+        }
+        .padding(.horizontal, 0)
+        .listStyle(.plain)
+        .listRowInsets(.none)
         
-        Spacer().frame(height: 120)
-          .listRowInsets(.init())
-          .listRowSeparator(.hidden)
+//        Spacer().frame(height: 120)
+//          .listRowInsets(.init())
+//          .listRowSeparator(.hidden)
       }
+      .ignoresSafeArea()
+      .padding(.top, safeAreaInsets.top)
+      .padding(.bottom, safeAreaInsets.top + safeAreaInsets.bottom)
       .dynamicOverlay(Sheet)
       .dynamicOverlayBehavior(behavior)
-      .padding(.top, safeAreaInsets.top)
-      .padding(.horizontal, 0)
-      .ignoresSafeArea()
-      .listStyle(.plain)
-      .listRowInsets(.none)
-      .onChange(of: bundle) { _ in
-        scrollProxy.scrollTo(headerId)
-      }
     }
   }
   
@@ -88,7 +91,8 @@ struct InboxView: View {
       .onPreferenceChange(ViewOffsetKey.self) { scrollOffsetY = $0 }
       .listRowInsets(.init(top: 0, leading: 6, bottom: 9, trailing: 0))
       .listRowSeparator(.hidden)
-      .frame(maxWidth: .infinity, alignment: .center)
+      .frame(maxWidth: .infinity, maxHeight: 39, alignment: .center)
+      .padding(.vertical, 12)
   }
   
   private var SafeAreaBackdrop: some View {
