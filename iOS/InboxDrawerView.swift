@@ -1,5 +1,4 @@
 import SwiftUI
-import DynamicOverlay
 
 private enum Grouping: String, CaseIterable, Identifiable {
     case emailAddress = "address"
@@ -28,11 +27,7 @@ struct InboxDrawerView: View {
     let dividerHeight = CGFloat.maximum(0, DividerHeight - (CGFloat(translationProgress) / FirstExpandedNotch) * DividerHeight)
     
     return VStack(spacing: 0) {
-      DrawerCapsule()
-        .padding(.top, 7)
-        .padding(.bottom, 4)
-      
-      PerspectiveHeader
+      BundleHeader
       TabBarView(selection: $bundle, translationProgress: $translationProgress)
 
       Divider()
@@ -48,16 +43,14 @@ struct InboxDrawerView: View {
           .padding(.bottom, 18)
         AppSection
       }
-      .drivingScrollView()
       .padding(0)
     }
     .background(OverlayBackgroundView())
-    .ignoresSafeArea()
   }
   
   private let HeaderBottomPadding: CGFloat = 18
   
-  private var PerspectiveHeader: some View {
+  private var BundleHeader: some View {
     let heightWhileDragging = (CGFloat(translationProgress) / FirstExpandedNotch) * HeaderHeight
     let height = min(HeaderHeight, max(0, heightWhileDragging))
     

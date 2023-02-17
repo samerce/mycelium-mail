@@ -1,9 +1,9 @@
 import SwiftUI
 
+
 struct TabRow: Identifiable {
   var label: String
   var icon: String
-  
   var id: String { label }
 }
 
@@ -15,23 +15,25 @@ let TabConfig = [
     TabRow(label: "newsletters", icon: "newspaper"),
     TabRow(label: "society", icon: "building.2")
   ],
-//  [
-//    TabRow(label: "marketing", icon: "megaphone"),
-//    TabRow(label: "DMs", icon: "person.2"),
-//    TabRow(label: "news", icon: "network"),
-//    TabRow(label: "events", icon: "calendar"),
-//    TabRow(label: "packages", icon: "shippingbox")
-//  ],
-//  [
-//    (label: "trash", icon: "trash"),
-//    (label: "folders", icon: "folder"),
-//    (label: "sent", icon: "paperplane"),
-//  ]
+  [
+    TabRow(label: "marketing", icon: "megaphone"),
+    TabRow(label: "DMs", icon: "person.2"),
+    TabRow(label: "news", icon: "network"),
+    TabRow(label: "events", icon: "calendar"),
+    TabRow(label: "packages", icon: "shippingbox")
+  ],
+  [
+    TabRow(label: "trash", icon: "trash"),
+    TabRow(label: "folders", icon: "folder"),
+    TabRow(label: "sent", icon: "paperplane"),
+  ]
 ]
 
-private let TabBarHeight: CGFloat = 36
-private let SpacerHeight: CGFloat = 18
-private let TranslationMax = 47.0
+
+private let TabBarHeight = 42.0
+private let SpacerHeight = 18.0
+private let TranslationMax = 108.0
+
 
 struct TabBarView: View {
   @Binding var selection: String
@@ -39,21 +41,24 @@ struct TabBarView: View {
   
   var body: some View {
     VStack(alignment: .center, spacing: 0) {
-      ForEach(Array(zip(TabConfig.indices, TabConfig)), id: \.0) { rowIndex, tabRow in
+      ForEach(Array(TabConfig.enumerated()), id: \.0) { rowIndex, tabRow in
         let tabRowHeight = heightForTabRow(rowIndex)
         let tabRowOpacity = opacityForTabRow(rowIndex)
+        
+//        Text(String(tabRow.count))
         
         HStack(alignment: .lastTextBaseline) {
           Spacer()
           
-          ForEach(tabRow, id: \.label) { item in
+          ForEach(Array(tabRow.enumerated()), id: \.0) { index, item in
+//            Text(String(item.label))
             TabBarItem(
               iconName: item.icon,
               label: item.label,
               selected: selection == item.label,
               translationProgress: $translationProgress
             )
-            .frame(height: tabRowHeight)
+            .frame(maxHeight: .infinity)
             .clipped()
             .onTapGesture { selection = item.label }
           }
@@ -72,19 +77,19 @@ struct TabBarView: View {
     let heightWhileDragging = (CGFloat(translationProgress) / TranslationMax) * TabBarHeight
     let variableTabBarHeight = min(TabBarHeight, max(0, heightWhileDragging))
     
-    return row == rowForSelection ? TabBarHeight : variableTabBarHeight
+    return row == rowWithActiveTab ? TabBarHeight : variableTabBarHeight
   }
   
   private func opacityForTabRow(_ row: Int) -> Double {
     let variableOpacity = min(1, max(0, (translationProgress / TranslationMax) * 1))
-    return row == rowForSelection ? 1 : variableOpacity
+    return row == rowWithActiveTab ? 1 : variableOpacity
   }
   
   private var spacerHeight: CGFloat {
     min(SpacerHeight, max(0, (CGFloat(translationProgress) / TranslationMax) * SpacerHeight))
   }
   
-  private var rowForSelection: Int {
+  private var rowWithActiveTab: Int {
     for (rowIndex, tabRowItems) in TabConfig.enumerated() {
       for item in tabRowItems {
         if item.label == selection {

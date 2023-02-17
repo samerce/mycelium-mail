@@ -14,7 +14,8 @@ struct EmailDetailView: View {
   @State private var backGestureDistanceFromEdge: CGFloat?
   @State private var keyboardVisible = false
   
-  private var email: Email? { mailCtrl.selectedEmail }
+  var emailId: Email.ID?
+  var email: Email? { mailCtrl.model.email(id: emailId) }
   
   var body: some View {
     ZStack(alignment: .top) {

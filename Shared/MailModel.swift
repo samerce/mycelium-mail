@@ -161,6 +161,13 @@ class MailModel: ObservableObject {
     return []
   }
   
+  func email(id: Email.ID?) -> Email? {
+    guard id != nil
+    else { return nil }
+      
+    return emails["everything"]?.first(where: { $0.id == id }) ?? nil
+  }
+  
   func fetchMore(_ bundle: String) {
     guard let emailsInBundle = emails[bundle]
     else { return }

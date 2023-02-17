@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B14A6B5299FE4D4005BAA30 /* SwiftUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3B14A6B4299FE4D4005BAA30 /* SwiftUIKit */; };
 		3B2F072C264F72EA006CAECE /* AppSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F072B264F72EA006CAECE /* AppSplitView.swift */; };
 		3B2F072D264F72EA006CAECE /* AppSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F072B264F72EA006CAECE /* AppSplitView.swift */; };
 		3B36447E2652629700956E27 /* EmailDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B36447D2652629700956E27 /* EmailDetailView.swift */; };
@@ -215,6 +216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B5103C029257BAB0084B6B2 /* DynamicOverlay in Frameworks */,
+				3B14A6B5299FE4D4005BAA30 /* SwiftUIKit in Frameworks */,
 				3B5FBCFC26587F59009D012C /* Introspect in Frameworks */,
 				3B94B91229247D2B00C85B8C /* GoogleSignIn in Frameworks */,
 				3B94B91429247D2B00C85B8C /* GoogleSignInSwift in Frameworks */,
@@ -421,6 +423,7 @@
 				3B94B91329247D2B00C85B8C /* GoogleSignInSwift */,
 				3BFFE1C229254A2000476C09 /* MailCore2 */,
 				3B5103BF29257BAB0084B6B2 /* DynamicOverlay */,
+				3B14A6B4299FE4D4005BAA30 /* SwiftUIKit */,
 			);
 			productName = "mushroom-mail (iOS)";
 			productReference = 3B9B9F792634B16A00E3A8B2 /* psymail.app */;
@@ -518,6 +521,7 @@
 				3B94B91029247D2B00C85B8C /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				3BFFE1C129254A2000476C09 /* XCRemoteSwiftPackageReference "mailcore2" */,
 				3B5103BE29257BAB0084B6B2 /* XCRemoteSwiftPackageReference "DynamicOverlay" */,
+				3B14A6B3299FE4D3005BAA30 /* XCRemoteSwiftPackageReference "SwiftUIKit" */,
 			);
 			productRefGroup = 3B9B9F7A2634B16A00E3A8B2 /* Products */;
 			projectDirPath = "";
@@ -1058,6 +1062,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		3B14A6B3299FE4D3005BAA30 /* XCRemoteSwiftPackageReference "SwiftUIKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielsaidi/SwiftUIKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 		3B5103BE29257BAB0084B6B2 /* XCRemoteSwiftPackageReference "DynamicOverlay" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/faberNovel/DynamicOverlay.git";
@@ -1093,6 +1105,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3B14A6B4299FE4D4005BAA30 /* SwiftUIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B14A6B3299FE4D3005BAA30 /* XCRemoteSwiftPackageReference "SwiftUIKit" */;
+			productName = SwiftUIKit;
+		};
 		3B5103BF29257BAB0084B6B2 /* DynamicOverlay */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3B5103BE29257BAB0084B6B2 /* XCRemoteSwiftPackageReference "DynamicOverlay" */;
