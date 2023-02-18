@@ -14,7 +14,7 @@ struct WebView: UIViewRepresentable {
   func makeUIView(context: Context) -> WKWebView {
     let webView = WKWebView()
     webView.layoutMargins = UIEdgeInsets.zero
-    webView.scrollView.contentInset = UIEdgeInsets(top: 128, left: 0, bottom: 148, right: 0)
+    webView.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: inboxSheetDetents.min, right: 0)
     webView.scrollView.backgroundColor = .systemBackground
     webView.backgroundColor = .systemBackground
     webView.navigationDelegate = context.coordinator
@@ -94,6 +94,15 @@ struct WebView: UIViewRepresentable {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
       webView.frame.size.height = 1
       webView.frame.size = webView.scrollView.contentSize
+      
+//      webView.evaluateJavaScript("document.readyState", completionHandler: { (complete, error) in
+//        if complete != nil {
+//          webView.evaluateJavaScript("document.body.scrollHeight", completionHandler: {
+//            (height, error) in
+//              self.containerHeight.constant = height as! CGFloat
+//          })
+//        }
+//      })
     }
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {

@@ -90,8 +90,8 @@ public class Email: NSManagedObject {
       mimePart?.email = self
     }
     
-    thread = fetchOrMakeThread(id: message.gmailThreadID, context: context)
-    thread?.addToEmails(self)
+//    thread = fetchOrMakeThread(id: message.gmailThreadID, context: context)
+//    thread?.addToEmails(self)
   }
   
   private var flags: MCOMessageFlag {
@@ -125,10 +125,15 @@ public class Email: NSManagedObject {
   }
   
   private func fetchOrMakeThread(id: UInt64, context: NSManagedObjectContext) -> EmailThread? {
-    let threadFetchRequest: NSFetchRequest<EmailThread> = EmailThread.fetchRequest()
-    threadFetchRequest.predicate = NSPredicate(format: "id == %@", id)
-
     do {
+      if id > Int64.max {
+        print("error: tried to make or fetch a thread with an id greater than Int64.max, skpping. fix this!")
+        return nil
+      }
+      
+      let threadFetchRequest: NSFetchRequest<EmailThread> = EmailThread.fetchRequest()
+      threadFetchRequest.predicate = NSPredicate(format: "id == %@", Int64(id))
+      
       let threads = try context.fetch(threadFetchRequest) as [EmailThread]
       if !threads.isEmpty {
         return threads.first

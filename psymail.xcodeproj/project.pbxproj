@@ -8,12 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		3B14A6B5299FE4D4005BAA30 /* SwiftUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3B14A6B4299FE4D4005BAA30 /* SwiftUIKit */; };
+		3B14A6BA299FF200005BAA30 /* View+InboxSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B14A6B9299FF200005BAA30 /* View+InboxSheet.swift */; };
+		3B14A6BB299FF200005BAA30 /* View+InboxSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B14A6B9299FF200005BAA30 /* View+InboxSheet.swift */; };
+		3B14A6BD299FFC60005BAA30 /* InboxController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B14A6BC299FFC60005BAA30 /* InboxController.swift */; };
+		3B14A6BE299FFC60005BAA30 /* InboxController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B14A6BC299FFC60005BAA30 /* InboxController.swift */; };
 		3B2F072C264F72EA006CAECE /* AppSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F072B264F72EA006CAECE /* AppSplitView.swift */; };
 		3B2F072D264F72EA006CAECE /* AppSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F072B264F72EA006CAECE /* AppSplitView.swift */; };
 		3B36447E2652629700956E27 /* EmailDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B36447D2652629700956E27 /* EmailDetailView.swift */; };
 		3B5103AA29256D030084B6B2 /* UIApplication+window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5103A929256D030084B6B2 /* UIApplication+window.swift */; };
 		3B5103AB29256D030084B6B2 /* UIApplication+window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5103A929256D030084B6B2 /* UIApplication+window.swift */; };
-		3B5103C029257BAB0084B6B2 /* DynamicOverlay in Frameworks */ = {isa = PBXBuildFile; productRef = 3B5103BF29257BAB0084B6B2 /* DynamicOverlay */; };
 		3B5ABAF726545D3200601F26 /* QuotedPrintable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5ABAF626545D2900601F26 /* QuotedPrintable.swift */; };
 		3B5ABAF826545D3200601F26 /* QuotedPrintable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5ABAF626545D2900601F26 /* QuotedPrintable.swift */; };
 		3B5ABAFE265461C100601F26 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5ABAFD265461C100601F26 /* WebView.swift */; };
@@ -24,12 +27,12 @@
 		3B5FBCBF26571687009D012C /* PsycatsJuice.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B5FBCBD26571687009D012C /* PsycatsJuice.mlmodel */; };
 		3B5FBCFC26587F59009D012C /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 3B5FBCFB26587F59009D012C /* Introspect */; };
 		3B6666832651EA040039D9F3 /* AppCompactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F0726264E1035006CAECE /* AppCompactView.swift */; };
-		3B6666852651EAAA0039D9F3 /* InboxDrawerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6666842651EAA90039D9F3 /* InboxDrawerView.swift */; };
+		3B6666852651EAAA0039D9F3 /* InboxSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6666842651EAA90039D9F3 /* InboxSheetView.swift */; };
 		3B6666872651EACD0039D9F3 /* OverlayBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6666862651EACD0039D9F3 /* OverlayBackgroundView.swift */; };
 		3B6666892651EAE70039D9F3 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6666882651EAE70039D9F3 /* SearchBar.swift */; };
 		3B66668B2651EAED0039D9F3 /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B66668A2651EAED0039D9F3 /* ActionCell.swift */; };
 		3B66668D2651EB000039D9F3 /* FavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B66668C2651EB000039D9F3 /* FavoriteCell.swift */; };
-		3B66668F2651F3B00039D9F3 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B66668E2651F3B00039D9F3 /* TabBarView.swift */; };
+		3B66668F2651F3B00039D9F3 /* BundleTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B66668E2651F3B00039D9F3 /* BundleTabBarView.swift */; };
 		3B6666912651F3DD0039D9F3 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6666902651F3DD0039D9F3 /* TabBarItem.swift */; };
 		3B66669626521A810039D9F3 /* VisualEffectBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B66669526521A810039D9F3 /* VisualEffectBlur.swift */; };
 		3B6666F02652383D0039D9F3 /* psymail.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3B6666ED2652383D0039D9F3 /* psymail.xcdatamodeld */; };
@@ -93,12 +96,12 @@
 		3BF1AE1B2665FA89002F1062 /* View+if.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE1A2665FA89002F1062 /* View+if.swift */; };
 		3BF1AE1C2665FA89002F1062 /* View+if.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE1A2665FA89002F1062 /* View+if.swift */; };
 		3BF1AE1E2666F5E7002F1062 /* EmailListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE1D2666F5E7002F1062 /* EmailListRow.swift */; };
-		3BF1AE212666FCE6002F1062 /* EmailToolsDrawerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE202666FCE6002F1062 /* EmailToolsDrawerView.swift */; };
-		3BF1AE222666FCE6002F1062 /* EmailToolsDrawerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE202666FCE6002F1062 /* EmailToolsDrawerView.swift */; };
+		3BF1AE212666FCE6002F1062 /* EmailToolsSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE202666FCE6002F1062 /* EmailToolsSheetView.swift */; };
+		3BF1AE222666FCE6002F1062 /* EmailToolsSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE202666FCE6002F1062 /* EmailToolsSheetView.swift */; };
 		3BF1AE242666FF2A002F1062 /* DrawerCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE232666FF2A002F1062 /* DrawerCapsule.swift */; };
 		3BF1AE252666FF2A002F1062 /* DrawerCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE232666FF2A002F1062 /* DrawerCapsule.swift */; };
-		3BF1AE2726672A57002F1062 /* EmailSenderDrawerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE2626672A57002F1062 /* EmailSenderDrawerView.swift */; };
-		3BF1AE2826672A57002F1062 /* EmailSenderDrawerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE2626672A57002F1062 /* EmailSenderDrawerView.swift */; };
+		3BF1AE2726672A57002F1062 /* EmailDetailToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE2626672A57002F1062 /* EmailDetailToolbarView.swift */; };
+		3BF1AE2826672A57002F1062 /* EmailDetailToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE2626672A57002F1062 /* EmailDetailToolbarView.swift */; };
 		3BF1AE2A26683514002F1062 /* View+screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE2926683514002F1062 /* View+screen.swift */; };
 		3BF1AE2B26683514002F1062 /* View+screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE2926683514002F1062 /* View+screen.swift */; };
 		3BF1AE2D2668812B002F1062 /* Publishers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF1AE2C2668812B002F1062 /* Publishers.swift */; };
@@ -142,6 +145,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3B14A6B9299FF200005BAA30 /* View+InboxSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+InboxSheet.swift"; sourceTree = "<group>"; };
+		3B14A6BC299FFC60005BAA30 /* InboxController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxController.swift; sourceTree = "<group>"; };
 		3B2F0726264E1035006CAECE /* AppCompactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCompactView.swift; sourceTree = "<group>"; };
 		3B2F072B264F72EA006CAECE /* AppSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSplitView.swift; sourceTree = "<group>"; };
 		3B36447D2652629700956E27 /* EmailDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailDetailView.swift; sourceTree = "<group>"; };
@@ -150,12 +155,12 @@
 		3B5ABAFD265461C100601F26 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		3B5FBC322655EF85009D012C /* EmailClassifierAgnes.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = EmailClassifierAgnes.mlmodel; sourceTree = "<group>"; };
 		3B5FBCBD26571687009D012C /* PsycatsJuice.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PsycatsJuice.mlmodel; sourceTree = "<group>"; };
-		3B6666842651EAA90039D9F3 /* InboxDrawerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InboxDrawerView.swift; sourceTree = "<group>"; };
+		3B6666842651EAA90039D9F3 /* InboxSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InboxSheetView.swift; sourceTree = "<group>"; };
 		3B6666862651EACD0039D9F3 /* OverlayBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayBackgroundView.swift; sourceTree = "<group>"; };
 		3B6666882651EAE70039D9F3 /* SearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		3B66668A2651EAED0039D9F3 /* ActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionCell.swift; sourceTree = "<group>"; };
 		3B66668C2651EB000039D9F3 /* FavoriteCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteCell.swift; sourceTree = "<group>"; };
-		3B66668E2651F3B00039D9F3 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		3B66668E2651F3B00039D9F3 /* BundleTabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BundleTabBarView.swift; sourceTree = "<group>"; };
 		3B6666902651F3DD0039D9F3 /* TabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		3B66669526521A810039D9F3 /* VisualEffectBlur.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualEffectBlur.swift; sourceTree = "<group>"; };
 		3B6666EE2652383D0039D9F3 /* Shared.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shared.xcdatamodel; sourceTree = "<group>"; };
@@ -200,9 +205,9 @@
 		3BF1AD8F2663F8F0002F1062 /* AccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
 		3BF1AE1A2665FA89002F1062 /* View+if.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+if.swift"; sourceTree = "<group>"; };
 		3BF1AE1D2666F5E7002F1062 /* EmailListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailListRow.swift; sourceTree = "<group>"; };
-		3BF1AE202666FCE6002F1062 /* EmailToolsDrawerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailToolsDrawerView.swift; sourceTree = "<group>"; };
+		3BF1AE202666FCE6002F1062 /* EmailToolsSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailToolsSheetView.swift; sourceTree = "<group>"; };
 		3BF1AE232666FF2A002F1062 /* DrawerCapsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerCapsule.swift; sourceTree = "<group>"; };
-		3BF1AE2626672A57002F1062 /* EmailSenderDrawerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSenderDrawerView.swift; sourceTree = "<group>"; };
+		3BF1AE2626672A57002F1062 /* EmailDetailToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailDetailToolbarView.swift; sourceTree = "<group>"; };
 		3BF1AE2926683514002F1062 /* View+screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+screen.swift"; sourceTree = "<group>"; };
 		3BF1AE2C2668812B002F1062 /* Publishers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Publishers.swift; sourceTree = "<group>"; };
 		3BF1AE2F26688150002F1062 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
@@ -215,7 +220,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B5103C029257BAB0084B6B2 /* DynamicOverlay in Frameworks */,
 				3B14A6B5299FE4D4005BAA30 /* SwiftUIKit in Frameworks */,
 				3B5FBCFC26587F59009D012C /* Introspect in Frameworks */,
 				3B94B91229247D2B00C85B8C /* GoogleSignIn in Frameworks */,
@@ -329,18 +333,20 @@
 				3B66669526521A810039D9F3 /* VisualEffectBlur.swift */,
 				3B2F0726264E1035006CAECE /* AppCompactView.swift */,
 				3B66668A2651EAED0039D9F3 /* ActionCell.swift */,
-				3B6666842651EAA90039D9F3 /* InboxDrawerView.swift */,
+				3B6666842651EAA90039D9F3 /* InboxSheetView.swift */,
 				3B6666862651EACD0039D9F3 /* OverlayBackgroundView.swift */,
 				3B66668C2651EB000039D9F3 /* FavoriteCell.swift */,
-				3B66668E2651F3B00039D9F3 /* TabBarView.swift */,
+				3B66668E2651F3B00039D9F3 /* BundleTabBarView.swift */,
 				3B6666902651F3DD0039D9F3 /* TabBarItem.swift */,
 				3B6666882651EAE70039D9F3 /* SearchBar.swift */,
 				3B9B9F7C2634B16A00E3A8B2 /* Info.plist */,
 				3B36447D2652629700956E27 /* EmailDetailView.swift */,
 				3BF1AE1D2666F5E7002F1062 /* EmailListRow.swift */,
-				3BF1AE202666FCE6002F1062 /* EmailToolsDrawerView.swift */,
-				3BF1AE2626672A57002F1062 /* EmailSenderDrawerView.swift */,
+				3BF1AE202666FCE6002F1062 /* EmailToolsSheetView.swift */,
+				3BF1AE2626672A57002F1062 /* EmailDetailToolbarView.swift */,
 				3BE50194266B34AE001C2939 /* FilterView.swift */,
+				3B14A6B9299FF200005BAA30 /* View+InboxSheet.swift */,
+				3B14A6BC299FFC60005BAA30 /* InboxController.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -422,7 +428,6 @@
 				3B94B91129247D2B00C85B8C /* GoogleSignIn */,
 				3B94B91329247D2B00C85B8C /* GoogleSignInSwift */,
 				3BFFE1C229254A2000476C09 /* MailCore2 */,
-				3B5103BF29257BAB0084B6B2 /* DynamicOverlay */,
 				3B14A6B4299FE4D4005BAA30 /* SwiftUIKit */,
 			);
 			productName = "mushroom-mail (iOS)";
@@ -520,7 +525,6 @@
 				3B5FBCFA26587F58009D012C /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 				3B94B91029247D2B00C85B8C /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				3BFFE1C129254A2000476C09 /* XCRemoteSwiftPackageReference "mailcore2" */,
-				3B5103BE29257BAB0084B6B2 /* XCRemoteSwiftPackageReference "DynamicOverlay" */,
 				3B14A6B3299FE4D3005BAA30 /* XCRemoteSwiftPackageReference "SwiftUIKit" */,
 			);
 			productRefGroup = 3B9B9F7A2634B16A00E3A8B2 /* Products */;
@@ -595,24 +599,26 @@
 				3B9B9FD42634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel in Sources */,
 				3B7917C52660A0F400E764C1 /* EmailHeader+CoreDataClass.swift in Sources */,
 				3B9B9FD02634E26A00E3A8B2 /* NewsletterClassifier.mlmodel in Sources */,
+				3B14A6BD299FFC60005BAA30 /* InboxController.swift in Sources */,
 				3BF1AD7E2661861F002F1062 /* Email+CoreDataProperties.swift in Sources */,
-				3B6666852651EAAA0039D9F3 /* InboxDrawerView.swift in Sources */,
+				3B6666852651EAAA0039D9F3 /* InboxSheetView.swift in Sources */,
 				3BF1AE2A26683514002F1062 /* View+screen.swift in Sources */,
 				3B5103AA29256D030084B6B2 /* UIApplication+window.swift in Sources */,
 				3B6666832651EA040039D9F3 /* AppCompactView.swift in Sources */,
 				3BF1AE1B2665FA89002F1062 /* View+if.swift in Sources */,
 				3B9B9FA12634B16A00E3A8B2 /* Persistence.swift in Sources */,
 				3BF1AD6426615F18002F1062 /* AccountController.swift in Sources */,
-				3BF1AE212666FCE6002F1062 /* EmailToolsDrawerView.swift in Sources */,
+				3BF1AE212666FCE6002F1062 /* EmailToolsSheetView.swift in Sources */,
 				3B6666872651EACD0039D9F3 /* OverlayBackgroundView.swift in Sources */,
 				3BF1AE3426697A35002F1062 /* EmailThread+CoreDataClass.swift in Sources */,
 				3BF1AE3626697A35002F1062 /* EmailThread+CoreDataProperties.swift in Sources */,
 				3B5FBC332655EF85009D012C /* EmailClassifierAgnes.mlmodel in Sources */,
 				3B7917C12660A0F400E764C1 /* Email+CoreDataClass.swift in Sources */,
-				3B66668F2651F3B00039D9F3 /* TabBarView.swift in Sources */,
-				3BF1AE2726672A57002F1062 /* EmailSenderDrawerView.swift in Sources */,
+				3B66668F2651F3B00039D9F3 /* BundleTabBarView.swift in Sources */,
+				3BF1AE2726672A57002F1062 /* EmailDetailToolbarView.swift in Sources */,
 				3BF1AD6726617746002F1062 /* InboxView.swift in Sources */,
 				3B9B9FD22634E26A00E3A8B2 /* MarketingRecognizer.mlmodel in Sources */,
+				3B14A6BA299FF200005BAA30 /* View+InboxSheet.swift in Sources */,
 				3B9B9FC02634B20600E3A8B2 /* MailModel.swift in Sources */,
 				3B66668D2651EB000039D9F3 /* FavoriteCell.swift in Sources */,
 				3BF1AD902663F8F0002F1062 /* AccountModel.swift in Sources */,
@@ -638,16 +644,17 @@
 				3B9B9F9E2634B16A00E3A8B2 /* PsymailApp.swift in Sources */,
 				3B5ABAFF265461C100601F26 /* WebView.swift in Sources */,
 				3B7917BE2660A0F400E764C1 /* EmailPart+CoreDataClass.swift in Sources */,
+				3B14A6BB299FF200005BAA30 /* View+InboxSheet.swift in Sources */,
 				3BF1AD912663F8F0002F1062 /* AccountModel.swift in Sources */,
 				3BF1AD832661861F002F1062 /* EmailPart+CoreDataProperties.swift in Sources */,
 				3BE50199266B4B0A001C2939 /* Color+psy.swift in Sources */,
 				3BF1AD6526615F18002F1062 /* AccountController.swift in Sources */,
-				3BF1AE2826672A57002F1062 /* EmailSenderDrawerView.swift in Sources */,
+				3BF1AE2826672A57002F1062 /* EmailDetailToolbarView.swift in Sources */,
 				3B9B9FD52634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel in Sources */,
 				3B7917C62660A0F400E764C1 /* EmailHeader+CoreDataClass.swift in Sources */,
 				3BF1AE3726697A35002F1062 /* EmailThread+CoreDataProperties.swift in Sources */,
 				3BE50196266B34AE001C2939 /* FilterView.swift in Sources */,
-				3BF1AE222666FCE6002F1062 /* EmailToolsDrawerView.swift in Sources */,
+				3BF1AE222666FCE6002F1062 /* EmailToolsSheetView.swift in Sources */,
 				3B9B9FD12634E26A00E3A8B2 /* NewsletterClassifier.mlmodel in Sources */,
 				3BF1AE1C2665FA89002F1062 /* View+if.swift in Sources */,
 				3B9B9FA22634B16A00E3A8B2 /* Persistence.swift in Sources */,
@@ -672,6 +679,7 @@
 				3B6666F02652383D0039D9F3 /* psymail.xcdatamodeld in Sources */,
 				3B9B9FA02634B16A00E3A8B2 /* ContentView.swift in Sources */,
 				3B5103AB29256D030084B6B2 /* UIApplication+window.swift in Sources */,
+				3B14A6BE299FFC60005BAA30 /* InboxController.swift in Sources */,
 				3B5ABAF826545D3200601F26 /* QuotedPrintable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1070,14 +1078,6 @@
 				minimumVersion = 3.0.0;
 			};
 		};
-		3B5103BE29257BAB0084B6B2 /* XCRemoteSwiftPackageReference "DynamicOverlay" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/faberNovel/DynamicOverlay.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		3B5FBCFA26587F58009D012C /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
@@ -1109,11 +1109,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3B14A6B3299FE4D3005BAA30 /* XCRemoteSwiftPackageReference "SwiftUIKit" */;
 			productName = SwiftUIKit;
-		};
-		3B5103BF29257BAB0084B6B2 /* DynamicOverlay */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3B5103BE29257BAB0084B6B2 /* XCRemoteSwiftPackageReference "DynamicOverlay" */;
-			productName = DynamicOverlay;
 		};
 		3B5FBCFB26587F59009D012C /* Introspect */ = {
 			isa = XCSwiftPackageProductDependency;

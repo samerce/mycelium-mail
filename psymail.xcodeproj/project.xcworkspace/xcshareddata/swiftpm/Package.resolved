@@ -10,15 +10,6 @@
       }
     },
     {
-      "identity" : "dynamicoverlay",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/faberNovel/DynamicOverlay.git",
-      "state" : {
-        "branch" : "main",
-        "revision" : "f25d286456e80cb5e9fa5799a5c37b9d1498f234"
-      }
-    },
-    {
       "identity" : "googlesignin-ios",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleSignIn-iOS",
@@ -52,15 +43,6 @@
       "state" : {
         "branch" : "master",
         "revision" : "7417b2e8dd7e2c028aadb72056e4d1428c0627c4"
-      }
-    },
-    {
-      "identity" : "overlaycontainer",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/applidium/OverlayContainer.git",
-      "state" : {
-        "revision" : "f1c8fc38bb1ad9a810397f1d06f7026a35e0760c",
-        "version" : "3.5.2"
       }
     },
     {

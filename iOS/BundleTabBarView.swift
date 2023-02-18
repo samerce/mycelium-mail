@@ -11,7 +11,7 @@ let TabConfig = [
   [
     TabRow(label: "notifications", icon: "bell"),
     TabRow(label: "commerce", icon: "creditcard"),
-    TabRow(label: "everything", icon: "infinity"),
+    TabRow(label: "everything", icon: "tray.full"),
     TabRow(label: "newsletters", icon: "newspaper"),
     TabRow(label: "society", icon: "building.2")
   ],
@@ -33,9 +33,10 @@ let TabConfig = [
 private let TabBarHeight = 42.0
 private let SpacerHeight = 18.0
 private let TranslationMax = 108.0
+private let HeaderHeight: CGFloat = 42
+private let HeaderBottomPadding: CGFloat = 18
 
-
-struct TabBarView: View {
+struct BundleTabBarView: View {
   @Binding var selection: String
   @Binding var translationProgress: Double
   
@@ -73,6 +74,51 @@ struct TabBarView: View {
     }
   }
   
+  private var heightWhileDragging: CGFloat {
+    (CGFloat(translationProgress) / inboxSheetDetents.mid) * HeaderHeight
+  }
+  private var headerHeight: CGFloat {
+    min(HeaderHeight, max(0, heightWhileDragging))
+  }
+  private var bottomPaddingWhileDragging: CGFloat {
+    (CGFloat(translationProgress) / inboxSheetDetents.mid) * HeaderBottomPadding
+  }
+  private var bottomPadding: CGFloat {
+    min(HeaderBottomPadding, max(0, bottomPaddingWhileDragging))
+  }
+  private var opacity: CGFloat {
+    min(1, max(0, (translationProgress / Double(inboxSheetDetents.mid)) * 1))
+  }
+  
+  private var BundleHeader: some View {
+    HStack(spacing: 0) {
+      Text("BUNDLES")
+        .frame(maxHeight: headerHeight, alignment: .leading)
+        .font(.system(size: 14, weight: .light))
+        .foregroundColor(Color(.gray))
+      Spacer()
+      Button(action: onClickBundleSettings) {
+        ZStack {
+          Image(systemName: "gear")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .foregroundColor(.psyAccent)
+            .font(.system(size: 16, weight: .light))
+        }
+        .frame(width: 20, alignment: .trailing)
+      }
+    }
+    .padding(.horizontal, 18)
+    .padding(.bottom, bottomPadding)
+    .opacity(opacity)
+    .frame(height: headerHeight)
+    .clipped()
+  }
+  
+  private func onClickBundleSettings() {
+    
+  }
+  
   private func heightForTabRow(_ row: Int) -> CGFloat {
     let heightWhileDragging = (CGFloat(translationProgress) / TranslationMax) * TabBarHeight
     let variableTabBarHeight = min(TabBarHeight, max(0, heightWhileDragging))
@@ -106,6 +152,6 @@ struct TabBarView_Previews: PreviewProvider {
   @State static var selectedTab = "latest"
   @State static var translationProgress: Double = 0
   static var previews: some View {
-    TabBarView(selection: $selectedTab, translationProgress: $translationProgress)
+    BundleTabBarView(selection: $selectedTab, translationProgress: $translationProgress)
   }
 }

@@ -15,18 +15,18 @@ struct EmailListRow: View {
           .fill(Color.psyAccent)
           .frame(maxWidth: 4, maxHeight: 14)
           .cornerRadius(4)
-          .offset(y: 2)
+          .offset(x: 4, y: 2)
       }
       VStack(alignment: .leading, spacing: mode == .summary ? 4 : 6) {
 //        if mode == .details { Spacer().frame(height: 30) }
         
         HStack(alignment: .lastTextBaseline) {
           Text(email.fromLine)
-            .font(.system(size: 15, weight: email.seen ? .semibold : .heavy))
+            .font(.system(size: 15, weight: email.seen ? .medium : .bold))
+            .lineLimit(1)
             .if(mode == .summary) { view in
               view
                 .font(.system(size: 15, weight: .heavy))
-                .lineLimit(1)
             }
             .if(mode == .details) { $0.font(.system(size: 20, weight: .bold)) }
           Spacer()
@@ -47,20 +47,38 @@ struct EmailListRow: View {
         Text(email.subject)
           .if(mode == .summary) { view in
             view
-              .font(.system(size: 15, weight: email.seen ? .light : .medium))
-              .lineLimit(2)
+              .font(.system(size: 13, weight: email.seen ? .light : .regular))
+              .lineLimit(1)
           }
           .if(mode == .details) { $0.font(.system(size: 20)) }
           .truncationMode(.tail)
           .lineLimit(1)
       }
       .foregroundColor(Color.primary)
-      .padding(.horizontal, 9)
+      .padding(.trailing, 9)
+      .padding(.leading, 12)
       .if(mode == .details) { $0.padding(.bottom, 6).padding(.horizontal, 20) }
     }
     .frame(height: 54)
     .listRowInsets(.init(top: 3, leading: 0, bottom: 3, trailing: 0))
     .contentShape(Rectangle())
+    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+      Button { print("follow up") } label: {
+        Label("follow up", systemImage: "pin")
+      }
+      Button { print("bundle") } label: {
+        Label("bundle", systemImage: "giftcard")
+      }
+      Button { print("delete") } label: {
+        Label("trash", systemImage: "trash")
+      }
+      Button { print("note") } label: {
+        Label("note", systemImage: "note.text")
+      }
+      Button { print("notification") } label: {
+        Label("notifications", systemImage: "bell")
+      }
+    }
   }
   
 }

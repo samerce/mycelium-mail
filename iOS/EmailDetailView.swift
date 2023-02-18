@@ -1,5 +1,4 @@
 import SwiftUI
-import DynamicOverlay
 import Combine
 
 private enum Notch: CaseIterable, Equatable {
@@ -13,36 +12,35 @@ struct EmailDetailView: View {
   @State private var translationProgress = 0.0
   @State private var backGestureDistanceFromEdge: CGFloat?
   @State private var keyboardVisible = false
+  @State private var sheetPresented = true
   
   var emailId: Email.ID?
   var email: Email? { mailCtrl.model.email(id: emailId) }
   
   var body: some View {
-    ZStack(alignment: .top) {
-      if email != nil {
-        DetailView
-          .dynamicOverlay(ToolsDrawer)
-          .dynamicOverlayBehavior(toolsDrawerBehavior)
-          .ignoresSafeArea()
-          .clipped()
-        
-        EmailSenderDrawerView(email: email)
-          .clipped()
+    Group {
+      if (email == nil) { EmptyView() }
+      else { DetailView }
+    }
+  }
+  
+  private var DetailView: some View {
+    MessageContent
+    .onAppear() {
+      if let email = email {
+        mailCtrl.selectEmail(email)
       }
     }
-    .frame(width: bodyWidth, height: bodyHeight, alignment: .top)
-    .background(Color(.systemBackground))
-    .clipped()
-    .gesture(backGesture)
     .onReceive(Publishers.keyboardHeight) { keyboardHeight in
       keyboardVisible = keyboardHeight > 0
     }
   }
   
-  private var DetailView: some View {
-    WebView(content: email!.html ?? "")
-      .background(Color(.systemBackground))
+  private var MessageContent: some View {
+    WebView(content: email?.html ?? "")
       .ignoresSafeArea()
+      .background(Color(.systemBackground))
+    //      .gesture(backGesture)
       .onAppear {
         seenTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
           seenTimer = nil
@@ -59,29 +57,30 @@ struct EmailDetailView: View {
       }
   }
   
-  private var ToolsDrawer: some View {
-    EmailToolsDrawerView(email!)
-      .clipped()
+  private var Toolbar: some ToolbarContent {
+    ToolbarItem(placement: .principal) {
+      Title
+    }
   }
   
-  private var toolsDrawerBehavior: some DynamicOverlayBehavior {
-    MagneticNotchOverlayBehavior<Notch> { notch in
-      switch notch {
-      case .max:
-        return .fractional(0.72)
-      case .mid:
-        return .fractional(0.54)
-      case .min:
-        return keyboardVisible ? .fractional(0.04) : .fractional(0.12)
-      }
+  private var Title: some View {
+    VStack {
+      Text(mailCtrl.selectedEmail?.fromLine ?? "")
+        .font(.system(size: 15, weight: .regular))
+        .padding(.bottom, 6)
+        .lineLimit(1)
+      
+      Text(mailCtrl.selectedEmail?.subject ?? "")
+        .font(.system(size: 18, weight: .medium))
+        .padding(.bottom, 12)
+        .lineLimit(.max)
     }
-    .notchChange($notch)
-    .onTranslation { translation in
-      withAnimation(.linear(duration: 0.15)) {
-        translationProgress = translation.progress
-      }
-    }
+//    .ignoresSafeArea()
+    .frame(minWidth: screenWidth)
+//    .background(OverlayBackgroundView())
   }
+  
+  // MARK: -
   
   private var backGesture: some Gesture {
     DragGesture()

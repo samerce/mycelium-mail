@@ -1,36 +1,17 @@
 import SwiftUI
 import SwiftUIKit
 
-private enum Notch: CaseIterable, Equatable {
-    case min, mid, max
-}
-
-private var mailCtrl = MailController.shared
-
-private var cTitleToolbarSize = 70.0
-private var cMinDrawerSize = 90.0
 
 struct InboxView: View {
-  @StateObject private var model = mailCtrl.model
-  @State private var notch: Notch = .min
+  @StateObject private var mailCtrl = MailController.shared
   @State private var translationProgress = 0.0
   @State private var bundle = "everything"
   @State private var scrollOffsetY: CGFloat = 0
-  @State private var safeAreaBackdropOpacity: Double = 0
   @State private var emailIds: Set<Email.ID> = []
   @Namespace var headerId
-  @State private var drawerPresented = true
-  
-  private var emails: [Email] { model.emails[bundle]! }
-  private var zippedEmails: Array<EnumeratedSequence<[Email]>.Element> {
-    Array(zip(emails.indices, emails))
-  }
-  
-  private var getMaxDetent: (CGFloat) -> CGFloat {
-    memo { screenHeight in
-      screenHeight - safeAreaInsets.top
-    }
-  }
+  @State private var inboxSheetPresented = true
+  @State private var emailDetailSheetPresented = true
+  private var emails: [Email] { mailCtrl.model.emails[bundle]! }
   
   // MARK: -
   
@@ -39,12 +20,19 @@ struct InboxView: View {
       EmailList
         .toolbar { TitleToolbar }
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear() { inboxSheetPresented = true }
+        .onDisappear() { inboxSheetPresented = false }
     } detail: {
       EmailDetailView(emailId: emailIds.first)
-        .navigationBarBackButtonHidden()
+//        .toolbar { Toolbar }
+//        .navigationBarTitleDisplayMode(.large)
+        .onAppear() { emailDetailSheetPresented = true }
+        .onDisappear() { emailDetailSheetPresented = false }
     }
+    .edgesIgnoringSafeArea(.top)
     .padding(.zero)
-    .sheet(isPresented: $drawerPresented) { Sheet }
+    .sheet(isPresented: $inboxSheetPresented) { InboxSheet }
+    .sheet(isPresented: $emailDetailSheetPresented) { EmailDetailSheet }
   }
   
   private var EmailList: some View {
@@ -52,67 +40,80 @@ struct InboxView: View {
     
       List(emails, selection: $emailIds) {
         EmailListRow(email: $0)
-          .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-            Button { print("follow up") } label: {
-              Label("follow up", systemImage: "pin")
-            }
-            Button { print("bundle") } label: {
-              Label("bundle", systemImage: "giftcard")
-            }
-            Button { print("delete") } label: {
-              Label("trash", systemImage: "trash")
-            }
-            Button { print("note") } label: {
-              Label("note", systemImage: "note.text")
-            }
-            Button { print("notification") } label: {
-              Label("notifications", systemImage: "bell")
-            }
-          }
           .onAppear {
             //                if index > emails.count - 9 {
             //                  mailCtrl.fetchMore(bundle)
             //                }
           }
-        //            .onTapGesture { mailCtrl.selectEmail(email) }
-        //          }
+          .if($0 == emails.last) { row in
+            row.padding(.bottom, inboxSheetDetents.min)
+          }
       }
       .listStyle(.plain)
       .listRowInsets(.none)
-      .edgesIgnoringSafeArea(.bottom)
-    //      .onChange(of: bundle) { _ in scrollProxy.scrollTo(headerId)}
+      .refreshable { mailCtrl.fetchLatest() }
+    //      .onChange(of: bundle) { _ in scrollProxy.scrollTo(headerId) }
   }
   
   private var TitleToolbar: some ToolbarContent {
     ToolbarItem(placement: .principal) {
-      Text(bundle)
-        .font(.system(size: 27, weight: .black))
-        .padding(.bottom, 6)
-//        .id(headerId)
-//        .background(GeometryReader {
-//          Color.clear.preference(key: ViewOffsetKey.self,
-//                                 value: -$0.frame(in: .global).minY)
-//        })
-//        .onPreferenceChange(ViewOffsetKey.self) { scrollOffsetY = $0 }
-//        .listRowInsets(.init(top: 0, leading: 6, bottom: 9, trailing: 0))
-//        .listRowSeparator(.hidden)
-//        .frame(maxWidth: .infinity, maxHeight: 39, alignment: .center)
-//        .padding(.vertical, 12)
+      HStack {
+        Button(action: {}) {
+          SystemImage("rectangle.grid.1x2", size: 20)
+        }
+        
+        Spacer()
+        
+        Text(bundle == "everything" ? "inbox" : bundle)
+          .font(.system(size: 27, weight: .black))
+          .padding(.bottom, 6)
+        
+        Spacer()
+        
+        Button(action: {}) {
+          Text("Edit")
+            .foregroundColor(.psyAccent)
+        }
+      }
     }
   }
   
-  private var Sheet: some View {
-    InboxDrawerView(bundle: $bundle, translationProgress: $translationProgress)
-      .onChange(of: bundle) { _ in
-        withAnimation {
-          notch = .min
-        }
-      }
+  private func SystemImage(_ name: String, size: CGFloat) -> some View {
+    Image(systemName: name)
+      .resizable()
+      .aspectRatio(contentMode: .fit)
+      .font(.system(size: size, weight: .light, design: .default))
+      .foregroundColor(.psyAccent)
+      .frame(width: size, height: size)
+      .contentShape(Rectangle())
+      .clipped()
+  }
+  
+  private var InboxSheet: some View {
+    InboxSheetView(bundle: $bundle, translationProgress: $translationProgress)
+      .interactiveDismissDisabled()
       .presentationDetents(
         undimmed: [
-          .height(cMinDrawerSize),
-          .fraction(0.54),
-          .height(getMaxDetent(self.screenHeight))
+          .height(inboxSheetDetents.min),
+          .height(inboxSheetDetents.mid),
+          .height(inboxSheetDetents.max)
+        ]
+      )
+//      .onChange(of: bundle) { _ in
+//        withAnimation {
+//          notch = .min
+//        }
+//      }
+  }
+  
+  private var EmailDetailSheet: some View {
+    EmailToolsSheetView()
+      .interactiveDismissDisabled()
+      .presentationDetents(
+        undimmed: [
+          .height(inboxSheetDetents.min),
+          .height(inboxSheetDetents.mid),
+          .height(inboxSheetDetents.max)
         ]
       )
   }

@@ -24,8 +24,10 @@ private enum NoteTarget: String, CaseIterable, Equatable {
 
 private var mailCtrl = MailController.shared
 
-struct EmailToolsDrawerView: View {
-  var email: Email
+struct EmailToolsSheetView: View {
+  @Environment(\.dismiss) private var dismiss
+  
+  private var email: Email? = mailCtrl.selectedEmail
   
   @State private var replying = false
   @State private var replyText: String = ""
@@ -36,13 +38,10 @@ struct EmailToolsDrawerView: View {
   @State private var noteTextField: UITextField?
   @State private var noteTarget: NoteTarget = .email
   
-  init(_ email: Email) { self.email = email }
+//  init(_ email: Email?) { self.email = email }
   
   var body: some View {
-    VStack(alignment: .center, spacing: 0) {
-      DrawerCapsule()
-        .padding(.vertical, 6)
-      
+    VStack(alignment: .leading, spacing: 0) {
       HStack(spacing: 0) {
         AddMediaButton
         UnsubscribeButton
@@ -79,10 +78,10 @@ struct EmailToolsDrawerView: View {
       .padding(.horizontal, 18)
       .clipped()
     }
-    .frame(width: screenWidth, height: screenHeight, alignment: .topLeading)
-    .background(OverlayBackgroundView())
+//    .frame(width: screenWidth, height: screenHeight, alignment: .topLeading)
+//    .background(OverlayBackgroundView())
     .foregroundColor(.psyAccent)
-    .ignoresSafeArea()
+//    .ignoresSafeArea()
   }
   
   private var AddMediaButton: some View {
@@ -131,7 +130,7 @@ struct EmailToolsDrawerView: View {
   }
   
   private var TrashButton: some View {
-    Button(action: { mailCtrl.deleteEmails([email]) }) {
+    Button(action: { if email != nil { mailCtrl.deleteEmails([email!]) } }) {
       ZStack {
         SystemImage("trash", size: 24)
       }
@@ -143,7 +142,7 @@ struct EmailToolsDrawerView: View {
   }
   
   private var StarButton: some View {
-    Button(action: { mailCtrl.flagEmails([email]) }) {
+    Button(action: { if email != nil { mailCtrl.flagEmails([email!]) } }) {
       SystemImage("star", size: 24)
     }
     .frame(maxWidth: replying ? 0 : .infinity)
@@ -186,16 +185,20 @@ struct EmailToolsDrawerView: View {
   }
   
   private var BackToEmailListButton: some View {
-    Button(action: { mailCtrl.deselectEmail() }) {
+    Button(action: {
+      dismiss() // dismiss sheet
+      dismiss() // go back
+      mailCtrl.deselectEmail()
+    }) {
       ZStack {
-        SystemImage("mail.stack", size: 27)
+        SystemImage("chevron.backward", size: 27)
       }
       .frame(width: 54, height: 50, alignment: .leading)
     }
   }
   
   private var LongDate: some View {
-    Text(email.longDisplayDate ?? "")
+    Text(email?.longDisplayDate ?? "")
       .frame(maxWidth: .infinity, minHeight: 50, alignment: .center)
       .font(.system(size: 16, weight: .light))
       .foregroundColor(.secondary)
@@ -314,6 +317,6 @@ struct EmailToolsDrawerView: View {
 
 struct EmailToolsDrawerView_Previews: PreviewProvider {
   static var previews: some View {
-    EmailToolsDrawerView(Email())
+    EmailToolsSheetView()
   }
 }

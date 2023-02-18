@@ -5,20 +5,21 @@ import MailCore
 
 let Bundles = [
   "notifications", "commerce", "everything", "newsletters", "society",
-//  "marketing", "society", "news", "notifications", "everything",
-//  "trash", "folders", "sent"
+  "marketing"
+//  "news", "trash", "folders", "sent"
 ]
+
+private var cDefaultStartUid: UInt64 = 99800
 
 class MailModel: ObservableObject {
   @Published private(set) var emails:[String: [Email]] = [:]
   
   var lastSavedEmailUid: UInt64 {
-    return 80000
     guard let allEmails = emails["everything"]
-    else { return 0 }
+    else { return cDefaultStartUid }
 
     if allEmails.count > 0 { return UInt64(allEmails.first!.uid) }
-    else { return 0 }
+    else { return cDefaultStartUid }
   } // TODO update to use core data fetch
 
   private var fetchers = [String: NSFetchedResultsController<Email>]()
@@ -117,6 +118,8 @@ class MailModel: ObservableObject {
     
     do {
       try context.save()
+      emails[bundle]?.insert(email, at: 0)
+      print("saved \(message.uid), \(message.header.subject ?? "")")
     }
     catch let error as NSError {
       print("error saving new email to core data: \(error)")

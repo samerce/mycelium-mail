@@ -3,7 +3,7 @@ import MailCore
 import Combine
 import SwiftUI
 
-let DefaultFolder = "INBOX" //"[Gmail]/All Mail"
+let DefaultFolder = "[Gmail]/All Mail" //"INBOX"
 
 class MailController: ObservableObject {
   static let shared = MailController()
@@ -88,6 +88,12 @@ class MailController: ObservableObject {
     model.fetchMore(bundle)
   }
   
+  func fetchLatest() {
+    sessions.forEach { value in
+      fetchLatest(value.key)
+    }
+  }
+  
   // MARK: - private
   
   private func onLoggedIn(_ account: Account) {
@@ -112,7 +118,9 @@ class MailController: ObservableObject {
     
     let session = sessions[account]!
     let fetchHeadersAndFlags = session.fetchMessagesOperation(
-      withFolder: DefaultFolder, requestKind: [.fullHeaders, .flags, .gmailLabels], uids: uids
+      withFolder: DefaultFolder,
+      requestKind: [.fullHeaders, .flags, .gmailLabels, .gmailThreadID, .gmailMessageID],
+      uids: uids
     )
     
     fetchHeadersAndFlags?.start {
@@ -250,7 +258,7 @@ class MailController: ObservableObject {
         )
         
         if message == messages.last {
-          print("done fetching!")
+          print("done saving!")
         }
       }
     }

@@ -9,26 +9,35 @@ private enum Grouping: String, CaseIterable, Identifiable {
     var id: String { self.rawValue }
 }
 
-private let HeaderHeight: CGFloat = 42
 private let ToolbarHeight: CGFloat = 18
 private let FirstExpandedNotch: CGFloat = 0.5
 
-struct InboxDrawerView: View {
+struct InboxSheetView: View {
   @State private var selectedGrouping = Grouping.emailAddress
   @State private var hiddenViewOpacity = 0.0
   @Binding var bundle: String
   @Binding var translationProgress: Double
   
+  private var bottomSpace: CGFloat {
+    CGFloat.maximum(6, 42 - (CGFloat(translationProgress) / FirstExpandedNotch) * 42)
+  }
+  private var dividerHeight: CGFloat {
+    CGFloat.maximum(0, DividerHeight - (CGFloat(translationProgress) / FirstExpandedNotch) * DividerHeight)
+  }
+  private var hiddenSectionOpacity: CGFloat {
+    translationProgress > 0 ? translationProgress + 0.48 : 0
+  }
+  
   // MARK: - View
   
   var body: some View {
-    let bottomSpace = CGFloat.maximum(6, 42 - (CGFloat(translationProgress) / FirstExpandedNotch) * 42)
-//    let hiddenSectionOpacity = translationProgress > 0 ? translationProgress + 0.48 : 0
-    let dividerHeight = CGFloat.maximum(0, DividerHeight - (CGFloat(translationProgress) / FirstExpandedNotch) * DividerHeight)
-    
-    return VStack(spacing: 0) {
-      BundleHeader
-      TabBarView(selection: $bundle, translationProgress: $translationProgress)
+    VStack(spacing: 0) {
+      Text("psymail")
+        .font(.system(size: 27, weight: .black))
+        .padding(.top, 12)
+        .padding(.bottom, 18)
+      
+      BundleTabBarView(selection: $bundle, translationProgress: $translationProgress)
 
       Divider()
         .frame(height: dividerHeight)
@@ -45,45 +54,6 @@ struct InboxDrawerView: View {
       }
       .padding(0)
     }
-    .background(OverlayBackgroundView())
-  }
-  
-  private let HeaderBottomPadding: CGFloat = 18
-  
-  private var BundleHeader: some View {
-    let heightWhileDragging = (CGFloat(translationProgress) / FirstExpandedNotch) * HeaderHeight
-    let height = min(HeaderHeight, max(0, heightWhileDragging))
-    
-    let bottomPaddingWhileDragging = (CGFloat(translationProgress) / FirstExpandedNotch) * HeaderBottomPadding
-    let bottomPadding = min(HeaderBottomPadding, max(0, bottomPaddingWhileDragging))
-    let opacity = min(1, max(0, (translationProgress / Double(FirstExpandedNotch)) * 1))
-    
-    return HStack(spacing: 0) {
-      Text("BUNDLES")
-        .frame(maxHeight: height, alignment: .leading)
-        .font(.system(size: 14, weight: .light))
-        .foregroundColor(Color(.gray))
-      Spacer()
-      Button(action: addPerspective) {
-        ZStack {
-          Image(systemName: "gear")
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .foregroundColor(.psyAccent)
-            .font(.system(size: 16, weight: .light))
-        }
-        .frame(width: 20, alignment: .trailing)
-      }
-    }
-    .padding(.horizontal, 18)
-    .padding(.bottom, bottomPadding)
-    .opacity(opacity)
-    .frame(height: height)
-    .clipped()
-  }
-  
-  private func addPerspective() {
-    
   }
   
   private let DividerHeight: CGFloat = 9
@@ -198,7 +168,7 @@ struct InboxDrawerView_Previews: PreviewProvider {
   @State static var progress = 0.0
   @State static var perspective = "latest"
   static var previews: some View {
-    InboxDrawerView(bundle: $perspective,
+    InboxSheetView(bundle: $perspective,
                     translationProgress: $progress)
   }
 }
