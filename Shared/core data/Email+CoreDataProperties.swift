@@ -15,16 +15,16 @@ extension Email {
   func fetchRequestForBundle(_ bundle: String = "", _ offset: Int = 0) -> NSFetchRequest<Email> {
     let fetchRequest = NSFetchRequest<Email>(entityName: "Email")
     fetchRequest.sortDescriptors = [byDateDescending]
-    fetchRequest.shouldRefreshRefetchedObjects = true
-    fetchRequest.fetchBatchSize = 54
-    fetchRequest.fetchOffset = offset
-    fetchRequest.fetchLimit = 1080
-    
-    if !bundle.isEmpty && bundle != "everything" {
-      fetchRequest.predicate = NSPredicate(format: "perspective == %@", bundle)
-    }
-    
+    fetchRequest.predicate = predicateForBundle(bundle)
     return fetchRequest
+  }
+  
+  @nonobjc public class
+  func predicateForBundle(_ bundle: String) -> NSPredicate? {
+    if !bundle.isEmpty && bundle != "everything" {
+      return NSPredicate(format: "perspective == %@", bundle)
+    }
+    return nil
   }
   
   @NSManaged public var customFlags: Set<String>?

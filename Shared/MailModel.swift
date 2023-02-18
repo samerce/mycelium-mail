@@ -4,8 +4,7 @@ import CoreData
 import MailCore
 
 let Bundles = [
-  "notifications", "commerce", "everything", "newsletters", "society",
-  "marketing"
+  "everything", "notifications", "commerce", "newsletters", "society", "marketing"
 //  "news", "trash", "folders", "sent"
 ]
 

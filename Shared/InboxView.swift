@@ -4,55 +4,67 @@ import SwiftUIKit
 
 struct InboxView: View {
   @StateObject private var mailCtrl = MailController.shared
+  @State private var bundle: String = Bundles[0]
   @State private var translationProgress = 0.0
-  @State private var bundle = "everything"
   @State private var scrollOffsetY: CGFloat = 0
   @State private var emailIds: Set<Email.ID> = []
-  @Namespace var headerId
   @State private var inboxSheetPresented = true
   @State private var emailDetailSheetPresented = true
-  private var emails: [Email] { mailCtrl.model.emails[bundle]! }
+  
+  @FetchRequest(fetchRequest: Email.fetchRequestForBundle())
+  private var emails: FetchedResults<Email>
   
   // MARK: -
   
   var body: some View {
     NavigationSplitView {
       EmailList
-        .toolbar { TitleToolbar }
-        .navigationBarTitleDisplayMode(.inline)
         .onAppear() { inboxSheetPresented = true }
         .onDisappear() { inboxSheetPresented = false }
     } detail: {
       EmailDetailView(emailId: emailIds.first)
-//        .toolbar { Toolbar }
-//        .navigationBarTitleDisplayMode(.large)
         .onAppear() { emailDetailSheetPresented = true }
         .onDisappear() { emailDetailSheetPresented = false }
     }
-    .edgesIgnoringSafeArea(.top)
-    .padding(.zero)
     .sheet(isPresented: $inboxSheetPresented) { InboxSheet }
     .sheet(isPresented: $emailDetailSheetPresented) { EmailDetailSheet }
   }
   
   private var EmailList: some View {
-//    ScrollViewReader { scrollProxy in
-    
-      List(emails, selection: $emailIds) {
+    ScrollViewReader { scrollProxy in
+      List(emails, id: \.uid, selection: $emailIds) {
         EmailListRow(email: $0)
-          .onAppear {
-            //                if index > emails.count - 9 {
-            //                  mailCtrl.fetchMore(bundle)
-            //                }
-          }
           .if($0 == emails.last) { row in
             row.padding(.bottom, inboxSheetDetents.min)
           }
       }
       .listStyle(.plain)
       .listRowInsets(.none)
+      .navigationBarTitleDisplayMode(.inline)
       .refreshable { mailCtrl.fetchLatest() }
-    //      .onChange(of: bundle) { _ in scrollProxy.scrollTo(headerId) }
+      .toolbar {
+        ToolbarItem(placement: .navigationBarLeading) {
+          Button(action: {}) {
+            SystemImage("rectangle.grid.1x2", size: 20)
+          }
+        }
+        ToolbarItem(placement: .principal) {
+          Text(bundle == "everything" ? "inbox" : bundle)
+            .font(.system(size: 27, weight: .black))
+            .padding(.bottom, 6)
+        }
+        ToolbarItem(placement: .navigationBarTrailing) {
+          Button(action: {}) {
+            Text("Edit")
+              .foregroundColor(.psyAccent)
+          }
+        }
+      }
+      .onChange(of: bundle) { _bundle in
+        emails.nsPredicate = Email.predicateForBundle(_bundle)
+        scrollProxy.scrollTo(emails.first?.uid)
+      }
+    }
   }
   
   private var TitleToolbar: some ToolbarContent {
@@ -61,15 +73,15 @@ struct InboxView: View {
         Button(action: {}) {
           SystemImage("rectangle.grid.1x2", size: 20)
         }
-        
+
         Spacer()
-        
+
         Text(bundle == "everything" ? "inbox" : bundle)
           .font(.system(size: 27, weight: .black))
           .padding(.bottom, 6)
-        
+
         Spacer()
-        
+
         Button(action: {}) {
           Text("Edit")
             .foregroundColor(.psyAccent)
