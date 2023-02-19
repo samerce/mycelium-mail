@@ -16,12 +16,13 @@ extension Email {
     let fetchRequest = NSFetchRequest<Email>(entityName: "Email")
     fetchRequest.sortDescriptors = [byDateDescending]
     fetchRequest.predicate = predicateForBundle(bundle)
+    fetchRequest.fetchBatchSize = 540
     return fetchRequest
   }
   
   @nonobjc public class
   func predicateForBundle(_ bundle: String) -> NSPredicate? {
-    if !bundle.isEmpty && bundle != "everything" {
+    if !bundle.isEmpty {
       return NSPredicate(format: "perspective == %@", bundle)
     }
     return nil

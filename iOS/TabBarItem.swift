@@ -30,11 +30,11 @@ struct TabBarItem: View {
         .font(.system(size: 11, weight: .light))
         .frame(height: labelHeight)
         .opacity(labelOpacity)
-        .clipped()
     }
     .foregroundColor(fgColor())
-    .frame(maxWidth: .infinity)
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
     .contentShape(Rectangle())
+    .clipped()
   }
   
   private func fgColor() -> Color {

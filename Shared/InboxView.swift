@@ -33,57 +33,37 @@ struct InboxView: View {
       List(emails, selection: $emailIds) {
         EmailListRow(email: $0)
           .if($0 == emails.last) { row in
-            row.padding(.bottom, inboxSheetDetents.min)
+            row.padding(.bottom, appSheetDetents.min)
           }
       }
       .listStyle(.plain)
       .listRowInsets(.none)
       .navigationBarTitleDisplayMode(.inline)
       .refreshable { mailCtrl.fetchLatest() }
-      .toolbar {
-        ToolbarItem(placement: .navigationBarLeading) {
-          Button(action: {}) {
-            SystemImage("rectangle.grid.1x2", size: 20)
-          }
-        }
-        ToolbarItem(placement: .principal) {
-          Text(bundle == "everything" ? "inbox" : bundle)
-            .font(.system(size: 27, weight: .black))
-            .padding(.bottom, 6)
-        }
-        ToolbarItem(placement: .navigationBarTrailing) {
-          Button(action: {}) {
-            Text("Edit")
-              .foregroundColor(.psyAccent)
-          }
-        }
-      }
+      .toolbar(content: toolbarContent )
       .onChange(of: bundle) { _bundle in
         emails.nsPredicate = Email.predicateForBundle(_bundle)
-        scrollProxy.scrollTo(emails.first?.uid)
+//        scrollProxy.scrollTo(emails.first?.uid)
       }
     }
   }
   
-  private var TitleToolbar: some ToolbarContent {
+  @ToolbarContentBuilder
+  private func toolbarContent() -> some ToolbarContent {
+    ToolbarItem(placement: .navigationBarLeading) {
+      Button(action: {}) {
+        SystemImage("rectangle.grid.1x2", size: 20)
+      }
+    }
     ToolbarItem(placement: .principal) {
-      HStack {
-        Button(action: {}) {
-          SystemImage("rectangle.grid.1x2", size: 20)
-        }
-
-        Spacer()
-
-        Text(bundle == "everything" ? "inbox" : bundle)
-          .font(.system(size: 27, weight: .black))
-          .padding(.bottom, 6)
-
-        Spacer()
-
-        Button(action: {}) {
-          Text("Edit")
-            .foregroundColor(.psyAccent)
-        }
+      Text(bundle == "everything" ? "inbox" : bundle)
+        .font(.system(size: 27, weight: .black))
+        .padding(.bottom, 6)
+    }
+    ToolbarItem(placement: .navigationBarTrailing) {
+      Button(action: {}) {
+        Text("Edit")
+          .foregroundColor(.psyAccent)
       }
     }
   }

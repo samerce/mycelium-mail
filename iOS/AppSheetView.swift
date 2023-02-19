@@ -12,9 +12,9 @@ struct AppSheetView: View {
         .interactiveDismissDisabled()
         .presentationDetents(
           undimmed: [
-            .height(inboxSheetDetents.min),
-            .height(inboxSheetDetents.mid),
-            .height(inboxSheetDetents.max)
+            .height(appSheetDetents.min),
+            .height(appSheetDetents.mid),
+            .height(appSheetDetents.max)
           ]
         )
     }

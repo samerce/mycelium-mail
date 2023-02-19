@@ -30,7 +30,7 @@ let TabConfig = [
 ]
 
 
-private let TabBarHeight = 42.0
+private let TabBarHeight = 50.0
 private let SpacerHeight = 18.0
 private let TranslationMax = 108.0
 private let HeaderHeight: CGFloat = 42
@@ -59,9 +59,8 @@ struct BundleTabBarView: View {
               selected: selection == item.label,
               translationProgress: $translationProgress
             )
-            .frame(maxHeight: .infinity)
-            .clipped()
             .onTapGesture { selection = item.label }
+            .frame(height: tabRowHeight)
           }
           
           Spacer()
@@ -75,19 +74,19 @@ struct BundleTabBarView: View {
   }
   
   private var heightWhileDragging: CGFloat {
-    (CGFloat(translationProgress) / inboxSheetDetents.mid) * HeaderHeight
+    (CGFloat(translationProgress) / appSheetDetents.mid) * HeaderHeight
   }
   private var headerHeight: CGFloat {
     min(HeaderHeight, max(0, heightWhileDragging))
   }
   private var bottomPaddingWhileDragging: CGFloat {
-    (CGFloat(translationProgress) / inboxSheetDetents.mid) * HeaderBottomPadding
+    (CGFloat(translationProgress) / appSheetDetents.mid) * HeaderBottomPadding
   }
   private var bottomPadding: CGFloat {
     min(HeaderBottomPadding, max(0, bottomPaddingWhileDragging))
   }
   private var opacity: CGFloat {
-    min(1, max(0, (translationProgress / Double(inboxSheetDetents.mid)) * 1))
+    min(1, max(0, (translationProgress / Double(appSheetDetents.mid)) * 1))
   }
   
   private var BundleHeader: some View {

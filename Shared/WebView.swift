@@ -14,7 +14,7 @@ struct WebView: UIViewRepresentable {
   func makeUIView(context: Context) -> WKWebView {
     let webView = WKWebView()
     webView.layoutMargins = UIEdgeInsets.zero
-    webView.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: inboxSheetDetents.min, right: 0)
+    webView.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: appSheetDetents.min, right: 0)
     webView.scrollView.backgroundColor = .systemBackground
     webView.backgroundColor = .systemBackground
     webView.navigationDelegate = context.coordinator
