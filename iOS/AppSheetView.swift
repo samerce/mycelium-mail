@@ -24,13 +24,12 @@ struct AppSheetView: View {
     }
   }
   
+  @ViewBuilder
   private var Sheet: some View {
-    Group {
-      if view == "inbox" {
-        InboxSheetView(bundle: $bundle)
-      } else {
-        EmailToolsSheetView()
-      }
+    if view == "inbox" {
+      InboxSheetView(bundle: $bundle)
+    } else {
+      EmailToolsSheetView()
     }
   }
   

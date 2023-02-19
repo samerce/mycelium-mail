@@ -8,31 +8,31 @@ struct AppSplitView: View {
   
   private let tabs = ["newsletters", "politics", "marketing", "other"]
   @State private var selectedTab = 0
-
+  
   var body: some View {
     List {
-//        let messages = model.sortedEmails[self.tabs[self.selectedTab]]!
-//        ForEach(messages, id: \.uid) { msg in
-//            let sender = msg.header?.from.displayName ?? "Unknown"
-//            let subject = msg.header?.subject ?? "---"
-//
-//            VStack(alignment: .leading) {
-//                Text(sender)
-//                Text(subject)
-//            }
-//            Spacer()
-//        }
+      //        let messages = model.sortedEmails[self.tabs[self.selectedTab]]!
+      //        ForEach(messages, id: \.uid) { msg in
+      //            let sender = msg.header?.from.displayName ?? "Unknown"
+      //            let subject = msg.header?.subject ?? "---"
+      //
+      //            VStack(alignment: .leading) {
+      //                Text(sender)
+      //                Text(subject)
+      //            }
+      //            Spacer()
+      //        }
     }
     .toolbar {
-        ToolbarItem(placement: .principal) {
-            Picker("", selection: $selectedTab) {
-                ForEach(tabs.indices) { i in
-                    Text(self.tabs[i]).tag(i)
-                }
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding(.top, 8)
+      ToolbarItem(placement: .principal) {
+        Picker("", selection: $selectedTab) {
+          ForEach(Array(tabs.enumerated()), id: \.element) { index, tabName in
+            Text(tabName).tag(index)
+          }
         }
+        .pickerStyle(SegmentedPickerStyle())
+        .padding(.top, 8)
+      }
     }
   }
   
@@ -66,12 +66,12 @@ struct AppSplitView: View {
   //            }
   //        }
   //    }
-
+  
   private let itemFormatter: DateFormatter = {
-      let formatter = DateFormatter()
-      formatter.dateStyle = .short
-      formatter.timeStyle = .medium
-      return formatter
+    let formatter = DateFormatter()
+    formatter.dateStyle = .short
+    formatter.timeStyle = .medium
+    return formatter
   }()
   
 }
