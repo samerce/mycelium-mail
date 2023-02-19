@@ -1,15 +1,14 @@
 import SwiftUI
 import SwiftUIKit
+import UIKit
 
 
 struct InboxView: View {
   @StateObject private var mailCtrl = MailController.shared
   @State private var bundle: String = Bundles[0]
-  @State private var translationProgress = 0.0
-  @State private var scrollOffsetY: CGFloat = 0
   @State private var emailIds: Set<Email.ID> = []
-  @State private var inboxSheetPresented = true
-  @State private var emailDetailSheetPresented = true
+  @State private var sheetPresented = true
+  @State private var view = "inbox"
   
   @FetchRequest(fetchRequest: Email.fetchRequestForBundle())
   private var emails: FetchedResults<Email>
@@ -19,20 +18,19 @@ struct InboxView: View {
   var body: some View {
     NavigationSplitView {
       EmailList
-        .onAppear() { inboxSheetPresented = true }
-        .onDisappear() { inboxSheetPresented = false }
     } detail: {
       EmailDetailView(emailId: emailIds.first)
-        .onAppear() { emailDetailSheetPresented = true }
-        .onDisappear() { emailDetailSheetPresented = false }
+        .onAppear() { view = "email.detail" }
+        .onDisappear() { view = "inbox" }
     }
-    .sheet(isPresented: $inboxSheetPresented) { InboxSheet }
-    .sheet(isPresented: $emailDetailSheetPresented) { EmailDetailSheet }
+    .sheet(isPresented: $sheetPresented) {
+      AppSheetView(view: $view, bundle: $bundle)
+    }
   }
   
   private var EmailList: some View {
     ScrollViewReader { scrollProxy in
-      List(emails, id: \.uid, selection: $emailIds) {
+      List(emails, selection: $emailIds) {
         EmailListRow(email: $0)
           .if($0 == emails.last) { row in
             row.padding(.bottom, inboxSheetDetents.min)
@@ -99,35 +97,6 @@ struct InboxView: View {
       .frame(width: size, height: size)
       .contentShape(Rectangle())
       .clipped()
-  }
-  
-  private var InboxSheet: some View {
-    InboxSheetView(bundle: $bundle, translationProgress: $translationProgress)
-      .interactiveDismissDisabled()
-      .presentationDetents(
-        undimmed: [
-          .height(inboxSheetDetents.min),
-          .height(inboxSheetDetents.mid),
-          .height(inboxSheetDetents.max)
-        ]
-      )
-//      .onChange(of: bundle) { _ in
-//        withAnimation {
-//          notch = .min
-//        }
-//      }
-  }
-  
-  private var EmailDetailSheet: some View {
-    EmailToolsSheetView()
-      .interactiveDismissDisabled()
-      .presentationDetents(
-        undimmed: [
-          .height(inboxSheetDetents.min),
-          .height(inboxSheetDetents.mid),
-          .height(inboxSheetDetents.max)
-        ]
-      )
   }
   
 }

@@ -26,14 +26,16 @@ struct EmailDetailView: View {
   
   private var DetailView: some View {
     MessageContent
-    .onAppear() {
-      if let email = email {
-        mailCtrl.selectEmail(email)
+      .onAppear() {
+        if let email = email {
+          mailCtrl.selectEmail(email)
+        }
       }
-    }
-    .onReceive(Publishers.keyboardHeight) { keyboardHeight in
-      keyboardVisible = keyboardHeight > 0
-    }
+      .onReceive(Publishers.keyboardHeight) { keyboardHeight in
+        keyboardVisible = keyboardHeight > 0
+      }
+      .navigationTitle(email?.subject ?? "")
+      .navigationBarTitleDisplayMode(.inline)
   }
   
   private var MessageContent: some View {

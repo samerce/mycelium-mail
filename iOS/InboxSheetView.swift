@@ -16,7 +16,7 @@ struct InboxSheetView: View {
   @State private var selectedGrouping = Grouping.emailAddress
   @State private var hiddenViewOpacity = 0.0
   @Binding var bundle: String
-  @Binding var translationProgress: Double
+  @State private var translationProgress: Double = 0
   
   private var bottomSpace: CGFloat {
     CGFloat.maximum(6, 42 - (CGFloat(translationProgress) / FirstExpandedNotch) * 42)
@@ -168,7 +168,6 @@ struct InboxDrawerView_Previews: PreviewProvider {
   @State static var progress = 0.0
   @State static var perspective = "latest"
   static var previews: some View {
-    InboxSheetView(bundle: $perspective,
-                    translationProgress: $progress)
+    InboxSheetView(bundle: $perspective)
   }
 }
