@@ -4,16 +4,14 @@ import CoreData
 
 @main
 struct PsymailApp: App {
-  let persistenceCtrl = PersistenceController.shared
-  
   @Environment(\.scenePhase) var scenePhase
   
   var body: some Scene {
     WindowGroup {
       ContentView()
-        .environment(\.managedObjectContext, persistenceCtrl.container.viewContext)
+        .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
         .onOpenURL { url in
-            AccountController.shared.handleGoogleUrl(url)
+          AccountController.shared.handleGoogleUrl(url)
         }
     }
     .commands {
@@ -21,7 +19,6 @@ struct PsymailApp: App {
     }
     .onChange(of: scenePhase) { phase in
       print(phase)
-      persistenceCtrl.save()
       
       if phase == .active {
         AccountController.shared.restoreSignIn()
