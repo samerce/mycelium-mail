@@ -111,7 +111,7 @@ class MailController: ObservableObject {
   }
   
   private func fetchLatest(_ account: Account) {
-    let startUid = model.lastSavedEmailUid + 1
+    let startUid = model.highestEmailUid() + 1
     let endUid = UInt64.max - startUid
     let uids = MCOIndexSet(range: MCORangeMake(startUid, endUid))
     

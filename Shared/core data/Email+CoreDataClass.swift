@@ -189,7 +189,7 @@ private class DateFormatterMoreThanAWeek: DateFormatter {
   
   override init() {
     super.init()
-    dateFormat = "M/d/yy"
+    dateFormat = "M/d/yy • h:mm a"
   }
   
   required init?(coder: NSCoder) {

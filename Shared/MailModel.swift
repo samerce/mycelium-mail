@@ -37,6 +37,15 @@ class MailModel: ObservableObject {
     PersistenceController.shared.container.viewContext
   }
   
+  func highestEmailUid() -> UInt64 {
+    let request: NSFetchRequest<Email> = Email.fetchRequest()
+    request.sortDescriptors = [NSSortDescriptor(key: "uid", ascending: false)]
+    request.fetchLimit = 1
+    request.fetchBatchSize = 1
+
+    return UInt64(try! context.fetch(request).first?.uid ?? 0)
+  }
+  
   init() {
 //    DispatchQueue.global(qos: .background).async {
 //      self.context.performAndWait { () -> Void in
