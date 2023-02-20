@@ -42,6 +42,7 @@ class MailModel: ObservableObject {
     request.sortDescriptors = [NSSortDescriptor(key: "uid", ascending: false)]
     request.fetchLimit = 1
     request.fetchBatchSize = 1
+    request.propertiesToFetch = ["uid"]
 
     return UInt64(try! context.fetch(request).first?.uid ?? 0)
   }
@@ -247,20 +248,30 @@ class MailModel: ObservableObject {
     //    }
   }
   
+  func getEmails(for bundle: String) -> [Email] {
+    var _emails = emails[bundle]
+    if _emails == nil {
+      _emails = fetchEmails(for: bundle)
+    }
+    return _emails!
+  }
+  
   // MARK: - private
   
   private
   func fetchEmails(for bundle: String, offset: Int = 0) -> [Email] {
-    let request = Email.fetchRequestForBundle(bundle, offset)
+    var _emails: [Email] = []
     
     do {
-      return try context.fetch(request)
+      let request = Email.fetchRequestForBundle(bundle, offset)
+      _emails = try context.fetch(request)
+      emails[bundle] = _emails
     }
-    catch let error {
+    catch {
       print("error fetching emails from core data: \(error.localizedDescription)")
     }
     
-    return []
+    return _emails
   }
   
   private
@@ -273,7 +284,7 @@ class MailModel: ObservableObject {
     do {
       return try context.fetch(fetchRequest).first
     }
-    catch let error {
+    catch {
       print("error fetching email by uid: \(error.localizedDescription)")
     }
     

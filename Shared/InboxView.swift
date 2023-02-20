@@ -6,13 +6,14 @@ import CoreData
 
 struct InboxView: View {
   @StateObject private var mailCtrl = MailController.shared
-  @State private var bundle: String = Bundles[0]
+  @State private var bundle = Bundles[0]
   @State private var emailIds: Set<NSManagedObjectID> = []
   @State private var sheetPresented = true
   @State private var view = "inbox"
+  @State private var emails: [Email] = []
   
-  @FetchRequest(fetchRequest: Email.fetchRequestForBundle())
-  private var emails: FetchedResults<Email>
+//  @FetchRequest(fetchRequest: Email.fetchRequestForBundle())
+//  private var emails: FetchedResults<Email>
   
   // MARK: -
   
@@ -31,6 +32,10 @@ struct InboxView: View {
     .sheet(isPresented: $sheetPresented) {
       AppSheetView(view: $view, bundle: $bundle)
     }
+    .onChange(of: bundle) { _bundle in
+//      emails.nsPredicate = Email.predicateForBundle(_bundle)
+      emails = mailCtrl.model.getEmails(for: bundle)
+    }
   }
   
   private var EmailList: some View {
@@ -43,7 +48,6 @@ struct InboxView: View {
     .refreshable { mailCtrl.fetchLatest() }
     .toolbar(content: toolbarContent )
     .onChange(of: bundle) { _bundle in
-      emails.nsPredicate = Email.predicateForBundle(_bundle)
 //      scrollProxy.scrollTo(emails.first?.uid)
     }
     .safeAreaInset(edge: .bottom) {
@@ -90,29 +94,4 @@ struct EmailListView_Previews: PreviewProvider {
   static var previews: some View {
     InboxView()
   }
-}
-
-struct ViewOffsetKey: PreferenceKey {
-  typealias Value = CGFloat
-  static var defaultValue = CGFloat.zero
-  static func reduce(value: inout Value, nextValue: () -> Value) {
-    value += nextValue()
-  }
-}
-
-
-func memo<Input: Hashable, Output>(_ function: @escaping (Input) -> Output) -> (Input) -> Output {
-    // our item cache
-    var storage = [Input: Output]()
-
-    // send back a new closure that does our calculation
-    return { input in
-        if let cached = storage[input] {
-            return cached
-        }
-
-        let result = function(input)
-        storage[input] = result
-        return result
-    }
 }
