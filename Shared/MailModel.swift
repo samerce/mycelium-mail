@@ -1,5 +1,3 @@
-//import CoreML
-//import NaturalLanguage
 import CoreData
 import OSLog
 import Combine
@@ -15,27 +13,19 @@ private let log = Logger(subsystem: "cum.expressyouryes.psymail", category: "Mai
 
 class MailModel: ObservableObject {
   @Published private(set) var emails:[String: [Email]] = [:]
-  
-  var lastSavedEmailUid: UInt64 {
-    return 208000
-//    guard let allEmails = emails["everything"]
-//    else { return 0 }
-//
-//    if allEmails.count > 0 { return UInt64(allEmails.first!.uid) }
-//    else { return 0 }
-  } // TODO update to use core data fetch
-  
-  private var fetchers = [String: NSFetchedResultsController<Email>]()
+
   private var dateFormatter: DateFormatter {
     let formatter = DateFormatter()
     formatter.dateFormat = "MMM d, yyyy' at 'H:mm:ss a zzz"
     return formatter
   }
-  //  private var oracle: NLModel?
-  
+
   private var context: NSManagedObjectContext {
     PersistenceController.shared.container.viewContext
   }
+  
+  
+  // MARK: - public
   
   func highestEmailUid() -> UInt64 {
     let request: NSFetchRequest<Email> = Email.fetchRequest()
@@ -46,37 +36,6 @@ class MailModel: ObservableObject {
 
     return UInt64(try! context.fetch(request).first?.uid ?? 0)
   }
-  
-  init() {
-//    DispatchQueue.global(qos: .background).async {
-//      self.context.performAndWait { () -> Void in
-//        do {
-//          let fetchRequest: NSFetchRequest<NSFetchRequestResult> = Email.fetchRequest()
-//          fetchRequest.fetchLimit = 108
-//
-//          let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-//          try self.context.execute(deleteRequest)
-//          print("deleted data")
-//        }
-//        catch {
-//          print("error deleting all emails from core data: \(error)")
-//        }
-//      }
-//    }
-    
-//    do {
-//      oracle = try NLModel(mlModel: PsycatsJuice(configuration: MLModelConfiguration()).model)
-//    }
-//    catch let error {
-//      print("error creating ai model: \(error)")
-//    }
-    
-//    for bundle in Bundles {
-//      emails[bundle] = fetchEmails(for: bundle)
-//    }
-  }
-  
-  // MARK: - public
   
   func addFlags(_ flags: MCOMessageFlag, for theEmails: [Email]) async throws {
     try await context.perform {
@@ -294,22 +253,12 @@ class MailModel: ObservableObject {
   private
   func bundleFor(_ message: MCOIMAPMessage, emailAsHtml: String = "") -> String {
     let labels = message.gmailLabels as! [String]? ?? []
-    //    print("labels", labels)
     if let bundleLabel = labels.first(where: { $0.contains("psymail") }) {
       return bundleLabel.replacing("psymail/", with: "")
     }
     else {
-      //      return predictedBundleFor(emailAsHtml)
       return "everything"
     }
-  }
-  
-  private
-  func predictedBundleFor(_ emailAsHtml: String = "") -> String {
-    return ""
-    //    let prediction = oracle?.predictedLabel(for: emailAsHtml) ?? ""
-    //    if prediction == "" { return "everything" }
-    //    return prediction
   }
   
   private
