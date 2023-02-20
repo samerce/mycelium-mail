@@ -1,12 +1,13 @@
 import SwiftUI
 import SwiftUIKit
 import UIKit
+import CoreData
 
 
 struct InboxView: View {
   @StateObject private var mailCtrl = MailController.shared
   @State private var bundle: String = Bundles[0]
-  @State private var emailIds: Set<Email.ID> = []
+  @State private var emailIds: Set<NSManagedObjectID> = []
   @State private var sheetPresented = true
   @State private var view = "inbox"
   
@@ -19,9 +20,13 @@ struct InboxView: View {
     NavigationSplitView {
       EmailList
     } detail: {
-      EmailDetailView(emailId: emailIds.first)
-        .onAppear() { view = "email.detail" }
-        .onDisappear() { view = "inbox" }
+      if emailIds.isEmpty {
+        Text("no message selected")
+      } else {
+        EmailDetailView(id: emailIds.first!)
+          .onAppear() { view = "email.detail" }
+          .onDisappear() { view = "inbox" }
+      }
     }
     .sheet(isPresented: $sheetPresented) {
       AppSheetView(view: $view, bundle: $bundle)
@@ -29,22 +34,20 @@ struct InboxView: View {
   }
   
   private var EmailList: some View {
-    ScrollViewReader { scrollProxy in
-      List(emails, selection: $emailIds) {
-        EmailListRow(email: $0)
-          .if($0 == emails.last) { row in
-            row.padding(.bottom, appSheetDetents.min)
-          }
-      }
-      .listStyle(.plain)
-      .listRowInsets(.none)
-      .navigationBarTitleDisplayMode(.inline)
-      .refreshable { mailCtrl.fetchLatest() }
-      .toolbar(content: toolbarContent )
-      .onChange(of: bundle) { _bundle in
-        emails.nsPredicate = Email.predicateForBundle(_bundle)
-//        scrollProxy.scrollTo(emails.first?.uid)
-      }
+    List(emails, id: \.objectID, selection: $emailIds) {
+      EmailListRow(email: $0)
+    }
+    .listStyle(.plain)
+    .listRowInsets(.none)
+    .navigationBarTitleDisplayMode(.inline)
+    .refreshable { mailCtrl.fetchLatest() }
+    .toolbar(content: toolbarContent )
+    .onChange(of: bundle) { _bundle in
+      emails.nsPredicate = Email.predicateForBundle(_bundle)
+//      scrollProxy.scrollTo(emails.first?.uid)
+    }
+    .safeAreaInset(edge: .bottom) {
+      Spacer().frame(height: appSheetDetents.min)
     }
   }
   

@@ -16,6 +16,7 @@ struct WebView: UIViewRepresentable {
     webView.layoutMargins = UIEdgeInsets.zero
     webView.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: appSheetDetents.min, right: 0)
     webView.scrollView.backgroundColor = .systemBackground
+    webView.scrollView.verticalScrollIndicatorInsets.bottom = appSheetDetents.min
     webView.backgroundColor = .systemBackground
     webView.navigationDelegate = context.coordinator
     configure(webView)
@@ -94,6 +95,11 @@ struct WebView: UIViewRepresentable {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
       webView.frame.size.height = 1
       webView.frame.size = webView.scrollView.contentSize
+      
+//      webView.evaluateJavaScript("window.getComputedStyle(document.body).backgroundColor") {
+//        (backgroundColor, error) in
+//          webView.backgroundColor = backgroundColor // convert from rgba to UIColor
+//      }
       
 //      webView.evaluateJavaScript("document.readyState", completionHandler: { (complete, error) in
 //        if complete != nil {

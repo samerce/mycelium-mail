@@ -1,5 +1,9 @@
 import CoreData
 import Combine
+import OSLog
+
+
+private let log = Logger(subsystem: "cum.expressyouryes.psymail", category: "Persistence")
 
 class PersistenceController: ObservableObject {
   // MARK: - STATIC
@@ -24,8 +28,9 @@ class PersistenceController: ObservableObject {
   // MARK: - INSTANCE
   
   private let inMemory: Bool
-  private var subscribers: [AnyCancellable] = []
-  private lazy var historyRequestQueue = DispatchQueue(label: "history")
+  private var notificationToken: NSObjectProtocol?
+  /// A peristent history token used for fetching transactions from the store.
+  private var lastToken: NSPersistentHistoryToken?
   
   lazy var container: NSPersistentContainer = {
     let container = NSPersistentContainer(name: "psymail")
@@ -40,7 +45,7 @@ class PersistenceController: ObservableObject {
     
     description.setOption(true as NSNumber,
                           forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
-
+    
     description.setOption(true as NSNumber,
                           forKey: NSPersistentHistoryTrackingKey)
     
@@ -73,12 +78,15 @@ class PersistenceController: ObservableObject {
   init(inMemory: Bool = false) {
     self.inMemory = inMemory
     
-    //    NotificationCenter.default
-    //      .publisher(for: .NSPersistentStoreRemoteChange)
-    //      .sink { [self] in
-    //        storeDidChange($0)
-    //      }
-    //      .store(in: &subscribers)
+    // Observe Core Data remote change notifications on the queue where the changes were made.
+//    notificationToken = NotificationCenter.default.addObserver(
+//      forName: .NSPersistentStoreRemoteChange, object: nil, queue: nil
+//    ) { note in
+//      log.debug("Received a persistent store remote change notification.")
+//      Task {
+//        await self.fetchPersistentHistory()
+//      }
+//    }
   }
   
   func save() {
@@ -100,31 +108,50 @@ class PersistenceController: ObservableObject {
     let taskContext = container.newBackgroundContext()
     taskContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     taskContext.undoManager = nil
+//    taskContext.automaticallyMergesChangesFromParent = true
     return taskContext
   }
   
-  //  private func storeDidChange(_ note: Notification) {
-  //    historyRequestQueue.async {
-  //      let backgroundContext = self.container.newBackgroundContext()
-  //      backgroundContext.performAndWait {
-  //        let request = NSPersistentHistoryChangeRequest
-  //          .fetchHistory(after: .distantPast)
-  //
-  //        do {
-  //          let result = try backgroundContext.execute(request) as? NSPersistentHistoryResult
-  //          guard
-  //            let transactions = result?.result as? [NSPersistentHistoryTransaction], !transactions.isEmpty
-  //          else {
-  //            return
-  //          }
-  //
-  //          print(transactions)
-  //        } catch {
-  //          // log any errors
-  //        }
-  //      }
-  //    }
-  //
-  //  }
+  func fetchPersistentHistory() async {
+    do {
+      try await fetchPersistentHistoryTransactionsAndChanges()
+    } catch {
+      log.debug("\(error.localizedDescription)")
+    }
+  }
+  
+  private func fetchPersistentHistoryTransactionsAndChanges() async throws {
+    let taskContext = newTaskContext()
+    taskContext.name = "persistentHistoryContext"
+    log.debug("Start fetching persistent history changes from the store...")
+    
+    try await taskContext.perform {
+      // Execute the persistent history change since the last transaction.
+      let changeRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: self.lastToken)
+      let historyResult = try taskContext.execute(changeRequest) as? NSPersistentHistoryResult
+      if let history = historyResult?.result as? [NSPersistentHistoryTransaction],
+         !history.isEmpty {
+        self.mergePersistentHistoryChanges(from: history)
+        return
+      }
+      
+      log.debug("No persistent history transactions found.")
+      throw PsyError.persistentHistoryChangeError
+    }
+    
+    log.debug("Finished merging history changes.")
+  }
+  
+  private func mergePersistentHistoryChanges(from history: [NSPersistentHistoryTransaction]) {
+    log.debug("Received \(history.count) persistent history transactions.")
+    // Update view context with objectIDs from history change request.
+    let viewContext = container.viewContext
+    viewContext.perform {
+      for transaction in history {
+        viewContext.mergeChanges(fromContextDidSave: transaction.objectIDNotification())
+        self.lastToken = transaction.token
+      }
+    }
+  }
   
 }

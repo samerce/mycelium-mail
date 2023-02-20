@@ -1,61 +1,53 @@
 import SwiftUI
 import Combine
+import CoreData
 
-private enum Notch: CaseIterable, Equatable {
-    case min, mid, max
-}
 
 struct EmailDetailView: View {
   @StateObject private var mailCtrl = MailController.shared
   @State private var seenTimer: Timer?
-  @State private var notch: Notch = .min
-  @State private var translationProgress = 0.0
-  @State private var backGestureDistanceFromEdge: CGFloat?
   @State private var keyboardVisible = false
-  @State private var sheetPresented = true
+  @State private var email: Email
   
-  var emailId: Email.ID?
-  var email: Email? { mailCtrl.model.email(id: emailId) }
+  var id: NSManagedObjectID
+  
+  init(id: NSManagedObjectID) {
+    self.id = id
+    self.email = PersistenceController.shared.container.viewContext.object(with: id) as! Email
+  }
+  
+  // MARK: - VIEW
   
   var body: some View {
-    Group {
-      if (email == nil) { EmptyView() }
-      else { DetailView }
-    }
-  }
-  
-  private var DetailView: some View {
-    MessageContent
-      .onAppear() {
-        if let email = email {
-          mailCtrl.selectEmail(email)
-        }
-      }
-      .onReceive(Publishers.keyboardHeight) { keyboardHeight in
-        keyboardVisible = keyboardHeight > 0
-      }
-      .navigationTitle(email?.subject ?? "")
-      .navigationBarTitleDisplayMode(.inline)
-  }
-  
-  private var MessageContent: some View {
-    WebView(content: email?.html ?? "")
+    WebView(content: email.html ?? "")
       .ignoresSafeArea()
+      .navigationTitle(email.subject)
+      .navigationBarTitleDisplayMode(.inline)
       .background(Color(.systemBackground))
-    //      .gesture(backGesture)
       .onAppear {
+        if let html = email.html, html.isEmpty {
+          Task {
+            try await mailCtrl.fetchHtml(for: email)
+            self.email = PersistenceController.shared.container.viewContext.object(with: id) as! Email
+          }
+        }
+        
         seenTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
           seenTimer = nil
-          if let email = email {
-            mailCtrl.markSeen([email]) { error in
-              // tell person about error
-            }
+          mailCtrl.markSeen([email]) { error in
+            // tell person about error
           }
         }
       }
       .onDisappear {
         seenTimer?.invalidate()
         seenTimer = nil
+      }
+      .onReceive(Publishers.keyboardHeight) { keyboardHeight in
+        keyboardVisible = keyboardHeight > 0
+      }
+      .safeAreaInset(edge: .bottom) {
+        Spacer().frame(height: appSheetDetents.min)
       }
   }
   
@@ -77,40 +69,7 @@ struct EmailDetailView: View {
         .padding(.bottom, 12)
         .lineLimit(.max)
     }
-//    .ignoresSafeArea()
     .frame(minWidth: screenWidth)
-//    .background(OverlayBackgroundView())
-  }
-  
-  // MARK: -
-  
-  private var backGesture: some Gesture {
-    DragGesture()
-      .onChanged { gesture in
-        if gesture.startLocation.x < 36 {
-          self.backGestureDistanceFromEdge =
-            abs(gesture.location.x - gesture.startLocation.x)
-        }
-      }
-      .onEnded { gesture in
-        if let distance = self.backGestureDistanceFromEdge, distance > 54 {
-          withAnimation { self.backGestureDistanceFromEdge = screenWidth }
-          mailCtrl.deselectEmail()
-        }
-        self.backGestureDistanceFromEdge = nil
-      }
-  }
-  
-  private var bodyWidth: CGFloat {
-    if let fromEdge = backGestureDistanceFromEdge {
-      let percentOfScreen = fromEdge / screenWidth
-      return screenWidth - (screenWidth * percentOfScreen)
-    }
-    return screenWidth
-  }
-  
-  private var bodyHeight: CGFloat {
-    return email == nil ? 0 : screenHeight
   }
   
 }

@@ -2,6 +2,7 @@ import Foundation
 import MailCore
 import Combine
 import SwiftUI
+import CoreData
 
 let DefaultFolder = "[Gmail]/All Mail" //"INBOX"
 
@@ -22,7 +23,7 @@ class MailController: ObservableObject {
   private init() {
     for (address, account) in accountCtrl.model.accounts {
       account.$loggedIn
-        .receive(on: RunLoop.main)
+//        .receive(on: RunLoop.main)
         .sink { loggedIn in
           print("\(address) loggedIn: \(loggedIn)")
           
@@ -111,7 +112,7 @@ class MailController: ObservableObject {
   
   private func fetchLatest(_ account: Account) {
     let startUid = model.lastSavedEmailUid + 1
-    let endUid = UINT64_MAX - startUid
+    let endUid = UInt64.max - startUid
     let uids = MCOIndexSet(range: MCORangeMake(startUid, endUid))
     
     print("fetching — startUid: \(startUid), endUid: \(endUid)")
@@ -124,7 +125,7 @@ class MailController: ObservableObject {
     )
     
     fetchHeadersAndFlags?.start {
-      (error: Error?, messages: [MCOIMAPMessage]?, vanishedMessages: MCOIndexSet?) in
+    (error: Error?, messages: [MCOIMAPMessage]?, vanishedMessages: MCOIndexSet?) in
       if let error = error {
         print("error downloading message headers: \(error.localizedDescription)")
         return
@@ -136,15 +137,19 @@ class MailController: ObservableObject {
       
       if messages != nil {
         self.saveMessages(messages!, account: account)
+//        Task {
+//          try await self.model.saveNewMessages(messages!, forAccount: account)
+//        }
       }
     }
   }
+  
+  private var errors: [Error] = []
   
   private func addFlags(_ flags: MCOMessageFlag, for theEmails: [Email],
                         _ completion: ([Error]?) -> Void) {
     print("adding flags")
     let queue = OperationQueue()
-    var errors = [Error]()
     
     for (account, theEmails) in emailsByAccount(theEmails) {
       let session = sessions[account]!
@@ -160,17 +165,18 @@ class MailController: ObservableObject {
       }
       
       queue.addBarrierBlock {
-        updateFlags.start { error in
-          if let error = error {
-            print("error setting flags: \(error.localizedDescription)")
-            errors.append(error)
+        updateFlags.start { _error in
+          if let _error = _error {
+            print("error setting flags: \(_error.localizedDescription)")
+            self.errors.append(_error)
             return
           }
           
-          self.model.addFlags(flags, for: theEmails) { error in
-            if let error = error {
-              print("error setting flags in core data: \(error)")
-              errors.append(error)
+          Task {
+            do {
+              try await self.model.addFlags(flags, for: theEmails)
+            } catch {
+              self.errors.append(error)
             }
           }
         }
@@ -252,24 +258,57 @@ class MailController: ObservableObject {
   
   private func saveMessages(_ messages: [MCOIMAPMessage], account: Account) {
     for message in messages {
-      bodyHtmlForEmail(withUid: message.uid, account: account) { emailAsHtml in
-        self.model.makeAndSaveEmail(
-          withMessage: message, html: emailAsHtml, account: account
-        )
-        
-        if message == messages.last {
-          print("done saving!")
-        }
+      self.model.makeAndSaveEmail(withMessage: message, account: account)
+      
+      if message == messages.last {
+        print("done saving!")
       }
+      
+//      bodyHtmlForEmail(withUid: message.uid, account: account) { emailAsHtml in
+//        self.model.makeAndSaveEmail(
+//          withMessage: message, html: emailAsHtml, account: account
+//        )
+//
+//        if message == messages.last {
+//          print("done saving!")
+//        }
+//      }
     }
   }
   
-  func bodyHtmlForEmail(withUid uid: UInt32, account: Account, _ completion: @escaping (String?) -> Void) {
+  func fetchHtml(for email: Email) async throws {
+    let context = PersistenceController.shared.newTaskContext()
+    context.name = "fetchHtml"
+    context.transactionAuthor = "MailController"
+    
+    await context.perform {
+      Task {
+        let _email = context.object(with: email.objectID) as! Email
+        _email.html = try await self.bodyHtmlForEmail(withUid: UInt32(email.uid), account: email.account!)
+        try context.save()
+      }
+      return
+    }
+  }
+  
+  func bodyHtmlForEmail(withUid uid: UInt32, account: Account) async throws -> String {
     let session = sessions[account]!
     let fetchMessage = session.fetchParsedMessageOperation(withFolder: DefaultFolder, uid: uid)
-    fetchMessage?.start() { (error: Error?, parser: MCOMessageParser?) in
-      completion(parser?.htmlBodyRendering() ?? "")
-    } ?? completion("")
+    
+    return try await withCheckedThrowingContinuation { continuation in
+      guard let fetchMessage = fetchMessage else {
+        continuation.resume(returning: "")
+        return
+      }
+      
+      fetchMessage.start() { (error: Error?, parser: MCOMessageParser?) in
+        if let error = error {
+          continuation.resume(throwing: error)
+        } else {
+          continuation.resume(returning: parser?.htmlBodyRendering() ?? "")
+        }
+      }
+    }
   }
   
   func fullHtmlForEmail(withUid uid: UInt32, account: Account, _ completion: @escaping (String?) -> Void) {

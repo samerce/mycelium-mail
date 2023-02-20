@@ -1,80 +1,83 @@
-import CoreML
-import NaturalLanguage
+//import CoreML
+//import NaturalLanguage
 import CoreData
+import OSLog
+import Combine
 import MailCore
+
 
 let Bundles = [
   "everything", "notifications", "commerce", "newsletters", "society", "marketing"
-//  "news", "trash", "folders", "sent"
+  //  "news", "trash", "folders", "sent"
 ]
+private let log = Logger(subsystem: "cum.expressyouryes.psymail", category: "MailModel")
 
-private var cDefaultStartUid: UInt64 = 99800
 
 class MailModel: ObservableObject {
   @Published private(set) var emails:[String: [Email]] = [:]
   
   var lastSavedEmailUid: UInt64 {
-    guard let allEmails = emails["everything"]
-    else { return cDefaultStartUid }
-
-    if allEmails.count > 0 { return UInt64(allEmails.first!.uid) }
-    else { return cDefaultStartUid }
+    return 208000
+//    guard let allEmails = emails["everything"]
+//    else { return 0 }
+//
+//    if allEmails.count > 0 { return UInt64(allEmails.first!.uid) }
+//    else { return 0 }
   } // TODO update to use core data fetch
-
+  
   private var fetchers = [String: NSFetchedResultsController<Email>]()
-  private let dateFormatter = DateFormatter()
-  private var oracle: NLModel?
+  private var dateFormatter: DateFormatter {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "MMM d, yyyy' at 'H:mm:ss a zzz"
+    return formatter
+  }
+  //  private var oracle: NLModel?
   
   private var context: NSManagedObjectContext {
     PersistenceController.shared.container.viewContext
   }
   
   init() {
-//    do {
-//      let fetchRequest: NSFetchRequest<any NSFetchRequestResult> = Email.fetchRequest()
-////      fetchRequest.fetchLimit = 54
+//    DispatchQueue.global(qos: .background).async {
+//      self.context.performAndWait { () -> Void in
+//        do {
+//          let fetchRequest: NSFetchRequest<NSFetchRequestResult> = Email.fetchRequest()
+//          fetchRequest.fetchLimit = 108
 //
-//      let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-//      try context.execute(deleteRequest)
+//          let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+//          try self.context.execute(deleteRequest)
+//          print("deleted data")
+//        }
+//        catch {
+//          print("error deleting all emails from core data: \(error)")
+//        }
+//      }
+//    }
+    
+//    do {
+//      oracle = try NLModel(mlModel: PsycatsJuice(configuration: MLModelConfiguration()).model)
 //    }
 //    catch let error {
-//      print("error deleting all emails from core data: \(error)")
+//      print("error creating ai model: \(error)")
 //    }
     
-    dateFormatter.dateFormat = "MMM d, yyyy' at 'H:mm:ss a zzz"
-    
-    do {
-      oracle = try NLModel(mlModel: PsycatsJuice(configuration: MLModelConfiguration()).model)
-    }
-    catch let error {
-      print("error creating ai model: \(error)")
-    }
-    
-    for bundle in Bundles {
-      emails[bundle] = fetchEmails(for: bundle)
-    }
-    
-//    let email = self.emails["marketing"]?.first(where: { e in
-//      e.subject.contains("Pre-enroll in The Freelancer")
-//    })
-//
-//    print(email?.html)
+//    for bundle in Bundles {
+//      emails[bundle] = fetchEmails(for: bundle)
+//    }
   }
   
   // MARK: - public
   
-  func addFlags(_ flags: MCOMessageFlag, for theEmails: [Email],
-                _ completion: @escaping (Error?) -> Void) {
-    context.performAndWait {
+  func addFlags(_ flags: MCOMessageFlag, for theEmails: [Email]) async throws {
+    try await context.perform {
       theEmails.forEach { e in e.addFlags(flags) }
       
       do {
-        try context.save()
-        completion(nil)
+        try self.context.save()
       }
-      catch let error as NSError {
-        print("error saving new email to core data: \(error)")
-        completion(error)
+      catch {
+        log.debug("error saving adding flags: \(error)")
+        throw error
       }
     }
   }
@@ -99,14 +102,68 @@ class MailModel: ObservableObject {
     }
   }
   
-  func makeAndSaveEmail(withMessage message: MCOIMAPMessage, html emailAsHtml: String?,
-                        account: Account) {
-    let fullHtml = headerAsHtml(message.header) + (emailAsHtml ?? "")
-    let bundle = bundleFor(message, emailAsHtml: fullHtml)
+  func saveNewMessages(_ messages: [MCOIMAPMessage], forAccount account: Account) async throws {
+    let taskContext = PersistenceController.shared.newTaskContext()
+    taskContext.name = "saveNewMessages"
+    taskContext.transactionAuthor = "MailModel"
+    
+    try await taskContext.perform {
+      let batchInsertRequest = self.newBatchInsertRequest(with: messages, context: taskContext)
+      if let fetchResult = try? taskContext.execute(batchInsertRequest),
+         let batchInsertResult = fetchResult as? NSBatchInsertResult,
+         let success = batchInsertResult.result as? Bool, success {
+        return
+      }
+      log.debug("failed to batch save new emails")
+      throw PsyError.batchInsertError
+    }
+    
+    log.info("done saving new emails")
+  }
+  
+  private func newBatchInsertRequest(
+    with messages: [MCOIMAPMessage], context: NSManagedObjectContext
+  ) -> NSBatchInsertRequest {
+    var index = 0
+    let total = messages.count
+    
+    let batchInsertRequest = NSBatchInsertRequest(entity: Email.entity()) {
+      (managedObject: NSManagedObject) -> Bool in
+      guard index < total else { return true }
+      
+      let message = messages[index]
+      let email = managedObject as! Email
+      email.populate(
+        message: message,
+        html: self.headerAsHtml(message.header),
+        bundle: self.bundleFor(message)
+      )
+      
+      index += 1
+      return false
+    }
+    return batchInsertRequest
+  }
+  
+  func makeAndSaveEmail(withMessage message: MCOIMAPMessage, html emailAsHtml: String = "", account: Account) {
+    do {
+      let _ = try makeEmail(withMessage: message, html: emailAsHtml, account: account)
+      try context.save()
+      log.info("saved \(message.uid), \(message.header.subject ?? "")")
+    }
+    catch {
+      log.debug("error saving new email to core data: \(error.localizedDescription)")
+    }
+  }
+  
+  func makeEmail(
+    withMessage message: MCOIMAPMessage, html emailAsHtml: String = "", account: Account
+  ) throws -> Email {
+//    let fullHtml = headerAsHtml(message.header) + emailAsHtml
+    let bundle = bundleFor(message)
     
     guard fetchEmailByUid(message.uid, account: account) == nil else {
-      print("tried to add email already stored in core data")
-      return
+      throw PsyError.emailAlreadyExists
     }
     
     let email = Email(
@@ -115,14 +172,7 @@ class MailModel: ObservableObject {
     email.account = account
     account.addToEmails(email)
     
-    do {
-      try context.save()
-      emails[bundle]?.insert(email, at: 0)
-      print("saved \(message.uid), \(message.header.subject ?? "")")
-    }
-    catch let error as NSError {
-      print("error saving new email to core data: \(error)")
-    }
+    return email
   }
   
   func emailsFromSenderOf(_ email: Email) -> [Email] {
@@ -142,7 +192,7 @@ class MailModel: ObservableObject {
     } else {
       predicate = NSPredicate(
         format: predicateFormatBase +
-          " OR header.from.displayName == %@ OR header.sender.displayName == %@",
+        " OR header.from.displayName == %@ OR header.sender.displayName == %@",
         senderAddress,
         senderAddress,
         senderDisplayName,
@@ -166,26 +216,26 @@ class MailModel: ObservableObject {
   func email(id: Email.ID?) -> Email? {
     guard id != nil
     else { return nil }
-      
+    
     return emails["everything"]?.first(where: { $0.id == id }) ?? nil
   }
   
   func fetchMore(_ bundle: String) {
     guard let emailsInBundle = emails[bundle]
     else { return }
-//
+    //
     let emailCount = emailsInBundle.count
-//    let triggerFetchIndex = emailCount - 12
-//
-//    guard triggerFetchIndex >= 0 && triggerFetchIndex < emailCount
-//    else { return }
-//
-//    let triggerEmail = emailsInPerspective[triggerFetchIndex]
-//    if email.objectID == triggerEmail.objectID {
-//      print("\(perspective) fetching at offset: \(emailCount)")
-      let newEmails = fetchEmails(for: bundle, offset: emailCount)
-      emails[bundle]?.append(contentsOf: newEmails)
-//    }
+    //    let triggerFetchIndex = emailCount - 12
+    //
+    //    guard triggerFetchIndex >= 0 && triggerFetchIndex < emailCount
+    //    else { return }
+    //
+    //    let triggerEmail = emailsInPerspective[triggerFetchIndex]
+    //    if email.objectID == triggerEmail.objectID {
+    //      print("\(perspective) fetching at offset: \(emailCount)")
+    let newEmails = fetchEmails(for: bundle, offset: emailCount)
+    emails[bundle]?.append(contentsOf: newEmails)
+    //    }
   }
   
   // MARK: - private
@@ -224,21 +274,22 @@ class MailModel: ObservableObject {
   private
   func bundleFor(_ message: MCOIMAPMessage, emailAsHtml: String = "") -> String {
     let labels = message.gmailLabels as! [String]? ?? []
-//    print("labels", labels)
+    //    print("labels", labels)
     if let bundleLabel = labels.first(where: { $0.contains("psymail") }) {
       return bundleLabel.replacing("psymail/", with: "")
     }
     else {
-//      return predictedBundleFor(emailAsHtml)
+      //      return predictedBundleFor(emailAsHtml)
       return "everything"
     }
   }
   
   private
   func predictedBundleFor(_ emailAsHtml: String = "") -> String {
-    let prediction = oracle?.predictedLabel(for: emailAsHtml) ?? ""
-    if prediction == "" { return "everything" }
-    return prediction
+    return ""
+    //    let prediction = oracle?.predictedLabel(for: emailAsHtml) ?? ""
+    //    if prediction == "" { return "everything" }
+    //    return prediction
   }
   
   private
@@ -261,7 +312,7 @@ class MailModel: ObservableObject {
   private
   func addressesAsString(_ addresses: [MCOAddress]?, prefix: String = "") -> String {
     var result = ""
-
+    
     if let addresses = addresses {
       for a in addresses {
         result += "\(a.displayName ?? "") <\(a.mailbox ?? "")>, "

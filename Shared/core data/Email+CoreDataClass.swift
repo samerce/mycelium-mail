@@ -67,20 +67,15 @@ public class Email: NSManagedObject {
   
   convenience init(
     message: MCOIMAPMessage, html emailAsHtml: String?,
-    bundle _perspective: String, context: NSManagedObjectContext
+    bundle: String, context: NSManagedObjectContext
   ) {
     self.init(context: context)
-    
-    uid = Int32(message.uid)
-    flags = message.flags
-    gmailLabels = Set(message.gmailLabels as? [String] ?? [])
-    gmailMessageId = Int64(message.gmailMessageID)
-    size = Int32(message.size)
-    originalFlags = message.originalFlags
-    customFlags = Set(message.customFlags as? [String] ?? [])
-    modSeqValue = Int64(message.modSeqValue)
-    html = emailAsHtml
-    perspective = _perspective
+    self.populate(message: message, html: html, bundle: bundle, context: context)
+  }
+  
+  func populate(message: MCOIMAPMessage, html emailAsHtml: String?,
+                bundle _perspective: String, context: NSManagedObjectContext) {
+    populate(message: message, html: emailAsHtml, bundle: _perspective)
     
     header = EmailHeader(header: message.header, context: context)
     header?.email = self
@@ -92,6 +87,19 @@ public class Email: NSManagedObject {
     
 //    thread = fetchOrMakeThread(id: message.gmailThreadID, context: context)
 //    thread?.addToEmails(self)
+  }
+  
+  func populate(message: MCOIMAPMessage, html emailAsHtml: String?, bundle _perspective: String) {
+    uid = Int32(message.uid)
+    flags = message.flags
+    gmailLabels = Set(message.gmailLabels as? [String] ?? [])
+    gmailMessageId = Int64(message.gmailMessageID)
+    size = Int32(message.size)
+    originalFlags = message.originalFlags
+    customFlags = Set(message.customFlags as? [String] ?? [])
+    modSeqValue = Int64(message.modSeqValue)
+    html = emailAsHtml
+    perspective = _perspective
   }
   
   private var flags: MCOMessageFlag {

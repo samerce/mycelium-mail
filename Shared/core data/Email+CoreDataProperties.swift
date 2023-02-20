@@ -16,7 +16,9 @@ extension Email {
     let fetchRequest = NSFetchRequest<Email>(entityName: "Email")
     fetchRequest.sortDescriptors = [byDateDescending]
     fetchRequest.predicate = predicateForBundle(bundle)
-    fetchRequest.fetchBatchSize = 540
+    fetchRequest.fetchBatchSize = 108
+    fetchRequest.propertiesToFetch = ["date"]
+    fetchRequest.relationshipKeyPathsForPrefetching = ["header"]
     return fetchRequest
   }
   
