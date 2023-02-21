@@ -3,16 +3,19 @@ import SwiftUIKit
 import UIKit
 import CoreData
 
+private let DefaultBundle = Bundles[0]
+
 
 struct InboxView: View {
   @StateObject private var mailCtrl = MailController.shared
-  @State private var bundle = Bundles[0]
+  @State private var bundle = DefaultBundle
   @State private var emailIds: Set<NSManagedObjectID> = []
   @State private var sheetPresented = true
   @State private var appSheetMode: AppSheetMode = .inboxTools
   @State private var editMode: EditMode = .inactive
+  @State private var shouldScrollToTop: Bool = false
   
-  @FetchRequest(fetchRequest: Email.fetchRequestForBundle())
+  @FetchRequest(fetchRequest: Email.fetchRequestForBundle(DefaultBundle))
   private var emailResults: FetchedResults<Email>
   
   // MARK: - VIEW
@@ -45,20 +48,29 @@ struct InboxView: View {
   }
   
   private var EmailList: some View {
-    List(emailResults, id: \.objectID, selection: $emailIds) {
-      EmailListRow(email: $0)
-    }
-    .listStyle(.plain)
-    .listRowInsets(.none)
-    .navigationBarTitleDisplayMode(.inline)
-    .environment(\.editMode, $editMode)
-    .refreshable { mailCtrl.fetchLatest() }
-    .toolbar(content: ToolbarContent)
-//    .onChange(of: emailResults.nsPredicate) { _ in
-//      scrollProxy.scrollTo(emailResults.first?.objectID)
-//    }
-    .safeAreaInset(edge: .bottom) {
-      Spacer().frame(height: appSheetDetents.min)
+    ScrollViewReader { scrollProxy in
+      List(emailResults, id: \.objectID, selection: $emailIds) {
+        EmailListRow(email: $0)
+          .id($0.objectID)
+      }
+      .listStyle(.plain)
+      .listRowInsets(.none)
+      .navigationBarTitleDisplayMode(.inline)
+      .environment(\.editMode, $editMode)
+      .refreshable { mailCtrl.fetchLatest() }
+      .toolbar(content: ToolbarContent)
+      .safeAreaInset(edge: .bottom) {
+        Spacer().frame(height: appSheetDetents.min)
+      }
+      .onChange(of: emailResults.nsPredicate) { _ in
+        shouldScrollToTop = true
+      }
+      .onChange(of: emailResults.first) { _ in
+        if shouldScrollToTop {
+          shouldScrollToTop = false
+          scrollProxy.scrollTo(emailResults.first?.objectID)
+        }
+      }
     }
   }
   
