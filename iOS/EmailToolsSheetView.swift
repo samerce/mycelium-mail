@@ -186,9 +186,6 @@ struct EmailToolsSheetView: View {
   
   private var BackToEmailListButton: some View {
     Button(action: {
-      dismiss() // dismiss sheet
-      dismiss() // go back
-      mailCtrl.deselectEmail()
     }) {
       ZStack {
         SystemImage("chevron.backward", size: 27)
