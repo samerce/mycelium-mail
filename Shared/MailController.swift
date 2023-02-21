@@ -19,6 +19,7 @@ class MailController: ObservableObject {
   private var subscribers: [AnyCancellable] = []
   private var gmailLabelIdsByBundle: [String: String] = [:]
   private var selectedAccount: Account?
+  private var accessToken: String = ""
   
   private var animation: Animation {
     .interactiveSpring(response: 0.36, dampingFraction: 0.74)
@@ -34,7 +35,8 @@ class MailController: ObservableObject {
           if loggedIn {
             self.onLoggedIn(account)
             self.selectedAccount = account
-            self.fetchGmailLabelIds()
+            self.accessToken = account.accessToken!
+            Task { await self.fetchGmailLabelIds() }
           } else {
             // handle log out
           }
@@ -43,48 +45,26 @@ class MailController: ObservableObject {
     }
   }
   
-  private func fetchGmailLabelIds() {
-    let url = URL(
-      string: "https://gmail.googleapis.com/gmail/v1/users/\(selectedAccount!.userId!)/labels"
-    )!
-    
-    var request = URLRequest(url: url)
-    request.addValue("Bearer \(selectedAccount!.accessToken!)", forHTTPHeaderField: "Authorization")
-    
-    let urlTask = URLSession.shared.dataTask(with: request) { data, response, error in
-      let statusCode = (response as! HTTPURLResponse).statusCode
-      print("fetch labels returned: \(statusCode)")
+  private func fetchGmailLabelIds() async {
+    do {
+      let (labelListResponse, _) = try await callGmail(.listLabels)
+      let labels = (labelListResponse as! GLabelListResponse).labels
       
-      do {
-        guard error == nil || statusCode != 200 else {
-          throw PsyError.unexpectedError(
-            message: "\(error?.localizedDescription ?? "returned \(statusCode)")"
-          )
+      labels.forEach { label in
+        if label.name.contains("psymail/") {
+          let bundle = label.name.replacing("psymail/", with: "")
+          self.gmailLabelIdsByBundle[bundle] = label.id
         }
-      
-        guard let data = data
-        else { throw PsyError.unexpectedError(message: "no data returned") }
-
-        let decoder = JSONDecoder()
-        let labelIdResponse = try decoder.decode(LabelIdResponse.self, from: data)
-        
-        labelIdResponse.labels.forEach { label in
-          if label.name.contains("psymail/") {
-            let bundle = label.name.replacing("psymail/", with: "")
-            self.gmailLabelIdsByBundle[bundle] = label.id
-          }
-        }
-      }
-      catch {
-        print("failed to fetch labels: \(error.localizedDescription)")
       }
     }
-    urlTask.resume()
+    catch {
+      print("failed to fetch labels: \(error.localizedDescription)")
+    }
   }
   
   // MARK: - public
   
-  func moveEmail(_ email: Email, toBundle bundle: String, always: Bool = true) {
+  func moveEmail(_ email: Email, toBundle bundle: String, always: Bool = true) throws {
     // proactively update core data and revert if update request fails
     let originalBundle = email.perspective
     email.perspective = bundle
@@ -99,71 +79,68 @@ class MailController: ObservableObject {
         email.perspective = originalBundle
         PersistenceController.shared.save()
         // TODO: figure out UX
+        throw error
       }
       
       if always {
         do {
-          guard let address = email.from?.address
-          else {
-            throw PsyError.unexpectedError(message: "email had no 'from' address to create filter with")
-          }
-        
-          // TODO: make sure filter doesn't already exist
-          try await createFilter([
-            "criteria": [
-              "from": address
-            ],
-            "action": [
-              "addLabelIds": [
-                gmailLabelIdsByBundle[bundle]
-              ],
-              "removeLabelIds": [
-                /// see:  https://developers.google.com/gmail/api/guides/filter_settings
-                "INBOX", // skip the inbox
-                "SPAM" // never send to spam
-              ]
-            ]
-          ])
+          try await createFilterFor(email: email, bundle: bundle)
         }
         catch {
-          print("failed to add bundle filter: \(error.localizedDescription)")
+          print("error creating bundle filter: \(error.localizedDescription)")
+          throw error
         }
       }
     }
   }
   
-  func createFilter(_ filterObj: Any) async throws {
-    let account = accountCtrl.model.accounts.first!.value
-    let accessToken = account.accessToken!
-    let userId = account.userId!
-    let url = URL(string: "https://gmail.googleapis.com/gmail/v1/users/\(userId)/settings/filters")!
-    
-    var request = URLRequest(url: url)
-    request.httpMethod = "POST"
-    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-    request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-    
-    do {
-      request.httpBody = try JSONSerialization.data(withJSONObject: filterObj, options: [])
-    } catch {
-      print("error creating body \(error.localizedDescription)")
-      throw error
+  private func createFilterFor(email: Email, bundle: String) async throws {
+    guard let address = email.from?.address
+    else {
+      throw PsyError.unexpectedError(message: "email had no 'from' address to create filter with")
     }
-      
-    let session = URLSession.shared
-    let _: Any? = try await withCheckedThrowingContinuation { continuation in
-      let urlTask = session.dataTask(with: request) { data, response, error in
-        let statusCode = (response as! HTTPURLResponse).statusCode
-        print("create filter returned: \(statusCode)")
-        
-        if statusCode != 200 {
-          continuation.resume(throwing: PsyError.createFilterFailed(error))
+    
+    var filterExistsForSameBundle = false
+    var filterIdToDelete: String? = nil
+    
+    let (filterListResponse, _) = try await callGmail(.listFilters)
+    let filters = (filterListResponse as! GFilterListResponse).filter
+    
+    filters.forEach { filter in
+      if let addLabelIds = filter.action?.addLabelIds ?? nil,
+         let from = filter.criteria?.from ?? nil,
+         from.contains(address) {
+       
+        if addLabelIds.contains("psymail/\(bundle)") {
+          filterExistsForSameBundle = true
         } else {
-          continuation.resume(returning: nil)
+          // filter exists for diff bundle so delete it and create the new filter
+          filterIdToDelete = filter.id
         }
       }
-      urlTask.resume()
     }
+    
+    if filterExistsForSameBundle {
+      print("filter already exists to send \(address) to \(bundle), skipping")
+      return
+    }
+    
+    if let id = filterIdToDelete {
+      print("filter already exists to send \(address) to a different bundle; deleting existing filter")
+      try await callGmail(.deleteFilter(id: id))
+    }
+    
+    print("creating filter for \(address) to \(bundle)")
+    try await callGmail(.createFilter, withBody: [
+      /// see:  https://developers.google.com/gmail/api/guides/filter_settings
+      "criteria": [
+        "from": address,
+      ],
+      "action": [
+        "addLabelIds": [gmailLabelIdsByBundle[bundle]!],
+        "removeLabelIds": ["INBOX", "SPAM"] // skip the inbox, never send to spam
+      ]
+    ])
   }
   
   func markSeen(_ emails: [Email], _ completion: @escaping ([Error]?) -> Void) {
@@ -218,6 +195,13 @@ class MailController: ObservableObject {
   }
   
   // MARK: - private
+  
+  @discardableResult
+  private func callGmail(
+    _ endpoint: GmailEndpoint, withBody body: Any? = nil
+  ) async throws -> (Decodable, URLResponse) {
+    return try await GmailEndpoint.call(endpoint, accessToken: selectedAccount!.accessToken!, withBody: body)
+  }
   
   private func onLoggedIn(_ account: Account) {
     var session = sessions[account]
@@ -493,26 +477,4 @@ private func sessionForType(_ accountType: AccountType) -> MCOIMAPSession {
   case .gmail:
     return GmailSession()
   }
-}
-
-private struct LabelColor: Codable {
-  var textColor: String?
-  var backgroundColor: String?
-}
-
-private struct Label: Codable {
-  var id: String
-  var name: String
-  var type: String
-  var messageListVisibility: String?
-  var labelListVisibility: String?
-  var messagesTotal: Int?
-  var messagesUnread: Int?
-  var threadsTotal: Int?
-  var threadsUnread: Int?
-  var color: LabelColor?
-}
-
-private struct LabelIdResponse: Codable {
-  var labels: [Label]
 }

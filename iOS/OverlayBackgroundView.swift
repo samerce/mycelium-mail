@@ -1,24 +1,19 @@
-//
-//  OverlayBackgroundView.swift
-//  DynamicOverlay_Example
-//
-//  Created by Gaétan Zanella on 19/04/2021.
-//  Copyright © 2021 Fabernovel. All rights reserved.
-//
-
 import SwiftUI
+import UIKit
 
 struct OverlayBackgroundView: View {
+
+  var blurStyle: UIBlurEffect.Style = .systemChromeMaterial
   
   var body: some View {
-    VisualEffectBlur(blurStyle: .systemChromeMaterial)
-      .shadow(color: Color.black.opacity(0.36), radius: 6)
+    VisualEffectBlur(blurStyle: blurStyle)
+      .shadow(color: .black.opacity(0.36), radius: 6)
   }
 }
 
 extension View {
   
-  func roundedCorners(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+  func roundedCorners(_ radius: CGFloat, corners: UIRectCorner = .allCorners) -> some View {
     clipShape(RoundedCorner(radius: radius, corners: corners))
   }
 }

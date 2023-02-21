@@ -3,6 +3,7 @@ import SwiftUIKit
 import UIKit
 import CoreData
 
+
 private let DefaultBundle = Bundles[0]
 
 
@@ -14,6 +15,7 @@ struct InboxView: View {
   @State private var appSheetMode: AppSheetMode = .inboxTools
   @State private var editMode: EditMode = .inactive
   @State private var shouldScrollToTop: Bool = false
+  @StateObject private var appAlert: AppAlert = AppAlert()
   
   @FetchRequest(fetchRequest: Email.fetchRequestForBundle(DefaultBundle), animation: .easeInOut)
   private var emailResults: FetchedResults<Email>
@@ -45,8 +47,38 @@ struct InboxView: View {
     .sheet(isPresented: $sheetPresented) {
       AppSheetView(mode: $appSheetMode, bundle: $bundle)
     }
+    .environmentObject(appAlert)
+    .overlay(alignment: .center) {
+      AlertOverlay
+    }
   }
   
+  private var AlertOverlay: some View {
+    VStack(alignment: .center) {
+      if let icon = appAlert.icon {
+        SystemImage(icon, size: 69, color: .white.opacity(0.69))
+      }
+      Text(appAlert.message ?? "")
+        .font(.system(size: 15, weight: .medium))
+        .padding(12)
+    }
+    .animation(.easeInOut, value: appAlert)
+    .foregroundColor(.white.opacity(0.69))
+    .frame(width: 200, height: 200)
+    .background(
+      OverlayBackgroundView(blurStyle: .systemChromeMaterial)
+        .shadow(color: .black.opacity(0.54), radius: 18)
+    )
+    .border(.white.opacity(0.12), width: 0.27)
+    .cornerRadius(12)
+    .visible(if: appAlert.message != nil || appAlert.icon != nil)
+  }
+  
+}
+
+// MARK: - EmailList
+
+extension InboxView {
   private var EmailList: some View {
     ScrollViewReader { scrollProxy in
       List(emailResults, id: \.self, selection: $selectedEmails) {
@@ -100,18 +132,6 @@ struct InboxView: View {
       }
     }
   }
-  
-  private func SystemImage(_ name: String, size: CGFloat) -> some View {
-    Image(systemName: name)
-      .resizable()
-      .aspectRatio(contentMode: .fit)
-      .font(.system(size: size, weight: .light, design: .default))
-      .foregroundColor(.psyAccent)
-      .frame(width: size, height: size)
-      .contentShape(Rectangle())
-      .clipped()
-  }
-  
 }
 
 
@@ -119,4 +139,15 @@ struct EmailListView_Previews: PreviewProvider {
   static var previews: some View {
     InboxView()
   }
+}
+
+private func SystemImage(_ name: String, size: CGFloat, color: Color = .psyAccent) -> some View {
+  Image(systemName: name)
+    .resizable()
+    .aspectRatio(contentMode: .fit)
+    .font(.system(size: size, weight: .light, design: .default))
+    .foregroundColor(color)
+    .frame(width: size, height: size)
+    .contentShape(Rectangle())
+    .clipped()
 }
