@@ -17,7 +17,10 @@ class AccountController: NSObject {
       with: config,
       presenting: UIApplication.shared.rootViewController!,
       hint: "",
-      additionalScopes: ["https://mail.google.com/"]
+      additionalScopes: [
+        "https://mail.google.com/",
+        "https://www.googleapis.com/auth/gmail.settings.basic"
+      ]
     )
   }
   

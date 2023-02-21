@@ -1,14 +1,17 @@
 import Foundation
 
 enum PsyError: Error {
-  case wrongDataFormat(error: Error)
+  case wrongDataFormat(_ error: Error)
   case emailAlreadyExists
   case missingData
   case creationError
   case batchInsertError
   case batchDeleteError
   case persistentHistoryChangeError
-  case unexpectedError(error: Error)
+  case createFilterFailed(_ error: Error? = nil)
+  case fetchGmailLabelsFailed(_ error: Error? = nil)
+  case addLabelFailed(_ error: Error? = nil, message: String? = "")
+  case unexpectedError(_ error: Error? = nil, message: String? = "")
 }
 
 extension PsyError: LocalizedError {
@@ -28,8 +31,16 @@ extension PsyError: LocalizedError {
       return NSLocalizedString("Failed to execute a batch delete request.", comment: "")
     case .persistentHistoryChangeError:
       return NSLocalizedString("Failed to execute a persistent history change request.", comment: "")
-    case .unexpectedError(let error):
-      return NSLocalizedString("Received unexpected error. \(error.localizedDescription)", comment: "")
+    case .createFilterFailed(let error):
+      return NSLocalizedString("failed to create filter: \(error?.localizedDescription ?? "")", comment: "")
+    case .fetchGmailLabelsFailed(let error):
+      return NSLocalizedString("failed to fetch labels: \(error?.localizedDescription ?? "")", comment: "")
+    case .addLabelFailed(let error, let message):
+      let description = error != nil ? error!.localizedDescription : message
+      return NSLocalizedString("failed to add labels: \(description ?? "")", comment: "")
+    case .unexpectedError(let error, let message):
+      let description = error != nil ? error!.localizedDescription : message
+      return NSLocalizedString("unexpected error: \(description ?? "")", comment: "")
     }
   }
 }

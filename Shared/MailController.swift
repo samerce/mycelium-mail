@@ -4,7 +4,9 @@ import Combine
 import SwiftUI
 import CoreData
 
+
 let DefaultFolder = "[Gmail]/All Mail" //"INBOX"
+
 
 class MailController: ObservableObject {
   static let shared = MailController()
@@ -15,6 +17,8 @@ class MailController: ObservableObject {
   private var accountCtrl = AccountController.shared
   private var sessions = [Account: MCOIMAPSession]()
   private var subscribers: [AnyCancellable] = []
+  private var gmailLabelIdsByBundle: [String: String] = [:]
+  private var selectedAccount: Account?
   
   private var animation: Animation {
     .interactiveSpring(response: 0.36, dampingFraction: 0.74)
@@ -29,6 +33,8 @@ class MailController: ObservableObject {
           
           if loggedIn {
             self.onLoggedIn(account)
+            self.selectedAccount = account
+            self.fetchGmailLabelIds()
           } else {
             // handle log out
           }
@@ -37,7 +43,127 @@ class MailController: ObservableObject {
     }
   }
   
+  private func fetchGmailLabelIds() {
+    let url = URL(
+      string: "https://gmail.googleapis.com/gmail/v1/users/\(selectedAccount!.userId!)/labels"
+    )!
+    
+    var request = URLRequest(url: url)
+    request.addValue("Bearer \(selectedAccount!.accessToken!)", forHTTPHeaderField: "Authorization")
+    
+    let urlTask = URLSession.shared.dataTask(with: request) { data, response, error in
+      let statusCode = (response as! HTTPURLResponse).statusCode
+      print("fetch labels returned: \(statusCode)")
+      
+      do {
+        guard error == nil || statusCode != 200 else {
+          throw PsyError.unexpectedError(
+            message: "\(error?.localizedDescription ?? "returned \(statusCode)")"
+          )
+        }
+      
+        guard let data = data
+        else { throw PsyError.unexpectedError(message: "no data returned") }
+
+        let decoder = JSONDecoder()
+        let labelIdResponse = try decoder.decode(LabelIdResponse.self, from: data)
+        
+        labelIdResponse.labels.forEach { label in
+          if label.name.contains("psymail/") {
+            let bundle = label.name.replacing("psymail/", with: "")
+            self.gmailLabelIdsByBundle[bundle] = label.id
+          }
+        }
+      }
+      catch {
+        print("failed to fetch labels: \(error.localizedDescription)")
+      }
+    }
+    urlTask.resume()
+  }
+  
   // MARK: - public
+  
+  func moveEmail(_ email: Email, toBundle bundle: String, always: Bool = true) {
+    // proactively update core data and revert if update request fails
+    let originalBundle = email.perspective
+    email.perspective = bundle
+    PersistenceController.shared.save()
+    
+    Task {
+      do {
+        try await self.addLabels(["psymail/\(bundle)"], toEmails: [email])
+      }
+      catch {
+        print("failed to add bundle label: \(error.localizedDescription)")
+        email.perspective = originalBundle
+        PersistenceController.shared.save()
+        // TODO: figure out UX
+      }
+      
+      if always {
+        do {
+          guard let address = email.from?.address
+          else {
+            throw PsyError.unexpectedError(message: "email had no 'from' address to create filter with")
+          }
+        
+          try await createFilter([
+            "criteria": [
+              "from": address
+            ],
+            "action": [
+              "addLabelIds": [
+                gmailLabelIdsByBundle[bundle]
+              ],
+              "removeLabelIds": [
+                /// see:  https://developers.google.com/gmail/api/guides/filter_settings
+                "INBOX", // skip the inbox
+                "SPAM" // never send to spam
+              ]
+            ]
+          ])
+        }
+        catch {
+          print("failed to add bundle filter: \(error.localizedDescription)")
+        }
+      }
+    }
+  }
+  
+  func createFilter(_ filterObj: Any) async throws {
+    let account = accountCtrl.model.accounts.first!.value
+    let accessToken = account.accessToken!
+    let userId = account.userId!
+    let url = URL(string: "https://gmail.googleapis.com/gmail/v1/users/\(userId)/settings/filters")!
+    
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+    
+    do {
+      request.httpBody = try JSONSerialization.data(withJSONObject: filterObj, options: [])
+    } catch {
+      print("error creating body \(error.localizedDescription)")
+      throw error
+    }
+      
+    let session = URLSession.shared
+    let _: Any? = try await withCheckedThrowingContinuation { continuation in
+      let urlTask = session.dataTask(with: request) { data, response, error in
+        let statusCode = (response as! HTTPURLResponse).statusCode
+        print("create filter returned: \(statusCode)")
+        
+        if statusCode != 200 {
+          continuation.resume(throwing: PsyError.createFilterFailed(error))
+        } else {
+          continuation.resume(returning: nil)
+        }
+      }
+      urlTask.resume()
+    }
+  }
   
   func markSeen(_ emails: [Email], _ completion: @escaping ([Error]?) -> Void) {
     addFlags(.seen, for: emails) { errors in
@@ -185,6 +311,34 @@ class MailController: ObservableObject {
     
     queue.waitUntilAllOperationsAreFinished()
     completion(errors.isEmpty ? nil : errors)
+  }
+  
+  func addLabels(_ labels: [String], toEmails emails: [Email]) async throws {
+    let session = sessions[selectedAccount!]!
+    guard let addLabels = session.storeLabelsOperation(
+      withFolder: DefaultFolder,
+      uids: uidSetForEmails(emails),
+      kind: .add,
+      labels: labels
+    ) else {
+      throw PsyError.addLabelFailed(message: "error creating addLabel operation")
+    }
+    
+    let _: Any? = try await withCheckedThrowingContinuation { continuation in
+      addLabels.start { _error in
+        if let _error = _error {
+          self.errors.append(_error)
+          continuation.resume(throwing: PsyError.addLabelFailed(_error))
+        }
+        
+        emails.forEach { email in
+          labels.forEach { label in
+            email.gmailLabels!.insert(label)
+          }
+        }
+        continuation.resume(returning: nil)
+      }
+    }
   }
   
   private func moveEmailsToTrash(_ emails: [Email],
@@ -339,4 +493,26 @@ private func sessionForType(_ accountType: AccountType) -> MCOIMAPSession {
   case .gmail:
     return GmailSession()
   }
+}
+
+private struct LabelColor: Codable {
+  var textColor: String?
+  var backgroundColor: String?
+}
+
+private struct Label: Codable {
+  var id: String
+  var name: String
+  var type: String
+  var messageListVisibility: String?
+  var labelListVisibility: String?
+  var messagesTotal: Int?
+  var messagesUnread: Int?
+  var threadsTotal: Int?
+  var threadsUnread: Int?
+  var color: LabelColor?
+}
+
+private struct LabelIdResponse: Codable {
+  var labels: [Label]
 }
