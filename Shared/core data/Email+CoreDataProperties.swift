@@ -12,11 +12,22 @@ extension Email {
   }
   
   @nonobjc public class
+  func fetchRequestForEmailWithId(_ id: NSManagedObjectID? = nil) -> NSFetchRequest<Email> {
+    let request = NSFetchRequest<Email>(entityName: "Email")
+    request.sortDescriptors = []
+    request.predicate = id == nil ? nil : NSPredicate(format: "objectID == %@", id!)
+    request.fetchLimit = 1
+    request.fetchBatchSize = 1
+    return request
+  }
+  
+  @nonobjc public class
   func fetchRequestForBundle(_ bundle: String = "", _ offset: Int = 0) -> NSFetchRequest<Email> {
     let fetchRequest = NSFetchRequest<Email>(entityName: "Email")
     fetchRequest.sortDescriptors = [byDateDescending]
     fetchRequest.predicate = predicateForBundle(bundle)
     fetchRequest.fetchBatchSize = 108
+    fetchRequest.fetchLimit = 108
     fetchRequest.propertiesToFetch = ["date"]
     fetchRequest.relationshipKeyPathsForPrefetching = ["header"]
     return fetchRequest

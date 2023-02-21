@@ -9,13 +9,13 @@ struct InboxView: View {
   @State private var bundle = Bundles[0]
   @State private var emailIds: Set<NSManagedObjectID> = []
   @State private var sheetPresented = true
-  @State private var view = "inbox"
-  @State private var emails: [Email] = []
+  @State private var appSheetMode: AppSheetMode = .inboxTools
+  @State private var editMode: EditMode = .inactive
   
-//  @FetchRequest(fetchRequest: Email.fetchRequestForBundle())
-//  private var emails: FetchedResults<Email>
+  @FetchRequest(fetchRequest: Email.fetchRequestForBundle())
+  private var emailResults: FetchedResults<Email>
   
-  // MARK: -
+  // MARK: - VIEW
   
   var body: some View {
     NavigationSplitView {
@@ -27,45 +27,43 @@ struct InboxView: View {
         EmailDetailView(id: emailIds.first!)
       }
     }
-    .sheet(isPresented: $sheetPresented) {
-      AppSheetView(view: $view, bundle: $bundle)
-    }
     .onChange(of: bundle) { _bundle in
-//      emails.nsPredicate = Email.predicateForBundle(_bundle)
-      emails = mailCtrl.model.getEmails(for: bundle)
+      emailResults.nsPredicate = Email.predicateForBundle(_bundle)
     }
     .onChange(of: emailIds) { _ in
+      if editMode.isEditing { return }
       withAnimation {
         switch (emailIds.isEmpty) {
-          case true: view = "inbox"
-          case false: view = "email.detail"
+          case true: appSheetMode = .inboxTools
+          case false: appSheetMode = .emailTools
         }
       }
     }
-    .onAppear() {
-      emails = MailController.shared.model.getEmails(for: bundle)
+    .sheet(isPresented: $sheetPresented) {
+      AppSheetView(mode: $appSheetMode, bundle: $bundle)
     }
   }
   
   private var EmailList: some View {
-    List(emails, id: \.objectID, selection: $emailIds) {
+    List(emailResults, id: \.objectID, selection: $emailIds) {
       EmailListRow(email: $0)
     }
     .listStyle(.plain)
     .listRowInsets(.none)
     .navigationBarTitleDisplayMode(.inline)
+    .environment(\.editMode, $editMode)
     .refreshable { mailCtrl.fetchLatest() }
-    .toolbar(content: toolbarContent )
-    .onChange(of: bundle) { _bundle in
-//        scrollProxy.scrollTo(emails.first?.objectID)
-    }
+    .toolbar(content: ToolbarContent)
+//    .onChange(of: emailResults.nsPredicate) { _ in
+//      scrollProxy.scrollTo(emailResults.first?.objectID)
+//    }
     .safeAreaInset(edge: .bottom) {
       Spacer().frame(height: appSheetDetents.min)
     }
   }
   
   @ToolbarContentBuilder
-  private func toolbarContent() -> some ToolbarContent {
+  private func ToolbarContent() -> some ToolbarContent {
     ToolbarItem(placement: .navigationBarLeading) {
       Button(action: {}) {
         SystemImage("rectangle.grid.1x2", size: 20)
@@ -77,8 +75,13 @@ struct InboxView: View {
         .padding(.bottom, 6)
     }
     ToolbarItem(placement: .navigationBarTrailing) {
-      Button(action: {}) {
-        Text("Edit")
+      Button {
+        withAnimation {
+          editMode = editMode.isEditing ? .inactive : .active
+        }
+      } label: {
+        Text(editMode.isEditing ? "Done" : "Edit")
+          .animation(nil)
           .foregroundColor(.psyAccent)
       }
     }
@@ -97,7 +100,6 @@ struct InboxView: View {
   
 }
 
-// MARK: -
 
 struct EmailListView_Previews: PreviewProvider {
   static var previews: some View {

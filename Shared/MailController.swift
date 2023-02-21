@@ -435,13 +435,13 @@ class MailController: ObservableObject {
     context.name = "fetchHtml"
     context.transactionAuthor = "MailController"
     
-    await context.perform {
-      Task {
-        let _email = context.object(with: email.objectID) as! Email
-        _email.html = try await self.bodyHtmlForEmail(withUid: UInt32(email.uid), account: email.account!)
-        try context.save()
-      }
-      return
+    Task {
+      let _email = context.object(with: email.objectID) as! Email
+      _email.html = try await self.bodyHtmlForEmail(withUid: UInt32(email.uid), account: email.account!)
+    }
+    
+    try await context.perform {
+      try context.save()
     }
   }
   

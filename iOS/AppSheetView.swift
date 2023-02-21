@@ -1,8 +1,15 @@
 import SwiftUI
 
+
+enum AppSheetMode {
+  case inboxTools
+  case emailTools
+}
+
+
 struct AppSheetView: View {
   
-  @Binding var view: String
+  @Binding var mode: AppSheetMode
   @Binding var bundle: String
   
   var body: some View {
@@ -26,10 +33,9 @@ struct AppSheetView: View {
   
   @ViewBuilder
   private var Sheet: some View {
-    if view == "inbox" {
-      InboxSheetView(bundle: $bundle)
-    } else {
-      EmailToolsSheetView()
+    switch mode {
+      case .inboxTools: InboxSheetView(bundle: $bundle)
+      case .emailTools: EmailToolsSheetView()
     }
   }
   
