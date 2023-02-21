@@ -62,15 +62,19 @@ struct EmailListRow: View {
     .frame(height: 54)
     .listRowInsets(.init(top: 3, leading: 0, bottom: 3, trailing: 0))
     .contentShape(Rectangle())
-    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+    .swipeActions(edge: .trailing) {
+      Button(role: .destructive) {
+        withAnimation {
+          MailController.shared.deleteEmails([email])
+        }
+      } label: {
+        Label("trash", systemImage: "trash")
+      }
       Button { print("bundle") } label: {
         Label("bundle", systemImage: "giftcard")
       }
       Button { print("bundle") } label: {
         Label("follow up", systemImage: "pin")
-      }
-      Button { print("delete") } label: {
-        Label("trash", systemImage: "trash")
       }
       Button { print("note") } label: {
         Label("note", systemImage: "note.text")
