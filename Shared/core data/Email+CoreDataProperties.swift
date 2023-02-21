@@ -17,7 +17,7 @@ extension Email {
     request.sortDescriptors = []
     request.fetchLimit = 1
     request.fetchBatchSize = 1
-    request.predicate = NSPredicate(format: "SELF = %@", "zero")
+    request.predicate = NSPredicate(format: "SELF == %@", "zero")
     return request
   }
   

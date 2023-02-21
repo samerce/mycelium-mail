@@ -3,21 +3,12 @@ import Combine
 import CoreData
 
 
-private let moc = PersistenceController.shared.container.viewContext
-
-
 struct EmailDetailView: View {
   @StateObject private var mailCtrl = MailController.shared
   @State private var seenTimer: Timer?
-  @State private var keyboardVisible = false
-  @State private var email: Email
+  @State private var keyboardHeight: CGFloat = 0
   
-  var id: NSManagedObjectID
-  
-  init(id: NSManagedObjectID) {
-    self.id = id
-    self.email = moc.object(with: id) as! Email
-  }
+  var email: Email
   
   // MARK: - VIEW
   
@@ -28,13 +19,11 @@ struct EmailDetailView: View {
       .navigationBarTitleDisplayMode(.inline)
       .background(Color(.systemBackground))
       .task {
-        if let html = email.html, html.isEmpty {
-          try? await mailCtrl.fetchHtml(for: email)
-          self.email = moc.object(with: id) as! Email
-        }
+        // TODO: handle error
+        try? await mailCtrl.fetchHtml(for: email)
       }
       .onAppear {
-        seenTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
+        seenTimer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { _ in
           seenTimer = nil
           mailCtrl.markSeen([email]) { error in
             // tell person about error
@@ -46,10 +35,11 @@ struct EmailDetailView: View {
         seenTimer = nil
       }
       .onReceive(Publishers.keyboardHeight) { keyboardHeight in
-        keyboardVisible = keyboardHeight > 0
+        self.keyboardHeight = keyboardHeight
       }
       .safeAreaInset(edge: .bottom) {
-        Spacer().frame(height: appSheetDetents.min)
+        Spacer()
+          .frame(height: keyboardHeight.isZero ? appSheetDetents.min : keyboardHeight)
       }
   }
   

@@ -9,13 +9,13 @@ private let DefaultBundle = Bundles[0]
 struct InboxView: View {
   @StateObject private var mailCtrl = MailController.shared
   @State private var bundle = DefaultBundle
-  @State private var emailIds: Set<NSManagedObjectID> = []
+  @State private var selectedEmails: Set<Email> = []
   @State private var sheetPresented = true
   @State private var appSheetMode: AppSheetMode = .inboxTools
   @State private var editMode: EditMode = .inactive
   @State private var shouldScrollToTop: Bool = false
   
-  @FetchRequest(fetchRequest: Email.fetchRequestForBundle(DefaultBundle))
+  @FetchRequest(fetchRequest: Email.fetchRequestForBundle(DefaultBundle), animation: .easeInOut)
   private var emailResults: FetchedResults<Email>
   
   // MARK: - VIEW
@@ -24,19 +24,19 @@ struct InboxView: View {
     NavigationSplitView {
       EmailList
     } detail: {
-      if emailIds.isEmpty {
+      if selectedEmails.isEmpty {
         Text("no message selected")
       } else {
-        EmailDetailView(id: emailIds.first!)
+        EmailDetailView(email: selectedEmails.first!)
       }
     }
     .onChange(of: bundle) { _bundle in
       emailResults.nsPredicate = Email.predicateForBundle(_bundle)
     }
-    .onChange(of: emailIds) { _ in
+    .onChange(of: selectedEmails) { _ in
       if editMode.isEditing { return }
       withAnimation {
-        switch (emailIds.isEmpty) {
+        switch (selectedEmails.isEmpty) {
           case true: appSheetMode = .inboxTools
           case false: appSheetMode = .emailTools
         }
@@ -49,7 +49,7 @@ struct InboxView: View {
   
   private var EmailList: some View {
     ScrollViewReader { scrollProxy in
-      List(emailResults, id: \.objectID, selection: $emailIds) {
+      List(emailResults, id: \.self, selection: $selectedEmails) {
         EmailListRow(email: $0)
           .id($0.objectID)
       }

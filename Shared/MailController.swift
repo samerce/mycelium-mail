@@ -435,11 +435,10 @@ class MailController: ObservableObject {
     context.name = "fetchHtml"
     context.transactionAuthor = "MailController"
     
-    Task {
-      let _email = context.object(with: email.objectID) as! Email
-      _email.html = try await self.bodyHtmlForEmail(withUid: UInt32(email.uid), account: email.account!)
+    if email.html == nil || email.html!.isEmpty {
+      email.html = try await self.bodyHtmlForEmail(withUid: UInt32(email.uid), account: email.account!)
     }
-    
+  
     try await context.perform {
       try context.save()
     }
@@ -451,7 +450,9 @@ class MailController: ObservableObject {
     
     return try await withCheckedThrowingContinuation { continuation in
       guard let fetchMessage = fetchMessage else {
-        continuation.resume(returning: "")
+        continuation.resume(
+          throwing: PsyError.unexpectedError(message: "failed to create fetch HTML operation")
+        )
         return
       }
       
