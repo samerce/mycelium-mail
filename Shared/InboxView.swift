@@ -25,8 +25,6 @@ struct InboxView: View {
         Text("no message selected")
       } else {
         EmailDetailView(id: emailIds.first!)
-          .onAppear() { view = "email.detail" }
-          .onDisappear() { view = "inbox" }
       }
     }
     .sheet(isPresented: $sheetPresented) {
@@ -35,6 +33,17 @@ struct InboxView: View {
     .onChange(of: bundle) { _bundle in
 //      emails.nsPredicate = Email.predicateForBundle(_bundle)
       emails = mailCtrl.model.getEmails(for: bundle)
+    }
+    .onChange(of: emailIds) { _ in
+      withAnimation {
+        switch (emailIds.isEmpty) {
+          case true: view = "inbox"
+          case false: view = "email.detail"
+        }
+      }
+    }
+    .onAppear() {
+      emails = MailController.shared.model.getEmails(for: bundle)
     }
   }
   
@@ -48,7 +57,7 @@ struct InboxView: View {
     .refreshable { mailCtrl.fetchLatest() }
     .toolbar(content: toolbarContent )
     .onChange(of: bundle) { _bundle in
-//      scrollProxy.scrollTo(emails.first?.uid)
+//        scrollProxy.scrollTo(emails.first?.objectID)
     }
     .safeAreaInset(edge: .bottom) {
       Spacer().frame(height: appSheetDetents.min)

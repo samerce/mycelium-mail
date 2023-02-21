@@ -223,6 +223,8 @@ class MailModel: ObservableObject {
     
     do {
       let request = Email.fetchRequestForBundle(bundle, offset)
+      request.shouldRefreshRefetchedObjects = true
+      request.includesPendingChanges = true
       _emails = try context.fetch(request)
       emails[bundle] = _emails
     }
