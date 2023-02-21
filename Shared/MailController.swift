@@ -73,9 +73,10 @@ class MailController: ObservableObject {
     Task {
       do {
         try await self.addLabels(["psymail/\(bundle)"], toEmails: [email])
+        try await self.removeLabels(["INBOX"], fromEmails: [email])
       }
       catch {
-        print("failed to add bundle label: \(error.localizedDescription)")
+        print(error.localizedDescription)
         email.perspective = originalBundle
         PersistenceController.shared.save()
         // TODO: figure out UX
@@ -304,19 +305,49 @@ class MailController: ObservableObject {
       kind: .add,
       labels: labels
     ) else {
-      throw PsyError.addLabelFailed(message: "error creating addLabel operation")
+      throw PsyError.labelUpdateFailed(message: "error creating addLabel operation")
     }
     
     let _: Any? = try await withCheckedThrowingContinuation { continuation in
       addLabels.start { _error in
         if let _error = _error {
           self.errors.append(_error)
-          continuation.resume(throwing: PsyError.addLabelFailed(_error))
+          continuation.resume(throwing: PsyError.labelUpdateFailed(_error))
+          return
         }
         
         emails.forEach { email in
           labels.forEach { label in
             email.gmailLabels!.insert(label)
+          }
+        }
+        continuation.resume(returning: nil)
+      }
+    }
+  }
+  
+  func removeLabels(_ labels: [String], fromEmails emails: [Email]) async throws {
+    let session = sessions[selectedAccount!]!
+    guard let removeLabels = session.storeLabelsOperation(
+      withFolder: DefaultFolder,
+      uids: uidSetForEmails(emails),
+      kind: .remove,
+      labels: labels
+    ) else {
+      throw PsyError.labelUpdateFailed(message: "error creating removeLabel operation")
+    }
+    
+    let _: Any? = try await withCheckedThrowingContinuation { continuation in
+      removeLabels.start { _error in
+        if let _error = _error {
+          self.errors.append(_error)
+          continuation.resume(throwing: PsyError.labelUpdateFailed(_error))
+          return
+        }
+        
+        emails.forEach { email in
+          labels.forEach { label in
+            email.gmailLabels!.remove(label)
           }
         }
         continuation.resume(returning: nil)

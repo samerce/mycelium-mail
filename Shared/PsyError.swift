@@ -9,7 +9,7 @@ enum PsyError: Error {
   case batchDeleteError
   case persistentHistoryChangeError
   case gmailCallFailed(_ error: Error? = nil, message: String? = "")
-  case addLabelFailed(_ error: Error? = nil, message: String? = "")
+  case labelUpdateFailed(_ error: Error? = nil, message: String? = "")
   case unexpectedError(_ error: Error? = nil, message: String? = "")
 }
 
@@ -40,8 +40,8 @@ extension PsyError: LocalizedError {
       case .gmailCallFailed(let error, let message):
         return errorMessage(error, "gmail call failed: \(message ?? "")")
       
-      case .addLabelFailed(let error, let message):
-        return errorMessage(error, "gmail call failed: \(message ?? "")")
+      case .labelUpdateFailed(let error, let message):
+        return errorMessage(error, "updating gmail labels failed: \(message ?? "")")
       
       case .unexpectedError(let error, let message):
         return errorMessage(error, "unexpected error: \(message ?? "")")
