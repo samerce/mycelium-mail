@@ -57,8 +57,10 @@ struct InboxView: View {
       .listRowInsets(.none)
       .navigationBarTitleDisplayMode(.inline)
       .environment(\.editMode, $editMode)
-      .refreshable { mailCtrl.fetchLatest() }
       .toolbar(content: ToolbarContent)
+      .refreshable {
+        try? await mailCtrl.fetchLatest()
+      }
       .safeAreaInset(edge: .bottom) {
         Spacer().frame(height: appSheetDetents.min)
       }

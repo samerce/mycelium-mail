@@ -108,6 +108,7 @@ class MailController: ObservableObject {
             throw PsyError.unexpectedError(message: "email had no 'from' address to create filter with")
           }
         
+          // TODO: make sure filter doesn't already exist
           try await createFilter([
             "criteria": [
               "from": address
@@ -176,20 +177,15 @@ class MailController: ObservableObject {
   }
   
   func deleteEmails(_ emails: [Email]) {
-    deselectEmail()
     moveEmailsToTrash(emails) { error in
       if error != nil {
         // let view know
         return
       }
       
-      Timer.scheduledTimer(withTimeInterval: 0.36, repeats: false) { _ in
-        withAnimation(self.animation) {
-          self.model.deleteEmails(emails) { error in
-            if error != nil {
-              // let view know
-            }
-          }
+      self.model.deleteEmails(emails) { error in
+        if error != nil {
+          // let view know
         }
       }
     }
@@ -215,9 +211,9 @@ class MailController: ObservableObject {
     model.fetchMore(bundle)
   }
   
-  func fetchLatest() {
+  func fetchLatest() async throws {
     sessions.forEach { value in
-      fetchLatest(value.key)
+      Task { try await fetchLatest(value.key) }
     }
   }
   
@@ -233,10 +229,13 @@ class MailController: ObservableObject {
     session!.username = account.address
     session!.oAuth2Token = account.accessToken
     session?.isVoIPEnabled = false
-    fetchLatest(account)
+    
+    Task(priority: .background) {
+      try? await self.fetchLatest(account)
+    }
   }
   
-  private func fetchLatest(_ account: Account) {
+  private func fetchLatest(_ account: Account) async throws {
     let startUid = model.highestEmailUid() + 1
     let endUid = UInt64.max - startUid
     let uids = MCOIndexSet(range: MCORangeMake(startUid, endUid))
@@ -250,22 +249,22 @@ class MailController: ObservableObject {
       uids: uids
     )
     
-    fetchHeadersAndFlags?.start {
-    (error: Error?, messages: [MCOIMAPMessage]?, vanishedMessages: MCOIndexSet?) in
-      if let error = error {
-        print("error downloading message headers: \(error.localizedDescription)")
-        return
-      }
-      
-      if messages?.count == 0 {
-        print("done fetching!")
-      }
-      
-      if messages != nil {
-        self.saveMessages(messages!, account: account)
-//        Task {
-//          try await self.model.saveNewMessages(messages!, forAccount: account)
-//        }
+    let _:Any? = try await withCheckedThrowingContinuation { continuation in
+      fetchHeadersAndFlags?.start {
+        (error: Error?, messages: [MCOIMAPMessage]?, vanishedMessages: MCOIndexSet?) in
+        if let error = error {
+          continuation.resume(throwing: PsyError.unexpectedError(error))
+          return
+        }
+        
+        if messages?.count == 0 {
+          print("done fetching!")
+        }
+        
+        if messages != nil {
+          self.saveMessages(messages!, account: account)
+        }
+        continuation.resume(returning: nil)
       }
     }
   }

@@ -64,9 +64,7 @@ struct EmailListRow: View {
     .contentShape(Rectangle())
     .swipeActions(edge: .trailing) {
       Button(role: .destructive) {
-        withAnimation {
-          MailController.shared.deleteEmails([email])
-        }
+        MailController.shared.deleteEmails([email])
       } label: {
         Label("trash", systemImage: "trash")
       }
