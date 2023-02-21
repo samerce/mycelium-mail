@@ -79,14 +79,20 @@ class PersistenceController: ObservableObject {
     self.inMemory = inMemory
     
     // Observe Core Data remote change notifications on the queue where the changes were made.
-//    notificationToken = NotificationCenter.default.addObserver(
-//      forName: .NSPersistentStoreRemoteChange, object: nil, queue: nil
-//    ) { note in
-//      log.debug("Received a persistent store remote change notification.")
-//      Task {
-//        await self.fetchPersistentHistory()
-//      }
-//    }
+    notificationToken = NotificationCenter.default.addObserver(
+      forName: .NSPersistentStoreRemoteChange, object: nil, queue: nil
+    ) { note in
+      log.debug("Received a persistent store remote change notification.")
+      Task {
+        await self.fetchPersistentHistory()
+      }
+    }
+  }
+  
+  deinit {
+    if let observer = notificationToken {
+      NotificationCenter.default.removeObserver(observer)
+    }
   }
   
   func save() {
