@@ -3,6 +3,9 @@ import Combine
 import CoreData
 
 
+private let moc = PersistenceController.shared.container.viewContext
+
+
 struct EmailDetailView: View {
   @StateObject private var mailCtrl = MailController.shared
   @State private var seenTimer: Timer?
@@ -13,7 +16,7 @@ struct EmailDetailView: View {
   
   init(id: NSManagedObjectID) {
     self.id = id
-    self.email = PersistenceController.shared.container.viewContext.object(with: id) as! Email
+    self.email = moc.object(with: id) as! Email
   }
   
   // MARK: - VIEW
@@ -24,14 +27,13 @@ struct EmailDetailView: View {
       .navigationTitle(email.subject)
       .navigationBarTitleDisplayMode(.inline)
       .background(Color(.systemBackground))
-      .onAppear {
+      .task {
         if let html = email.html, html.isEmpty {
-          Task {
-            try await mailCtrl.fetchHtml(for: email)
-            self.email = PersistenceController.shared.container.viewContext.object(with: id) as! Email
-          }
+          try? await mailCtrl.fetchHtml(for: email)
+          self.email = moc.object(with: id) as! Email
         }
-        
+      }
+      .onAppear {
         seenTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
           seenTimer = nil
           mailCtrl.markSeen([email]) { error in
