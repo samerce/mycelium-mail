@@ -63,11 +63,11 @@ struct EmailListRow: View {
     .listRowInsets(.init(top: 3, leading: 0, bottom: 3, trailing: 0))
     .contentShape(Rectangle())
     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-      Button { print("follow up") } label: {
-        Label("follow up", systemImage: "pin")
-      }
       Button { print("bundle") } label: {
         Label("bundle", systemImage: "giftcard")
+      }
+      Button { print("bundle") } label: {
+        Label("follow up", systemImage: "pin")
       }
       Button { print("delete") } label: {
         Label("trash", systemImage: "trash")
@@ -77,6 +77,16 @@ struct EmailListRow: View {
       }
       Button { print("notification") } label: {
         Label("notifications", systemImage: "bell")
+      }
+    }
+    .contextMenu {
+      Text("move to bundle")
+      ForEach(Array(Bundles.enumerated()), id: \.element) { _, bundle in
+        Button(bundle) {
+          withAnimation {
+            MailController.shared.moveEmail(email, toBundle: bundle)
+          }
+        }
       }
     }
   }
