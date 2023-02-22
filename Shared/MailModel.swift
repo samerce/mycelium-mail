@@ -4,10 +4,6 @@ import Combine
 import MailCore
 
 
-let Bundles = [
-  "everything", "notifications", "commerce", "newsletters", "society", "marketing"
-  //  "news", "trash", "folders", "sent"
-]
 private let log = Logger(subsystem: "cum.expressyouryes.psymail", category: "MailModel")
 
 
@@ -37,6 +33,10 @@ class MailModel: ObservableObject {
     return UInt64(try! context.fetch(request).first?.uid ?? 0)
   }
   
+  func save() {
+    try? context.save()
+  }
+  
   func addFlags(_ flags: MCOMessageFlag, for theEmails: [Email]) async throws {
     try await context.perform {
       theEmails.forEach { e in e.addFlags(flags) }
@@ -55,9 +55,7 @@ class MailModel: ObservableObject {
     context.performAndWait {
       for e in theEmails {
         e.addFlags(.deleted)
-        // TODO remove this deletion and instead
-        // update the fetch predicate to omit all emails with that flag
-        context.delete(e)
+        e.trashed = true
       }
       
       do {
@@ -104,8 +102,7 @@ class MailModel: ObservableObject {
       let email = managedObject as! Email
       email.populate(
         message: message,
-        html: self.headerAsHtml(message.header),
-        bundle: self.bundleFor(message)
+        html: self.headerAsHtml(message.header)
       )
       
       index += 1
@@ -114,29 +111,16 @@ class MailModel: ObservableObject {
     return batchInsertRequest
   }
   
-  func makeAndSaveEmail(withMessage message: MCOIMAPMessage, html emailAsHtml: String = "", account: Account) {
-    do {
-      let _ = try makeEmail(withMessage: message, html: emailAsHtml, account: account)
-      try context.save()
-      log.info("saved \(message.uid), \(message.header.subject ?? "")")
-    }
-    catch {
-      log.debug("error saving new email to core data: \(error.localizedDescription)")
-    }
-  }
-  
+  @discardableResult
   func makeEmail(
     withMessage message: MCOIMAPMessage, html emailAsHtml: String = "", account: Account
   ) throws -> Email {
-//    let fullHtml = headerAsHtml(message.header) + emailAsHtml
-    let bundle = bundleFor(message)
-    
     guard fetchEmailByUid(message.uid, account: account) == nil else {
       throw PsyError.emailAlreadyExists
     }
     
     let email = Email(
-      message: message, html: emailAsHtml, bundle: bundle, context: context
+      message: message, html: emailAsHtml, bundleName: bundleFor(message), context: context
     )
     email.account = account
     account.addToEmails(email)
@@ -169,7 +153,7 @@ class MailModel: ObservableObject {
       )
     }
     
-    let emailFetchRequest:NSFetchRequest<Email> = Email.fetchRequestForBundle()
+    let emailFetchRequest:NSFetchRequest<Email> = Email.fetchRequest()
     emailFetchRequest.predicate = predicate
     
     do {
@@ -189,51 +173,7 @@ class MailModel: ObservableObject {
     return emails["everything"]?.first(where: { $0.id == id }) ?? nil
   }
   
-  func fetchMore(_ bundle: String) {
-    guard let emailsInBundle = emails[bundle]
-    else { return }
-    //
-    let emailCount = emailsInBundle.count
-    //    let triggerFetchIndex = emailCount - 12
-    //
-    //    guard triggerFetchIndex >= 0 && triggerFetchIndex < emailCount
-    //    else { return }
-    //
-    //    let triggerEmail = emailsInPerspective[triggerFetchIndex]
-    //    if email.objectID == triggerEmail.objectID {
-    //      print("\(perspective) fetching at offset: \(emailCount)")
-    let newEmails = fetchEmails(for: bundle, offset: emailCount)
-    emails[bundle]?.append(contentsOf: newEmails)
-    //    }
-  }
-  
-  func getEmails(for bundle: String) -> [Email] {
-    var _emails = emails[bundle]
-    if _emails == nil {
-      _emails = fetchEmails(for: bundle)
-    }
-    return _emails!
-  }
-  
   // MARK: - private
-  
-  private
-  func fetchEmails(for bundle: String, offset: Int = 0) -> [Email] {
-    var _emails: [Email] = []
-    
-    do {
-      let request = Email.fetchRequestForBundle(bundle, offset)
-      request.shouldRefreshRefetchedObjects = true
-      request.includesPendingChanges = true
-      _emails = try context.fetch(request)
-      emails[bundle] = _emails
-    }
-    catch {
-      print("error fetching emails from core data: \(error.localizedDescription)")
-    }
-    
-    return _emails
-  }
   
   private
   func fetchEmailByUid(_ uid: UInt32, account: Account) -> Email? {
@@ -259,7 +199,7 @@ class MailModel: ObservableObject {
       return bundleLabel.replacing("psymail/", with: "")
     }
     else {
-      return "everything"
+      return "inbox"
     }
   }
   

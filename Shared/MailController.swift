@@ -6,6 +6,16 @@ import CoreData
 
 
 let DefaultFolder = "[Gmail]/All Mail" //"INBOX"
+let cInboxLabel = "\\Inbox"
+private let kBundleIcons = [
+  "notifications": "bell",
+  "commerce": "creditcard",
+  "inbox": "tray.full",
+  "newsletters": "newspaper",
+  "society": "building.2",
+  "marketing": "megaphone"
+]
+private let moc = PersistenceController.shared.container.viewContext
 
 
 class MailController: ObservableObject {
@@ -36,7 +46,14 @@ class MailController: ObservableObject {
             self.onLoggedIn(account)
             self.selectedAccount = account
             self.accessToken = account.accessToken!
-            Task { await self.fetchGmailLabelIds() }
+            Task {
+              do {
+                try await self.syncEmailBundles()
+              }
+              catch {
+                print("failed to sync email bundles: \(error.localizedDescription)")
+              }
+            }
           } else {
             // handle log out
           }
@@ -45,39 +62,64 @@ class MailController: ObservableObject {
     }
   }
   
-  private func fetchGmailLabelIds() async {
-    do {
-      let (labelListResponse, _) = try await callGmail(.listLabels)
-      let labels = (labelListResponse as! GLabelListResponse).labels
+  private func syncEmailBundles() async throws {
+    let bundleFetchRequest = EmailBundle.fetchRequest()
+    let bundles = try? moc.fetch(bundleFetchRequest)
+    
+    if bundles?.first(where: { $0.name == "inbox" }) == nil {
+      let _ = EmailBundle(name: "inbox", gmailLabelId: "", icon: kBundleIcons["inbox"]!, context: moc)
+    }
+    
+    let (labelListResponse, _) = try await callGmail(.listLabels)
+    let labels = (labelListResponse as! GLabelListResponse).labels
+    
+    // TODO: use batch insert?
+    labels.forEach { label in
+      if !label.name.contains("psymail/") {
+        return
+      }
       
-      labels.forEach { label in
-        if label.name.contains("psymail/") {
-          let bundle = label.name.replacing("psymail/", with: "")
-          self.gmailLabelIdsByBundle[bundle] = label.id
-        }
+      var bundle = bundles?.first(where: { $0.gmailLabelId == label.id })
+      if bundle == nil {
+        let name = label.name.replacing("psymail/", with: "")
+        bundle = EmailBundle(
+          name: name, gmailLabelId: label.id, icon: kBundleIcons[name] ?? "", context: moc
+        )
+      } else {
+        bundle!.gmailLabelId = label.id
       }
     }
-    catch {
-      print("failed to fetch labels: \(error.localizedDescription)")
-    }
+    
+    PersistenceController.shared.save()
   }
   
   // MARK: - public
   
-  func moveEmail(_ email: Email, toBundle bundle: String, always: Bool = true) throws {
+  func moveEmail(_ email: Email, fromBundle: EmailBundle, toBundle: EmailBundle, always: Bool = true) throws {
     // proactively update core data and revert if update request fails
-    let originalBundle = email.perspective
-    email.perspective = bundle
+    email.removeFromBundleSet(fromBundle)
+    email.addToBundleSet(toBundle)
+    fromBundle.removeFromEmailSet(email)
+    toBundle.addToEmailSet(email)
     PersistenceController.shared.save()
     
     Task {
+      if toBundle.name == "inbox" {
+        try await self.removeLabels(["psymail/\(fromBundle.name)"], fromEmails: [email])
+        // TODO: delete filter
+        return
+      }
+      
       do {
-        try await self.addLabels(["psymail/\(bundle)"], toEmails: [email])
-        try await self.removeLabels(["INBOX"], fromEmails: [email])
+        try await self.addLabels(["psymail/\(toBundle.name)"], toEmails: [email])
+        try await self.removeLabels([cInboxLabel], fromEmails: [email])
       }
       catch {
         print(error.localizedDescription)
-        email.perspective = originalBundle
+        email.removeFromBundleSet(toBundle)
+        email.addToBundleSet(fromBundle)
+        fromBundle.addToEmailSet(email)
+        toBundle.removeFromEmailSet(email)
         PersistenceController.shared.save()
         // TODO: figure out UX
         throw error
@@ -85,7 +127,7 @@ class MailController: ObservableObject {
       
       if always {
         do {
-          try await createFilterFor(email: email, bundle: bundle)
+          try await createFilterFor(email: email, bundle: toBundle)
         }
         catch {
           print("error creating bundle filter: \(error.localizedDescription)")
@@ -95,7 +137,7 @@ class MailController: ObservableObject {
     }
   }
   
-  private func createFilterFor(email: Email, bundle: String) async throws {
+  private func createFilterFor(email: Email, bundle: EmailBundle) async throws {
     guard let address = email.from?.address
     else {
       throw PsyError.unexpectedError(message: "email had no 'from' address to create filter with")
@@ -131,14 +173,14 @@ class MailController: ObservableObject {
       try await callGmail(.deleteFilter(id: id))
     }
     
-    print("creating filter for \(address) to \(bundle)")
+    print("creating filter for \(address) to \(bundle.name)")
     try await callGmail(.createFilter, withBody: [
       /// see:  https://developers.google.com/gmail/api/guides/filter_settings
       "criteria": [
         "from": address,
       ],
       "action": [
-        "addLabelIds": [gmailLabelIdsByBundle[bundle]!],
+        "addLabelIds": [bundle.gmailLabelId],
         "removeLabelIds": ["INBOX", "SPAM"] // skip the inbox, never send to spam
       ]
     ])
@@ -183,10 +225,6 @@ class MailController: ObservableObject {
   
   func deselectEmail() {
     withAnimation(animation) { selectedEmail = nil }
-  }
-  
-  func fetchMore(_ bundle: String) {
-    model.fetchMore(bundle)
   }
   
   func fetchLatest() async throws {
@@ -318,7 +356,7 @@ class MailController: ObservableObject {
         
         emails.forEach { email in
           labels.forEach { label in
-            email.gmailLabels!.insert(label)
+            email.gmailLabels.insert(label)
           }
         }
         continuation.resume(returning: nil)
@@ -347,7 +385,7 @@ class MailController: ObservableObject {
         
         emails.forEach { email in
           labels.forEach { label in
-            email.gmailLabels!.remove(label)
+            email.gmailLabels.remove(label)
           }
         }
         continuation.resume(returning: nil)
@@ -426,22 +464,17 @@ class MailController: ObservableObject {
   
   private func saveMessages(_ messages: [MCOIMAPMessage], account: Account) {
     for message in messages {
-      self.model.makeAndSaveEmail(withMessage: message, account: account)
-      
-      if message == messages.last {
-        print("done saving!")
+      do {
+        try model.makeEmail(withMessage: message, account: account)
+        print("created \(message.uid), \(message.header.subject ?? "")")
       }
-      
-//      bodyHtmlForEmail(withUid: message.uid, account: account) { emailAsHtml in
-//        self.model.makeAndSaveEmail(
-//          withMessage: message, html: emailAsHtml, account: account
-//        )
-//
-//        if message == messages.last {
-//          print("done saving!")
-//        }
-//      }
+      catch {
+        print("error saving new email message to core data: \(error.localizedDescription)")
+      }
     }
+
+    model.save()
+    print("done saving new messages!")
   }
   
   func fetchHtml(for email: Email) async throws {

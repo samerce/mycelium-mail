@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B04D75C29A5D9BF00D4186E /* EmailBundle+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B04D75B29A5D9BF00D4186E /* EmailBundle+CoreDataProperties.swift */; };
+		3B04D75D29A5D9BF00D4186E /* EmailBundle+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B04D75B29A5D9BF00D4186E /* EmailBundle+CoreDataProperties.swift */; };
 		3B14A6B5299FE4D4005BAA30 /* SwiftUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3B14A6B4299FE4D4005BAA30 /* SwiftUIKit */; };
 		3B14A6BA299FF200005BAA30 /* View+AppSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B14A6B9299FF200005BAA30 /* View+AppSheet.swift */; };
 		3B14A6BB299FF200005BAA30 /* View+AppSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B14A6B9299FF200005BAA30 /* View+AppSheet.swift */; };
@@ -15,6 +17,10 @@
 		3B2F072C264F72EA006CAECE /* AppSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F072B264F72EA006CAECE /* AppSplitView.swift */; };
 		3B2F072D264F72EA006CAECE /* AppSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2F072B264F72EA006CAECE /* AppSplitView.swift */; };
 		3B36447E2652629700956E27 /* EmailDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B36447D2652629700956E27 /* EmailDetailView.swift */; };
+		3B4185F629A5A7BD00A2966A /* EmailBundle+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4185F429A5A7BD00A2966A /* EmailBundle+CoreDataClass.swift */; };
+		3B4185F729A5A7BD00A2966A /* EmailBundle+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4185F429A5A7BD00A2966A /* EmailBundle+CoreDataClass.swift */; };
+		3B41860129A5AFD200A2966A /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B41860029A5AFD200A2966A /* ViewModel.swift */; };
+		3B41860229A5AFD200A2966A /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B41860029A5AFD200A2966A /* ViewModel.swift */; };
 		3B5103AA29256D030084B6B2 /* UIApplication+window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5103A929256D030084B6B2 /* UIApplication+window.swift */; };
 		3B5103AB29256D030084B6B2 /* UIApplication+window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5103A929256D030084B6B2 /* UIApplication+window.swift */; };
 		3B5ABAF726545D3200601F26 /* QuotedPrintable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5ABAF626545D2900601F26 /* QuotedPrintable.swift */; };
@@ -153,11 +159,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3B04D75B29A5D9BF00D4186E /* EmailBundle+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailBundle+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3B14A6B9299FF200005BAA30 /* View+AppSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+AppSheet.swift"; sourceTree = "<group>"; };
 		3B14A6C529A19E12005BAA30 /* AppSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSheetView.swift; sourceTree = "<group>"; };
 		3B2F0726264E1035006CAECE /* AppCompactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCompactView.swift; sourceTree = "<group>"; };
 		3B2F072B264F72EA006CAECE /* AppSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSplitView.swift; sourceTree = "<group>"; };
 		3B36447D2652629700956E27 /* EmailDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailDetailView.swift; sourceTree = "<group>"; };
+		3B4185F429A5A7BD00A2966A /* EmailBundle+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailBundle+CoreDataClass.swift"; sourceTree = "<group>"; };
+		3B41860029A5AFD200A2966A /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		3B5103A929256D030084B6B2 /* UIApplication+window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+window.swift"; sourceTree = "<group>"; };
 		3B5ABAF626545D2900601F26 /* QuotedPrintable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuotedPrintable.swift; sourceTree = "<group>"; };
 		3B5ABAFD265461C100601F26 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
@@ -267,6 +276,8 @@
 		3B6F6560265EF4F000E07FE7 /* core data */ = {
 			isa = PBXGroup;
 			children = (
+				3B04D75B29A5D9BF00D4186E /* EmailBundle+CoreDataProperties.swift */,
+				3B4185F429A5A7BD00A2966A /* EmailBundle+CoreDataClass.swift */,
 				3BF1AE3226697A35002F1062 /* EmailThread+CoreDataClass.swift */,
 				3BF1AE3326697A35002F1062 /* EmailThread+CoreDataProperties.swift */,
 				3BF1AD892663EA2C002F1062 /* Account+CoreDataClass.swift */,
@@ -327,6 +338,7 @@
 				3B9912AE29A296AB00B3BA36 /* PsyError.swift */,
 				3B9912B729A587D900B3BA36 /* AppAlert.swift */,
 				3B9912BA29A5892700B3BA36 /* GmailEndpoint.swift */,
+				3B41860029A5AFD200A2966A /* ViewModel.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -613,8 +625,10 @@
 				3B9912B829A587D900B3BA36 /* AppAlert.swift in Sources */,
 				3B7917B92660A0F400E764C1 /* EmailAddress+CoreDataClass.swift in Sources */,
 				3B7917BD2660A0F400E764C1 /* EmailPart+CoreDataClass.swift in Sources */,
+				3B04D75C29A5D9BF00D4186E /* EmailBundle+CoreDataProperties.swift in Sources */,
 				3B9B9FD42634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel in Sources */,
 				3B7917C52660A0F400E764C1 /* EmailHeader+CoreDataClass.swift in Sources */,
+				3B41860129A5AFD200A2966A /* ViewModel.swift in Sources */,
 				3B9B9FD02634E26A00E3A8B2 /* NewsletterClassifier.mlmodel in Sources */,
 				3BF1AD7E2661861F002F1062 /* Email+CoreDataProperties.swift in Sources */,
 				3B6666852651EAAA0039D9F3 /* InboxSheetView.swift in Sources */,
@@ -641,6 +655,7 @@
 				3B66668D2651EB000039D9F3 /* FavoriteCell.swift in Sources */,
 				3BF1AD902663F8F0002F1062 /* AccountModel.swift in Sources */,
 				3BF1AE2D2668812B002F1062 /* Publishers.swift in Sources */,
+				3B4185F629A5A7BD00A2966A /* EmailBundle+CoreDataClass.swift in Sources */,
 				3BD150A4265332010058B094 /* rainbow.swift in Sources */,
 				3BCF6FEC29280261000C6382 /* ForEachWithIndex.swift in Sources */,
 				3B66669626521A810039D9F3 /* VisualEffectBlur.swift in Sources */,
@@ -679,6 +694,7 @@
 				3BE50196266B34AE001C2939 /* FilterView.swift in Sources */,
 				3BF1AE222666FCE6002F1062 /* EmailToolsSheetView.swift in Sources */,
 				3B9B9FD12634E26A00E3A8B2 /* NewsletterClassifier.mlmodel in Sources */,
+				3B4185F729A5A7BD00A2966A /* EmailBundle+CoreDataClass.swift in Sources */,
 				3BF1AE1C2665FA89002F1062 /* View+if.swift in Sources */,
 				3B9B9FA22634B16A00E3A8B2 /* Persistence.swift in Sources */,
 				3B9912B929A587D900B3BA36 /* AppAlert.swift in Sources */,
@@ -690,12 +706,14 @@
 				3BF1AE3126688150002F1062 /* Notification.swift in Sources */,
 				3BF1AD8E2663EA2C002F1062 /* Account+CoreDataProperties.swift in Sources */,
 				3BF1AE2B26683514002F1062 /* View+screen.swift in Sources */,
+				3B04D75D29A5D9BF00D4186E /* EmailBundle+CoreDataProperties.swift in Sources */,
 				3BF1AE3526697A35002F1062 /* EmailThread+CoreDataClass.swift in Sources */,
 				3BD150A5265332010058B094 /* rainbow.swift in Sources */,
 				3BF1AD622660ACF0002F1062 /* MailController.swift in Sources */,
 				3BF1AD8C2663EA2C002F1062 /* Account+CoreDataClass.swift in Sources */,
 				3BCF6FED29280261000C6382 /* ForEachWithIndex.swift in Sources */,
 				3BF1AD7F2661861F002F1062 /* Email+CoreDataProperties.swift in Sources */,
+				3B41860229A5AFD200A2966A /* ViewModel.swift in Sources */,
 				3BF1AD852661861F002F1062 /* EmailAddress+CoreDataProperties.swift in Sources */,
 				3B5FBC342655EF85009D012C /* EmailClassifierAgnes.mlmodel in Sources */,
 				3B7917BA2660A0F400E764C1 /* EmailAddress+CoreDataClass.swift in Sources */,

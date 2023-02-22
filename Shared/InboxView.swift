@@ -4,21 +4,22 @@ import UIKit
 import CoreData
 
 
-private let DefaultBundle = Bundles[0]
-
-
 struct InboxView: View {
-  @StateObject private var mailCtrl = MailController.shared
-  @State private var bundle = DefaultBundle
+  @EnvironmentObject var viewModel: ViewModel
+  @StateObject var mailCtrl = MailController.shared
+  @StateObject private var appAlert: AppAlert = AppAlert()
+  
   @State private var selectedEmails: Set<Email> = []
   @State private var sheetPresented = true
   @State private var appSheetMode: AppSheetMode = .inboxTools
   @State private var editMode: EditMode = .inactive
-  @State private var shouldScrollToTop: Bool = false
-  @StateObject private var appAlert: AppAlert = AppAlert()
   
-  @FetchRequest(fetchRequest: Email.fetchRequestForBundle(DefaultBundle), animation: .easeInOut)
-  private var emailResults: FetchedResults<Email>
+  private var selectedBundle: EmailBundle? {
+    viewModel.selectedBundle
+  }
+  private var emails: [Email] {
+    return viewModel.emailsInSelectedBundle ?? []
+  }
   
   // MARK: - VIEW
   
@@ -32,11 +33,9 @@ struct InboxView: View {
         EmailDetailView(email: selectedEmails.first!)
       }
     }
-    .onChange(of: bundle) { _bundle in
-      emailResults.nsPredicate = Email.predicateForBundle(_bundle)
-    }
     .onChange(of: selectedEmails) { _ in
       if editMode.isEditing { return }
+      
       withAnimation {
         switch (selectedEmails.isEmpty) {
           case true: appSheetMode = .inboxTools
@@ -45,7 +44,7 @@ struct InboxView: View {
       }
     }
     .sheet(isPresented: $sheetPresented) {
-      AppSheetView(mode: $appSheetMode, bundle: $bundle)
+      AppSheetView(mode: $appSheetMode)
     }
     .environmentObject(appAlert)
     .overlay(alignment: .center) {
@@ -81,7 +80,7 @@ struct InboxView: View {
 extension InboxView {
   private var EmailList: some View {
     ScrollViewReader { scrollProxy in
-      List(emailResults, id: \.self, selection: $selectedEmails) {
+      List(emails, id: \.self, selection: $selectedEmails) {
         EmailListRow(email: $0)
           .id($0.objectID)
       }
@@ -96,14 +95,8 @@ extension InboxView {
       .safeAreaInset(edge: .bottom) {
         Spacer().frame(height: appSheetDetents.min)
       }
-      .onChange(of: emailResults.nsPredicate) { _ in
-        shouldScrollToTop = true
-      }
-      .onChange(of: emailResults.first) { _ in
-        if shouldScrollToTop {
-          shouldScrollToTop = false
-          scrollProxy.scrollTo(emailResults.first?.objectID)
-        }
+      .onChange(of: selectedBundle) { _ in
+//        scrollProxy.scrollTo(emails.first?.objectID)
       }
     }
   }
@@ -116,7 +109,7 @@ extension InboxView {
       }
     }
     ToolbarItem(placement: .principal) {
-      Text(bundle == "everything" ? "inbox" : bundle)
+      Text(selectedBundle?.name ?? "")
         .font(.system(size: 27, weight: .black))
         .padding(.bottom, 6)
     }

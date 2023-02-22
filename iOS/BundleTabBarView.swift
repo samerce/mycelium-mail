@@ -7,42 +7,42 @@ struct TabRow: Identifiable {
   var id: String { label }
 }
 
-let TabConfig = [
-  [
-    TabRow(label: "notifications", icon: "bell"),
-    TabRow(label: "commerce", icon: "creditcard"),
-    TabRow(label: "everything", icon: "tray.full"),
-    TabRow(label: "newsletters", icon: "newspaper"),
-    TabRow(label: "society", icon: "building.2")
-  ],
-  [
-    TabRow(label: "marketing", icon: "megaphone"),
-    TabRow(label: "DMs", icon: "person.2"),
-    TabRow(label: "news", icon: "network"),
-    TabRow(label: "events", icon: "calendar"),
-    TabRow(label: "packages", icon: "shippingbox")
-  ],
-  [
-    TabRow(label: "trash", icon: "trash"),
-    TabRow(label: "folders", icon: "folder"),
-    TabRow(label: "sent", icon: "paperplane"),
-  ]
-]
-
 
 private let TabBarHeight = 50.0
 private let SpacerHeight = 18.0
 private let TranslationMax = 108.0
 private let HeaderHeight: CGFloat = 42
 private let HeaderBottomPadding: CGFloat = 18
+// TODO: store in @AppStorage or EmailBundle
+private let tabOrder = ["notifications", "commerce", "inbox", "newsletters", "society", "marketing"]
 
 struct BundleTabBarView: View {
-  @Binding var selection: String
+  @EnvironmentObject var viewModel: ViewModel
   @Binding var translationProgress: Double
+  
+  private var selectedBundle: EmailBundle? {
+    viewModel.selectedBundle
+  }
+  
+  private var tabRows: [[EmailBundle]] {
+    var rowIndex = 0
+    return tabOrder.reduce(into: [[]]) { tabRows, bundleName in
+      let bundle = viewModel.bundles.first(where: { $0.name == bundleName })
+      if bundle == nil { return }
+          
+      if tabRows[rowIndex].count >= 5 {
+        rowIndex += 1
+        tabRows.append([])
+      }
+      tabRows[rowIndex].append(bundle!)
+    }
+  }
+  
+  // MARK: - VIEW
   
   var body: some View {
     VStack(alignment: .center, spacing: 0) {
-      ForEach(Array(TabConfig.enumerated()), id: \.0) { rowIndex, tabRow in
+      ForEach(Array(tabRows.enumerated()), id: \.0) { rowIndex, tabRow in
         let tabRowHeight = heightForTabRow(rowIndex)
         let tabRowOpacity = opacityForTabRow(rowIndex)
         
@@ -51,26 +51,26 @@ struct BundleTabBarView: View {
         HStack(alignment: .lastTextBaseline) {
           Spacer()
           
-          ForEach(Array(tabRow.enumerated()), id: \.0) { index, item in
+          ForEach(Array(tabRow.enumerated()), id: \.0) { (index, bundle: EmailBundle) in
 //            Text(String(item.label))
             TabBarItem(
-              iconName: item.icon,
-              label: item.label,
-              selected: selection == item.label,
+              iconName: bundle.icon,
+              label: bundle.name,
+              selected: selectedBundle?.name == bundle.name,
               translationProgress: $translationProgress
             )
-            .onTapGesture { selection = item.label }
-            .frame(height: tabRowHeight)
+            .onTapGesture { viewModel.selectedBundle = bundle }
           }
           
           Spacer()
         }
-        .frame(height: tabRowHeight)
-        .opacity(tabRowOpacity)
+        .frame(height: 50)
+//        .opacity(tabRowOpacity)
         
         Spacer().frame(height: spacerHeight)
       }
     }
+    .padding(.top, 50)
   }
   
   private var heightWhileDragging: CGFloat {
@@ -135,9 +135,9 @@ struct BundleTabBarView: View {
   }
   
   private var rowWithActiveTab: Int {
-    for (rowIndex, tabRowItems) in TabConfig.enumerated() {
-      for item in tabRowItems {
-        if item.label == selection {
+    for (rowIndex, tabRow) in tabRows.enumerated() {
+      for bundle in tabRow {
+        if bundle.name == selectedBundle?.name {
           return rowIndex
         }
       }
@@ -148,9 +148,8 @@ struct BundleTabBarView: View {
 }
 
 struct TabBarView_Previews: PreviewProvider {
-  @State static var selectedTab = "latest"
   @State static var translationProgress: Double = 0
   static var previews: some View {
-    BundleTabBarView(selection: $selectedTab, translationProgress: $translationProgress)
+    BundleTabBarView(translationProgress: $translationProgress)
   }
 }

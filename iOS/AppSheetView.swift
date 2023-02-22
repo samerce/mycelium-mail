@@ -8,9 +8,7 @@ enum AppSheetMode {
 
 
 struct AppSheetView: View {
-  
   @Binding var mode: AppSheetMode
-  @Binding var bundle: String
   
   var body: some View {
     ZStack {
@@ -34,7 +32,7 @@ struct AppSheetView: View {
   @ViewBuilder
   private var Sheet: some View {
     switch mode {
-      case .inboxTools: InboxSheetView(bundle: $bundle)
+      case .inboxTools: InboxSheetView()
       case .emailTools: EmailToolsSheetView()
     }
   }

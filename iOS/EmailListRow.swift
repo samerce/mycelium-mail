@@ -6,6 +6,14 @@ enum EmailListRowMode {
 
 struct EmailListRow: View {
   @EnvironmentObject private var appAlert: AppAlert
+  @EnvironmentObject private var viewModel: ViewModel
+  
+  private var selectedBundle: EmailBundle? {
+    viewModel.selectedBundle
+  }
+  private var bundles: [EmailBundle] {
+    viewModel.bundles
+  }
   
   var email: Email
   var mode: EmailListRowMode = .summary
@@ -86,11 +94,13 @@ struct EmailListRow: View {
     }
     .contextMenu {
       Text("MOVE TO BUNDLE")
-      ForEach(Array(Bundles.enumerated()), id: \.element) { _, bundle in
-        Button(bundle) {
+      ForEach(bundles, id: \.objectID) { bundle in
+        Button(bundle.name) {
           do {
-            try withAnimation { try MailController.shared.moveEmail(email, toBundle: bundle) }
-            appAlert.show(message: "moved to \(bundle)", icon: "checkmark", delay: 1)
+            try withAnimation {
+              try MailController.shared.moveEmail(email, fromBundle: selectedBundle!, toBundle: bundle)
+            }
+            appAlert.show(message: "moved to \(bundle.name)", icon: "checkmark", delay: 1)
           }
           catch {
             appAlert.show(message: "failed to move message", icon: "xmark", delay: 1)

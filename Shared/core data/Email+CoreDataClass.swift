@@ -13,6 +13,8 @@ private let dateFormatterMoreThanAWeek = DateFormatterMoreThanAWeek()
 @objc(Email)
 public class Email: NSManagedObject {
   
+  // MARK: - COMPUTED PROPS
+  
   var seen: Bool {
     flags.contains(.seen)
   }
@@ -65,17 +67,23 @@ public class Email: NSManagedObject {
     return nil
   }
   
+  var bundles: [EmailBundle] {
+    (bundleSet.allObjects as? [EmailBundle]) ?? []
+  }
+  
+  // MARK: - INIT
+  
   convenience init(
     message: MCOIMAPMessage, html emailAsHtml: String?,
-    bundle: String, context: NSManagedObjectContext
+    bundleName: String? = nil, context: NSManagedObjectContext
   ) {
     self.init(context: context)
-    self.populate(message: message, html: html, bundle: bundle, context: context)
+    self.populate(message: message, html: html, bundleName: bundleName, context: context)
   }
   
   func populate(message: MCOIMAPMessage, html emailAsHtml: String?,
-                bundle _perspective: String, context: NSManagedObjectContext) {
-    populate(message: message, html: emailAsHtml, bundle: _perspective)
+                bundleName: String? = nil, context: NSManagedObjectContext) {
+    populate(message: message, html: emailAsHtml)
     
     header = EmailHeader(header: message.header, context: context)
     header?.email = self
@@ -87,9 +95,21 @@ public class Email: NSManagedObject {
     
 //    thread = fetchOrMakeThread(id: message.gmailThreadID, context: context)
 //    thread?.addToEmails(self)
+    
+    if let bundleName = bundleName {
+      let bundleFetchRequest = EmailBundle.fetchRequest()
+      bundleFetchRequest.predicate = NSPredicate(format: "name == %@", bundleName)
+      bundleFetchRequest.fetchLimit = 1
+      bundleFetchRequest.fetchBatchSize = 1
+      
+      let bundle = try! context.fetch(bundleFetchRequest).first!
+      
+      bundle.addToEmailSet(self)
+      addToBundleSet(bundle)
+    }
   }
   
-  func populate(message: MCOIMAPMessage, html emailAsHtml: String?, bundle _perspective: String) {
+  func populate(message: MCOIMAPMessage, html emailAsHtml: String?) {
     uid = Int32(message.uid)
     flags = message.flags
     gmailLabels = Set(message.gmailLabels as? [String] ?? [])
@@ -99,8 +119,10 @@ public class Email: NSManagedObject {
     customFlags = Set(message.customFlags as? [String] ?? [])
     modSeqValue = Int64(message.modSeqValue)
     html = emailAsHtml
-    perspective = _perspective
+    trashed = false
   }
+  
+  // MARK: - HELPERS
   
   private var flags: MCOMessageFlag {
     get {
@@ -197,4 +219,3 @@ private class DateFormatterMoreThanAWeek: DateFormatter {
   }
   
 }
-

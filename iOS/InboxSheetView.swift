@@ -13,9 +13,9 @@ private let ToolbarHeight: CGFloat = 18
 private let FirstExpandedNotch: CGFloat = 0.5
 
 struct InboxSheetView: View {
+  @EnvironmentObject private var viewModel: ViewModel
   @State private var selectedGrouping = Grouping.emailAddress
   @State private var hiddenViewOpacity = 0.0
-  @Binding var bundle: String
   @State private var translationProgress: Double = 0
   
   private var bottomSpace: CGFloat {
@@ -37,7 +37,7 @@ struct InboxSheetView: View {
         .padding(.top, 12)
         .padding(.bottom, 18)
       
-      BundleTabBarView(selection: $bundle, translationProgress: $translationProgress)
+      BundleTabBarView(translationProgress: $translationProgress)
 
       Divider()
         .frame(height: dividerHeight)
@@ -65,16 +65,16 @@ struct InboxSheetView: View {
     let opacity = CGFloat.maximum(0, 1 - (CGFloat(translationProgress) / FirstExpandedNotch))
     return VStack(alignment: .center, spacing: 0) {
       HStack(spacing: 0) {
-          Button(action: loginWithGoogle) {
-            ZStack {
-              Image(systemName: "line.3.horizontal.decrease.circle")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .foregroundColor(.psyAccent)
-                .frame(maxWidth: allMailboxesIconSize, maxHeight: height)
-                .font(.system(size: allMailboxesIconSize, weight: .light))
-            }.frame(width: 54, height: 50, alignment: .leading)
+        Button(action: loginWithGoogle) {
+          ZStack {
+            Image(systemName: "line.3.horizontal.decrease.circle")
+              .resizable()
+              .aspectRatio(contentMode: .fit)
+              .foregroundColor(.psyAccent)
+              .frame(maxWidth: allMailboxesIconSize, maxHeight: height)
+              .font(.system(size: allMailboxesIconSize, weight: .light))
           }.frame(width: 54, height: 50, alignment: .leading)
+        }.frame(width: 54, height: 50, alignment: .leading)
         
         Text("updated just now")
           .font(.system(size: 14, weight: .light))
@@ -98,7 +98,6 @@ struct InboxSheetView: View {
     }
     .padding(.horizontal, 24)
     .opacity(Double(opacity))
-    .clipped()
   }
   
   private var MailboxSection: some View {
@@ -165,9 +164,7 @@ struct InboxSheetView: View {
 }
 
 struct InboxDrawerView_Previews: PreviewProvider {
-  @State static var progress = 0.0
-  @State static var perspective = "latest"
   static var previews: some View {
-    InboxSheetView(bundle: $perspective)
+    InboxSheetView()
   }
 }
