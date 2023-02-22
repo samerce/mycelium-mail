@@ -11,6 +11,5 @@ struct AppCompactView: View {
 struct AppCompactView_Previews: PreviewProvider {
   static var previews: some View {
     AppCompactView()
-      .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
   }
 }
