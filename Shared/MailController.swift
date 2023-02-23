@@ -28,8 +28,6 @@ class MailController: ObservableObject {
   private var sessions = [Account: MCOIMAPSession]()
   private var subscribers: [AnyCancellable] = []
   private var gmailLabelIdsByBundle: [String: String] = [:]
-  private var selectedAccount: Account?
-  private var accessToken: String = ""
   
   private var animation: Animation {
     .interactiveSpring(response: 0.36, dampingFraction: 0.74)
@@ -43,34 +41,38 @@ class MailController: ObservableObject {
           print("\(address) loggedIn: \(loggedIn)")
           
           if loggedIn {
-            self.onLoggedIn(account)
-            self.selectedAccount = account
-            self.accessToken = account.accessToken!
-            Task {
-              do {
-                try await self.syncEmailBundles()
-              }
-              catch {
-                print("failed to sync email bundles: \(error.localizedDescription)")
-              }
-            }
+            
           } else {
             // handle log out
           }
         }
         .store(in: &subscribers)
     }
-  }
-  
-  private func syncEmailBundles() async throws {
-    let bundleFetchRequest = EmailBundle.fetchRequest()
-    let bundles = try? moc.fetch(bundleFetchRequest)
     
+    let bundleFetchRequest = EmailBundle.fetchRequestWithProps("name")
+    let bundles = try? moc.fetch(bundleFetchRequest)
     if bundles?.first(where: { $0.name == "inbox" }) == nil {
       let _ = EmailBundle(name: "inbox", gmailLabelId: "", icon: kBundleIcons["inbox"]!, context: moc)
     }
+  }
+  
+  func onAccountLoggedIn(_ account: Account) {
+    self.onLoggedIn(account)
+    Task {
+      do {
+        try await self.syncEmailBundles(account)
+      }
+      catch {
+        print("failed to sync email bundles: \(error.localizedDescription)")
+      }
+    }
+  }
+  
+  private func syncEmailBundles(_ account: Account) async throws {
+    let bundleFetchRequest = EmailBundle.fetchRequestWithProps("name", "gmailLabelId")
+    let bundles = try? moc.fetch(bundleFetchRequest)
     
-    let (labelListResponse, _) = try await callGmail(.listLabels)
+    let (labelListResponse, _) = try await GmailEndpoint.call(.listLabels, forAccount: account)
     let labels = (labelListResponse as! GLabelListResponse).labels
     
     // TODO: use batch insert?
@@ -79,13 +81,14 @@ class MailController: ObservableObject {
         return
       }
       
-      var bundle = bundles?.first(where: { $0.gmailLabelId == label.id })
+      let bundleName = label.name.replacing("psymail/", with: "")
+      var bundle = bundles?.first(where: { $0.name == bundleName })
       if bundle == nil {
-        let name = label.name.replacing("psymail/", with: "")
         bundle = EmailBundle(
-          name: name, gmailLabelId: label.id, icon: kBundleIcons[name] ?? "", context: moc
+          name: bundleName, gmailLabelId: label.id, icon: kBundleIcons[bundleName] ?? "", context: moc
         )
       } else {
+        // TODO: update this to work with multiple accounts
         bundle!.gmailLabelId = label.id
       }
     }
@@ -138,7 +141,8 @@ class MailController: ObservableObject {
   }
   
   private func createFilterFor(email: Email, bundle: EmailBundle) async throws {
-    guard let address = email.from?.address
+    guard let address = email.from?.address,
+          let account = email.account
     else {
       throw PsyError.unexpectedError(message: "email had no 'from' address to create filter with")
     }
@@ -146,7 +150,7 @@ class MailController: ObservableObject {
     var filterExistsForSameBundle = false
     var filterIdToDelete: String? = nil
     
-    let (filterListResponse, _) = try await callGmail(.listFilters)
+    let (filterListResponse, _) = try await GmailEndpoint.call(.listFilters, forAccount: account)
     let filters = (filterListResponse as! GFilterListResponse).filter
     
     filters.forEach { filter in
@@ -154,7 +158,7 @@ class MailController: ObservableObject {
          let from = filter.criteria?.from ?? nil,
          from.contains(address) {
        
-        if addLabelIds.contains("psymail/\(bundle)") {
+        if addLabelIds.contains(bundle.gmailLabelId) {
           filterExistsForSameBundle = true
         } else {
           // filter exists for diff bundle so delete it and create the new filter
@@ -164,17 +168,17 @@ class MailController: ObservableObject {
     }
     
     if filterExistsForSameBundle {
-      print("filter already exists to send \(address) to \(bundle), skipping")
+      print("filter already exists to send \(address) to \(bundle.name), skipping create filter step")
       return
     }
     
     if let id = filterIdToDelete {
       print("filter already exists to send \(address) to a different bundle; deleting existing filter")
-      try await callGmail(.deleteFilter(id: id))
+      try await GmailEndpoint.call(.deleteFilter(id: id), forAccount: account)
     }
     
     print("creating filter for \(address) to \(bundle.name)")
-    try await callGmail(.createFilter, withBody: [
+    try await GmailEndpoint.call(.createFilter, forAccount: account, withBody: [
       /// see:  https://developers.google.com/gmail/api/guides/filter_settings
       "criteria": [
         "from": address,
@@ -234,13 +238,6 @@ class MailController: ObservableObject {
   }
   
   // MARK: - private
-  
-  @discardableResult
-  private func callGmail(
-    _ endpoint: GmailEndpoint, withBody body: Any? = nil
-  ) async throws -> (Decodable, URLResponse) {
-    return try await GmailEndpoint.call(endpoint, accessToken: selectedAccount!.accessToken!, withBody: body)
-  }
   
   private func onLoggedIn(_ account: Account) {
     var session = sessions[account]
@@ -336,10 +333,17 @@ class MailController: ObservableObject {
   }
   
   func addLabels(_ labels: [String], toEmails emails: [Email]) async throws {
-    let session = sessions[selectedAccount!]!
+    for email in emails {
+      try await addLabels(labels, toEmail: email)
+    }
+  }
+  
+  func addLabels(_ labels: [String], toEmail email: Email) async throws {
+    let session = sessions[email.account!]!
+    
     guard let addLabels = session.storeLabelsOperation(
       withFolder: DefaultFolder,
-      uids: uidSetForEmails(emails),
+      uids: uidSetForEmails([email]),
       kind: .add,
       labels: labels
     ) else {
@@ -354,10 +358,8 @@ class MailController: ObservableObject {
           return
         }
         
-        emails.forEach { email in
-          labels.forEach { label in
-            email.gmailLabels.insert(label)
-          }
+        labels.forEach { label in
+          email.gmailLabels.insert(label)
         }
         continuation.resume(returning: nil)
       }
@@ -365,10 +367,17 @@ class MailController: ObservableObject {
   }
   
   func removeLabels(_ labels: [String], fromEmails emails: [Email]) async throws {
-    let session = sessions[selectedAccount!]!
+    for email in emails {
+      try await removeLabels(labels, fromEmail: email)
+    }
+  }
+  
+  func removeLabels(_ labels: [String], fromEmail email: Email) async throws {
+    let session = sessions[email.account!]!
+    
     guard let removeLabels = session.storeLabelsOperation(
       withFolder: DefaultFolder,
-      uids: uidSetForEmails(emails),
+      uids: uidSetForEmails([email]),
       kind: .remove,
       labels: labels
     ) else {
@@ -383,10 +392,8 @@ class MailController: ObservableObject {
           return
         }
         
-        emails.forEach { email in
-          labels.forEach { label in
-            email.gmailLabels.remove(label)
-          }
+        labels.forEach { label in
+          email.gmailLabels.remove(label)
         }
         continuation.resume(returning: nil)
       }

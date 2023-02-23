@@ -15,7 +15,7 @@ struct GmailEndpoint {
   )
   
   static let createFilter = Self(
-    name: "create filters",
+    name: "create filter",
     url: URL(string: "https://gmail.googleapis.com/gmail/v1/users/me/settings/filters")!,
     responseType: GFilter.self,
     httpMethod: "POST"
@@ -23,7 +23,7 @@ struct GmailEndpoint {
   
   static func deleteFilter(id: String) -> GmailEndpoint {
     return Self(
-      name: "delete filters",
+      name: "delete filter",
       url: URL(string: "https://gmail.googleapis.com/gmail/v1/users/me/settings/filters/\(id)")!,
       responseType: ResponseTypeNone.self,
       httpMethod: "DELETE"
@@ -39,11 +39,11 @@ struct GmailEndpoint {
   
   @discardableResult
   static func call(
-    _ endpoint: GmailEndpoint, accessToken: String, withBody body: Any? = nil
+    _ endpoint: GmailEndpoint, forAccount account: Account, withBody body: Any? = nil
   ) async throws -> (Decodable, URLResponse) {
     
     var request = URLRequest(url: endpoint.url)
-    request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+    request.addValue("Bearer \(account.accessToken!)", forHTTPHeaderField: "Authorization")
     request.httpMethod = endpoint.httpMethod
     
     if let body = body {
@@ -108,14 +108,11 @@ struct GLabelColor: Codable {
 
 // MARK: - GMAIL FILTERS
 
-/**
- Gmail Filter, see: https://developers.google.com/gmail/api/reference/rest/v1/users.settings.filters
- */
-
 struct GFilterListResponse: Codable {
   var filter: [GFilter]
 }
 
+/// gmail filter, see: https://developers.google.com/gmail/api/reference/rest/v1/users.settings.filters
 struct GFilter: Codable {
   var id: String
   var criteria: GFilterCriteria?

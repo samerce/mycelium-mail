@@ -22,6 +22,12 @@ class AccountController: NSObject {
         "https://www.googleapis.com/auth/gmail.settings.basic"
       ]
     )
+    // TODO: figure out why this is necessary
+    Timer.after(10) { _ in
+      if self.model.accounts.isEmpty {
+        self.restoreSignIn()
+      }
+    }
   }
   
   func restoreSignIn() {
@@ -67,6 +73,7 @@ class AccountController: NSObject {
     }
     
     account!.loggedIn = true
+    MailController.shared.onAccountLoggedIn(account!)
   }
   
 //  func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {

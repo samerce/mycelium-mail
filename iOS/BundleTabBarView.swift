@@ -20,7 +20,7 @@ struct BundleTabBarView: View {
   @EnvironmentObject var viewModel: ViewModel
   @Binding var translationProgress: Double
   
-  private var selectedBundle: EmailBundle? {
+  private var selectedBundle: EmailBundle {
     viewModel.selectedBundle
   }
   
@@ -56,7 +56,7 @@ struct BundleTabBarView: View {
             TabBarItem(
               iconName: bundle.icon,
               label: bundle.name,
-              selected: selectedBundle?.name == bundle.name,
+              selected: selectedBundle.name == bundle.name,
               translationProgress: $translationProgress
             )
             .onTapGesture { viewModel.selectedBundle = bundle }
@@ -137,7 +137,7 @@ struct BundleTabBarView: View {
   private var rowWithActiveTab: Int {
     for (rowIndex, tabRow) in tabRows.enumerated() {
       for bundle in tabRow {
-        if bundle.name == selectedBundle?.name {
+        if bundle.name == selectedBundle.name {
           return rowIndex
         }
       }

@@ -5,7 +5,7 @@ import CoreData
 @main
 struct PsymailApp: App {
   @Environment(\.scenePhase) var scenePhase
-  @ObservedObject var viewModel = ViewModel()
+  @StateObject var viewModel = ViewModel()
   
   var body: some Scene {
     WindowGroup {
@@ -15,7 +15,6 @@ struct PsymailApp: App {
         .onOpenURL { url in
           AccountController.shared.handleGoogleUrl(url)
         }
-        
     }
     .commands {
       SidebarCommands()

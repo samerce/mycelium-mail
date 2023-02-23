@@ -7,15 +7,18 @@ private let moc = PersistenceController.shared.container.viewContext
 
 
 class ViewModel: NSObject, ObservableObject {
+  private let mailCtrl = MailController.shared
+  
+  @Published var appSheetMode: AppSheetMode = .firstStart
   @Published var bundles = [EmailBundle]()
-  @Published var selectedBundle: EmailBundle? {
+  @Published var selectedBundle: EmailBundle {
     didSet {
       emailCtrl.fetchRequest.predicate = Email.predicateForBundle(selectedBundle)
       try? emailCtrl.performFetch()
       emailsInSelectedBundle = emailCtrl.fetchedObjects ?? []
     }
   }
-  @Published var emailsInSelectedBundle: [Email]?
+  @Published var emailsInSelectedBundle: [Email] = []
   
   private let bundleCtrl: NSFetchedResultsController<EmailBundle>
   private let emailCtrl: NSFetchedResultsController<Email>
@@ -27,22 +30,33 @@ class ViewModel: NSObject, ObservableObject {
                                            sectionNameKeyPath: nil,
                                            cacheName: nil)
     try? bundleCtrl.performFetch()
-    let selectedBundle = bundleCtrl.fetchedObjects?.first(where: { $0.name == "inbox" })
     
-    let emailRequest = Email.fetchRequestForBundle(selectedBundle)
+    let _selectedBundle = (bundleCtrl.fetchedObjects?.first(where: { $0.name == "inbox" }))!
+    selectedBundle = _selectedBundle
+    
+    let emailRequest = Email.fetchRequestForBundle(_selectedBundle)
     emailCtrl = NSFetchedResultsController(fetchRequest: emailRequest,
                                            managedObjectContext: moc,
                                            sectionNameKeyPath: nil,
                                            cacheName: nil)
     try? emailCtrl.performFetch()
     
+    if let emails = emailCtrl.fetchedObjects,
+       !emails.isEmpty {
+      appSheetMode = .inboxTools
+    }
+    
     super.init()
     bundleCtrl.delegate = self
     emailCtrl.delegate = self
-    
+    self.update()
+  }
+  
+  private func update() {
     DispatchQueue.main.async {
+      print("updating fetched results")
+      
       self.bundles = self.bundleCtrl.fetchedObjects ?? []
-      self.selectedBundle = selectedBundle
       self.emailsInSelectedBundle = self.emailCtrl.fetchedObjects ?? []
     }
   }
@@ -51,12 +65,7 @@ class ViewModel: NSObject, ObservableObject {
 extension ViewModel: NSFetchedResultsControllerDelegate {
   
   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-    if controller == bundleCtrl {
-      bundles = bundleCtrl.fetchedObjects ?? []
-    }
-    else if controller == emailCtrl {
-      emailsInSelectedBundle = emailCtrl.fetchedObjects ?? []
-    }
+    update()
   }
   
 }

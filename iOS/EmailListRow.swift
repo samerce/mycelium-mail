@@ -8,7 +8,7 @@ struct EmailListRow: View {
   @EnvironmentObject private var appAlert: AppAlert
   @EnvironmentObject private var viewModel: ViewModel
   
-  private var selectedBundle: EmailBundle? {
+  private var selectedBundle: EmailBundle {
     viewModel.selectedBundle
   }
   private var bundles: [EmailBundle] {
@@ -98,7 +98,7 @@ struct EmailListRow: View {
         Button(bundle.name) {
           do {
             try withAnimation {
-              try MailController.shared.moveEmail(email, fromBundle: selectedBundle!, toBundle: bundle)
+              try MailController.shared.moveEmail(email, fromBundle: selectedBundle, toBundle: bundle)
             }
             appAlert.show(message: "moved to \(bundle.name)", icon: "checkmark", delay: 1)
           }

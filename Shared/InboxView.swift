@@ -11,15 +11,10 @@ struct InboxView: View {
   
   @State private var selectedEmails: Set<Email> = []
   @State private var sheetPresented = true
-  @State private var appSheetMode: AppSheetMode = .inboxTools
   @State private var editMode: EditMode = .inactive
   
-  private var selectedBundle: EmailBundle? {
-    viewModel.selectedBundle
-  }
-  private var emails: [Email] {
-    return viewModel.emailsInSelectedBundle ?? []
-  }
+  private var selectedBundle: EmailBundle { viewModel.selectedBundle }
+  private var emails: [Email] { viewModel.emailsInSelectedBundle }
   
   // MARK: - VIEW
   
@@ -38,13 +33,13 @@ struct InboxView: View {
       
       withAnimation {
         switch (selectedEmails.isEmpty) {
-          case true: appSheetMode = .inboxTools
-          case false: appSheetMode = .emailTools
+          case true: viewModel.appSheetMode = .inboxTools
+          case false: viewModel.appSheetMode = .emailTools
         }
       }
     }
     .sheet(isPresented: $sheetPresented) {
-      AppSheetView(mode: $appSheetMode)
+      AppSheetView()
     }
     .environmentObject(appAlert)
     .overlay(alignment: .center) {
@@ -96,7 +91,7 @@ extension InboxView {
         Spacer().frame(height: appSheetDetents.min)
       }
       .onChange(of: selectedBundle) { _ in
-//        scrollProxy.scrollTo(emails.first?.objectID)
+        scrollProxy.scrollTo(emails.first?.objectID)
       }
     }
   }
@@ -109,7 +104,7 @@ extension InboxView {
       }
     }
     ToolbarItem(placement: .principal) {
-      Text(selectedBundle?.name ?? "")
+      Text(selectedBundle.name)
         .font(.system(size: 27, weight: .black))
         .padding(.bottom, 6)
     }

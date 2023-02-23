@@ -12,6 +12,13 @@ extension EmailBundle {
   }
   
   @nonobjc public class
+  func fetchRequestWithProps(_ props: Any...) -> NSFetchRequest<EmailBundle> {
+    let request = EmailBundle.fetchRequest()
+    request.propertiesToFetch = props
+    return request
+  }
+  
+  @nonobjc public class
   func fetchRequestWithName(_ name: String) -> NSFetchRequest<EmailBundle> {
     let request = EmailBundle.fetchRequest()
     request.predicate = NSPredicate(format: "name == %@", name)
