@@ -36,7 +36,7 @@ struct FirstStartView: View {
       Button {
         AccountController.shared.signIn()
       } label: {
-        Text("LOG IN")
+        Text("SIGN IN")
           .font(.system(size: 18))
           .padding(9)
       }

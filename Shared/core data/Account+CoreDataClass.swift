@@ -8,7 +8,7 @@ public enum AccountType: String {
 @objc(Account)
 public class Account: NSManagedObject {
   
-  @Published var loggedIn = false
+  @Published var signedIn = false
   
   convenience init(
     type: AccountType,

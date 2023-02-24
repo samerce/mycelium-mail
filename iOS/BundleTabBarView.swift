@@ -43,8 +43,8 @@ struct BundleTabBarView: View {
   var body: some View {
     VStack(alignment: .center, spacing: 0) {
       ForEach(Array(tabRows.enumerated()), id: \.0) { rowIndex, tabRow in
-        let tabRowHeight = heightForTabRow(rowIndex)
-        let tabRowOpacity = opacityForTabRow(rowIndex)
+//        let tabRowHeight = heightForTabRow(rowIndex)
+//        let tabRowOpacity = opacityForTabRow(rowIndex)
         
 //        Text(String(tabRow.count))
         

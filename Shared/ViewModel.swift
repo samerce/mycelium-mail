@@ -24,6 +24,7 @@ class ViewModel: NSObject, ObservableObject {
   private let emailCtrl: NSFetchedResultsController<Email>
   
   override init() {
+    // fetch bundles
     let bundleRequest = EmailBundle.fetchRequest()
     bundleCtrl = NSFetchedResultsController(fetchRequest: bundleRequest,
                                            managedObjectContext: moc,
@@ -31,9 +32,11 @@ class ViewModel: NSObject, ObservableObject {
                                            cacheName: nil)
     try? bundleCtrl.performFetch()
     
+    // select the inbox bundle
     let _selectedBundle = (bundleCtrl.fetchedObjects?.first(where: { $0.name == "inbox" }))!
     selectedBundle = _selectedBundle
     
+    // fetch emails in inbox bundle
     let emailRequest = Email.fetchRequestForBundle(_selectedBundle)
     emailCtrl = NSFetchedResultsController(fetchRequest: emailRequest,
                                            managedObjectContext: moc,
@@ -41,11 +44,13 @@ class ViewModel: NSObject, ObservableObject {
                                            cacheName: nil)
     try? emailCtrl.performFetch()
     
+    // set the sheet mode based on email availability
     if let emails = emailCtrl.fetchedObjects,
        !emails.isEmpty {
       appSheetMode = .inboxTools
     }
     
+    // finish init
     super.init()
     bundleCtrl.delegate = self
     emailCtrl.delegate = self

@@ -8,23 +8,23 @@ extension Email {
   
   @nonobjc public class
   func fetchRequest() -> NSFetchRequest<Email> {
-    return NSFetchRequest<Email>(entityName: "Email")
+    let request = NSFetchRequest<Email>(entityName: "Email")
+    request.sortDescriptors = []
+    return request
   }
   
   @nonobjc public class
   func emptyFetchRequest() -> NSFetchRequest<Email> {
     let request = Email.fetchRequest()
-    request.sortDescriptors = []
     request.fetchLimit = 1
     request.fetchBatchSize = 1
-    request.predicate = NSPredicate(format: "SELF == %@", "zero")
+    request.predicate = NSPredicate(format: "FALSEPREDICATE")
     return request
   }
   
   @nonobjc public class
   func fetchRequestForEmailWithId(_ id: NSManagedObjectID? = nil) -> NSFetchRequest<Email> {
     let request = Email.fetchRequest()
-    request.sortDescriptors = []
     request.predicate = id == nil ? nil : NSPredicate(format: "SELF == %@", id!)
     request.fetchLimit = 1
     request.fetchBatchSize = 1
@@ -38,8 +38,8 @@ extension Email {
     fetchRequest.predicate = predicateForBundle(bundle)
     fetchRequest.fetchBatchSize = 108
 //    fetchRequest.fetchLimit = 108
-    fetchRequest.propertiesToFetch = ["date"]
-    fetchRequest.relationshipKeyPathsForPrefetching = ["header"]
+//    fetchRequest.propertiesToFetch = ["date"]
+//    fetchRequest.relationshipKeyPathsForPrefetching = ["header", "account"]
     return fetchRequest
   }
   
@@ -57,7 +57,7 @@ extension Email {
   @NSManaged public var gmailLabels: Set<String>
   @NSManaged public var gmailMessageId: Int64
   @NSManaged public var gmailThreadId: Int64
-  @NSManaged public var html: String?
+  @NSManaged public var html: String
   @NSManaged public var modSeqValue: Int64 // last mod seq on server, see RFC4551
   @NSManaged public var originalFlagsRaw: Int16 // flags when first fetched
   @NSManaged public var size: Int32

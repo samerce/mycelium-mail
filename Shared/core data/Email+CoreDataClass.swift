@@ -118,7 +118,7 @@ public class Email: NSManagedObject {
     originalFlags = message.originalFlags
     customFlags = Set(message.customFlags as? [String] ?? [])
     modSeqValue = Int64(message.modSeqValue)
-    html = emailAsHtml
+    html = emailAsHtml ?? ""
     trashed = false
   }
   

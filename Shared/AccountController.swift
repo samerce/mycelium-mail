@@ -3,7 +3,7 @@ import GoogleSignIn
 
 class AccountController: NSObject {
   static let shared = AccountController()
-  
+
   @Published private(set) var model = AccountModel()
   private var config: GIDConfiguration = GIDConfiguration(
     clientID: "941559531688-m6ve00j5ofshqf5ksfqng92ga7kbkbb6.apps.googleusercontent.com"
@@ -72,8 +72,8 @@ class AccountController: NSObject {
       model.save()
     }
     
-    account!.loggedIn = true
-    MailController.shared.onAccountLoggedIn(account!)
+    account!.signedIn = true
+    MailController.shared.onSignedInAccount(account!)
   }
   
 //  func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {

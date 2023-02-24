@@ -58,7 +58,7 @@ struct EmailListRow: View {
         Text(email.subject)
           .if(mode == .summary) { view in
             view
-              .font(.system(size: 13, weight: email.seen ? .light : .regular))
+              .font(.system(size: 13, weight: email.seen ? .light : .medium))
               .lineLimit(1)
           }
           .if(mode == .details) { $0.font(.system(size: 20)) }

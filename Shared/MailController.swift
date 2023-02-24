@@ -35,13 +35,11 @@ class MailController: ObservableObject {
   
   private init() {
     for (address, account) in accountCtrl.model.accounts {
-      account.$loggedIn
-//        .receive(on: RunLoop.main)
-        .sink { loggedIn in
-          print("\(address) loggedIn: \(loggedIn)")
+      account.$signedIn
+        .sink { signedIn in
+          print("\(address) signed in: \(signedIn)")
           
-          if loggedIn {
-            
+          if signedIn {
           } else {
             // handle log out
           }
@@ -49,6 +47,7 @@ class MailController: ObservableObject {
         .store(in: &subscribers)
     }
     
+    // if "inbox" bundle doesn't exist, create it
     let bundleFetchRequest = EmailBundle.fetchRequestWithProps("name")
     let bundles = try? moc.fetch(bundleFetchRequest)
     if bundles?.first(where: { $0.name == "inbox" }) == nil {
@@ -56,15 +55,27 @@ class MailController: ObservableObject {
     }
   }
   
-  func onAccountLoggedIn(_ account: Account) {
-    self.onLoggedIn(account)
-    Task {
+  func onSignedInAccount(_ account: Account) {
+    var session = sessions[account]
+    if session == nil {
+      session = sessionForType(account.type)
+      sessions[account] = session
+    }
+    session!.username = account.address
+    session!.oAuth2Token = account.accessToken
+    session!.isVoIPEnabled = false
+    
+    Task(priority: .background) {
+      // gotta sync bundles before fetch, cuz on first start
+      // the bundles must exist while emails are being created
       do {
         try await self.syncEmailBundles(account)
       }
       catch {
         print("failed to sync email bundles: \(error.localizedDescription)")
       }
+      
+      try? await self.fetchLatest(account)
     }
   }
   
@@ -238,22 +249,6 @@ class MailController: ObservableObject {
   }
   
   // MARK: - private
-  
-  private func onLoggedIn(_ account: Account) {
-    var session = sessions[account]
-    if session == nil {
-      session = sessionForType(account.type)
-      sessions[account] = session
-    }
-    
-    session!.username = account.address
-    session!.oAuth2Token = account.accessToken
-    session?.isVoIPEnabled = false
-    
-    Task(priority: .background) {
-      try? await self.fetchLatest(account)
-    }
-  }
   
   private func fetchLatest(_ account: Account) async throws {
     let startUid = model.highestEmailUid() + 1
@@ -485,22 +480,19 @@ class MailController: ObservableObject {
   }
   
   func fetchHtml(for email: Email) async throws {
-    let context = PersistenceController.shared.newTaskContext()
-    context.name = "fetchHtml"
-    context.transactionAuthor = "MailController"
+    guard email.html.isEmpty
+    else { return }
     
-    if email.html == nil || email.html!.isEmpty {
-      email.html = try await self.bodyHtmlForEmail(withUid: UInt32(email.uid), account: email.account!)
-    }
-  
-    try await context.perform {
-      try context.save()
+    email.html = try await self.bodyHtmlForEmail(email)
+    
+    try await moc.perform {
+      try moc.save()
     }
   }
   
-  func bodyHtmlForEmail(withUid uid: UInt32, account: Account) async throws -> String {
-    let session = sessions[account]!
-    let fetchMessage = session.fetchParsedMessageOperation(withFolder: DefaultFolder, uid: uid)
+  func bodyHtmlForEmail(_ email: Email) async throws -> String {
+    let session = sessions[email.account!]!
+    let fetchMessage = session.fetchParsedMessageOperation(withFolder: DefaultFolder, uid: UInt32(email.uid))
     
     return try await withCheckedThrowingContinuation { continuation in
       guard let fetchMessage = fetchMessage else {
@@ -528,9 +520,10 @@ class MailController: ObservableObject {
     } ?? completion("")
   }
   
+  
 }
 
-private class GmailSession: MCOIMAPSession {
+class GmailSession: MCOIMAPSession {
   
   override init() {
     super.init()
