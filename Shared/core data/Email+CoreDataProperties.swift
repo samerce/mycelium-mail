@@ -37,7 +37,7 @@ extension Email {
     fetchRequest.sortDescriptors = [byDateDescending]
     fetchRequest.predicate = predicateForBundle(bundle)
     fetchRequest.fetchBatchSize = 108
-    fetchRequest.fetchLimit = 108
+    fetchRequest.fetchLimit = 216
 //    fetchRequest.propertiesToFetch = ["date"]
 //    fetchRequest.relationshipKeyPathsForPrefetching = ["header", "account"]
     return fetchRequest

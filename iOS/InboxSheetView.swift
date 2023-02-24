@@ -25,9 +25,10 @@ struct InboxSheetView: View {
   // MARK: - View
   
   var body: some View {
-    VStack(spacing: 0) {
+    VStack(alignment: .leading, spacing: 0) {
       DragSheetIcon()
-        .padding(.top, 6)
+        .frame(maxWidth: .infinity)
+        .padding(.top, 4)
       
       Text("psymail")
         .font(.system(size: 27, weight: .black))
@@ -55,7 +56,6 @@ struct InboxSheetView: View {
 //      }
 //      .padding(0)
     }
-    .frame(height: asvm.sheetSize.height)
   }
   
   
