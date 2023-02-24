@@ -1,16 +1,34 @@
 import SwiftUI
 import SwiftUIKit
+import Combine
 
 
 struct AppSheetDetents {
+  static let min: CGFloat = 90
+  static let mid: CGFloat = 420
+  static let max: CGFloat = 750
+  
   var min: CGFloat = 0
   var mid: CGFloat = 0
   var max: CGFloat = 0
 }
 
+class AppSheetViewModel: ObservableObject {
+  @Published var sheetSize: CGSize = CGSize() {
+    didSet {
+      let sheetDistanceFromMin = sheetSize.height - AppSheetDetents.min
+      let distanceFromMinToMid = AppSheetDetents.mid - AppSheetDetents.min
+      percentToMid = min(1, max(0, sheetDistanceFromMin / distanceFromMinToMid))
+    }
+  }
+  
+  @Published var percentToMid: CGFloat = 0
+}
+
 
 struct AppSheetView: View {
   @EnvironmentObject var viewModel: ViewModel
+  @StateObject var appSheetViewModel = AppSheetViewModel()
   @State var selectedDetent: PresentationDetent = .height(1)
   
   private var mode: AppSheetMode { viewModel.appSheetMode }
@@ -19,21 +37,26 @@ struct AppSheetView: View {
   // MARK: - VIEW
   
   var body: some View {
-    ZStack {
-      OverlayBackgroundView()
-      Sheet
-        .interactiveDismissDisabled()
-        .presentationDetents(undimmed: detents, selection: $selectedDetent)
-    }
-    .onAppear {
-      selectedDetent = mode.initialDetent
-    }
-    .onReceive(viewModel.$appSheetMode) { mode in
-      selectedDetent = mode.initialDetent
-    }
-    .ignoresSafeArea()
-    .introspectViewController { vc in
-      vc.view.backgroundColor = .clear
+    GeometryReader { geo in
+      ZStack(alignment: .top) {
+        OverlayBackgroundView()
+        Sheet
+          .interactiveDismissDisabled()
+          .presentationDetents(undimmed: detents, selection: $selectedDetent)
+          .presentationDragIndicator(.hidden)
+      }
+      .ignoresSafeArea()
+      .environmentObject(appSheetViewModel)
+      .introspectViewController { $0.view.backgroundColor = .clear }
+      .onAppear {
+        selectedDetent = mode.initialDetent
+      }
+      .onReceive(viewModel.$appSheetMode) { mode in
+        selectedDetent = mode.initialDetent
+      }
+      .onChange(of: geo.size) { _ in
+        appSheetViewModel.sheetSize = geo.size
+      }
     }
   }
   

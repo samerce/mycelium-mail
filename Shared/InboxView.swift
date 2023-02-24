@@ -50,14 +50,14 @@ struct InboxView: View {
   private var AlertOverlay: some View {
     VStack(alignment: .center) {
       if let icon = appAlert.icon {
-        SystemImage(icon, size: 69, color: .white.opacity(0.69))
+        SystemImage(icon, size: 69, color: .white)
       }
       Text(appAlert.message ?? "")
         .font(.system(size: 15, weight: .medium))
         .padding(12)
     }
     .animation(.easeInOut, value: appAlert)
-    .foregroundColor(.white.opacity(0.69))
+    .foregroundColor(.white)
     .frame(width: 200, height: 200)
     .background(
       OverlayBackgroundView(blurStyle: .systemChromeMaterial)

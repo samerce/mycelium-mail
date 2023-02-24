@@ -1,30 +1,31 @@
 import SwiftUI
 
 
-struct TabRow: Identifiable {
+struct TabRowConfig: Identifiable {
   var label: String
   var icon: String
   var id: String { label }
 }
 
 
-private let TabBarHeight = 50.0
+private let RowHeightSmall = 42.0
+private let RowHeightBig = 50.0
 private let SpacerHeight = 18.0
-private let TranslationMax = 108.0
-private let HeaderHeight: CGFloat = 42
-private let HeaderBottomPadding: CGFloat = 18
+private let HeaderHeight = 42.0
+private let TabRowPadding = 6.0
+private let TabRowHPadding = TabRowPadding * 2
 // TODO: store in @AppStorage or EmailBundle
 private let tabOrder = ["notifications", "commerce", "inbox", "newsletters", "society", "marketing"]
 
+
 struct BundleTabBarView: View {
   @EnvironmentObject var viewModel: ViewModel
-  @Binding var translationProgress: Double
+  @EnvironmentObject var asvm: AppSheetViewModel
   
-  private var selectedBundle: EmailBundle {
-    viewModel.selectedBundle
-  }
+  var selectedBundle: EmailBundle { viewModel.selectedBundle }
+  var percentToMid: CGFloat { asvm.percentToMid }
   
-  private var tabRows: [[EmailBundle]] {
+  var tabRows: [[EmailBundle]] {
     var rowIndex = 0
     return tabOrder.reduce(into: [[]]) { tabRows, bundleName in
       let bundle = viewModel.bundles.first(where: { $0.name == bundleName })
@@ -42,114 +43,87 @@ struct BundleTabBarView: View {
   
   var body: some View {
     VStack(alignment: .center, spacing: 0) {
-      ForEach(Array(tabRows.enumerated()), id: \.0) { rowIndex, tabRow in
-//        let tabRowHeight = heightForTabRow(rowIndex)
-//        let tabRowOpacity = opacityForTabRow(rowIndex)
-        
-//        Text(String(tabRow.count))
-        
-        HStack(alignment: .lastTextBaseline) {
-          Spacer()
-          
-          ForEach(Array(tabRow.enumerated()), id: \.0) { (index, bundle: EmailBundle) in
-//            Text(String(item.label))
-            TabBarItem(
-              iconName: bundle.icon,
-              label: bundle.name,
-              selected: selectedBundle.name == bundle.name,
-              translationProgress: $translationProgress
-            )
-            .onTapGesture { viewModel.selectedBundle = bundle }
-          }
-          
-          Spacer()
-        }
-        .frame(height: 50)
-//        .opacity(tabRowOpacity)
-        
-        Spacer().frame(height: spacerHeight)
+      ForEach(Array(tabRows.enumerated()), id: \.0) { index, bundles in
+        TabRow(index: index, bundles: bundles)
+        Spacer().frame(height: SpacerHeight * percentToMid)
       }
     }
-    .padding(.top, 50)
   }
   
-  private var heightWhileDragging: CGFloat {
-    (CGFloat(translationProgress) / appSheetDetents.mid) * HeaderHeight
-  }
-  private var headerHeight: CGFloat {
-    min(HeaderHeight, max(0, heightWhileDragging))
-  }
-  private var bottomPaddingWhileDragging: CGFloat {
-    (CGFloat(translationProgress) / appSheetDetents.mid) * HeaderBottomPadding
-  }
-  private var bottomPadding: CGFloat {
-    min(HeaderBottomPadding, max(0, bottomPaddingWhileDragging))
-  }
-  private var opacity: CGFloat {
-    min(1, max(0, (translationProgress / Double(appSheetDetents.mid)) * 1))
-  }
   
-  private var BundleHeader: some View {
-    HStack(spacing: 0) {
-      Text("BUNDLES")
-        .frame(maxHeight: headerHeight, alignment: .leading)
-        .font(.system(size: 14, weight: .light))
-        .foregroundColor(Color(.gray))
+  @ViewBuilder
+  private func TabRow(index rowIndex: Int, bundles: [EmailBundle]) -> some View {
+    HStack(alignment: .lastTextBaseline) {
       Spacer()
-      Button(action: onClickBundleSettings) {
-        ZStack {
-          Image(systemName: "gear")
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .foregroundColor(.psyAccent)
-            .font(.system(size: 16, weight: .light))
-        }
-        .frame(width: 20, alignment: .trailing)
+      
+      ForEach(Array(bundles.enumerated()), id: \.0) { (bundleIndex, bundle: EmailBundle) in
+        TabBarItem(
+          iconName: bundle.icon,
+          label: bundle.name,
+          selected: selectedBundle.name == bundle.name,
+          collapsible: rowIndex > 0
+        )
+        .onTapGesture { viewModel.selectedBundle = bundle }
+        .clipped()
       }
+      
+      Spacer()
     }
-    .padding(.horizontal, 18)
-    .padding(.bottom, bottomPadding)
-    .opacity(opacity)
-    .frame(height: headerHeight)
-    .clipped()
+    .opacity(rowOpacity(rowIndex))
+    .frame(height: rowHeight(rowIndex))
   }
   
-  private func onClickBundleSettings() {
-    
-  }
+  // MARK: - HELPERS
   
-  private func heightForTabRow(_ row: Int) -> CGFloat {
-    let heightWhileDragging = (CGFloat(translationProgress) / TranslationMax) * TabBarHeight
-    let variableTabBarHeight = min(TabBarHeight, max(0, heightWhileDragging))
-    
-    return row == rowWithActiveTab ? TabBarHeight : variableTabBarHeight
-  }
-  
-  private func opacityForTabRow(_ row: Int) -> Double {
-    let variableOpacity = min(1, max(0, (translationProgress / TranslationMax) * 1))
-    return row == rowWithActiveTab ? 1 : variableOpacity
-  }
-  
-  private var spacerHeight: CGFloat {
-    min(SpacerHeight, max(0, (CGFloat(translationProgress) / TranslationMax) * SpacerHeight))
-  }
-  
-  private var rowWithActiveTab: Int {
-    for (rowIndex, tabRow) in tabRows.enumerated() {
-      for bundle in tabRow {
-        if bundle.name == selectedBundle.name {
-          return rowIndex
-        }
-      }
+  private func rowOpacity(_ index: Int) -> Double {
+    if index == 0 { return 1 }
+    else {
+      return Double(percentToMid)
     }
-    return -1
   }
+  
+  private func rowHeight(_ index: Int) -> CGFloat {
+    if index == 0 {
+      return RowHeightSmall + ((RowHeightBig - RowHeightSmall) * percentToMid)
+    }
+    else {
+      return RowHeightBig * percentToMid
+    }
+  }
+  
+//  private var BundleHeader: some View {
+//    HStack(spacing: 0) {
+//      Text("BUNDLES")
+//        .frame(maxHeight: headerHeight, alignment: .leading)
+//        .font(.system(size: 14, weight: .light))
+//        .foregroundColor(Color(.gray))
+//      Spacer()
+//      Button(action: onClickBundleSettings) {
+//        ZStack {
+//          Image(systemName: "gear")
+//            .resizable()
+//            .aspectRatio(contentMode: .fit)
+//            .foregroundColor(.psyAccent)
+//            .font(.system(size: 16, weight: .light))
+//        }
+//        .frame(width: 20, alignment: .trailing)
+//      }
+//    }
+//    .padding(.horizontal, 18)
+//    .padding(.bottom, bottomPadding)
+//    .opacity(opacity)
+//    .frame(height: headerHeight)
+//    .clipped()
+//  }
+//
+//  private func onClickBundleSettings() {
+//
+//  }
   
 }
 
 struct TabBarView_Previews: PreviewProvider {
-  @State static var translationProgress: Double = 0
   static var previews: some View {
-    BundleTabBarView(translationProgress: $translationProgress)
+    BundleTabBarView()
   }
 }

@@ -1,5 +1,6 @@
 import SwiftUI
 
+
 private enum Grouping: String, CaseIterable, Identifiable {
     case emailAddress = "address"
 //    case contactCard = "contact"
@@ -9,60 +10,65 @@ private enum Grouping: String, CaseIterable, Identifiable {
     var id: String { self.rawValue }
 }
 
-private let ToolbarHeight: CGFloat = 18
-private let FirstExpandedNotch: CGFloat = 0.5
+private let ToolbarHeight = 22.0
+
 
 struct InboxSheetView: View {
-  @EnvironmentObject private var viewModel: ViewModel
-  @State private var selectedGrouping = Grouping.emailAddress
-  @State private var hiddenViewOpacity = 0.0
-  @State private var translationProgress: Double = 0
+  @EnvironmentObject var viewModel: ViewModel
+  @EnvironmentObject var asvm: AppSheetViewModel
   
-  private var bottomSpace: CGFloat {
-    CGFloat.maximum(6, 42 - (CGFloat(translationProgress) / FirstExpandedNotch) * 42)
-  }
-  private var dividerHeight: CGFloat {
-    CGFloat.maximum(0, DividerHeight - (CGFloat(translationProgress) / FirstExpandedNotch) * DividerHeight)
-  }
-  private var hiddenSectionOpacity: CGFloat {
-    translationProgress > 0 ? translationProgress + 0.48 : 0
+  var percentToMid: CGFloat { asvm.percentToMid }
+  var toolbarHeight: CGFloat {
+    ToolbarHeight - (ToolbarHeight * percentToMid)
   }
   
   // MARK: - View
   
   var body: some View {
     VStack(spacing: 0) {
+      DragSheetIcon()
+        .padding(.top, 6)
+      
       Text("psymail")
         .font(.system(size: 27, weight: .black))
-        .padding(.top, 12)
-        .padding(.bottom, 18)
+        .frame(height: 50 * percentToMid)
+        .frame(maxWidth: .infinity)
+        .padding(.bottom, 18 * percentToMid)
+        .opacity(Double(percentToMid))
+        .clipped()
       
-      BundleTabBarView(translationProgress: $translationProgress)
-
+      BundleTabBarView()
+        .clipped()
+        .offset(y: 9)
+      
       Divider()
-        .frame(height: dividerHeight)
+        .frame(height: DividerHeight)
         .padding(.horizontal, 9)
         .padding(.bottom, 6)
-      
-      Toolbar
-        .padding(.bottom, bottomSpace)
 
-      ScrollView {
-        MailboxSection
-          .padding(.bottom, 18)
-        AppSection
-      }
-      .padding(0)
+      Toolbar
+      
+//      ScrollView {
+//        MailboxSection
+//          .padding(.bottom, 18)
+//        AppSection
+//      }
+//      .padding(0)
     }
+    .frame(height: asvm.sheetSize.height)
   }
   
+  
+  private func tabBarHeight(_ parentSize: CGSize) -> CGFloat {
+    return 90 * asvm.percentToMid
+  }
+  
+  
   private let DividerHeight: CGFloat = 9
-  private let allMailboxesIconSize: CGFloat = 25
-  private let composeIconSize: CGFloat = 25
+  private let allMailboxesIconSize: CGFloat = 22
+  private let composeIconSize: CGFloat = 22
   
   private var Toolbar: some View {
-    let height = CGFloat.maximum(0, ToolbarHeight - (CGFloat(translationProgress) / FirstExpandedNotch) * ToolbarHeight)
-    let opacity = CGFloat.maximum(0, 1 - (CGFloat(translationProgress) / FirstExpandedNotch))
     return VStack(alignment: .center, spacing: 0) {
       HStack(spacing: 0) {
         Button(action: loginWithGoogle) {
@@ -71,34 +77,38 @@ struct InboxSheetView: View {
               .resizable()
               .aspectRatio(contentMode: .fit)
               .foregroundColor(.psyAccent)
-              .frame(maxWidth: allMailboxesIconSize, maxHeight: height)
+              .frame(width: allMailboxesIconSize, height: allMailboxesIconSize)
               .font(.system(size: allMailboxesIconSize, weight: .light))
-          }.frame(width: 54, height: 50, alignment: .leading)
+          }.frame(minWidth: 54, maxWidth: .infinity, alignment: .leading)
         }.frame(width: 54, height: 50, alignment: .leading)
         
         Text("updated just now")
           .font(.system(size: 14, weight: .light))
           .foregroundColor(.secondary)
-          .frame(maxWidth: .infinity, maxHeight: height)
+          .frame(maxWidth: .infinity)
+          .opacity(Double(1 - asvm.percentToMid))
           .multilineTextAlignment(.center)
           .clipped()
         
-        Button(action: {}) {
+        Button { print("compose") } label: {
           ZStack {
             Image(systemName: "square.and.pencil")
               .resizable()
               .aspectRatio(contentMode: .fit)
               .foregroundColor(.psyAccent)
-              .frame(maxWidth: composeIconSize, maxHeight: height)
+              .frame(width: composeIconSize, height: composeIconSize)
               .font(.system(size: composeIconSize, weight: .light))
-          }.frame(width: 54, height: 50, alignment: .trailing)
+          }
+          .frame(minWidth: 54, maxHeight: .infinity, alignment: .trailing)
+          .contentShape(Rectangle())
         }.frame(width: 54, height: 50, alignment: .leading)
       }
-      .frame(height: height)
+      .frame(height: toolbarHeight)
     }
     .padding(.horizontal, 24)
-    .opacity(Double(opacity))
+    .opacity(Double(1 - percentToMid))
   }
+  
   
   private var MailboxSection: some View {
     VStack(spacing: 18) {
@@ -129,6 +139,7 @@ struct InboxSheetView: View {
     .clipped()
   }
   
+  
   private var AppSection: some View {
     VStack(alignment: .leading, spacing: 18) {
       Text("APP")
@@ -143,12 +154,14 @@ struct InboxSheetView: View {
     .padding(.horizontal, 18)
   }
   
+  
   private func Mailbox(_ name: String) -> some View {
     Text(name)
       .padding()
       .overlay(RoundedRectangle(cornerRadius: 12.0).stroke(.gray))
       .frame(maxWidth: .infinity, alignment: .leading)
   }
+  
   
   private func header(_ text: String) -> some View {
     Text(text)
@@ -157,11 +170,13 @@ struct InboxSheetView: View {
       .frame(maxWidth: .infinity, alignment: .leading)
   }
   
+  
   private func loginWithGoogle() {
     AccountController.shared.signIn()
   }
   
 }
+
 
 struct InboxDrawerView_Previews: PreviewProvider {
   static var previews: some View {

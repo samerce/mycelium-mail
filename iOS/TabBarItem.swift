@@ -1,21 +1,27 @@
 import SwiftUI
 
-private let LabelHeight: CGFloat = 18
-private let FirstExpandedNotch: CGFloat = 0.5
+
+private let LabelHeight = 18.0
 private let IconSize = 22.0
+
 
 struct TabBarItem: View {
   let iconName: String
   let label: String
-  
   var selected: Bool
-  @Binding var translationProgress: Double
+  var collapsible: Bool
   
-  private var labelHeight: CGFloat {
-    min(LabelHeight, max(0, (CGFloat(translationProgress) / FirstExpandedNotch) * LabelHeight))
+  @EnvironmentObject var asvm: AppSheetViewModel
+  
+  var percentToMid: CGFloat { asvm.percentToMid }
+  var labelHeight: CGFloat {
+    collapsible ? LabelHeight : LabelHeight * percentToMid
   }
-  private var labelOpacity: Double {
-    min(1, max(0, (translationProgress / 0.5) * 1))
+  var labelOpacity: Double {
+    collapsible ? 1 : Double(percentToMid)
+  }
+  var fgColor: Color {
+    selected ? .psyAccent : Color(.secondaryLabel)
   }
   
   var body: some View {
@@ -25,34 +31,13 @@ struct TabBarItem: View {
         .aspectRatio(contentMode: .fit)
         .frame(width: IconSize, height: IconSize)
         .font(.system(size: IconSize, weight: .light))
-        .contentShape(Rectangle())
       Text(label)
         .font(.system(size: 11, weight: .light))
-        .frame(height: labelHeight)
         .opacity(labelOpacity)
     }
-    .foregroundColor(fgColor())
-    .frame(maxWidth: .infinity, maxHeight: .infinity)
+    .frame(maxWidth: .infinity)
+    .foregroundColor(fgColor)
     .contentShape(Rectangle())
-    .clipped()
   }
   
-  private func fgColor() -> Color {
-    return selected ? .psyAccent : Color(.secondaryLabel)
-  }
 }
-
-//struct TabBarItem_Previews: PreviewProvider {
-//  static var selection: Int = 0
-//  static var selectionBinding = Binding<Int>(get: { selection }, set: { selection = $0 })
-//
-//  static var previews: some View {
-//    TabBarItem(
-//      iconName: "clock.fill",
-//      label: "Recents",
-//      selection: selectionBinding,
-//      tag: 0,
-//      translationProgress: )
-//      .previewLayout(.fixed(width: 80, height: 80))
-//  }
-//}
