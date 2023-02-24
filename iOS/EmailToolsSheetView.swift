@@ -26,6 +26,7 @@ private var mailCtrl = MailController.shared
 
 struct EmailToolsSheetView: View {
   @Environment(\.dismiss) private var dismiss
+  @EnvironmentObject var viewModel: ViewModel
   
   private var email: Email? = mailCtrl.selectedEmail
   
@@ -185,8 +186,9 @@ struct EmailToolsSheetView: View {
   }
   
   private var BackToEmailListButton: some View {
-    Button(action: {
-    }) {
+    Button {
+      viewModel.navController?.popViewController(animated: true)
+    } label: {
       ZStack {
         SystemImage("chevron.backward", size: 27)
       }

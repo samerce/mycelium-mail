@@ -1,6 +1,7 @@
 import Foundation
 import Combine
 import CoreData
+import UIKit
 
 
 private let moc = PersistenceController.shared.container.viewContext
@@ -19,6 +20,7 @@ class ViewModel: NSObject, ObservableObject {
     }
   }
   @Published var emailsInSelectedBundle: [Email] = []
+  var navController: UINavigationController?
   
   private let bundleCtrl: NSFetchedResultsController<EmailBundle>
   private let emailCtrl: NSFetchedResultsController<Email>

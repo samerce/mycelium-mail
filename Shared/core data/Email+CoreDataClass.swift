@@ -21,6 +21,7 @@ public class Email: NSManagedObject {
   
   var from: EmailAddress? { header!.from }
   var sender: EmailAddress? { header!.sender }
+  var to: EmailAddress? { header!.to?.allObjects.first as? EmailAddress }
   
   var subject: String {
     header!.subject?.replacingOccurrences(of: "\r\n", with: "") ?? "None"
@@ -28,6 +29,10 @@ public class Email: NSManagedObject {
   var fromLine: String {
     from?.displayName ?? sender?.displayName ??
       from?.address ?? sender?.address ?? "Unknown"
+  }
+  
+  var toLine: String {
+    to?.displayName ?? to?.address ?? "Unknown"
   }
   
   var displayDate: String? {

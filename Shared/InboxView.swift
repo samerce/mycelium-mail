@@ -9,12 +9,12 @@ struct InboxView: View {
   @StateObject var mailCtrl = MailController.shared
   @StateObject private var appAlert: AppAlert = AppAlert()
   
-  @State private var selectedEmails: Set<Email> = []
-  @State private var sheetPresented = true
-  @State private var editMode: EditMode = .inactive
+  @State var sheetPresented = true
+  @State var selectedEmails: Set<Email> = []
+  @State var editMode: EditMode = .inactive
   
-  private var selectedBundle: EmailBundle { viewModel.selectedBundle }
-  private var emails: [Email] { viewModel.emailsInSelectedBundle }
+  var selectedBundle: EmailBundle { viewModel.selectedBundle }
+  var emails: [Email] { viewModel.emailsInSelectedBundle }
   
   // MARK: - VIEW
   
@@ -28,6 +28,9 @@ struct InboxView: View {
         EmailDetailView(email: selectedEmails.first!)
       }
     }
+    .sheet(isPresented: $sheetPresented) {
+      AppSheetView()
+    }
     .onChange(of: selectedEmails) { _ in
       if editMode.isEditing { return }
       
@@ -37,9 +40,6 @@ struct InboxView: View {
           case false: viewModel.appSheetMode = .emailTools
         }
       }
-    }
-    .sheet(isPresented: $sheetPresented) {
-      AppSheetView()
     }
     .environmentObject(appAlert)
     .overlay(alignment: .center) {
@@ -73,7 +73,8 @@ struct InboxView: View {
 // MARK: - EmailList
 
 extension InboxView {
-  private var EmailList: some View {
+  
+  var EmailList: some View {
     ScrollViewReader { scrollProxy in
       List(emails, id: \.self, selection: $selectedEmails) {
         EmailListRow(email: $0)
@@ -92,6 +93,11 @@ extension InboxView {
       }
       .onChange(of: selectedBundle) { _ in
         scrollProxy.scrollTo(emails.first?.objectID)
+      }
+      .introspectNavigationController {
+        if viewModel.navController == nil {
+          viewModel.navController = $0
+        }
       }
     }
   }
