@@ -5,15 +5,11 @@ enum EmailListRowMode {
 }
 
 struct EmailListRow: View {
-  @EnvironmentObject private var appAlert: AppAlert
   @EnvironmentObject private var viewModel: ViewModel
   
-  private var selectedBundle: EmailBundle {
-    viewModel.selectedBundle
-  }
-  private var bundles: [EmailBundle] {
-    viewModel.bundles
-  }
+  var selectedBundle: EmailBundle { viewModel.selectedBundle }
+  var bundles: [EmailBundle] { viewModel.bundles }
+  var alert: AppAlert { viewModel.appAlert }
   
   var email: Email
   var mode: EmailListRowMode = .summary
@@ -100,10 +96,10 @@ struct EmailListRow: View {
             try withAnimation {
               try MailController.shared.moveEmail(email, fromBundle: selectedBundle, toBundle: bundle)
             }
-            appAlert.show(message: "moved to \(bundle.name)", icon: "checkmark", delay: 1)
+            alert.show(message: "moved to \(bundle.name)", icon: "checkmark", delay: 1)
           }
           catch {
-            appAlert.show(message: "failed to move message", icon: "xmark", delay: 1)
+            alert.show(message: "failed to move message", icon: "xmark", delay: 1)
           }
         }
       }

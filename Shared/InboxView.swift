@@ -7,7 +7,6 @@ import CoreData
 struct InboxView: View {
   @EnvironmentObject var viewModel: ViewModel
   @StateObject var mailCtrl = MailController.shared
-  @StateObject private var appAlert: AppAlert = AppAlert()
   
   @State var sheetPresented = true
   @State var selectedEmails: Set<Email> = []
@@ -15,6 +14,7 @@ struct InboxView: View {
   
   var selectedBundle: EmailBundle { viewModel.selectedBundle }
   var emails: [Email] { viewModel.emailsInSelectedBundle }
+  var alert: AppAlert { viewModel.appAlert }
   
   // MARK: - VIEW
   
@@ -41,7 +41,6 @@ struct InboxView: View {
         }
       }
     }
-    .environmentObject(appAlert)
     .overlay(alignment: .center) {
       AlertOverlay
     }
@@ -49,14 +48,14 @@ struct InboxView: View {
   
   private var AlertOverlay: some View {
     VStack(alignment: .center) {
-      if let icon = appAlert.icon {
+      if let icon = alert.icon {
         SystemImage(icon, size: 69, color: .white)
       }
-      Text(appAlert.message ?? "")
+      Text(alert.message ?? "")
         .font(.system(size: 15, weight: .medium))
         .padding(12)
     }
-    .animation(.easeInOut, value: appAlert)
+    .animation(.easeInOut, value: alert)
     .foregroundColor(.white)
     .frame(width: 200, height: 200)
     .background(
@@ -65,7 +64,7 @@ struct InboxView: View {
     )
     .border(.white.opacity(0.12), width: 0.27)
     .cornerRadius(12)
-    .visible(if: appAlert.message != nil || appAlert.icon != nil)
+    .visible(if: alert.message != nil || alert.icon != nil)
   }
   
 }
