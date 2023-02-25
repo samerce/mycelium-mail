@@ -1,6 +1,6 @@
 import SwiftUI
 
-private var mailCtrl = MailController.shared
+private let mailCtrl = MailController.shared
 
 struct EmailDetailToolbarView: View {
   var email: Email?

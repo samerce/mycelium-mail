@@ -6,9 +6,10 @@ import CoreData
 struct EmailDetailView: View {
   var email: Email
   
+  @EnvironmentObject var viewModel: ViewModel
   @State var seenTimer: Timer?
   @State var keyboardHeight: CGFloat = 0
-  @State var titleBarHeight: CGFloat = 0
+  @State var titleBarHeight: CGFloat = 70
   
   private let mailCtrl = MailController.shared
   
@@ -29,12 +30,10 @@ struct EmailDetailView: View {
       self.keyboardHeight = keyboardHeight
     }
     .task {
-      try? await mailCtrl.fetchHtml(for: email) // TODO: handle error
+      try? await email.fetchHtml() // TODO: handle error
     }
     .ignoresSafeArea()
   }
-  
-  private let addressWidth = 42.0
   
   var TitleBar: some View {
     GeometryReader { geo in
@@ -43,9 +42,8 @@ struct EmailDetailView: View {
         
         HStack(alignment: .lastTextBaseline, spacing: 3) {
           Text(email.fromLine)
-            .font(.system(size: 16, weight: .medium))
+            .font(.system(size: 15, weight: .medium))
             .frame(maxWidth: .infinity, alignment: .leading)
-            .truncationMode(.tail)
             .lineLimit(1)
           
           Text(email.displayDate ?? "")
@@ -62,25 +60,27 @@ struct EmailDetailView: View {
           Text(email.toLine)
             .font(.system(size: 14))
             .lineLimit(1)
-            .truncationMode(.tail)
         }
         .foregroundColor(.white.opacity(0.81))
-        .padding(.bottom, 8)
+        .padding(.bottom, 6)
         
         Text(email.subject)
-          .font(.system(size: 20, weight: .medium))
+          .font(.system(size: 18, weight: .semibold))
           .padding(.bottom, 10)
+          .lineLimit(1)
       }
-      .frame(maxWidth: .infinity, alignment: .leading)
       .padding(.horizontal, 12)
       .background(OverlayBackgroundView())
+//      .onAppear {
+//        titleBarHeight = screenHeight - geo.size.height
+//        print("title bar height \(titleBarHeight)")
+//      }
       .ignoresSafeArea()
-      .onChange(of: geo.size.height) { titleBarHeight = $0 }
     }
   }
   
   var Message: some View {
-    WebView(content: email.html, topInset: titleBarHeight)
+    WebView(content: email.html, topInset: $titleBarHeight)
       .ignoresSafeArea()
       .background(Color(.systemBackground))
       .onAppear {

@@ -31,7 +31,7 @@ class ViewModel: NSObject, ObservableObject {
     bundleCtrl = NSFetchedResultsController(fetchRequest: bundleRequest,
                                            managedObjectContext: moc,
                                            sectionNameKeyPath: nil,
-                                           cacheName: nil)
+                                           cacheName: nil) // TODO: cache?
     try? bundleCtrl.performFetch()
     
     // select the inbox bundle
@@ -43,7 +43,7 @@ class ViewModel: NSObject, ObservableObject {
     emailCtrl = NSFetchedResultsController(fetchRequest: emailRequest,
                                            managedObjectContext: moc,
                                            sectionNameKeyPath: nil,
-                                           cacheName: nil)
+                                           cacheName: nil) // TODO: cache?
     try? emailCtrl.performFetch()
     
     // set the sheet mode based on email availability
@@ -67,6 +67,7 @@ class ViewModel: NSObject, ObservableObject {
       self.emailsInSelectedBundle = self.emailCtrl.fetchedObjects ?? []
     }
   }
+  
 }
 
 extension ViewModel: NSFetchedResultsControllerDelegate {

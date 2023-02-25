@@ -3,23 +3,23 @@ import SwiftUI
 
 
 struct WebView: UIViewRepresentable {
-  var topInset: CGFloat
   let content: String
+  @Binding var topInset: CGFloat
   
-  init(content: String, topInset: CGFloat) {
+  init(content: String, topInset: Binding<CGFloat>) {
     self.content = content
-    self.topInset = topInset
+    self._topInset = topInset
   }
   
   func makeUIView(context: Context) -> WKWebView {
     let webView = WKWebView()
     webView.layoutMargins = UIEdgeInsets.zero
     webView.scrollView.contentInset = UIEdgeInsets(
-      top: topInset + safeAreaInsets.top, left: 0, bottom: appSheetDetents.min, right: 0
+      top: topInset, left: 0, bottom: appSheetDetents.min, right: 0
     )
     webView.scrollView.backgroundColor = .systemBackground
     webView.scrollView.verticalScrollIndicatorInsets.bottom = appSheetDetents.min
-    webView.scrollView.verticalScrollIndicatorInsets.top = topInset + safeAreaInsets.top
+    webView.scrollView.verticalScrollIndicatorInsets.top = topInset
     webView.backgroundColor = .systemBackground
     webView.navigationDelegate = context.coordinator
     configure(webView)
@@ -28,9 +28,7 @@ struct WebView: UIViewRepresentable {
   
   func updateUIView(_ view: WKWebView, context: Context) {
     view.loadHTMLString(content, baseURL: nil)
-    view.scrollView.contentInset = UIEdgeInsets(
-      top: topInset + safeAreaInsets.top, left: 0, bottom: appSheetDetents.min, right: 0
-    )
+    view.scrollView.contentInset.top = topInset
   }
   
   func makeCoordinator() -> Coordinator {

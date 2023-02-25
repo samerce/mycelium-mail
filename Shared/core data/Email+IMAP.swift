@@ -3,11 +3,17 @@ import CoreData
 import MailCore
 
 
+private let mailCtrl = MailController.shared
+
+
 extension Email {
   
-  private var moc: NSManagedObjectContext? { managedObjectContext }
-  private var session: MCOIMAPSession? {
-    account?.type == nil ? nil : sessionForType(account!.type)
+  var moc: NSManagedObjectContext? { managedObjectContext }
+  var session: MCOIMAPSession? {
+    if let account = account {
+      return mailCtrl.sessions[account]
+    }
+    else { return nil }
   }
   
   func fetchHtml() async throws {
@@ -22,18 +28,14 @@ extension Email {
   }
 
   func bodyHtml() async throws -> String {
-    let fetchMessage = session?.fetchParsedMessageOperation(withFolder: DefaultFolder,
-                                                            uid: UInt32(uid))
+    guard let fetchMessage = session?.fetchParsedMessageOperation(withFolder: DefaultFolder,
+                                                                  uid: UInt32(uid))
+    else {
+      throw PsyError.unexpectedError(message: "failed to create fetch HTML operation")
+    }
 
     return try await withCheckedThrowingContinuation { continuation in
-      guard let fetchMessage = fetchMessage else {
-        continuation.resume(
-          throwing: PsyError.unexpectedError(message: "failed to create fetch HTML operation")
-        )
-        return
-      }
-
-      fetchMessage.start() { (error: Error?, parser: MCOMessageParser?) in
+      fetchMessage.start() { error, parser in
         if let error = error {
           continuation.resume(throwing: error)
         } else {
@@ -43,15 +45,6 @@ extension Email {
     }
   }
 
-  func fullHtmlForEmail(_ completion: @escaping (String?) -> Void) {
-    let fetchMessage = session?.fetchParsedMessageOperation(withFolder: DefaultFolder, uid: UInt32(uid))
-    fetchMessage?.start() { (error: Error?, parser: MCOMessageParser?) in
-      completion(parser?.htmlRendering(with: nil) ?? "")
-    } ?? completion("")
-  }
-  
-  // MARK: - HELPERS
-  
 }
 
 

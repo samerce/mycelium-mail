@@ -25,7 +25,7 @@ class MailController: ObservableObject {
   @Published private(set) var selectedEmail: Email?
   
   private var accountCtrl = AccountController.shared
-  private var sessions = [Account: MCOIMAPSession]()
+  var sessions = [Account: MCOIMAPSession]()
   private var subscribers: [AnyCancellable] = []
   private var gmailLabelIdsByBundle: [String: String] = [:]
   

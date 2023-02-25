@@ -24,6 +24,8 @@ struct PsymailApp: App {
       
       if phase == .active {
         AccountController.shared.restoreSignIn()
+      } else if phase == .background {
+        PersistenceController.shared.save()
       }
     }
   }
