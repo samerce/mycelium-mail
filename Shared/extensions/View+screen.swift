@@ -11,7 +11,7 @@ extension View {
   }
   
   var safeAreaInsets: UIEdgeInsets {
-    UIApplication.shared.windows.first?.safeAreaInsets ?? UIEdgeInsets.zero
+    UIApplication.shared.activeWindowScenes.first?.windows.first?.safeAreaInsets ?? UIEdgeInsets.zero
   }
   
   var screenHeightSafe: CGFloat {

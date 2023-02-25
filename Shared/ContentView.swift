@@ -1,20 +1,28 @@
 import SwiftUI
 
 struct ContentView: View {
-  #if os(iOS)
+#if os(iOS)
   @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-  #endif
+#endif
   
   var body: some View {
-    #if os(iOS)
+    AppView
+      .overlay(alignment: .center) {
+        AppAlertView()
+      }
+  }
+  
+  @ViewBuilder
+  var AppView: some View {
+#if os(iOS)
     if horizontalSizeClass == .compact {
       AppCompactView()
     } else {
       AppSplitView()
     }
-    #else
+#else
     AppSplitView()
-    #endif
+#endif
   }
 }
 

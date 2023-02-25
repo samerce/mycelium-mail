@@ -3,7 +3,7 @@ import SwiftUI
 struct AppCompactView: View {
   
   var body: some View {
-      InboxView()
+    InboxView()
   }
   
 }

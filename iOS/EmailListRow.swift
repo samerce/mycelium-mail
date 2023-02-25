@@ -5,14 +5,14 @@ enum EmailListRowMode {
 }
 
 struct EmailListRow: View {
-  @EnvironmentObject private var viewModel: ViewModel
+  var email: Email
+  var mode: EmailListRowMode = .summary
+  
+  @EnvironmentObject var viewModel: ViewModel
+  @EnvironmentObject var alert: AppAlertViewModel
   
   var selectedBundle: EmailBundle { viewModel.selectedBundle }
   var bundles: [EmailBundle] { viewModel.bundles }
-  var alert: AppAlert { viewModel.appAlert }
-  
-  var email: Email
-  var mode: EmailListRowMode = .summary
   
   
   var body: some View {

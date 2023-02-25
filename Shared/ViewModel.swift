@@ -9,8 +9,7 @@ private let moc = PersistenceController.shared.container.viewContext
 
 class ViewModel: NSObject, ObservableObject {
   private let mailCtrl = MailController.shared
-  
-  @Published var appAlert: AppAlert = AppAlert()
+
   @Published var appSheetMode: AppSheetMode = .firstStart
   @Published var bundles = [EmailBundle]()
   @Published var selectedBundle: EmailBundle {

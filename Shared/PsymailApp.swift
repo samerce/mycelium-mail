@@ -6,12 +6,14 @@ import CoreData
 struct PsymailApp: App {
   @Environment(\.scenePhase) var scenePhase
   @StateObject var viewModel = ViewModel()
+  @StateObject var appAlertViewModel = AppAlertViewModel()
   
   var body: some Scene {
     WindowGroup {
       ContentView()
         .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
         .environmentObject(viewModel)
+        .environmentObject(appAlertViewModel)
         .onOpenURL { url in
           AccountController.shared.handleGoogleUrl(url)
         }
