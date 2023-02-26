@@ -155,7 +155,9 @@ struct CreateBundleView: View {
     
     if bundle == nil {
       let label = try await mailCtrl.createLabel("psymail/\(name)", forAccount: account)
-      bundle = EmailBundle(name: name, gmailLabelId: label.id, icon: icon, context: moc)
+      bundle = EmailBundle(
+        name: name, gmailLabelId: label.id, icon: icon, orderIndex: viewModel.bundles.count, context: moc
+      )
       try moc.save()
     }
     

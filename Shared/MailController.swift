@@ -3,6 +3,7 @@ import MailCore
 import Combine
 import SwiftUI
 import CoreData
+import SymbolPicker
 
 
 let DefaultFolder = "[Gmail]/All Mail" //"INBOX"
@@ -51,7 +52,12 @@ class MailController: ObservableObject {
     let bundleFetchRequest = EmailBundle.fetchRequestWithProps("name")
     let bundles = try? moc.fetch(bundleFetchRequest)
     if bundles?.first(where: { $0.name == "inbox" }) == nil {
-      let _ = EmailBundle(name: "inbox", gmailLabelId: "", icon: kBundleIcons["inbox"]!, context: moc)
+      let _ = EmailBundle(
+        name: "inbox", gmailLabelId: "",
+        icon: "questionmark.square",
+        orderIndex: bundles?.count ?? 0,
+        context: moc
+      )
     }
   }
   
@@ -87,7 +93,7 @@ class MailController: ObservableObject {
     let labels = (labelListResponse as! GLabelListResponse).labels
     
     // TODO: use batch insert?
-    labels.forEach { label in
+    labels.enumerated().forEach { index, label in
       if !label.name.contains("psymail/") {
         return
       }
@@ -96,7 +102,11 @@ class MailController: ObservableObject {
       var bundle = bundles?.first(where: { $0.name == bundleName })
       if bundle == nil {
         bundle = EmailBundle(
-          name: bundleName, gmailLabelId: label.id, icon: kBundleIcons[bundleName] ?? "", context: moc
+          name: bundleName,
+          gmailLabelId: label.id,
+          icon: "questionmark.square",
+          orderIndex: bundles?.count ?? index,
+          context: moc
         )
       } else {
         // TODO: update this to work with multiple accounts

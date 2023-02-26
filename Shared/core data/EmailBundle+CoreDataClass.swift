@@ -5,12 +5,13 @@ import CoreData
 public class EmailBundle: NSManagedObject {
   
   convenience init(
-    name: String, gmailLabelId: String, icon: String = "", context: NSManagedObjectContext
+    name: String, gmailLabelId: String, icon: String = "", orderIndex: Int, context: NSManagedObjectContext
   ) {
     self.init(context: context)
     self.name = name
     self.gmailLabelId = gmailLabelId
     self.icon = icon
+    self.orderIndex = Int16(orderIndex)
   }
   
 }

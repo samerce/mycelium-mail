@@ -55,6 +55,7 @@ extension InboxView {
         EmailListRow(email: $0)
           .id($0.objectID)
       }
+      .animation(.default, value: emails)
       .listStyle(.plain)
       .listRowInsets(.none)
       .navigationBarTitleDisplayMode(.inline)

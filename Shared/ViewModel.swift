@@ -30,6 +30,7 @@ class ViewModel: NSObject, ObservableObject {
   override init() {
     // fetch bundles
     let bundleRequest = EmailBundle.fetchRequest()
+    bundleRequest.sortDescriptors = [NSSortDescriptor(key: "orderIndex", ascending: true)]
     bundleCtrl = NSFetchedResultsController(fetchRequest: bundleRequest,
                                            managedObjectContext: moc,
                                            sectionNameKeyPath: nil,

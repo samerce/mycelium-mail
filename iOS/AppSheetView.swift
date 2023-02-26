@@ -59,6 +59,9 @@ struct AppSheetView: View {
       .onChange(of: geo.size) { _ in
         appSheetViewModel.sheetSize = geo.size
       }
+      .onChange(of: viewModel.selectedBundle) { _ in
+        selectedDetent = mode.initialDetent
+      }
     }
   }
   

@@ -14,8 +14,7 @@ private let SpacerHeight = 18.0
 private let HeaderHeight = 42.0
 private let TabRowPadding = 6.0
 private let TabRowHPadding = TabRowPadding * 2
-// TODO: store in @AppStorage or EmailBundle
-private let tabOrder = ["notifications", "commerce", "inbox", "newsletters", "society", "marketing"]
+private let cTabLimitPerRow = 5
 
 
 struct BundleTabBarView: View {
@@ -27,15 +26,12 @@ struct BundleTabBarView: View {
   
   var tabRows: [[EmailBundle]] {
     var rowIndex = 0
-    return tabOrder.reduce(into: [[]]) { tabRows, bundleName in
-      let bundle = viewModel.bundles.first(where: { $0.name == bundleName })
-      if bundle == nil { return }
-          
-      if tabRows[rowIndex].count >= 5 {
+    return viewModel.bundles.reduce(into: [[]]) { tabRows, bundle in
+      if tabRows[rowIndex].count >= cTabLimitPerRow {
         rowIndex += 1
         tabRows.append([])
       }
-      tabRows[rowIndex].append(bundle!)
+      tabRows[rowIndex].append(bundle)
     }
   }
   

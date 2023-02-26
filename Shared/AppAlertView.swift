@@ -24,6 +24,7 @@ struct AppAlertView: View {
     .border(.white.opacity(0.12), width: 0.27)
     .cornerRadius(12)
     .visible(if: appAlertViewModel.visible)
+    .allowsHitTesting(false)
   }
   
   @ViewBuilder
@@ -42,6 +43,7 @@ struct AppAlertView: View {
         .font(.system(size: 15, weight: .medium))
         .multilineTextAlignment(.center)
         .padding(12)
+        .lineSpacing(4)
     }
     else { EmptyView() }
   }
