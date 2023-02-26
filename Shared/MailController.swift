@@ -109,7 +109,7 @@ class MailController: ObservableObject {
   
   // MARK: - public
   
-  func moveEmail(_ email: Email, fromBundle: EmailBundle, toBundle: EmailBundle, always: Bool = true) throws {
+  func moveEmail(_ email: Email, fromBundle: EmailBundle, toBundle: EmailBundle, always: Bool = true) async throws {
     // proactively update core data and revert if update request fails
     email.removeFromBundleSet(fromBundle)
     email.addToBundleSet(toBundle)
@@ -117,36 +117,34 @@ class MailController: ObservableObject {
     toBundle.addToEmailSet(email)
     PersistenceController.shared.save()
     
-    Task {
-      if toBundle.name == "inbox" {
-        try await self.removeLabels(["psymail/\(fromBundle.name)"], fromEmails: [email])
-        // TODO: delete filter
-        return
-      }
-      
+    if toBundle.name == "inbox" {
+      try await self.removeLabels(["psymail/\(fromBundle.name)"], fromEmails: [email])
+      // TODO: delete filter
+      return
+    }
+    
+    do {
+      try await self.addLabels(["psymail/\(toBundle.name)"], toEmails: [email])
+      try await self.removeLabels([cInboxLabel], fromEmails: [email])
+    }
+    catch {
+      print(error.localizedDescription)
+      email.removeFromBundleSet(toBundle)
+      email.addToBundleSet(fromBundle)
+      fromBundle.addToEmailSet(email)
+      toBundle.removeFromEmailSet(email)
+      PersistenceController.shared.save()
+      // TODO: figure out UX
+      throw error
+    }
+    
+    if always {
       do {
-        try await self.addLabels(["psymail/\(toBundle.name)"], toEmails: [email])
-        try await self.removeLabels([cInboxLabel], fromEmails: [email])
+        try await createFilterFor(email: email, bundle: toBundle)
       }
       catch {
-        print(error.localizedDescription)
-        email.removeFromBundleSet(toBundle)
-        email.addToBundleSet(fromBundle)
-        fromBundle.addToEmailSet(email)
-        toBundle.removeFromEmailSet(email)
-        PersistenceController.shared.save()
-        // TODO: figure out UX
+        print("error creating bundle filter: \(error.localizedDescription)")
         throw error
-      }
-      
-      if always {
-        do {
-          try await createFilterFor(email: email, bundle: toBundle)
-        }
-        catch {
-          print("error creating bundle filter: \(error.localizedDescription)")
-          throw error
-        }
       }
     }
   }
@@ -199,6 +197,24 @@ class MailController: ObservableObject {
         "removeLabelIds": ["INBOX", "SPAM"] // skip the inbox, never send to spam
       ]
     ])
+  }
+  
+  func createLabel(_ name: String, forAccount account: Account) async throws -> GLabel {
+    let (labelListResponse, _) = try await GmailEndpoint.call(.listLabels, forAccount: account)
+    let labels = (labelListResponse as! GLabelListResponse).labels
+    
+    if let label = labels.first(where: { $0.name == name }) {
+      print("label exists, skipping creation")
+      return label
+    }
+    
+    let (label, _) = try await GmailEndpoint.call(.createLabel, forAccount: account, withBody: [
+      "name": name,
+      "labelListVisibility": "labelShow",
+      "messageListVisibility": "show",
+      "type": "user"
+    ])
+    return (label as! GLabel)
   }
   
   func markSeen(_ emails: [Email], _ completion: @escaping ([Error]?) -> Void) {

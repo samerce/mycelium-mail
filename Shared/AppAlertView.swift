@@ -30,6 +30,7 @@ struct AppAlertView: View {
   var Icon: some View {
     if let icon = icon {
       SystemImage(name: icon, size: 69, color: .white)
+        .padding(.bottom, 6)
     }
     else { EmptyView() }
   }
@@ -39,6 +40,7 @@ struct AppAlertView: View {
     if let message = message {
       Text(message)
         .font(.system(size: 15, weight: .medium))
+        .multilineTextAlignment(.center)
         .padding(12)
     }
     else { EmptyView() }

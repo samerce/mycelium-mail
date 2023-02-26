@@ -11,6 +11,7 @@ class ViewModel: NSObject, ObservableObject {
   private let mailCtrl = MailController.shared
 
   @Published var appSheetMode: AppSheetMode = .firstStart
+  @Published var emailToMoveToNewBundle: Email?
   @Published var bundles = [EmailBundle]()
   @Published var selectedBundle: EmailBundle {
     didSet {

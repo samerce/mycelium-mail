@@ -9,14 +9,14 @@ extension Account {
   
   @NSManaged public var accessToken: String?
   @NSManaged public var accessTokenExpiration: Date?
-  @NSManaged public var address: String?
+  @NSManaged public var address: String
   @NSManaged public var emails: NSSet?
   @NSManaged public var firstName: String?
   @NSManaged public var lastName: String?
   @NSManaged public var password: String?
   @NSManaged public var refreshToken: String?
   @NSManaged public var typeRaw: String?
-  @NSManaged public var userId: String?
+  @NSManaged public var userId: String
   
   var type: AccountType {
     get {

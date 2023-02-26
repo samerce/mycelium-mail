@@ -7,6 +7,8 @@ struct GmailEndpoint {
   var responseType: Codable.Type
   var httpMethod: String
   
+  // MARK: - ENDPOINTS
+  
   static let listFilters = Self(
     name: "list filters",
     url: URL(string: "https://gmail.googleapis.com/gmail/v1/users/me/settings/filters")!,
@@ -36,6 +38,15 @@ struct GmailEndpoint {
     responseType: GLabelListResponse.self,
     httpMethod: "GET"
   )
+  
+  static let createLabel = Self(
+    name: "create label",
+    url: URL(string: "https://gmail.googleapis.com/gmail/v1/users/me/labels")!,
+    responseType: GLabel.self,
+    httpMethod: "POST"
+  )
+  
+  // MARK: - EXECUTOR
   
   @discardableResult
   static func call(
@@ -91,7 +102,7 @@ struct GLabelListResponse: Codable {
 struct GLabel: Codable {
   var id: String
   var name: String
-  var type: String
+  var type: String?
   var messageListVisibility: String?
   var labelListVisibility: String?
   var messagesTotal: Int?

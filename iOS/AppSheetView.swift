@@ -52,7 +52,9 @@ struct AppSheetView: View {
         selectedDetent = mode.initialDetent
       }
       .onReceive(viewModel.$appSheetMode) { mode in
-        selectedDetent = mode.initialDetent
+        withAnimation {
+          selectedDetent = mode.initialDetent
+        }
       }
       .onChange(of: geo.size) { _ in
         appSheetViewModel.sheetSize = geo.size
@@ -66,7 +68,8 @@ struct AppSheetView: View {
       case .firstStart, .downloadingEmails: FirstStartView()
       case .inboxTools: InboxSheetView()
       case .emailTools: EmailToolsSheetView()
-      default: Text("ERROR: sheet mode not set correctly: \(mode.id)")
+      case .createBundle: CreateBundleView()
+      default: Text("ERROR: missing view for sheet mode '\(mode.name)'")
     }
   }
   
@@ -76,17 +79,17 @@ struct AppSheetView: View {
 
 struct AppSheetMode {
   static let firstStart = Self(
-    id: 0,
+    name: "first start",
     detents: [.large],
     initialDetent: .large
   )
   static let downloadingEmails = Self(
-    id: 1,
+    name: "downloading emails",
     detents: [.large],
     initialDetent: .large
   )
   static let inboxTools = Self(
-    id: 2,
+    name: "inbox tools",
     detents: [
       .height(90), // TODO: fix magic number
       .medium,
@@ -95,7 +98,7 @@ struct AppSheetMode {
     initialDetent: .height(90)
   )
   static let emailTools = Self(
-    id: 3,
+    name: "email tools",
     detents: [
       .height(90), // TODO: fix magic number
       .medium,
@@ -103,14 +106,19 @@ struct AppSheetMode {
     ],
     initialDetent: .height(90)
   )
+  static let createBundle = Self(
+    name: "create bundle",
+    detents: [.height(272)],
+    initialDetent: .height(272)
+  )
   
-  var id: Int
+  var name: String
   var detents: [UndimmedPresentationDetent]
   var initialDetent: PresentationDetent
 }
 
 extension AppSheetMode: Equatable {
   static func == (lhs: AppSheetMode, rhs: AppSheetMode) -> Bool {
-    lhs.id == rhs.id
+    lhs.name == rhs.name
   }
 }

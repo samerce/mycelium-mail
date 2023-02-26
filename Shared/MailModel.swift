@@ -180,7 +180,7 @@ class MailModel: ObservableObject {
     let fetchRequest: NSFetchRequest<Email> = Email.fetchRequest()
     fetchRequest.predicate = NSPredicate(
       format: "uid == %d && account.address == %@",
-      Int32(uid), account.address ?? ""
+      Int32(uid), account.address
     )
     do {
       return try context.fetch(fetchRequest).first

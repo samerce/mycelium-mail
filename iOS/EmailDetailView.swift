@@ -40,7 +40,7 @@ struct EmailDetailView: View {
       VStack(alignment: .leading, spacing: 0) {
         Spacer().frame(height: safeAreaInsets.top)
         
-        HStack(alignment: .lastTextBaseline, spacing: 3) {
+        HStack(alignment: .lastTextBaseline, spacing: 6) {
           Text(email.fromLine)
             .font(.system(size: 15, weight: .medium))
             .frame(maxWidth: .infinity, alignment: .leading)

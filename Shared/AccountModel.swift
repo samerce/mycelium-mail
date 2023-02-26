@@ -20,7 +20,7 @@ class AccountModel: ObservableObject {
     do {
       let fetchedAccounts = try moc.fetch(Account.fetchRequest()) as [Account]
       for account in fetchedAccounts {
-        accounts[account.address!] = account
+        accounts[account.address] = account
       }
     }
     catch let error {
@@ -40,7 +40,7 @@ class AccountModel: ObservableObject {
       refreshToken: refreshToken,
       context: moc
     )
-    accounts[account.address!] = account
+    accounts[account.address] = account
     
     do {
       try moc.save()

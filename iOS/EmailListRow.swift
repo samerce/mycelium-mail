@@ -1,12 +1,8 @@
 import SwiftUI
 
-enum EmailListRowMode {
-  case summary, details
-}
 
 struct EmailListRow: View {
   var email: Email
-  var mode: EmailListRowMode = .summary
   
   @EnvironmentObject var viewModel: ViewModel
   @EnvironmentObject var alert: AppAlertViewModel
@@ -17,92 +13,108 @@ struct EmailListRow: View {
   
   var body: some View {
     ZStack(alignment: .topLeading) {
-      if !email.seen && mode == .summary {
+      if !email.seen {
         Rectangle()
           .fill(Color.psyAccent)
           .frame(maxWidth: 4, maxHeight: 14)
           .cornerRadius(4)
           .offset(x: 4, y: 2)
       }
-      VStack(alignment: .leading, spacing: mode == .summary ? 4 : 6) {
-//        if mode == .details { Spacer().frame(height: 30) }
-        
+      
+      VStack(alignment: .leading, spacing: 4) {
         HStack(alignment: .lastTextBaseline) {
           Text(email.fromLine)
             .font(.system(size: 15, weight: email.seen ? .medium : .bold))
             .lineLimit(1)
-            .if(mode == .summary) { view in
-              view
-                .font(.system(size: 15, weight: .heavy))
-            }
-            .if(mode == .details) { $0.font(.system(size: 20, weight: .bold)) }
+
           Spacer()
+
           Text(email.displayDate ?? "")
             .font(.system(size: 12, weight: email.seen ? .light : .regular))
             .foregroundColor(Color.secondary)
-            .if(mode == .details) { $0.hidden().frame(width: 0) }
-          Image(systemName: mode == .details ? "chevron.down" : "chevron.right")
+
+          Image(systemName: "chevron.right")
             .resizable()
             .aspectRatio(contentMode: .fit)
             .foregroundColor(email.seen ? .secondary : .psyAccent)
-            .if(mode == .details) { $0.frame(width: 18, height: 18) }
-            .if(mode == .summary) { $0.frame(width: 12, height: 12) }
-            .offset(x: 0, y: 1)
+            .frame(width: 12, height: 12)
+            .offset(y: 1)
         }
         .clipped()
         
         Text(email.subject)
-          .if(mode == .summary) { view in
-            view
-              .font(.system(size: 13, weight: email.seen ? .light : .medium))
-              .lineLimit(1)
-          }
-          .if(mode == .details) { $0.font(.system(size: 20)) }
-          .truncationMode(.tail)
+          .font(.system(size: 13, weight: email.seen ? .light : .medium))
           .lineLimit(1)
       }
       .foregroundColor(Color.primary)
       .padding(.trailing, 9)
       .padding(.leading, 12)
-      .if(mode == .details) { $0.padding(.bottom, 6).padding(.horizontal, 20) }
     }
     .frame(height: 54)
     .listRowInsets(.init(top: 3, leading: 0, bottom: 3, trailing: 0))
     .contentShape(Rectangle())
-    .swipeActions(edge: .trailing) {
-      Button(role: .destructive) {
-        MailController.shared.deleteEmails([email])
-      } label: {
-        Label("trash", systemImage: "trash")
-      }
-      Button { print("bundle") } label: {
-        Label("bundle", systemImage: "giftcard")
-      }
-      Button { print("bundle") } label: {
-        Label("follow up", systemImage: "pin")
-      }
-      Button { print("note") } label: {
-        Label("note", systemImage: "note.text")
-      }
-      Button { print("notification") } label: {
-        Label("notifications", systemImage: "bell")
-      }
+    .swipeActions(edge: .trailing) { swipeActions }
+    .contextMenu { contextMenu }
+  }
+  
+  @ViewBuilder
+  var swipeActions: some View {
+    Button(role: .destructive) {
+      MailController.shared.deleteEmails([email])
+    } label: {
+      Label("trash", systemImage: "trash")
     }
-    .contextMenu {
-      Text("MOVE TO BUNDLE")
-      ForEach(bundles, id: \.objectID) { bundle in
-        Button(bundle.name) {
+    Button { print("bundle") } label: {
+      Label("bundle", systemImage: "giftcard")
+    }
+    Button { print("bundle") } label: {
+      Label("follow up", systemImage: "pin")
+    }
+    Button { print("note") } label: {
+      Label("note", systemImage: "note.text")
+    }
+    Button { print("notification") } label: {
+      Label("notifications", systemImage: "bell")
+    }
+  }
+  
+  @ViewBuilder
+  var contextMenu: some View {
+    Text("MOVE TO BUNDLE")
+    
+    ForEach(bundles, id: \.objectID) { bundle in
+      contextMenuButtonForBundle(bundle)
+    }
+    
+    Divider()
+    
+    Button {
+      withAnimation {
+        viewModel.emailToMoveToNewBundle = email
+        viewModel.appSheetMode = .createBundle
+      }
+    } label: {
+      Text("new bundle")
+      SystemImage(name: "plus", size: 12)
+    }
+  }
+  
+  func contextMenuButtonForBundle(_ bundle: EmailBundle) -> some View {
+    Button {
+      withAnimation {
+        let _ = Task {
           do {
-            try withAnimation {
-              try MailController.shared.moveEmail(email, fromBundle: selectedBundle, toBundle: bundle)
-            }
-            alert.show(message: "moved to \(bundle.name)", icon: "checkmark", delay: 1)
+            try await MailController.shared.moveEmail(email, fromBundle: selectedBundle, toBundle: bundle)
+            alert.show(message: "MOVED TO\n\(bundle.name)", icon: bundle.icon, delay: 1)
           }
           catch {
             alert.show(message: "failed to move message", icon: "xmark", delay: 1)
           }
         }
       }
+    } label: {
+      Text(bundle.name)
+      SystemImage(name: bundle.icon, size: 12)
     }
   }
   

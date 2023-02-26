@@ -62,6 +62,15 @@
         "revision" : "f6f326541d88d3f347705e6f5990e09092214b33",
         "version" : "3.2.0"
       }
+    },
+    {
+      "identity" : "symbolpicker",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/xnth97/SymbolPicker.git",
+      "state" : {
+        "revision" : "dcf1e3206822feb85763338c1a352f47905d780c",
+        "version" : "1.4.1"
+      }
     }
   ],
   "version" : 2

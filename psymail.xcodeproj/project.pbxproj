@@ -44,6 +44,9 @@
 		3B6666F02652383D0039D9F3 /* psymail.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3B6666ED2652383D0039D9F3 /* psymail.xcdatamodeld */; };
 		3B6B4F1829A6D007003F3AFA /* FirstStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6B4F1729A6D007003F3AFA /* FirstStartView.swift */; };
 		3B6B4F1929A6D007003F3AFA /* FirstStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6B4F1729A6D007003F3AFA /* FirstStartView.swift */; };
+		3B6E613929AAB631009CAEBF /* CreateBundleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6E613829AAB631009CAEBF /* CreateBundleView.swift */; };
+		3B6E613A29AAB631009CAEBF /* CreateBundleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6E613829AAB631009CAEBF /* CreateBundleView.swift */; };
+		3B6E613D29AAC99F009CAEBF /* SymbolPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 3B6E613C29AAC99F009CAEBF /* SymbolPicker */; };
 		3B7917B92660A0F400E764C1 /* EmailAddress+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7917B12660A0F400E764C1 /* EmailAddress+CoreDataClass.swift */; };
 		3B7917BA2660A0F400E764C1 /* EmailAddress+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7917B12660A0F400E764C1 /* EmailAddress+CoreDataClass.swift */; };
 		3B7917BD2660A0F400E764C1 /* EmailPart+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7917B32660A0F400E764C1 /* EmailPart+CoreDataClass.swift */; };
@@ -190,6 +193,7 @@
 		3B66669526521A810039D9F3 /* VisualEffectBlur.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualEffectBlur.swift; sourceTree = "<group>"; };
 		3B6666EE2652383D0039D9F3 /* Shared.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shared.xcdatamodel; sourceTree = "<group>"; };
 		3B6B4F1729A6D007003F3AFA /* FirstStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstStartView.swift; sourceTree = "<group>"; };
+		3B6E613829AAB631009CAEBF /* CreateBundleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateBundleView.swift; sourceTree = "<group>"; };
 		3B7917B12660A0F400E764C1 /* EmailAddress+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailAddress+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3B7917B32660A0F400E764C1 /* EmailPart+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailPart+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3B7917B52660A0F400E764C1 /* Email+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Email+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -255,6 +259,7 @@
 			files = (
 				3B14A6B5299FE4D4005BAA30 /* SwiftUIKit in Frameworks */,
 				3B5FBCFC26587F59009D012C /* Introspect in Frameworks */,
+				3B6E613D29AAC99F009CAEBF /* SymbolPicker in Frameworks */,
 				3B94B91229247D2B00C85B8C /* GoogleSignIn in Frameworks */,
 				3B94B91429247D2B00C85B8C /* GoogleSignInSwift in Frameworks */,
 				3BFFE1C329254A2000476C09 /* MailCore2 in Frameworks */,
@@ -389,6 +394,7 @@
 				3B14A6B9299FF200005BAA30 /* View+AppSheet.swift */,
 				3B14A6C529A19E12005BAA30 /* AppSheetView.swift */,
 				3B6B4F1729A6D007003F3AFA /* FirstStartView.swift */,
+				3B6E613829AAB631009CAEBF /* CreateBundleView.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -473,6 +479,7 @@
 				3B94B91329247D2B00C85B8C /* GoogleSignInSwift */,
 				3BFFE1C229254A2000476C09 /* MailCore2 */,
 				3B14A6B4299FE4D4005BAA30 /* SwiftUIKit */,
+				3B6E613C29AAC99F009CAEBF /* SymbolPicker */,
 			);
 			productName = "mushroom-mail (iOS)";
 			productReference = 3B9B9F792634B16A00E3A8B2 /* psymail.app */;
@@ -570,6 +577,7 @@
 				3B94B91029247D2B00C85B8C /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				3BFFE1C129254A2000476C09 /* XCRemoteSwiftPackageReference "mailcore2" */,
 				3B14A6B3299FE4D3005BAA30 /* XCRemoteSwiftPackageReference "SwiftUIKit" */,
+				3B6E613B29AAC99F009CAEBF /* XCRemoteSwiftPackageReference "SymbolPicker" */,
 			);
 			productRefGroup = 3B9B9F7A2634B16A00E3A8B2 /* Products */;
 			projectDirPath = "";
@@ -683,6 +691,7 @@
 				3B5FBCBE26571687009D012C /* PsycatsJuice.mlmodel in Sources */,
 				3BF1AD8D2663EA2C002F1062 /* Account+CoreDataProperties.swift in Sources */,
 				3B9B9F9F2634B16A00E3A8B2 /* ContentView.swift in Sources */,
+				3B6E613929AAB631009CAEBF /* CreateBundleView.swift in Sources */,
 				3B66668B2651EAED0039D9F3 /* ActionCell.swift in Sources */,
 				3BF1AD802661861F002F1062 /* EmailHeader+CoreDataProperties.swift in Sources */,
 				3B9912BB29A5892700B3BA36 /* GmailEndpoint.swift in Sources */,
@@ -733,6 +742,7 @@
 				3BD150A5265332010058B094 /* rainbow.swift in Sources */,
 				3BF1AD622660ACF0002F1062 /* MailController.swift in Sources */,
 				3BF1AD8C2663EA2C002F1062 /* Account+CoreDataClass.swift in Sources */,
+				3B6E613A29AAB631009CAEBF /* CreateBundleView.swift in Sources */,
 				3BCF6FED29280261000C6382 /* ForEachWithIndex.swift in Sources */,
 				3BF1AD7F2661861F002F1062 /* Email+CoreDataProperties.swift in Sources */,
 				3B41860229A5AFD200A2966A /* ViewModel.swift in Sources */,
@@ -1160,6 +1170,14 @@
 				minimumVersion = 0.1.3;
 			};
 		};
+		3B6E613B29AAC99F009CAEBF /* XCRemoteSwiftPackageReference "SymbolPicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/xnth97/SymbolPicker.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		3B94B91029247D2B00C85B8C /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
@@ -1188,6 +1206,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3B5FBCFA26587F58009D012C /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
 			productName = Introspect;
+		};
+		3B6E613C29AAC99F009CAEBF /* SymbolPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B6E613B29AAC99F009CAEBF /* XCRemoteSwiftPackageReference "SymbolPicker" */;
+			productName = SymbolPicker;
 		};
 		3B94B91129247D2B00C85B8C /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;

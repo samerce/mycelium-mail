@@ -131,7 +131,11 @@ struct EmailToolsSheetView: View {
   }
   
   private var TrashButton: some View {
-    Button(action: { if email != nil { mailCtrl.deleteEmails([email!]) } }) {
+    Button {
+      if email != nil {
+        mailCtrl.deleteEmails([email!])
+      }
+    } label: {
       ZStack {
         SystemImage("trash", size: 24)
       }
