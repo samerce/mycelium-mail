@@ -54,7 +54,10 @@ struct EmailListRow: View {
     .listRowInsets(.init(top: 3, leading: 0, bottom: 3, trailing: 0))
     .contentShape(Rectangle())
     .swipeActions(edge: .trailing) { swipeActions }
-    .contextMenu { contextMenu }
+    .contextMenu { contextMenu } preview: {
+      EmailDetailView(email: email, isPreview: true)
+        .frame(width: screenWidth, height: screenHeight / 2)
+    }
   }
   
   @ViewBuilder

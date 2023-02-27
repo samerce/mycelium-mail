@@ -8,6 +8,7 @@ private let mailCtrl = MailController.shared
 
 struct EmailDetailView: View {
   var email: Email
+  var isPreview = false
   
   @EnvironmentObject var viewModel: ViewModel
   @State var seenTimer: Timer?
@@ -15,15 +16,18 @@ struct EmailDetailView: View {
   @State var titleBarHeight: CGFloat = 50
   @State var showingFromDetails = false
   
+  var noHtml: Bool { email.html.isEmpty }
   var fromLine: String {
-    showingFromDetails ? email.from?.address ?? "" : email.fromLine
+    (showingFromDetails || isPreview)
+    ? email.from?.address ?? email.fromLine
+    : email.fromLine
   }
   
   // MARK: - VIEW
   
   var body: some View {
-    ZStack(alignment: .top) {
-      if email.html.isEmpty { ProgressView().controlSize(.large) }
+    ZStack(alignment: noHtml ? .center : .top) {
+      if noHtml { ProgressView().controlSize(.large) }
       else { Message }
       TitleBar
     }
@@ -32,19 +36,20 @@ struct EmailDetailView: View {
       Spacer()
         .frame(height: keyboardHeight.isZero ? appSheetDetents.min : keyboardHeight)
     }
-    .onReceive(Publishers.keyboardHeight) { keyboardHeight in
-      self.keyboardHeight = keyboardHeight
-    }
+    .ignoresSafeArea()
     .task {
       try? await email.fetchHtml() // TODO: handle error
     }
-    .ignoresSafeArea()
+    .onReceive(Publishers.keyboardHeight) { keyboardHeight in
+      self.keyboardHeight = keyboardHeight
+    }
   }
   
   var TitleBar: some View {
     GeometryReader { geo in
       VStack(alignment: .leading, spacing: 0) {
-        Spacer().frame(height: safeAreaInsets.top)
+        Spacer()
+          .frame(height: isPreview ? 10 : safeAreaInsets.top)
         
         HStack(alignment: .lastTextBaseline, spacing: 6) {
           Text(fromLine)
@@ -57,18 +62,6 @@ struct EmailDetailView: View {
             .foregroundColor(.white.opacity(0.81))
         }
         .padding(.bottom, 1)
-        
-//        HStack(alignment: .lastTextBaseline, spacing: 0) {
-//          Text("To:")
-//            .font(.system(size: 13, weight: .medium))
-//            .padding(.trailing, 6)
-//
-//          Text(email.toLine)
-//            .font(.system(size: 14))
-//            .lineLimit(1)
-//        }
-//        .foregroundColor(.white.opacity(0.81))
-//        .padding(.bottom, 6)
         
         Text(email.subject)
           .font(.system(size: 18, weight: .semibold))
