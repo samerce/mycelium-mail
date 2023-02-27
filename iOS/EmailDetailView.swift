@@ -3,15 +3,21 @@ import Combine
 import CoreData
 
 
+private let mailCtrl = MailController.shared
+
+
 struct EmailDetailView: View {
   var email: Email
   
   @EnvironmentObject var viewModel: ViewModel
   @State var seenTimer: Timer?
   @State var keyboardHeight: CGFloat = 0
-  @State var titleBarHeight: CGFloat = 70
+  @State var titleBarHeight: CGFloat = 50
+  @State var showingFromDetails = false
   
-  private let mailCtrl = MailController.shared
+  var fromLine: String {
+    showingFromDetails ? email.from?.address ?? "" : email.fromLine
+  }
   
   // MARK: - VIEW
   
@@ -41,7 +47,7 @@ struct EmailDetailView: View {
         Spacer().frame(height: safeAreaInsets.top)
         
         HStack(alignment: .lastTextBaseline, spacing: 6) {
-          Text(email.fromLine)
+          Text(fromLine)
             .font(.system(size: 15, weight: .medium))
             .frame(maxWidth: .infinity, alignment: .leading)
             .lineLimit(1)
@@ -52,17 +58,17 @@ struct EmailDetailView: View {
         }
         .padding(.bottom, 1)
         
-        HStack(alignment: .lastTextBaseline, spacing: 0) {
-          Text("To:")
-            .font(.system(size: 13, weight: .medium))
-            .padding(.trailing, 6)
-          
-          Text(email.toLine)
-            .font(.system(size: 14))
-            .lineLimit(1)
-        }
-        .foregroundColor(.white.opacity(0.81))
-        .padding(.bottom, 6)
+//        HStack(alignment: .lastTextBaseline, spacing: 0) {
+//          Text("To:")
+//            .font(.system(size: 13, weight: .medium))
+//            .padding(.trailing, 6)
+//
+//          Text(email.toLine)
+//            .font(.system(size: 14))
+//            .lineLimit(1)
+//        }
+//        .foregroundColor(.white.opacity(0.81))
+//        .padding(.bottom, 6)
         
         Text(email.subject)
           .font(.system(size: 18, weight: .semibold))
@@ -76,6 +82,9 @@ struct EmailDetailView: View {
 //        print("title bar height \(titleBarHeight)")
 //      }
       .ignoresSafeArea()
+      .onTapGesture {
+        showingFromDetails.toggle()
+      }
     }
   }
   
