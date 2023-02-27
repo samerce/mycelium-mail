@@ -17,6 +17,7 @@ struct PsymailApp: App {
         .onOpenURL { url in
           AccountController.shared.handleGoogleUrl(url)
         }
+        .tint(.psyAccent)
     }
     .commands {
       SidebarCommands()

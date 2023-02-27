@@ -15,7 +15,7 @@ struct FirstStartView: View {
         .font(.system(size: 18))
         .onReceive(viewModel.$emailsInSelectedBundle) { emails in
           if !emails.isEmpty {
-            withAnimation { viewModel.appSheetMode = .inboxTools }
+            withAnimation { viewModel.appSheet = .inboxTools }
           }
         }
     }

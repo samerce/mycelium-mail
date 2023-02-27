@@ -64,6 +64,8 @@ struct EmailListRow: View {
     } label: {
       Label("trash", systemImage: "trash")
     }
+    .tint(.red)
+    
     Button { print("bundle") } label: {
       Label("bundle", systemImage: "giftcard")
     }
@@ -91,7 +93,7 @@ struct EmailListRow: View {
     Button {
       withAnimation {
         viewModel.emailToMoveToNewBundle = email
-        viewModel.appSheetMode = .createBundle
+        viewModel.appSheet = .createBundle
       }
     } label: {
       Text("new bundle")

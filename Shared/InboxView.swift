@@ -15,7 +15,6 @@ struct InboxView: View {
   var selectedBundle: EmailBundle { viewModel.selectedBundle }
   var emails: [Email] { viewModel.emailsInSelectedBundle }
   
-  
   // MARK: - VIEW
   
   var body: some View {
@@ -36,8 +35,8 @@ struct InboxView: View {
       
       withAnimation {
         switch (selectedEmails.isEmpty) {
-          case true: viewModel.appSheetMode = .inboxTools
-          case false: viewModel.appSheetMode = .emailTools
+          case true: viewModel.appSheet = .inboxTools
+          case false: viewModel.appSheet = .emailTools
         }
       }
     }

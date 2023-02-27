@@ -31,8 +31,7 @@ struct AppSheetView: View {
   @StateObject var appSheetViewModel = AppSheetViewModel()
   @State var selectedDetent: PresentationDetent = .height(1)
   
-  private var mode: AppSheetMode { viewModel.appSheetMode }
-  private var detents: [UndimmedPresentationDetent] { mode.detents }
+  var config: AppSheet { viewModel.appSheet }
   
   // MARK: - VIEW
   
@@ -42,37 +41,37 @@ struct AppSheetView: View {
         OverlayBackgroundView()
         Sheet
           .interactiveDismissDisabled()
-          .presentationDetents(undimmed: detents, selection: $selectedDetent)
+          .presentationDetents(undimmed: config.detents, selection: $selectedDetent)
           .presentationDragIndicator(.hidden)
       }
       .ignoresSafeArea()
       .environmentObject(appSheetViewModel)
       .introspectViewController { $0.view.backgroundColor = .clear }
       .onAppear {
-        selectedDetent = mode.initialDetent
+        selectedDetent = config.initialDetent
       }
-      .onReceive(viewModel.$appSheetMode) { mode in
+      .onReceive(viewModel.$appSheet) { sheet in
         withAnimation {
-          selectedDetent = mode.initialDetent
+          selectedDetent = sheet.initialDetent
         }
       }
       .onChange(of: geo.size) { _ in
         appSheetViewModel.sheetSize = geo.size
       }
       .onChange(of: viewModel.selectedBundle) { _ in
-        selectedDetent = mode.initialDetent
+        selectedDetent = config.initialDetent
       }
     }
   }
   
   @ViewBuilder
   private var Sheet: some View {
-    switch mode {
+    switch config {
       case .firstStart, .downloadingEmails: FirstStartView()
       case .inboxTools: InboxSheetView()
       case .emailTools: EmailToolsSheetView()
       case .createBundle: CreateBundleView()
-      default: Text("ERROR: missing view for sheet mode '\(mode.name)'")
+      default: Text("ERROR: missing view for sheet mode '\(config.id)'")
     }
   }
   
@@ -80,19 +79,19 @@ struct AppSheetView: View {
 
 // MARK: - APP SHEET MODE
 
-struct AppSheetMode {
+struct AppSheet {
   static let firstStart = Self(
-    name: "first start",
+    id: "first start",
     detents: [.large],
     initialDetent: .large
   )
   static let downloadingEmails = Self(
-    name: "downloading emails",
+    id: "downloading emails",
     detents: [.large],
     initialDetent: .large
   )
   static let inboxTools = Self(
-    name: "inbox tools",
+    id: "inbox tools",
     detents: [
       .height(90), // TODO: fix magic number
       .medium,
@@ -101,7 +100,7 @@ struct AppSheetMode {
     initialDetent: .height(90)
   )
   static let emailTools = Self(
-    name: "email tools",
+    id: "email tools",
     detents: [
       .height(90), // TODO: fix magic number
       .medium,
@@ -110,18 +109,23 @@ struct AppSheetMode {
     initialDetent: .height(90)
   )
   static let createBundle = Self(
-    name: "create bundle",
+    id: "create bundle",
     detents: [.height(272)],
     initialDetent: .height(272)
   )
+  static let bundleSettings = Self(
+    id: "bundle settings",
+    detents: [.large],
+    initialDetent: .large
+  )
   
-  var name: String
+  var id: String
   var detents: [UndimmedPresentationDetent]
   var initialDetent: PresentationDetent
 }
 
-extension AppSheetMode: Equatable {
-  static func == (lhs: AppSheetMode, rhs: AppSheetMode) -> Bool {
-    lhs.name == rhs.name
+extension AppSheet: Equatable {
+  static func == (lhs: AppSheet, rhs: AppSheet) -> Bool {
+    lhs.id == rhs.id
   }
 }

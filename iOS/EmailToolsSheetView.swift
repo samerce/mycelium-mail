@@ -192,6 +192,9 @@ struct EmailToolsSheetView: View {
   private var BackToEmailListButton: some View {
     Button {
       viewModel.navController?.popViewController(animated: true)
+      withAnimation {
+        viewModel.appSheet = .inboxTools
+      }
     } label: {
       ZStack {
         SystemImage("chevron.backward", size: 27)

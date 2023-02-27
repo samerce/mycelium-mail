@@ -8,9 +8,11 @@ private let moc = PersistenceController.shared.container.viewContext
 
 
 class ViewModel: NSObject, ObservableObject {
-  private let mailCtrl = MailController.shared
+  let mailCtrl = MailController.shared
+  let bundleCtrl: NSFetchedResultsController<EmailBundle>
+  let emailCtrl: NSFetchedResultsController<Email>
 
-  @Published var appSheetMode: AppSheetMode = .firstStart
+  @Published var appSheet: AppSheet = .firstStart
   @Published var emailToMoveToNewBundle: Email?
   @Published var bundles = [EmailBundle]()
   @Published var selectedBundle: EmailBundle {
@@ -22,9 +24,6 @@ class ViewModel: NSObject, ObservableObject {
   }
   @Published var emailsInSelectedBundle: [Email] = []
   var navController: UINavigationController?
-  
-  private let bundleCtrl: NSFetchedResultsController<EmailBundle>
-  private let emailCtrl: NSFetchedResultsController<Email>
   
   
   override init() {
@@ -52,7 +51,7 @@ class ViewModel: NSObject, ObservableObject {
     // set the sheet mode based on email availability
     if let emails = emailCtrl.fetchedObjects,
        !emails.isEmpty {
-      appSheetMode = .inboxTools
+      appSheet = .inboxTools
     }
     
     // finish init
