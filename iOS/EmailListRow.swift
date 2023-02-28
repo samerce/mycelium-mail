@@ -106,11 +106,14 @@ struct EmailListRow: View {
   
   func contextMenuButtonForBundle(_ bundle: EmailBundle) -> some View {
     Button {
+      alert.show(message: "moved to \(bundle.name)", icon: bundle.icon, delay: 1, action: {
+//              viewModel.appSheet = .bundleSettings
+      }, actionLabel: "EDIT")
+      
       withAnimation {
         let _ = Task {
           do {
             try await MailController.shared.moveEmail(email, fromBundle: selectedBundle, toBundle: bundle)
-            alert.show(message: "MOVED TO\n\(bundle.name)", icon: bundle.icon, delay: 1)
           }
           catch {
             alert.show(message: "failed to move message", icon: "xmark", delay: 1)

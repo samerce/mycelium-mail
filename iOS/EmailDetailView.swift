@@ -61,11 +61,11 @@ struct EmailDetailView: View {
             .font(.system(size: 14))
             .foregroundColor(.white.opacity(0.81))
         }
-        .padding(.bottom, 1)
+        .padding(.bottom, 3)
         
         Text(email.subject)
           .font(.system(size: 18, weight: .semibold))
-          .padding(.bottom, 10)
+          .padding(.bottom, 6)
           .lineLimit(1)
       }
       .padding(.horizontal, 12)
