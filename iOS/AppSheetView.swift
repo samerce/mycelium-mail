@@ -44,19 +44,16 @@ struct AppSheetView: View {
           .presentationDetents(undimmed: config.detents, selection: $selectedDetent)
           .presentationDragIndicator(.hidden)
       }
+      .height(screenHeight)
       .ignoresSafeArea()
       .environmentObject(appSheetViewModel)
       .introspectViewController { $0.view.backgroundColor = .clear }
-      .onAppear {
-        selectedDetent = config.initialDetent
-      }
-      .onReceive(viewModel.$appSheet) { sheet in
-        withAnimation {
-          selectedDetent = sheet.initialDetent
-        }
-      }
+      .animation(.spring(dampingFraction: 0.54), value: selectedDetent)
       .onChange(of: geo.size) { _ in
         appSheetViewModel.sheetSize = geo.size
+      }
+      .onReceive(viewModel.$appSheet) { _config in
+        selectedDetent = _config.initialDetent
       }
       .onChange(of: viewModel.selectedBundle) { _ in
         selectedDetent = config.initialDetent
