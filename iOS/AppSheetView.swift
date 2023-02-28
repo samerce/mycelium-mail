@@ -31,7 +31,8 @@ struct AppSheetView: View {
   @StateObject var appSheetViewModel = AppSheetViewModel()
   @State var selectedDetent: PresentationDetent = .height(1)
   
-  var config: AppSheet { viewModel.appSheet }
+  @State var config: AppSheet = .inboxTools
+  @State var detents: [UndimmedPresentationDetent] = [.height(AppSheetDetents.min)]
   
   // MARK: - VIEW
   
@@ -41,7 +42,7 @@ struct AppSheetView: View {
         OverlayBackgroundView()
         Sheet
           .interactiveDismissDisabled()
-          .presentationDetents(undimmed: config.detents, selection: $selectedDetent)
+          .presentationDetents(undimmed: detents, selection: $selectedDetent)
           .presentationDragIndicator(.hidden)
       }
       .height(screenHeight)
@@ -52,11 +53,17 @@ struct AppSheetView: View {
       .onChange(of: geo.size) { _ in
         appSheetViewModel.sheetSize = geo.size
       }
-      .onReceive(viewModel.$appSheet) { _config in
-        selectedDetent = _config.initialDetent
-      }
       .onChange(of: viewModel.selectedBundle) { _ in
         selectedDetent = config.initialDetent
+      }
+      .onReceive(viewModel.$appSheet) { newConfig in
+        detents = newConfig.detents + config.detents
+        selectedDetent = newConfig.initialDetent
+        
+        Timer.after(0.1) { _ in
+          detents = newConfig.detents
+          withAnimation { config = newConfig }
+        }
       }
     }
   }
