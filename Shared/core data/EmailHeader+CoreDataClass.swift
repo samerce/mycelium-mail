@@ -43,6 +43,7 @@ public class EmailHeader: NSManagedObject {
   }
   
   private func makeAddress(_ theirAddress: MCOAddress) -> EmailAddress {
+    // TODO: don't duplicate address records for existing addresses!
     let address = EmailAddress(
       displayName: theirAddress.displayName,
       address: theirAddress.mailbox,

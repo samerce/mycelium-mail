@@ -107,7 +107,7 @@ struct EmailListRow: View {
   func contextMenuButtonForBundle(_ bundle: EmailBundle) -> some View {
     Button {
       alert.show(message: "moved to \(bundle.name)", icon: bundle.icon, delay: 1, action: {
-//              viewModel.appSheet = .bundleSettings
+        viewModel.appSheet = .bundleSettings
       }, actionLabel: "EDIT")
       
       withAnimation {

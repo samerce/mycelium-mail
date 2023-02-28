@@ -90,7 +90,7 @@ struct InboxSheetView: View {
           .multilineTextAlignment(.center)
           .clipped()
         
-        Button { print("compose") } label: {
+        Button { viewModel.appSheet = .bundleSettings } label: {
           ZStack {
             Image(systemName: "square.and.pencil")
               .resizable()

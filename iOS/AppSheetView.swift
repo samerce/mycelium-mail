@@ -75,6 +75,7 @@ struct AppSheetView: View {
       case .inboxTools: InboxSheetView()
       case .emailTools: EmailToolsSheetView()
       case .createBundle: CreateBundleView()
+      case .bundleSettings: BundleSettingsView()
       default: Text("ERROR: missing view for sheet mode '\(config.id)'")
     }
   }
