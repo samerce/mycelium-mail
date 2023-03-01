@@ -40,7 +40,7 @@ struct InboxSheetView: View {
       
       BundleTabBarView()
         .clipped()
-        .offset(y: 9)
+        .offset(y: 6)
       
       Divider()
         .frame(height: DividerHeight)
@@ -64,7 +64,7 @@ struct InboxSheetView: View {
   }
   
   
-  private let DividerHeight: CGFloat = 9
+  private let DividerHeight: CGFloat = 12
   private let allMailboxesIconSize: CGFloat = 22
   private let composeIconSize: CGFloat = 22
   

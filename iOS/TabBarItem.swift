@@ -15,7 +15,7 @@ struct TabBarItem: View {
   
   var percentToMid: CGFloat { asvm.percentToMid }
   var labelHeight: CGFloat {
-    collapsible ? LabelHeight : LabelHeight * percentToMid
+    LabelHeight * percentToMid
   }
   var labelOpacity: Double {
     collapsible ? 1 : Double(percentToMid)
@@ -31,8 +31,10 @@ struct TabBarItem: View {
         .aspectRatio(contentMode: .fit)
         .frame(width: IconSize, height: IconSize)
         .font(.system(size: IconSize, weight: .light))
+      
       Text(label)
         .font(.system(size: 11, weight: .light))
+        .frame(height: labelHeight)
         .opacity(labelOpacity)
     }
     .frame(maxWidth: .infinity)

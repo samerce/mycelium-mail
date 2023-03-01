@@ -20,6 +20,7 @@ private let cTabLimitPerRow = 5
 struct BundleTabBarView: View {
   @EnvironmentObject var viewModel: ViewModel
   @EnvironmentObject var asvm: AppSheetViewModel
+  @State var activeTabRow = 0
   
   var selectedBundle: EmailBundle { viewModel.selectedBundle }
   var percentToMid: CGFloat { asvm.percentToMid }
@@ -44,6 +45,11 @@ struct BundleTabBarView: View {
         Spacer().frame(height: SpacerHeight * percentToMid)
       }
     }
+    .onAppear {
+      activeTabRow = tabRows.firstIndex(where: { tabRow in
+        tabRow.contains(where: { $0.name == selectedBundle.name })
+      }) ?? 0
+    }
   }
   
   
@@ -57,33 +63,33 @@ struct BundleTabBarView: View {
           iconName: bundle.icon,
           label: bundle.name,
           selected: selectedBundle.name == bundle.name,
-          collapsible: rowIndex > 0
+          collapsible: activeTabRow != rowIndex
         )
-        .onTapGesture { viewModel.selectedBundle = bundle }
-        .clipped()
+        .onTapGesture {
+          viewModel.selectedBundle = bundle
+          activeTabRow = rowIndex
+        }
       }
       
       Spacer()
     }
     .opacity(rowOpacity(rowIndex))
-    .frame(height: rowHeight(rowIndex))
+    .height(rowHeight(rowIndex))
+    .clipped()
   }
   
   // MARK: - HELPERS
   
   private func rowOpacity(_ index: Int) -> Double {
-    if index == 0 { return 1 }
-    else {
-      return Double(percentToMid)
-    }
+    return index == activeTabRow ? 1 : Double(percentToMid)
   }
   
   private func rowHeight(_ index: Int) -> CGFloat {
-    if index == 0 {
+    if index == activeTabRow {
       return RowHeightSmall + ((RowHeightBig - RowHeightSmall) * percentToMid)
     }
     else {
-      return RowHeightBig * percentToMid
+      return max(1, RowHeightBig * percentToMid)
     }
   }
   
