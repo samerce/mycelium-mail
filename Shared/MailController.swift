@@ -24,6 +24,7 @@ class MailController: ObservableObject {
   
   @Published var model: MailModel = MailModel()
   @Published private(set) var selectedEmail: Email?
+  @Published private(set) var fetching = false
   
   private var accountCtrl = AccountController.shared
   var sessions = [Account: MCOIMAPSession]()
@@ -71,7 +72,7 @@ class MailController: ObservableObject {
     session!.oAuth2Token = account.accessToken
     session!.isVoIPEnabled = false
     
-    Task(priority: .background) {
+    Task {
       // gotta sync bundles before fetch, cuz on first start
       // the bundles must exist while emails are being created
       do {
@@ -277,6 +278,10 @@ class MailController: ObservableObject {
   // MARK: - private
   
   private func fetchLatest(_ account: Account) async throws {
+    DispatchQueue.main.async {
+      self.fetching = true
+    }
+    
     let startUid = model.highestEmailUid() + 1
     let endUid = UInt64.max - startUid
     let uids = MCOIndexSet(range: MCORangeMake(startUid, endUid))
@@ -299,7 +304,11 @@ class MailController: ObservableObject {
         }
         
         if messages?.count == 0 {
-          print("done fetching!")
+          DispatchQueue.main.async {
+            UserDefaults.standard.set(Date.now.ISO8601Format(), forKey: "lastUpdated")
+            self.fetching = false
+            print("done fetching!")
+          }
         }
         
         if messages != nil {

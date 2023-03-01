@@ -67,6 +67,29 @@ struct InboxSheetView: View {
   private let DividerHeight: CGFloat = 12
   private let allMailboxesIconSize: CGFloat = 22
   private let composeIconSize: CGFloat = 22
+  @AppStorage("lastUpdated") var lastUpdatedString: String = Date.distantPast.ISO8601Format()
+  @StateObject var mailCtrl = MailController.shared
+  
+  var lastUpdated: Date {
+    try! Date(lastUpdatedString, strategy: .iso8601)
+  }
+  var updatedText: String {
+    let durationSinceLastUpdate = Date.now.timeIntervalSince(lastUpdated)
+    let formatter = DateComponentsFormatter()
+    formatter.allowedUnits = [.minute]
+    if let duration = formatter.string(from: durationSinceLastUpdate) {
+      if durationSinceLastUpdate < 60 {
+        return "updated just now"
+      }
+      if durationSinceLastUpdate >= 60 && durationSinceLastUpdate < 120 {
+        return "updated 1 min ago"
+      }
+      return "updated \(duration) mins ago"
+    }
+    else {
+      return "updated ages ago"
+    }
+  }
   
   private var Toolbar: some View {
     return VStack(alignment: .center, spacing: 0) {
@@ -82,13 +105,15 @@ struct InboxSheetView: View {
           }.frame(minWidth: 54, maxWidth: .infinity, alignment: .leading)
         }.frame(width: 54, height: 50, alignment: .leading)
         
-        Text("updated just now")
-          .font(.system(size: 14, weight: .light))
-          .foregroundColor(.secondary)
-          .frame(maxWidth: .infinity)
-          .opacity(Double(1 - asvm.percentToMid))
-          .multilineTextAlignment(.center)
-          .clipped()
+        TimelineView(.everyMinute) { _ in
+          Text(mailCtrl.fetching ? "checking for mail..." : updatedText)
+            .font(.system(size: 14, weight: .light))
+            .foregroundColor(.secondary)
+            .frame(maxWidth: .infinity)
+            .opacity(Double(1 - asvm.percentToMid))
+            .multilineTextAlignment(.center)
+            .clipped()
+        }
         
         Button { viewModel.appSheet = .bundleSettings } label: {
           ZStack {
