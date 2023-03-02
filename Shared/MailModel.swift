@@ -5,6 +5,7 @@ import MailCore
 
 
 private let log = Logger(subsystem: "cum.expressyouryes.psymail", category: "MailModel")
+private let cSentLabel = "\\Sent"
 
 
 class MailModel: ObservableObject {
@@ -20,8 +21,7 @@ class MailModel: ObservableObject {
     PersistenceController.shared.container.viewContext
   }
   
-  
-  // MARK: - public
+  // MARK: - PUBLIC
   
   func highestEmailUid() -> UInt64 {
     let request: NSFetchRequest<Email> = Email.fetchRequest()
@@ -118,7 +118,7 @@ class MailModel: ObservableObject {
     guard fetchEmailByUid(message.uid, account: account) == nil else {
       throw PsyError.emailAlreadyExists
     }
-    
+
     let email = Email(
       message: message, html: emailAsHtml, bundleName: bundleFor(message), context: context
     )
@@ -193,14 +193,19 @@ class MailModel: ObservableObject {
   }
   
   private
-  func bundleFor(_ message: MCOIMAPMessage, emailAsHtml: String = "") -> String {
+  func bundleFor(_ message: MCOIMAPMessage, emailAsHtml: String = "") -> String? {
     let labels = message.gmailLabels as! [String]? ?? []
+    
+    if labels.contains(where: { $0 == cSentLabel }) {
+      // don't put sent emails in a bundle
+      return nil
+    }
+    
     if let bundleLabel = labels.first(where: { $0.contains("psymail") }) {
       return bundleLabel.replacing("psymail/", with: "")
     }
-    else {
-      return "inbox"
-    }
+    
+    return "inbox"
   }
   
   private
