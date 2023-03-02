@@ -243,16 +243,6 @@ class MailController: NSObject, ObservableObject {
     return (label as! GLabel)
   }
   
-  func markSeen(_ emails: [Email], _ completion: @escaping ([Error]?) -> Void) {
-    addFlags(.seen, for: emails) { errors in
-      if let errors = errors, !errors.isEmpty {
-        completion(errors)
-      } else {
-        completion(nil)
-      }
-    }
-  }
-  
   func deleteEmails(_ emails: [Email]) {
     moveEmailsToTrash(emails) { error in
       if error != nil {
@@ -264,14 +254,6 @@ class MailController: NSObject, ObservableObject {
         if error != nil {
           // let view know
         }
-      }
-    }
-  }
-  
-  func flagEmails(_ emails: [Email]) {
-    addFlags(.flagged, for: emails) { errors in
-      if let errors = errors, !errors.isEmpty {
-        // tell view about it
       }
     }
   }
@@ -327,47 +309,6 @@ class MailController: NSObject, ObservableObject {
   }
   
   private var errors: [Error] = []
-  
-  private func addFlags(_ flags: MCOMessageFlag, for theEmails: [Email],
-                        _ completion: ([Error]?) -> Void) {
-    print("adding flags")
-    let queue = OperationQueue()
-    
-    for (account, theEmails) in emailsByAccount(theEmails) {
-      let session = sessions[account]!
-      guard let updateFlags = session.storeFlagsOperation(
-        withFolder: DefaultFolder,
-        uids: uidSetForEmails(theEmails),
-        kind: .add,
-        flags: flags
-      ) else {
-        // TODO append an error
-        print("error creating update flags operation")
-        continue
-      }
-      
-      queue.addBarrierBlock {
-        updateFlags.start { _error in
-          if let _error = _error {
-            print("error setting flags: \(_error.localizedDescription)")
-            self.errors.append(_error)
-            return
-          }
-          
-          Task {
-            do {
-              try await self.model.addFlags(flags, for: theEmails)
-            } catch {
-              self.errors.append(error)
-            }
-          }
-        }
-      }
-    }
-    
-    queue.waitUntilAllOperationsAreFinished()
-    completion(errors.isEmpty ? nil : errors)
-  }
   
   func addLabels(_ labels: [String], toEmails emails: [Email]) async throws {
     for email in emails {

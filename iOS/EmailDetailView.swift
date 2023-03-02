@@ -1,9 +1,5 @@
 import SwiftUI
 import Combine
-import CoreData
-
-
-private let mailCtrl = MailController.shared
 
 
 struct EmailDetailView: View {
@@ -85,17 +81,27 @@ struct EmailDetailView: View {
       .ignoresSafeArea()
       .background(Color(.systemBackground))
       .onAppear {
-        seenTimer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { _ in
-          seenTimer = nil
-          mailCtrl.markSeen([email]) { error in
-            // tell person about error
-          }
-        }
+        markEmailSeen()
       }
       .onDisappear {
         seenTimer?.invalidate()
         seenTimer = nil
       }
+  }
+  
+  func markEmailSeen() {
+    seenTimer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { _ in
+      seenTimer = nil
+      
+      Task {
+        do {
+          try await email.markSeen()
+        }
+        catch {
+          // tell person about error
+        }
+      }
+    }
   }
 }
 

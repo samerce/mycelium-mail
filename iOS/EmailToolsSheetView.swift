@@ -147,7 +147,11 @@ struct EmailToolsSheetView: View {
   }
   
   private var StarButton: some View {
-    Button(action: { if email != nil { mailCtrl.flagEmails([email!]) } }) {
+    Button {
+      Task {
+        try? await email?.markFlagged() // TODO: handle error
+      }
+    } label: {
       SystemImage("star", size: 24)
     }
     .frame(maxWidth: replying ? 0 : .infinity)
