@@ -3,22 +3,28 @@ import Introspect
 
 
 struct FirstStartView: View {
-  @EnvironmentObject var viewModel: ViewModel
+  @ObservedObject var mailCtrl = MailController.shared
+  @ObservedObject var sheetCtrl = AppSheetController.shared
+  
+  // MARK: - VIEW
   
   var body: some View {
-    if AccountController.shared.model.accounts.isEmpty {
-      LogInPrompt
-    }
-    else if viewModel.emailsInSelectedBundle.isEmpty {
-      ProgressView("DOWNLOADING EMAILS")
-        .controlSize(.large)
-        .font(.system(size: 18))
-        .onReceive(viewModel.$emailsInSelectedBundle) { emails in
-          if !emails.isEmpty {
-            withAnimation { viewModel.appSheet = .inboxTools }
+    ZStack {
+      if AccountController.shared.model.accounts.isEmpty {
+        LogInPrompt
+      }
+      else if mailCtrl.emailsInSelectedBundle.isEmpty {
+        ProgressView("DOWNLOADING EMAILS")
+          .controlSize(.large)
+          .font(.system(size: 18))
+          .onReceive(mailCtrl.$emailsInSelectedBundle) { emails in
+            if !emails.isEmpty {
+              withAnimation { sheetCtrl.sheet = .inboxTools }
+            }
           }
-        }
+      }
     }
+    .height(screenHeight - safeAreaInsets.top)
   }
   
   private var LogInPrompt: some View {

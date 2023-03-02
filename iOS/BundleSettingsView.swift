@@ -2,7 +2,8 @@ import SwiftUI
 
 
 struct BundleSettingsView: View {
-  @EnvironmentObject var viewModel: ViewModel
+  @ObservedObject var bundleCtrl = EmailBundleController.shared
+  @ObservedObject var sheetCtrl = AppSheetController.shared
 //  static let config = AppSheetConfig(
 //    id: "bundle settings",
 //    detents: [.height(272)],
@@ -11,9 +12,9 @@ struct BundleSettingsView: View {
   
   @State var conditionType: String = "from"
   @State var conditionValue: String = ""
-  var bundle: EmailBundle {
-    viewModel.selectedBundle
-  }
+  var bundle: EmailBundle { bundleCtrl.selectedBundle }
+  
+  // MARK: - VIEW
   
   var body: some View {
     VStack(spacing: 0) {
@@ -82,9 +83,9 @@ struct BundleSettingsView: View {
       Spacer()
       
       Button {
-        viewModel.appSheet = .inboxTools
+        sheetCtrl.sheet = .inboxTools
       } label: {
-        Text("cancel")
+        Text("CANCEL")
           .height(22)
           .frame(maxWidth: .infinity)
       }
@@ -95,19 +96,19 @@ struct BundleSettingsView: View {
       Divider()
       
       Button {
-        viewModel.appSheet = .inboxTools
+        sheetCtrl.sheet = .inboxTools
       } label: {
         VStack(spacing: 0) {
-          Text("save")
-            .padding(.bottom, 2)
+          Text("SAVE")
           SystemImage(name: "chevron.compact.down", size: 27)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 12)
+        .padding(.top, 12)
+        
       }
     }
     .padding(.horizontal, 12)
-    .padding(.bottom, safeAreaInsets.bottom + safeAreaInsets.top)
+    .padding(.bottom, safeAreaInsets.bottom)
   }
   
 }

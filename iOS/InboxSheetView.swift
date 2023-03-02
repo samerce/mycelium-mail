@@ -1,23 +1,13 @@
 import SwiftUI
 
 
-private enum Grouping: String, CaseIterable, Identifiable {
-    case emailAddress = "address"
-//    case contactCard = "contact"
-    case subject
-    case time
-
-    var id: String { self.rawValue }
-}
-
 private let ToolbarHeight = 22.0
 
 
 struct InboxSheetView: View {
-  @EnvironmentObject var viewModel: ViewModel
-  @EnvironmentObject var asvm: AppSheetViewModel
+  @ObservedObject var sheetCtrl = AppSheetController.shared
   
-  var percentToMid: CGFloat { asvm.percentToMid }
+  var percentToMid: CGFloat { sheetCtrl.percentToMid }
   var toolbarHeight: CGFloat {
     ToolbarHeight - (ToolbarHeight * percentToMid)
   }
@@ -56,11 +46,12 @@ struct InboxSheetView: View {
 //      }
 //      .padding(0)
     }
+    .frame(maxHeight: .infinity, alignment: .top)
   }
   
   
   private func tabBarHeight(_ parentSize: CGSize) -> CGFloat {
-    return 90 * asvm.percentToMid
+    return 90 * percentToMid
   }
   
   
@@ -68,7 +59,7 @@ struct InboxSheetView: View {
   private let allMailboxesIconSize: CGFloat = 22
   private let composeIconSize: CGFloat = 22
   @AppStorage("lastUpdated") var lastUpdatedString: String = Date.distantPast.ISO8601Format()
-  @StateObject var mailCtrl = MailController.shared
+  @ObservedObject var mailCtrl = MailController.shared
   
   var lastUpdated: Date {
     try! Date(lastUpdatedString, strategy: .iso8601)
@@ -110,12 +101,12 @@ struct InboxSheetView: View {
             .font(.system(size: 14, weight: .light))
             .foregroundColor(.secondary)
             .frame(maxWidth: .infinity)
-            .opacity(Double(1 - asvm.percentToMid))
+            .opacity(Double(1 - percentToMid))
             .multilineTextAlignment(.center)
             .clipped()
         }
         
-        Button { viewModel.appSheet = .bundleSettings } label: {
+        Button { sheetCtrl.sheet = .bundleSettings } label: {
           ZStack {
             Image(systemName: "square.and.pencil")
               .resizable()

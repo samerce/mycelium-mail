@@ -13,24 +13,11 @@ struct AppSheetDetents {
   var max: CGFloat = 0
 }
 
-class AppSheetViewModel: ObservableObject {
-  @Published var sheetSize: CGSize = CGSize() {
-    didSet {
-      let sheetDistanceFromMin = sheetSize.height - AppSheetDetents.min
-      let distanceFromMinToMid = AppSheetDetents.mid - AppSheetDetents.min
-      percentToMid = min(1, max(0, sheetDistanceFromMin / distanceFromMinToMid))
-    }
-  }
-  
-  @Published var percentToMid: CGFloat = 0
-}
-
 
 struct AppSheetView: View {
-  @EnvironmentObject var viewModel: ViewModel
-  @StateObject var appSheetViewModel = AppSheetViewModel()
+  @ObservedObject var bundleCtrl = EmailBundleController.shared
+  @ObservedObject var sheetCtrl = AppSheetController.shared
   @State var selectedDetent: PresentationDetent = .height(1)
-  
   @State var config: AppSheet = .inboxTools
   @State var detents: [UndimmedPresentationDetent] = [.height(AppSheetDetents.min)]
   
@@ -45,18 +32,16 @@ struct AppSheetView: View {
           .presentationDetents(undimmed: detents, selection: $selectedDetent)
           .presentationDragIndicator(.hidden)
       }
-      .height(screenHeight)
       .ignoresSafeArea()
-      .environmentObject(appSheetViewModel)
       .introspectViewController { $0.view.backgroundColor = .clear }
       .animation(.spring(dampingFraction: 0.54), value: selectedDetent)
       .onChange(of: geo.size) { _ in
-        appSheetViewModel.sheetSize = geo.size
+        sheetCtrl.sheetSize = geo.size
       }
-      .onChange(of: viewModel.selectedBundle) { _ in
+      .onChange(of: bundleCtrl.selectedBundle) { _ in
         selectedDetent = config.initialDetent
       }
-      .onReceive(viewModel.$appSheet) { newConfig in
+      .onReceive(sheetCtrl.$sheet) { newConfig in
         detents = newConfig.detents + config.detents
         selectedDetent = newConfig.initialDetent
         
@@ -65,6 +50,7 @@ struct AppSheetView: View {
           withAnimation { config = newConfig }
         }
       }
+      .frame(maxHeight: .infinity)
     }
   }
   
@@ -82,7 +68,7 @@ struct AppSheetView: View {
   
 }
 
-// MARK: - APP SHEET MODE
+// MARK: - APP SHEET CONFIG
 
 struct AppSheet {
   static let firstStart = Self(

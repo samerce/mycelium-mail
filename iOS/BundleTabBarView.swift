@@ -18,16 +18,16 @@ private let cTabLimitPerRow = 5
 
 
 struct BundleTabBarView: View {
-  @EnvironmentObject var viewModel: ViewModel
-  @EnvironmentObject var asvm: AppSheetViewModel
+  @ObservedObject var bundleCtrl = EmailBundleController.shared
+  @ObservedObject var appSheetCtrl = AppSheetController.shared
   @State var activeTabRow = 0
   
-  var selectedBundle: EmailBundle { viewModel.selectedBundle }
-  var percentToMid: CGFloat { asvm.percentToMid }
+  var selectedBundle: EmailBundle { bundleCtrl.selectedBundle }
+  var percentToMid: CGFloat { appSheetCtrl.percentToMid }
   
   var tabRows: [[EmailBundle]] {
     var rowIndex = 0
-    return viewModel.bundles.reduce(into: [[]]) { tabRows, bundle in
+    return bundleCtrl.bundles.reduce(into: [[]]) { tabRows, bundle in
       if tabRows[rowIndex].count >= cTabLimitPerRow {
         rowIndex += 1
         tabRows.append([])
@@ -66,7 +66,7 @@ struct BundleTabBarView: View {
           collapsible: activeTabRow != rowIndex
         )
         .onTapGesture {
-          viewModel.selectedBundle = bundle
+          bundleCtrl.selectedBundle = bundle
           activeTabRow = rowIndex
         }
       }

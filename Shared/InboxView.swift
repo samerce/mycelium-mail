@@ -5,15 +5,16 @@ import CoreData
 
 
 struct InboxView: View {
-  @EnvironmentObject var viewModel: ViewModel
-  @StateObject var mailCtrl = MailController.shared
+  @ObservedObject var bundleCtrl = EmailBundleController.shared
+  @ObservedObject var mailCtrl = MailController.shared
+  @ObservedObject var sheetCtrl = AppSheetController.shared
   
   @State var sheetPresented = true
   @State var selectedEmails: Set<Email> = []
   @State var editMode: EditMode = .inactive
   
-  var selectedBundle: EmailBundle { viewModel.selectedBundle }
-  var emails: [Email] { viewModel.emailsInSelectedBundle }
+  var selectedBundle: EmailBundle { bundleCtrl.selectedBundle }
+  var emails: [Email] { mailCtrl.emailsInSelectedBundle }
   
   // MARK: - VIEW
   
@@ -35,8 +36,8 @@ struct InboxView: View {
       
       withAnimation {
         switch (selectedEmails.isEmpty) {
-          case true: viewModel.appSheet = .inboxTools
-          case false: viewModel.appSheet = .emailTools
+          case true: sheetCtrl.sheet = .inboxTools
+          case false: sheetCtrl.sheet = .emailTools
         }
       }
     }
@@ -70,8 +71,8 @@ extension InboxView {
         scrollProxy.scrollTo(emails.first?.objectID)
       }
       .introspectNavigationController {
-        if viewModel.navController == nil {
-          viewModel.navController = $0
+        if mailCtrl.navController == nil {
+          mailCtrl.navController = $0
         }
       }
     }

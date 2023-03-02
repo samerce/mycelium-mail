@@ -7,18 +7,18 @@ private let cHiddenOffsetY = 108.0
 
 
 struct AppAlertView: View {
-  @EnvironmentObject var viewModel: AppAlertViewModel
+  @ObservedObject var alertCtrl = AppAlertController.shared
   @State var countdownScale = 0.0
   @State var offsetY = cHiddenOffsetY
   @State var opacity = 0.0
   
-  var icon: String? { viewModel.icon }
-  var message: String? { viewModel.message }
-  var visible: Bool { viewModel.visible }
-  var duration: TimeInterval { viewModel.duration }
-  var delay: TimeInterval { viewModel.delay }
-  var action: (() -> Void)? { viewModel.action }
-  var actionLabel: String? { viewModel.actionLabel }
+  var icon: String? { alertCtrl.icon }
+  var message: String? { alertCtrl.message }
+  var visible: Bool { alertCtrl.visible }
+  var duration: TimeInterval { alertCtrl.duration }
+  var delay: TimeInterval { alertCtrl.delay }
+  var action: (() -> Void)? { alertCtrl.action }
+  var actionLabel: String? { alertCtrl.actionLabel }
 
   
   var body: some View {
@@ -111,51 +111,7 @@ struct AppAlertView: View {
       opacity = 0
       offsetY = 108
     }
-    Timer.after(0.5) { _ in viewModel.hide() }
-  }
-  
-}
-
-
-class AppAlertViewModel: ObservableObject, Equatable {
-  static func == (lhs: AppAlertViewModel, rhs: AppAlertViewModel) -> Bool {
-    lhs.message == rhs.message && lhs.icon == rhs.icon
-  }
-  
-  
-  @Published var message: String?
-  @Published var icon: String?
-  @Published var visible: Bool = false
-  @Published var action: (() -> Void)?
-  @Published var actionLabel: String?
-  @Published var duration: TimeInterval = 0
-  @Published var delay: TimeInterval = 0
-  
-  
-  func show(
-    message: String,
-    icon: String,
-    duration: TimeInterval = 4,
-    delay: TimeInterval = 0,
-    action: (() -> Void)? = nil,
-    actionLabel: String? = nil
-  ) {
-    self.message = message
-    self.icon = icon
-    self.action = action
-    self.actionLabel = actionLabel
-    self.duration = duration
-    self.delay = delay
-    self.visible = true
-  }
-  
-  func hide() {
-    visible = false
-    message = nil
-    icon = nil
-    action = nil
-    actionLabel = nil
-    duration = 0
+    Timer.after(0.5) { _ in alertCtrl.hide() }
   }
   
 }

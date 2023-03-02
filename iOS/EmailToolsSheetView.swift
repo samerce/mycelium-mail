@@ -22,13 +22,13 @@ private enum NoteTarget: String, CaseIterable, Equatable {
   case email, contact
 }
 
-private var mailCtrl = MailController.shared
 
 struct EmailToolsSheetView: View {
   @Environment(\.dismiss) private var dismiss
-  @EnvironmentObject var viewModel: ViewModel
+  @ObservedObject var mailCtrl = MailController.shared
+  @ObservedObject var sheetCtrl = AppSheetController.shared
   
-  private var email: Email? = mailCtrl.selectedEmail
+  private var email: Email?
   
   @State private var replying = false
   @State private var replyText: String = ""
@@ -191,9 +191,9 @@ struct EmailToolsSheetView: View {
   
   private var BackToEmailListButton: some View {
     Button {
-      viewModel.navController?.popViewController(animated: true)
+      mailCtrl.navController?.popViewController(animated: true)
       withAnimation {
-        viewModel.appSheet = .inboxTools
+        sheetCtrl.sheet = .inboxTools
       }
     } label: {
       ZStack {

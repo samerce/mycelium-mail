@@ -10,7 +10,6 @@ struct EmailDetailView: View {
   var email: Email
   var isPreview = false
   
-  @EnvironmentObject var viewModel: ViewModel
   @State var seenTimer: Timer?
   @State var keyboardHeight: CGFloat = 0
   @State var titleBarHeight: CGFloat = 50

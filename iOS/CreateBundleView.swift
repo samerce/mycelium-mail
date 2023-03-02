@@ -9,10 +9,10 @@ private let dataCtrl = PersistenceController.shared
 
 
 struct CreateBundleView: View {
-  
   @Environment(\.managedObjectContext) var moc: NSManagedObjectContext
-  @EnvironmentObject var viewModel: ViewModel
-  @EnvironmentObject var alert: AppAlertViewModel
+  @ObservedObject var bundleCtrl = EmailBundleController.shared
+  @ObservedObject var alertCtrl = AppAlertController.shared
+  @ObservedObject var sheetCtrl = AppSheetController.shared
   
   @FocusState var bundleNameFocused
   @State var bundleName = ""
@@ -28,12 +28,15 @@ struct CreateBundleView: View {
     account = allAccounts.first!
   }
   
+  // MARK: - VIEW
+  
   var body: some View {
     if processing {
       VStack {
         ProgressView("CREATING BUNDLE")
           .controlSize(.large)
-      }.frame(maxWidth: .infinity, maxHeight: .infinity)
+      }
+      .frame(maxHeight: .infinity, alignment: .center)
     } else {
       CreateForm
     }
@@ -74,7 +77,7 @@ struct CreateBundleView: View {
       HStack {
         Button("cancel") {
           withAnimation {
-            viewModel.appSheet = .inboxTools
+            sheetCtrl.sheet = .inboxTools
           }
         }
         .buttonStyle(.bordered)
@@ -120,43 +123,43 @@ struct CreateBundleView: View {
       do {
         let bundle = try await getOrMakeBundleNamed(bundleName)
 
-        if let email = viewModel.emailToMoveToNewBundle {
+        if let email = bundleCtrl.emailToMoveToNewBundle {
           // TODO: get bundle from initiating context
           try await mailCtrl.moveEmail(email, fromBundle: email.bundles.first!, toBundle: bundle)
-          viewModel.emailToMoveToNewBundle = nil
+          bundleCtrl.emailToMoveToNewBundle = nil
           
           Timer.after(1) { _ in
             DispatchQueue.main.async {
-              alert.show(message: "moved to new bundle\n\(bundle.name.uppercased())", icon: icon)
+              alertCtrl.show(message: "moved to new bundle\n\(bundle.name.uppercased())", icon: icon)
             }
           }
         } else {
           Timer.after(1) { _ in
             DispatchQueue.main.async {
-              alert.show(message: "\(bundleName.uppercased())\nbundle created", icon: icon)
+              alertCtrl.show(message: "\(bundleName.uppercased())\nbundle created", icon: icon)
             }
           }
         }
       }
       catch {
         print("bundle creation failed: \(error.localizedDescription)")
-        alert.show(message: "failed to create bundle", icon: "xmark")
+        alertCtrl.show(message: "failed to create bundle", icon: "xmark")
       }
       
       withAnimation {
-        viewModel.appSheet = .inboxTools
+        sheetCtrl.sheet = .inboxTools
       }
     }
     
   }
   
   func getOrMakeBundleNamed(_ name: String) async throws -> EmailBundle {
-    var bundle = viewModel.bundles.first(where: { $0.name == name })
+    var bundle = bundleCtrl.bundles.first(where: { $0.name == name })
     
     if bundle == nil {
       let label = try await mailCtrl.createLabel("psymail/\(name)", forAccount: account)
       bundle = EmailBundle(
-        name: name, gmailLabelId: label.id, icon: icon, orderIndex: viewModel.bundles.count, context: moc
+        name: name, gmailLabelId: label.id, icon: icon, orderIndex: bundleCtrl.bundles.count, context: moc
       )
       try moc.save()
     }

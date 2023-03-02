@@ -11,9 +11,9 @@ struct TabBarItem: View {
   var selected: Bool
   var collapsible: Bool
   
-  @EnvironmentObject var asvm: AppSheetViewModel
+  @ObservedObject var sheetCtrl = AppSheetController.shared
   
-  var percentToMid: CGFloat { asvm.percentToMid }
+  var percentToMid: CGFloat { sheetCtrl.percentToMid }
   var labelHeight: CGFloat {
     LabelHeight * percentToMid
   }

@@ -8,34 +8,27 @@ import SymbolPicker
 
 let DefaultFolder = "[Gmail]/All Mail" //"INBOX"
 let cInboxLabel = "\\Inbox"
-private let kBundleIcons = [
-  "notifications": "bell",
-  "commerce": "creditcard",
-  "inbox": "tray.full",
-  "newsletters": "newspaper",
-  "society": "building.2",
-  "marketing": "megaphone"
-]
+
 private let moc = PersistenceController.shared.container.viewContext
+private let bundleCtrl = EmailBundleController.shared
 
 
-class MailController: ObservableObject {
+class MailController: NSObject, ObservableObject {
   static let shared = MailController()
   
   @Published var model: MailModel = MailModel()
-  @Published private(set) var selectedEmail: Email?
   @Published private(set) var fetching = false
+  @Published var emailsInSelectedBundle: [Email] = []
+  
+  var navController: UINavigationController? // TODO: find a better place for this
+  var sessions = [Account: MCOIMAPSession]()
   
   private var accountCtrl = AccountController.shared
-  var sessions = [Account: MCOIMAPSession]()
   private var subscribers: [AnyCancellable] = []
-  private var gmailLabelIdsByBundle: [String: String] = [:]
+  private let emailCtrl: NSFetchedResultsController<Email>
   
-  private var animation: Animation {
-    .interactiveSpring(response: 0.36, dampingFraction: 0.74)
-  }
   
-  private init() {
+  private override init() {
     for (address, account) in accountCtrl.model.accounts {
       account.$signedIn
         .sink { signedIn in
@@ -49,16 +42,37 @@ class MailController: ObservableObject {
         .store(in: &subscribers)
     }
     
-    // if "inbox" bundle doesn't exist, create it
-    let bundleFetchRequest = EmailBundle.fetchRequestWithProps("name")
-    let bundles = try? moc.fetch(bundleFetchRequest)
-    if bundles?.first(where: { $0.name == "inbox" }) == nil {
-      let _ = EmailBundle(
-        name: "inbox", gmailLabelId: "",
-        icon: "questionmark.square",
-        orderIndex: bundles?.count ?? 0,
-        context: moc
-      )
+    let emailRequest = Email.fetchRequestForBundle(bundleCtrl.selectedBundle)
+    emailCtrl = NSFetchedResultsController(fetchRequest: emailRequest,
+                                           managedObjectContext: moc,
+                                           sectionNameKeyPath: nil,
+                                           cacheName: nil) // TODO: cache?
+    try? emailCtrl.performFetch()
+    
+    super.init()
+    emailCtrl.delegate = self
+    self.update()
+    
+    // update emails when selected bundle changes
+    emailsInSelectedBundle = bundleCtrl.selectedBundle.emails
+    bundleCtrl.$selectedBundle
+      .receive(on: RunLoop.main)
+      .sink { selectedBundle in
+        self.emailCtrl.fetchRequest.predicate = Email.predicateForBundle(selectedBundle)
+        try? self.emailCtrl.performFetch()
+        self.emailsInSelectedBundle = self.emailCtrl.fetchedObjects ?? []
+      }
+      .store(in: &subscribers)
+  }
+  
+  deinit {
+    subscribers.forEach { $0.cancel() }
+  }
+  
+  private func update() {
+    DispatchQueue.main.async {
+      print("updating email results")
+      self.emailsInSelectedBundle = self.emailCtrl.fetchedObjects ?? []
     }
   }
   
@@ -102,11 +116,12 @@ class MailController: ObservableObject {
       let bundleName = label.name.replacing("psymail/", with: "")
       var bundle = bundles?.first(where: { $0.name == bundleName })
       if bundle == nil {
+        let config = cBundleConfigByName[bundleName]
         bundle = EmailBundle(
           name: bundleName,
           gmailLabelId: label.id,
-          icon: "questionmark.square",
-          orderIndex: bundles?.count ?? index,
+          icon: config?["icon"] ?? "questionmark.square",
+          orderIndex: cBundleConfig.firstIndex(where: { $0["name"] == bundleName }) ?? bundles?.count ?? index,
           context: moc
         )
       } else {
@@ -259,14 +274,6 @@ class MailController: ObservableObject {
         // tell view about it
       }
     }
-  }
-  
-  func selectEmail(_ email: Email) {
-    withAnimation(animation) { selectedEmail = email }
-  }
-  
-  func deselectEmail() {
-    withAnimation(animation) { selectedEmail = nil }
   }
   
   func fetchLatest() async throws {
@@ -577,3 +584,63 @@ private func sessionForType(_ accountType: AccountType) -> MCOIMAPSession {
     return GmailSession()
   }
 }
+
+extension MailController: NSFetchedResultsControllerDelegate {
+  
+  func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    update()
+  }
+  
+}
+
+
+// TODO: get rid of this
+private let cBundleConfig = [
+  [
+    "name": "notifications",
+    "icon": "bell"
+  ],
+  [
+    "name": "commerce",
+    "icon": "creditcard"
+  ],
+  [
+    "name": "inbox",
+    "icon": "tray.full"
+  ],
+  [
+    "name": "newsletters",
+    "icon": "newspaper"
+  ],
+  [
+    "name": "society",
+    "icon": "building.2"
+  ],
+  [
+    "name": "marketing",
+    "icon": "megaphone"
+  ],
+  [
+    "name": "updates",
+    "icon": "livephoto"
+  ],
+  [
+    "name": "events",
+    "icon": "calendar"
+  ],
+  [
+    "name": "jobs",
+    "icon": "briefcase",
+  ],
+  [
+    "name": "health",
+    "icon": "heart.text.square"
+  ],
+  [
+    "name": "travel",
+    "icon": "backpack"
+  ]
+]
+private let cBundleConfigByName = cBundleConfig.reduce(into: [:], { result, config in
+  result[config["name"]] = config
+})

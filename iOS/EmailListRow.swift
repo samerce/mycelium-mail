@@ -4,11 +4,12 @@ import SwiftUI
 struct EmailListRow: View {
   var email: Email
   
-  @EnvironmentObject var viewModel: ViewModel
-  @EnvironmentObject var alert: AppAlertViewModel
+  @ObservedObject var bundleCtrl = EmailBundleController.shared
+  @ObservedObject var sheetCtrl = AppSheetController.shared
+  @ObservedObject var alertCtrl = AppAlertController.shared
   
-  var selectedBundle: EmailBundle { viewModel.selectedBundle }
-  var bundles: [EmailBundle] { viewModel.bundles }
+  var selectedBundle: EmailBundle { bundleCtrl.selectedBundle }
+  var bundles: [EmailBundle] { bundleCtrl.bundles }
   
   
   var body: some View {
@@ -95,8 +96,8 @@ struct EmailListRow: View {
     
     Button {
       withAnimation {
-        viewModel.emailToMoveToNewBundle = email
-        viewModel.appSheet = .createBundle
+        bundleCtrl.emailToMoveToNewBundle = email
+        sheetCtrl.sheet = .createBundle
       }
     } label: {
       Text("new bundle")
@@ -106,8 +107,8 @@ struct EmailListRow: View {
   
   func contextMenuButtonForBundle(_ bundle: EmailBundle) -> some View {
     Button {
-      alert.show(message: "moved to \(bundle.name)", icon: bundle.icon, delay: 1, action: {
-        viewModel.appSheet = .bundleSettings
+      alertCtrl.show(message: "moved to \(bundle.name)", icon: bundle.icon, delay: 1, action: {
+        sheetCtrl.sheet = .bundleSettings
       }, actionLabel: "EDIT")
       
       withAnimation {
@@ -116,7 +117,7 @@ struct EmailListRow: View {
             try await MailController.shared.moveEmail(email, fromBundle: selectedBundle, toBundle: bundle)
           }
           catch {
-            alert.show(message: "failed to move message", icon: "xmark", delay: 1)
+            alertCtrl.show(message: "failed to move message", icon: "xmark", delay: 1)
           }
         }
       }
