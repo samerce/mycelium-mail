@@ -11,6 +11,7 @@ struct AppAlertView: View {
   @State var countdownScale = 0.0
   @State var offsetY = cHiddenOffsetY
   @State var opacity = 0.0
+  @State var timers = [Timer]()
   
   var icon: String? { alertCtrl.icon }
   var message: String? { alertCtrl.message }
@@ -19,7 +20,8 @@ struct AppAlertView: View {
   var delay: TimeInterval { alertCtrl.delay }
   var action: (() -> Void)? { alertCtrl.action }
   var actionLabel: String? { alertCtrl.actionLabel }
-
+  
+  // MARK: - VIEW
   
   var body: some View {
     ZStack(alignment: .top) {
@@ -38,7 +40,7 @@ struct AppAlertView: View {
     }
     .frame(maxWidth: screenWidth - 54)
     .background(
-      OverlayBackgroundView(blurStyle: .systemUltraThinMaterial)
+      OverlayBackgroundView(blurStyle: .systemChromeMaterial)
     )
     .cornerRadius(cCornerRadius)
     .offset(y: offsetY)
@@ -48,7 +50,7 @@ struct AppAlertView: View {
     .onChange(of: visible) { _ in
       if visible {
         if delay > 0 {
-          Timer.after(delay) { _ in show() }
+          after(delay) { _ in show() }
         } else {
           show()
         }
@@ -90,6 +92,8 @@ struct AppAlertView: View {
   }
   
   func show() {
+    clearTimers()
+    
     // show alert
     withAnimation(.spring(dampingFraction: 0.66)) {
       opacity = 1
@@ -103,15 +107,28 @@ struct AppAlertView: View {
     }
     
     // hide
-    Timer.after(duration.magnitude) { _ in hide() }
+    after(duration.magnitude) { _ in hide() }
   }
   
   func hide() {
+    clearTimers()
+    
     withAnimation {
       opacity = 0
       offsetY = 108
     }
-    Timer.after(0.5) { _ in alertCtrl.hide() }
+    after(0.5) { _ in alertCtrl.hide() }
+  }
+  
+  func after(
+    _ interval: TimeInterval, repeats: Bool? = false, block: @escaping (Timer) -> Void
+  ) {
+    timers.append(Timer.after(interval, repeats: repeats, block: block))
+  }
+  
+  func clearTimers() {
+    timers.forEach { $0.invalidate() }
+    timers = []
   }
   
 }

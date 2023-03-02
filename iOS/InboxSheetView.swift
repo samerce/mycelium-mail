@@ -46,7 +46,6 @@ struct InboxSheetView: View {
 //      }
 //      .padding(0)
     }
-    .frame(maxHeight: .infinity, alignment: .top)
   }
   
   

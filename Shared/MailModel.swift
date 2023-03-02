@@ -37,38 +37,6 @@ class MailModel: ObservableObject {
     try? context.save()
   }
   
-  func addFlags(_ flags: MCOMessageFlag, for theEmails: [Email]) async throws {
-    try await context.perform {
-      theEmails.forEach { e in e.addFlags(flags) }
-      
-      do {
-        try self.context.save()
-      }
-      catch {
-        log.debug("error saving adding flags: \(error)")
-        throw error
-      }
-    }
-  }
-  
-  func deleteEmails(_ theEmails: [Email], _ completion: @escaping (Error?) -> Void) {
-    context.performAndWait {
-      for e in theEmails {
-        e.addFlags(.deleted)
-        e.trashed = true
-      }
-      
-      do {
-        try context.save()
-        completion(nil)
-      }
-      catch let error {
-        print("error deleting emails from core data: \(error.localizedDescription)")
-        completion(error)
-      }
-    }
-  }
-  
   func saveNewMessages(_ messages: [MCOIMAPMessage], forAccount account: Account) async throws {
     let taskContext = PersistenceController.shared.newTaskContext()
     taskContext.name = "saveNewMessages"
@@ -164,13 +132,6 @@ class MailModel: ObservableObject {
     }
     
     return []
-  }
-  
-  func email(id: Email.ID?) -> Email? {
-    guard id != nil
-    else { return nil }
-    
-    return emails["everything"]?.first(where: { $0.id == id }) ?? nil
   }
   
   // MARK: - private

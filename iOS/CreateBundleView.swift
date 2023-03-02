@@ -13,21 +13,24 @@ struct CreateBundleView: View {
   @ObservedObject var bundleCtrl = EmailBundleController.shared
   @ObservedObject var alertCtrl = AppAlertController.shared
   @ObservedObject var sheetCtrl = AppSheetController.shared
+  @ObservedObject var accountCtrl = AccountController.shared
   
   @FocusState var bundleNameFocused
   @State var bundleName = ""
-  @State var account: Account
   @State var iconPickerPresented = false
   @State var icon = "sparkle"
   @State var processing = false
+  @State var selectedAccount: Account
   
-  var allAccounts: [Account]
-  
-  init() {
-    allAccounts = AccountController.shared.model.accounts.map { $1 }
-    account = allAccounts.first!
+  var accounts: [Account] {
+    accountCtrl.accounts.values.map { $0 }
   }
   
+  
+  init() {
+    selectedAccount = AccountController.shared.accounts.values.map({ $0 }).first!
+  }
+
   // MARK: - VIEW
   
   var body: some View {
@@ -53,8 +56,8 @@ struct CreateBundleView: View {
         .frame(maxWidth: .infinity, alignment: .center)
         .padding(.bottom, 18)
       
-      Picker("account", selection: $account) {
-        ForEach(allAccounts) {
+      Picker("account", selection: $selectedAccount) {
+        ForEach(accounts) {
           Text($0.address).tag($0)
             .foregroundColor(.psyAccent)
         }
@@ -157,7 +160,7 @@ struct CreateBundleView: View {
     var bundle = bundleCtrl.bundles.first(where: { $0.name == name })
     
     if bundle == nil {
-      let label = try await mailCtrl.createLabel("psymail/\(name)", forAccount: account)
+      let label = try await selectedAccount.createLabel("psymail/\(name)")
       bundle = EmailBundle(
         name: name, gmailLabelId: label.id, icon: icon, orderIndex: bundleCtrl.bundles.count, context: moc
       )

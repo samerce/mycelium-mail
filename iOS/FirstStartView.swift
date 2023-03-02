@@ -5,12 +5,13 @@ import Introspect
 struct FirstStartView: View {
   @ObservedObject var mailCtrl = MailController.shared
   @ObservedObject var sheetCtrl = AppSheetController.shared
+  @ObservedObject var accountCtrl = AccountController.shared
   
   // MARK: - VIEW
   
   var body: some View {
     ZStack {
-      if AccountController.shared.model.accounts.isEmpty {
+      if accountCtrl.accounts.isEmpty {
         LogInPrompt
       }
       else if mailCtrl.emailsInSelectedBundle.isEmpty {

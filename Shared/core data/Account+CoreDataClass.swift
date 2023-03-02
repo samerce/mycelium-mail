@@ -8,8 +8,6 @@ public enum AccountType: String {
 @objc(Account)
 public class Account: NSManagedObject {
   
-  @Published var signedIn = false
-  
   convenience init(
     type: AccountType,
     address: String, userId: String,

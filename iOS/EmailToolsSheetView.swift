@@ -132,8 +132,8 @@ struct EmailToolsSheetView: View {
   
   private var TrashButton: some View {
     Button {
-      if email != nil {
-        mailCtrl.deleteEmails([email!])
+      Task {
+        try? await email?.moveToTrash() // TODO: handle error
       }
     } label: {
       ZStack {

@@ -64,7 +64,9 @@ struct EmailListRow: View {
   @ViewBuilder
   var swipeActions: some View {
     Button(role: .destructive) {
-      MailController.shared.deleteEmails([email])
+      Task {
+        try? await email.moveToTrash() // TODO: handle error
+      }
     } label: {
       Label("trash", systemImage: "trash")
     }
@@ -107,7 +109,8 @@ struct EmailListRow: View {
   
   func contextMenuButtonForBundle(_ bundle: EmailBundle) -> some View {
     Button {
-      alertCtrl.show(message: "moved to \(bundle.name)", icon: bundle.icon, delay: 1, action: {
+      alertCtrl.show(message: "moved to \(bundle.name)", icon: bundle.icon, delay: 0.54, action: {
+        alertCtrl.hide()
         sheetCtrl.sheet = .bundleSettings
       }, actionLabel: "EDIT")
       

@@ -25,7 +25,6 @@ class AppSheetController: ObservableObject {
   private init() {
     // set the sheet mode based on email availability
     mailCtrl.$emailsInSelectedBundle
-      .receive(on: RunLoop.main)
       .sink { emails in
         if !emails.isEmpty && self.sheet == .firstStart {
           self.sheet = .inboxTools

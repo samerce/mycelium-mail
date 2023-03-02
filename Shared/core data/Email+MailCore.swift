@@ -3,7 +3,7 @@ import CoreData
 import MailCore
 
 
-private let mailCtrl = MailController.shared
+private let accountCtrl = AccountController.shared
 
 
 extension Email {
@@ -11,18 +11,25 @@ extension Email {
   var moc: NSManagedObjectContext? { managedObjectContext }
   var session: MCOIMAPSession? {
     if let account = account {
-      return mailCtrl.sessions[account]
+      return accountCtrl.sessions[account]
     }
     else { return nil }
   }
+  var uidSet: MCOIndexSet {
+    MCOIndexSet(index: UInt64(uid))
+  }
   
   
-  private func uidSetForEmails(_ emails: [Email]) -> MCOIndexSet {
-    let uidSet = MCOIndexSet()
-    for email in emails {
-      uidSet.add(UInt64(email.uid))
+  private func runOperation(_ op: MCOIMAPOperation) async throws {
+    let _: () = try await withCheckedThrowingContinuation { continuation in
+      op.start { error in
+        if let error = error {
+          continuation.resume(throwing: error)
+        } else {
+          continuation.resume()
+        }
+      }
     }
-    return uidSet
   }
   
   private func sessionForType(_ accountType: AccountType) -> MCOIMAPSession {
@@ -44,9 +51,7 @@ extension Email {
     
     html = try await self.bodyHtml()
     
-    try await moc?.perform {
-      try self.moc?.save()
-    }
+    try self.moc?.save()
   }
   
   private func bodyHtml() async throws -> String {
@@ -83,36 +88,65 @@ extension Email {
   }
   
   func updateFlags(_ flags: MCOMessageFlag, operation: MCOIMAPStoreFlagsRequestKind) async throws {
-    print("adding flags")
-    let queue = OperationQueue()
+    print("updating imap flags")
     
     guard let updateFlags = session!.storeFlagsOperation( // TODO: handle this force unwrap
       withFolder: DefaultFolder,
-      uids: uidSetForEmails([self]),
+      uids: uidSet,
       kind: .add,
       flags: .seen
     ) else {
       throw PsyError.unexpectedError(message: "error creating update flags operation")
     }
     
-    let _: Any? = try await withCheckedThrowingContinuation { continuation in
-      updateFlags.start { _error in
-        if let _error = _error {
-          continuation.resume(
-            throwing: PsyError.unexpectedError(message: "error setting flags: \(_error.localizedDescription)")
-          )
-        }
-        
-        do {
-          self.addFlags(.seen)
-          try self.moc!.save() // TODO: handle this force unwrap
-        } catch {
-          continuation.resume(
-            throwing: PsyError.unexpectedError(message: "failed to add core data .seen flag to \(self)")
-          )
-        }
-      }
+    try await runOperation(updateFlags)
+    addFlags(.seen) // TODO: update from server instead?
+  }
+  
+}
+
+// MARK: - LABELS
+
+extension Email {
+  
+  func moveToTrash() async throws {
+    print("moving emails to trash")
+    try await updateLabels(["\\Trash"], operation: .add)
+    
+    guard let expunge = session?.expungeOperation("INBOX")
+    else {
+      throw PsyError.unexpectedError(message: "error creating expunge operation")
     }
+    try await runOperation(expunge)
+
+    // TODO: replace this with refetch email from server so gmailLabels update
+    gmailLabels.insert("\\Trash")
+    addFlags(.deleted)
+    trashed = true
+  }
+  
+  func addLabels(_ labels: [String]) async throws {
+    print("adding imap labels \(labels)")
+    try await updateLabels(labels, operation: .add)
+    labels.forEach{ gmailLabels.insert($0) }
+  }
+  
+  func removeLabels(_ labels: [String]) async throws {
+    print("removing imap labels \(labels)")
+    try await updateLabels(labels, operation: .remove)
+    labels.forEach { gmailLabels.remove($0) }
+  }
+  
+  func updateLabels(_ labels: [String], operation: MCOIMAPStoreFlagsRequestKind) async throws {
+    guard let addTrashLabel = session?.storeLabelsOperation(withFolder: DefaultFolder,
+                                                            uids: uidSet,
+                                                            kind: .add,
+                                                            labels: labels)
+    else {
+      throw PsyError.unexpectedError(message: "error creating label update operations")
+    }
+
+    try await runOperation(addTrashLabel)
   }
   
 }

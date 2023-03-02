@@ -11,6 +11,7 @@ let cInboxLabel = "\\Inbox"
 
 private let moc = PersistenceController.shared.container.viewContext
 private let bundleCtrl = EmailBundleController.shared
+private let accountCtrl = AccountController.shared
 
 
 class MailController: NSObject, ObservableObject {
@@ -19,29 +20,17 @@ class MailController: NSObject, ObservableObject {
   @Published var model: MailModel = MailModel()
   @Published private(set) var fetching = false
   @Published var emailsInSelectedBundle: [Email] = []
-  
   var navController: UINavigationController? // TODO: find a better place for this
-  var sessions = [Account: MCOIMAPSession]()
-  
-  private var accountCtrl = AccountController.shared
+
   private var subscribers: [AnyCancellable] = []
   private let emailCtrl: NSFetchedResultsController<Email>
+  private var sessions: [Account: MCOIMAPSession] {
+    AccountController.shared.sessions
+  }
   
+  // MARK: -
   
   private override init() {
-    for (address, account) in accountCtrl.model.accounts {
-      account.$signedIn
-        .sink { signedIn in
-          print("\(address) signed in: \(signedIn)")
-          
-          if signedIn {
-          } else {
-            // handle log out
-          }
-        }
-        .store(in: &subscribers)
-    }
-    
     let emailRequest = Email.fetchRequestForBundle(bundleCtrl.selectedBundle)
     emailCtrl = NSFetchedResultsController(fetchRequest: emailRequest,
                                            managedObjectContext: moc,
@@ -51,18 +40,18 @@ class MailController: NSObject, ObservableObject {
     
     super.init()
     emailCtrl.delegate = self
-    self.update()
     
     // update emails when selected bundle changes
-    emailsInSelectedBundle = bundleCtrl.selectedBundle.emails
     bundleCtrl.$selectedBundle
-      .receive(on: RunLoop.main)
       .sink { selectedBundle in
         self.emailCtrl.fetchRequest.predicate = Email.predicateForBundle(selectedBundle)
         try? self.emailCtrl.performFetch()
-        self.emailsInSelectedBundle = self.emailCtrl.fetchedObjects ?? []
+        self.update()
       }
       .store(in: &subscribers)
+    
+    subscribeToSignedInAccounts()
+    update()
   }
   
   deinit {
@@ -76,64 +65,29 @@ class MailController: NSObject, ObservableObject {
     }
   }
   
+  private func subscribeToSignedInAccounts() {
+    accountCtrl.$signedInAccounts
+      .sink { accounts in
+        accounts.forEach(self.onSignedInAccount)
+      }
+      .store(in: &subscribers)
+  }
+  
   func onSignedInAccount(_ account: Account) {
-    var session = sessions[account]
-    if session == nil {
-      session = sessionForType(account.type)
-      sessions[account] = session
-    }
-    session!.username = account.address
-    session!.oAuth2Token = account.accessToken
-    session!.isVoIPEnabled = false
+    print("\(account.address) signed in")
     
     Task {
-      // gotta sync bundles before fetch, cuz on first start
-      // the bundles must exist while emails are being created
-      do {
-        try await self.syncEmailBundles(account)
-      }
-      catch {
-        print("failed to sync email bundles: \(error.localizedDescription)")
-      }
-      
-      try? await self.fetchLatest(account)
+      try? await self.fetchLatest(account) // TODO: handle error
     }
   }
   
-  private func syncEmailBundles(_ account: Account) async throws {
-    let bundleFetchRequest = EmailBundle.fetchRequestWithProps("name", "gmailLabelId")
-    let bundles = try? moc.fetch(bundleFetchRequest)
-    
-    let (labelListResponse, _) = try await GmailEndpoint.call(.listLabels, forAccount: account)
-    let labels = (labelListResponse as! GLabelListResponse).labels
-    
-    // TODO: use batch insert?
-    labels.enumerated().forEach { index, label in
-      if !label.name.contains("psymail/") {
-        return
-      }
-      
-      let bundleName = label.name.replacing("psymail/", with: "")
-      var bundle = bundles?.first(where: { $0.name == bundleName })
-      if bundle == nil {
-        let config = cBundleConfigByName[bundleName]
-        bundle = EmailBundle(
-          name: bundleName,
-          gmailLabelId: label.id,
-          icon: config?["icon"] ?? "questionmark.square",
-          orderIndex: cBundleConfig.firstIndex(where: { $0["name"] == bundleName }) ?? bundles?.count ?? index,
-          context: moc
-        )
-      } else {
-        // TODO: update this to work with multiple accounts
-        bundle!.gmailLabelId = label.id
-      }
-    }
-    
-    PersistenceController.shared.save()
-  }
+  // MARK: - API
   
-  // MARK: - public
+  func fetchLatest() async throws {
+    for account in accountCtrl.signedInAccounts {
+      try await self.fetchLatest(account)
+    }
+  }
   
   func moveEmail(_ email: Email, fromBundle: EmailBundle, toBundle: EmailBundle, always: Bool = true) async throws {
     // proactively update core data and revert if update request fails
@@ -144,14 +98,14 @@ class MailController: NSObject, ObservableObject {
     PersistenceController.shared.save()
     
     if toBundle.name == "inbox" {
-      try await self.removeLabels(["psymail/\(fromBundle.name)"], fromEmails: [email])
+      try await email.removeLabels(["psymail/\(fromBundle.name)"])
       // TODO: delete filter
       return
     }
     
     do {
-      try await self.addLabels(["psymail/\(toBundle.name)"], toEmails: [email])
-      try await self.removeLabels([cInboxLabel], fromEmails: [email])
+      try await email.addLabels(["psymail/\(toBundle.name)"])
+      try await email.removeLabels([cInboxLabel])
     }
     catch {
       print(error.localizedDescription)
@@ -225,45 +179,6 @@ class MailController: NSObject, ObservableObject {
     ])
   }
   
-  func createLabel(_ name: String, forAccount account: Account) async throws -> GLabel {
-    let (labelListResponse, _) = try await GmailEndpoint.call(.listLabels, forAccount: account)
-    let labels = (labelListResponse as! GLabelListResponse).labels
-    
-    if let label = labels.first(where: { $0.name == name }) {
-      print("label exists, skipping creation")
-      return label
-    }
-    
-    let (label, _) = try await GmailEndpoint.call(.createLabel, forAccount: account, withBody: [
-      "name": name,
-      "labelListVisibility": "labelShow",
-      "messageListVisibility": "show",
-      "type": "user"
-    ])
-    return (label as! GLabel)
-  }
-  
-  func deleteEmails(_ emails: [Email]) {
-    moveEmailsToTrash(emails) { error in
-      if error != nil {
-        // let view know
-        return
-      }
-      
-      self.model.deleteEmails(emails) { error in
-        if error != nil {
-          // let view know
-        }
-      }
-    }
-  }
-  
-  func fetchLatest() async throws {
-    sessions.forEach { value in
-      Task { try await fetchLatest(value.key) }
-    }
-  }
-  
   // MARK: - private
   
   private func fetchLatest(_ account: Account) async throws {
@@ -284,7 +199,7 @@ class MailController: NSObject, ObservableObject {
       uids: uids
     )
     
-    let _:Any? = try await withCheckedThrowingContinuation { continuation in
+    let _: () = try await withCheckedThrowingContinuation { continuation in
       fetchHeadersAndFlags?.start {
         (error: Error?, messages: [MCOIMAPMessage]?, vanishedMessages: MCOIndexSet?) in
         if let error = error {
@@ -303,148 +218,9 @@ class MailController: NSObject, ObservableObject {
         if messages != nil {
           self.saveMessages(messages!, account: account)
         }
-        continuation.resume(returning: nil)
+        continuation.resume()
       }
     }
-  }
-  
-  private var errors: [Error] = []
-  
-  func addLabels(_ labels: [String], toEmails emails: [Email]) async throws {
-    for email in emails {
-      try await addLabels(labels, toEmail: email)
-    }
-  }
-  
-  func addLabels(_ labels: [String], toEmail email: Email) async throws {
-    let session = sessions[email.account!]!
-    
-    guard let addLabels = session.storeLabelsOperation(
-      withFolder: DefaultFolder,
-      uids: uidSetForEmails([email]),
-      kind: .add,
-      labels: labels
-    ) else {
-      throw PsyError.labelUpdateFailed(message: "error creating addLabel operation")
-    }
-    
-    let _: Any? = try await withCheckedThrowingContinuation { continuation in
-      addLabels.start { _error in
-        if let _error = _error {
-          self.errors.append(_error)
-          continuation.resume(throwing: PsyError.labelUpdateFailed(_error))
-          return
-        }
-        
-        labels.forEach { label in
-          email.gmailLabels.insert(label)
-        }
-        continuation.resume(returning: nil)
-      }
-    }
-  }
-  
-  func removeLabels(_ labels: [String], fromEmails emails: [Email]) async throws {
-    for email in emails {
-      try await removeLabels(labels, fromEmail: email)
-    }
-  }
-  
-  func removeLabels(_ labels: [String], fromEmail email: Email) async throws {
-    let session = sessions[email.account!]!
-    
-    guard let removeLabels = session.storeLabelsOperation(
-      withFolder: DefaultFolder,
-      uids: uidSetForEmails([email]),
-      kind: .remove,
-      labels: labels
-    ) else {
-      throw PsyError.labelUpdateFailed(message: "error creating removeLabel operation")
-    }
-    
-    let _: Any? = try await withCheckedThrowingContinuation { continuation in
-      removeLabels.start { _error in
-        if let _error = _error {
-          self.errors.append(_error)
-          continuation.resume(throwing: PsyError.labelUpdateFailed(_error))
-          return
-        }
-        
-        labels.forEach { label in
-          email.gmailLabels.remove(label)
-        }
-        continuation.resume(returning: nil)
-      }
-    }
-  }
-  
-  private func moveEmailsToTrash(_ emails: [Email],
-                                 _ completion: @escaping (Error?) -> Void) {
-    print("moving emails to trash")
-    let queue = OperationQueue()
-    var errors = [Error]()
-    
-    for (account, emails) in emailsByAccount(emails) {
-      let uids = uidSetForEmails(emails)
-      guard let session = sessions[account],
-            let addTrashLabel = session.storeLabelsOperation(
-              withFolder: DefaultFolder,
-              uids: uids,
-              kind: .add,
-              labels: ["\\Trash"]),
-            let expunge = session.expungeOperation("INBOX")
-      else {
-        // TODO append an error
-        print("error creating session operations")
-        continue
-      }
-
-      queue.addBarrierBlock {
-        addTrashLabel.start { error in
-          if let error = error {
-            print("error adding trash label: \(error.localizedDescription)")
-            errors.append(error)
-          }
-        }
-      }
-      
-      queue.addBarrierBlock {
-        expunge.start { error in
-          if let error = error {
-            print("error expunging: \(error.localizedDescription)")
-            errors.append(error)
-          }
-        }
-      }
-      
-    }
-    
-    queue.waitUntilAllOperationsAreFinished()
-    completion(errors.isEmpty ? nil : errors[0]) // TODO send all back?
-  }
-  
-  private func emailsByAccount(_ emails: [Email]) -> [Account: [Email]] {
-    var result = [Account: [Email]]()
-    
-    for email in emails {
-      guard let account = email.account else { continue }
-      
-      if result[account] == nil {
-        result[account] = []
-      }
-      
-      result[account]!.append(email)
-    }
-    
-    return result
-  }
-  
-  private func uidSetForEmails(_ emails: [Email]) -> MCOIndexSet {
-    let uidSet = MCOIndexSet()
-    for email in emails {
-      uidSet.add(UInt64(email.uid))
-    }
-    return uidSet
   }
   
   private func saveMessages(_ messages: [MCOIMAPMessage], account: Account) {
@@ -462,69 +238,8 @@ class MailController: NSObject, ObservableObject {
     print("done saving new messages!")
   }
   
-  func fetchHtml(for email: Email) async throws {
-    guard email.html.isEmpty
-    else { return }
-    
-    email.html = try await self.bodyHtmlForEmail(email)
-    
-    try await moc.perform {
-      try moc.save()
-    }
-  }
-  
-  func bodyHtmlForEmail(_ email: Email) async throws -> String {
-    let session = sessions[email.account!]!
-    let fetchMessage = session.fetchParsedMessageOperation(withFolder: DefaultFolder, uid: UInt32(email.uid))
-    
-    return try await withCheckedThrowingContinuation { continuation in
-      guard let fetchMessage = fetchMessage else {
-        continuation.resume(
-          throwing: PsyError.unexpectedError(message: "failed to create fetch HTML operation")
-        )
-        return
-      }
-      
-      fetchMessage.start() { (error: Error?, parser: MCOMessageParser?) in
-        if let error = error {
-          continuation.resume(throwing: error)
-        } else {
-          continuation.resume(returning: parser?.htmlBodyRendering() ?? "")
-        }
-      }
-    }
-  }
-  
-  func fullHtmlForEmail(withUid uid: UInt32, account: Account, _ completion: @escaping (String?) -> Void) {
-    let session = sessions[account]!
-    let fetchMessage = session.fetchParsedMessageOperation(withFolder: DefaultFolder, uid: uid)
-    fetchMessage?.start() { (error: Error?, parser: MCOMessageParser?) in
-      completion(parser?.htmlRendering(with: nil) ?? "")
-    } ?? completion("")
-  }
-  
-  
 }
 
-class GmailSession: MCOIMAPSession {
-  
-  override init() {
-    super.init()
-    hostname = "imap.gmail.com"
-    port = 993
-    authType = .xoAuth2
-    connectionType = .TLS
-    allowsFolderConcurrentAccessEnabled = true
-  }
-  
-}
-
-private func sessionForType(_ accountType: AccountType) -> MCOIMAPSession {
-  switch accountType {
-  case .gmail:
-    return GmailSession()
-  }
-}
 
 extension MailController: NSFetchedResultsControllerDelegate {
   
@@ -533,55 +248,3 @@ extension MailController: NSFetchedResultsControllerDelegate {
   }
   
 }
-
-
-// TODO: get rid of this
-private let cBundleConfig = [
-  [
-    "name": "notifications",
-    "icon": "bell"
-  ],
-  [
-    "name": "commerce",
-    "icon": "creditcard"
-  ],
-  [
-    "name": "inbox",
-    "icon": "tray.full"
-  ],
-  [
-    "name": "newsletters",
-    "icon": "newspaper"
-  ],
-  [
-    "name": "society",
-    "icon": "building.2"
-  ],
-  [
-    "name": "marketing",
-    "icon": "megaphone"
-  ],
-  [
-    "name": "updates",
-    "icon": "livephoto"
-  ],
-  [
-    "name": "events",
-    "icon": "calendar"
-  ],
-  [
-    "name": "jobs",
-    "icon": "briefcase",
-  ],
-  [
-    "name": "health",
-    "icon": "heart.text.square"
-  ],
-  [
-    "name": "travel",
-    "icon": "backpack"
-  ]
-]
-private let cBundleConfigByName = cBundleConfig.reduce(into: [:], { result, config in
-  result[config["name"]] = config
-})

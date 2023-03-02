@@ -50,7 +50,6 @@ struct AppSheetView: View {
           withAnimation { config = newConfig }
         }
       }
-      .frame(maxHeight: .infinity)
     }
   }
   
