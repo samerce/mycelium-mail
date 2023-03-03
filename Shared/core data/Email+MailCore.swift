@@ -9,16 +9,68 @@ private let accountCtrl = AccountController.shared
 extension Email {
   
   var moc: NSManagedObjectContext? { managedObjectContext }
+  var seen: Bool { flags.contains(.seen) }
+  var uidSet: MCOIndexSet { MCOIndexSet(index: UInt64(uid)) }
+  
   var session: MCOIMAPSession? {
     if let account = account {
       return accountCtrl.sessions[account]
     }
     else { return nil }
   }
-  var uidSet: MCOIndexSet {
-    MCOIndexSet(index: UInt64(uid))
+  
+  // MARK: - INIT
+  
+  convenience init(
+    message: MCOIMAPMessage, html emailAsHtml: String? = nil,
+    bundleName: String? = nil, context: NSManagedObjectContext
+  ) {
+    self.init(context: context)
+    self.populate(message: message, html: html, bundleName: bundleName, context: context)
   }
   
+  func populate(message: MCOIMAPMessage, html emailAsHtml: String? = nil,
+                bundleName: String? = nil, context: NSManagedObjectContext) {
+    populate(message: message, html: emailAsHtml)
+    
+    header = EmailHeader(header: message.header, context: context)
+    header?.email = self
+    
+    if let part = message.mainPart {
+      mimePart = EmailPart(part: part, context: context)
+      mimePart?.email = self
+    }
+    
+//    thread = fetchOrMakeThread(id: message.gmailThreadID, context: context)
+//    thread?.addToEmails(self)
+    
+    if let bundleName = bundleName {
+      let bundleFetchRequest = EmailBundle.fetchRequest()
+      bundleFetchRequest.predicate = NSPredicate(format: "name == %@", bundleName)
+      bundleFetchRequest.fetchLimit = 1
+      bundleFetchRequest.fetchBatchSize = 1
+      
+      let bundle = try! context.fetch(bundleFetchRequest).first!
+      
+      bundle.addToEmailSet(self)
+      addToBundleSet(bundle)
+    }
+  }
+  
+  func populate(message: MCOIMAPMessage, html emailAsHtml: String? = nil) {
+    uid = Int32(message.uid)
+    flags = message.flags
+    gmailLabels = Set(message.gmailLabels as? [String] ?? [])
+    gmailMessageId = Int64(message.gmailMessageID)
+    size = Int32(message.size)
+    originalFlags = message.originalFlags
+    customFlags = Set(message.customFlags as? [String] ?? [])
+    modSeqValue = Int64(message.modSeqValue)
+    html = emailAsHtml ?? ""
+    trashed = false
+  }
+  
+  // MARK: - HELPERS
   
   private func runOperation(_ op: MCOIMAPOperation) async throws {
     let _: () = try await withCheckedThrowingContinuation { continuation in
@@ -79,12 +131,42 @@ extension Email {
 
 extension Email {
   
+  private var flags: MCOMessageFlag {
+    get {
+      MCOMessageFlag(rawValue: Int(flagsRaw))
+    }
+    set {
+      flagsRaw = Int16(newValue.rawValue)
+    }
+  }
+  
+  private(set) var originalFlags: MCOMessageFlag {
+    get {
+      MCOMessageFlag(rawValue: Int(originalFlagsRaw))
+    }
+    set {
+      originalFlagsRaw = Int16(newValue.rawValue)
+    }
+  }
+  
   func markSeen() async throws {
     try await updateFlags(.seen, operation: .add)
   }
   
   func markFlagged() async throws {
     try await updateFlags(.flagged, operation: .add)
+  }
+  
+  func addFlags(_ _flags: MCOMessageFlag) {
+    var newFlags = flags
+    newFlags.insert(_flags)
+    flags = newFlags
+  }
+  
+  func removeFlags(_ _flags: MCOMessageFlag) {
+    var newFlags = flags
+    newFlags.remove(_flags)
+    flags = newFlags
   }
   
   func updateFlags(_ flags: MCOMessageFlag, operation: MCOIMAPStoreFlagsRequestKind) async throws {

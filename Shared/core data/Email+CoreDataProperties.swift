@@ -1,54 +1,40 @@
 import Foundation
 import CoreData
-import MailCore
 
-private let byDateDescending = NSSortDescriptor(key: "date", ascending: false)
 
 extension Email {
   
-  @nonobjc public class
-  func fetchRequest() -> NSFetchRequest<Email> {
-    let request = NSFetchRequest<Email>(entityName: "Email")
-    request.sortDescriptors = []
-    return request
+  var from: EmailAddress? { header!.from }
+  var sender: EmailAddress? { header!.sender }
+  var to: EmailAddress? { header!.to?.allObjects.first as? EmailAddress }
+  
+  var subject: String {
+    header!.subject?.replacingOccurrences(of: "\r\n", with: "") ?? "None"
   }
   
-  @nonobjc public class
-  func emptyFetchRequest() -> NSFetchRequest<Email> {
-    let request = Email.fetchRequest()
-    request.fetchLimit = 1
-    request.fetchBatchSize = 1
-    request.predicate = NSPredicate(format: "FALSEPREDICATE")
-    return request
+  var fromLine: String {
+    from?.displayName ?? sender?.displayName ??
+      from?.address ?? sender?.address ?? "Unknown"
   }
   
-  @nonobjc public class
-  func fetchRequestForEmailWithId(_ id: NSManagedObjectID? = nil) -> NSFetchRequest<Email> {
-    let request = Email.fetchRequest()
-    request.predicate = id == nil ? nil : NSPredicate(format: "SELF == %@", id!)
-    request.fetchLimit = 1
-    request.fetchBatchSize = 1
-    return request
+  var toLine: String {
+    to?.displayName ?? to?.address ?? "Unknown"
   }
   
-  @nonobjc public class
-  func fetchRequestForBundle(_ bundle: EmailBundle?) -> NSFetchRequest<Email> {
-    let fetchRequest = Email.fetchRequest()
-    fetchRequest.sortDescriptors = [byDateDescending]
-    fetchRequest.predicate = predicateForBundle(bundle)
-    fetchRequest.fetchBatchSize = 108
-    fetchRequest.fetchLimit = 216 // TODO: why does app hang without this?
-//    fetchRequest.propertiesToFetch = ["date"]
-//    fetchRequest.relationshipKeyPathsForPrefetching = ["header", "account"]
-    return fetchRequest
+  var displayDate: String? {
+    guard let date = date
+    else { return nil }
+    return EmailDateFormatter.stringForDate(date)
   }
   
-  @nonobjc public class
-  func predicateForBundle(_ bundle: EmailBundle?) -> NSPredicate? {
-    if let bundle = bundle {
-      return NSPredicate(format: "ANY bundleSet.name == %@ AND trashed != TRUE", bundle.name)
-    }
-    return nil
+  var longDisplayDate: String? {
+    guard let date = date
+    else { return nil }
+    return EmailDateFormatter.stringForDate(date)
+  }
+  
+  var bundles: [EmailBundle] {
+    (bundleSet.allObjects as? [EmailBundle]) ?? []
   }
   
   @NSManaged public var customFlags: Set<String>
@@ -72,7 +58,8 @@ extension Email {
   
 }
 
-// MARK: Generated accessors for emails
+// MARK: - Generated accessors for emails
+
 extension Email {
   
   @objc(addBundleSetObject:)
@@ -88,6 +75,7 @@ extension Email {
   @NSManaged public func removeFromBundleSet(_ values: NSSet)
   
 }
+
 
 extension Email : Identifiable {
   

@@ -8,6 +8,7 @@ import SymbolPicker
 
 let DefaultFolder = "[Gmail]/All Mail" //"INBOX"
 let cInboxLabel = "\\Inbox"
+let cSentLabel = "\\Sent"
 
 private let moc = PersistenceController.shared.container.viewContext
 private let bundleCtrl = EmailBundleController.shared
@@ -17,7 +18,6 @@ private let accountCtrl = AccountController.shared
 class MailController: NSObject, ObservableObject {
   static let shared = MailController()
   
-  @Published var model: MailModel = MailModel()
   @Published private(set) var fetching = false
   @Published var emailsInSelectedBundle: [Email] = []
   var navController: UINavigationController? // TODO: find a better place for this
@@ -179,6 +179,44 @@ class MailController: NSObject, ObservableObject {
     ])
   }
   
+  func emailsFromSenderOf(_ email: Email) -> [Email] {
+    let senderAddress = email.from?.address ?? email.sender?.address ?? ""
+    if senderAddress.isEmpty { return [] }
+    
+    var predicate: NSPredicate
+    let predicateFormatBase = "header.from.address == %@ OR header.sender.address == %@"
+    
+    let senderDisplayName = email.from?.displayName ?? email.sender?.displayName ?? ""
+    if senderDisplayName.isEmpty {
+      predicate = NSPredicate(
+        format: predicateFormatBase,
+        senderAddress,
+        senderAddress
+      )
+    } else {
+      predicate = NSPredicate(
+        format: predicateFormatBase +
+        " OR header.from.displayName == %@ OR header.sender.displayName == %@",
+        senderAddress,
+        senderAddress,
+        senderDisplayName,
+        senderDisplayName
+      )
+    }
+    
+    let emailFetchRequest:NSFetchRequest<Email> = Email.fetchRequest()
+    emailFetchRequest.predicate = predicate
+    
+    do {
+      return try moc.fetch(emailFetchRequest)
+    }
+    catch let error {
+      print("error fetching emails from sender: \(error.localizedDescription)")
+    }
+    
+    return []
+  }
+  
   // MARK: - private
   
   private func fetchLatest(_ account: Account) async throws {
@@ -186,7 +224,7 @@ class MailController: NSObject, ObservableObject {
       self.fetching = true
     }
     
-    let startUid = model.highestEmailUid() + 1
+    let startUid = highestEmailUid() + 1
     let endUid = UInt64.max - startUid
     let uids = MCOIndexSet(range: MCORangeMake(startUid, endUid))
     
@@ -226,7 +264,16 @@ class MailController: NSObject, ObservableObject {
   private func saveMessages(_ messages: [MCOIMAPMessage], account: Account) {
     for message in messages {
       do {
-        try model.makeEmail(withMessage: message, account: account)
+        guard fetchEmailByUid(message.uid, account: account) == nil else {
+          throw PsyError.emailAlreadyExists
+        }
+
+        let email = Email(
+          message: message, bundleName: bundleFor(message), context: moc
+        )
+        email.account = account
+        account.addToEmails(email)
+        
         print("created \(message.uid), \(message.header.subject ?? "")")
       }
       catch {
@@ -234,8 +281,51 @@ class MailController: NSObject, ObservableObject {
       }
     }
 
-    model.save()
+    try? moc.save() // TODO: handle error
     print("done saving new messages!")
+  }
+  
+  private func highestEmailUid() -> UInt64 {
+    let request: NSFetchRequest<Email> = Email.fetchRequest()
+    request.sortDescriptors = [NSSortDescriptor(key: "uid", ascending: false)]
+    request.fetchLimit = 1
+    request.fetchBatchSize = 1
+    request.propertiesToFetch = ["uid"]
+
+    return UInt64(try! moc.fetch(request).first?.uid ?? 0)
+  }
+  
+  private
+  func fetchEmailByUid(_ uid: UInt32, account: Account) -> Email? {
+    let fetchRequest: NSFetchRequest<Email> = Email.fetchRequest()
+    fetchRequest.predicate = NSPredicate(
+      format: "uid == %d && account.address == %@",
+      Int32(uid), account.address
+    )
+    do {
+      return try moc.fetch(fetchRequest).first
+    }
+    catch {
+      print("error fetching email by uid: \(error.localizedDescription)")
+    }
+    
+    return nil
+  }
+  
+  private
+  func bundleFor(_ message: MCOIMAPMessage, emailAsHtml: String = "") -> String? {
+    let labels = message.gmailLabels as! [String]? ?? []
+    
+    if labels.contains(where: { $0 == cSentLabel }) {
+      // don't put sent emails in a bundle
+      return nil
+    }
+    
+    if let bundleLabel = labels.first(where: { $0.contains("psymail") }) {
+      return bundleLabel.replacing("psymail/", with: "")
+    }
+    
+    return "inbox"
   }
   
 }

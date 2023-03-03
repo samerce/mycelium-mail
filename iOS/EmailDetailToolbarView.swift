@@ -9,7 +9,7 @@ struct EmailDetailToolbarView: View {
   @State var dragAmount: CGFloat = 0
   
   private var emailsFromSender: [Email] {
-    mailCtrl.model.emailsFromSenderOf(email!)
+    mailCtrl.emailsFromSenderOf(email!)
   }
   
   var revealGesture: some Gesture {

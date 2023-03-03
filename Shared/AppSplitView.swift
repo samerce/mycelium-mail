@@ -4,7 +4,6 @@ import CoreData
 
 struct AppSplitView: View {
   @Environment(\.managedObjectContext) private var viewContext
-  @EnvironmentObject private var model: MailModel
   
   private let tabs = ["newsletters", "politics", "marketing", "other"]
   @State private var selectedTab = 0

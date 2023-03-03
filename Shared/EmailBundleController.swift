@@ -48,6 +48,10 @@ class EmailBundleController: NSObject, ObservableObject {
     update()
   }
   
+  deinit {
+    subscribers.forEach { $0.cancel() }
+  }
+  
   private func update() {
     DispatchQueue.main.async {
       print("updating bundles")
