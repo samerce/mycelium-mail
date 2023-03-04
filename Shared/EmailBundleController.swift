@@ -20,7 +20,6 @@ class EmailBundleController: NSObject, ObservableObject {
   
   private override init() {
     let bundleRequest = EmailBundle.fetchRequestWithProps("name", "gmailLabelId")
-    bundleRequest.sortDescriptors = [NSSortDescriptor(key: "orderIndex", ascending: true)]
     bundleCtrl = NSFetchedResultsController(fetchRequest: bundleRequest,
                                            managedObjectContext: moc,
                                            sectionNameKeyPath: nil,
@@ -35,7 +34,7 @@ class EmailBundleController: NSObject, ObservableObject {
         name: "inbox",
         gmailLabelId: "",
         icon: "tray.full",
-        orderIndex: bundles.count,
+        orderIndex: 2, //bundles.count, TODO: uncomment this for release
         context: moc
       )
     }

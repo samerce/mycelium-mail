@@ -26,8 +26,10 @@ struct BundleTabBarView: View {
   var percentToMid: CGFloat { appSheetCtrl.percentToMid }
   
   var tabRows: [[EmailBundle]] {
+    let orderedBundles = bundleCtrl.bundles.sorted(by: { $0.orderIndex < $1.orderIndex })
     var rowIndex = 0
-    return bundleCtrl.bundles.reduce(into: [[]]) { tabRows, bundle in
+    
+    return orderedBundles.reduce(into: [[]]) { tabRows, bundle in
       if tabRows[rowIndex].count >= cTabLimitPerRow {
         rowIndex += 1
         tabRows.append([])
