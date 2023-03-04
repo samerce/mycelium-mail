@@ -63,7 +63,7 @@ class PersistenceController: ObservableObject {
       }
     }
     
-    container.viewContext.automaticallyMergesChangesFromParent = false
+    container.viewContext.automaticallyMergesChangesFromParent = true
     container.viewContext.name = "viewContext"
     container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     container.viewContext.shouldDeleteInaccessibleFaults = true
@@ -102,7 +102,8 @@ class PersistenceController: ObservableObject {
       do {
         try context.save()
       } catch {
-        // Show some error here
+        // TODO: handle errors
+        print("error saving core data context: \(error.localizedDescription)")
       }
     }
   }

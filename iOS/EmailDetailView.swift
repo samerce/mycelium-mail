@@ -6,12 +6,12 @@ struct EmailDetailView: View {
   var email: Email
   var isPreview = false
   
+  @State var html = ""
   @State var seenTimer: Timer?
   @State var keyboardHeight: CGFloat = 0
   @State var titleBarHeight: CGFloat = 50
   @State var showingFromDetails = false
   
-  var noHtml: Bool { email.html.isEmpty }
   var fromLine: String {
     (showingFromDetails || isPreview)
     ? email.from?.address ?? email.fromLine
@@ -21,8 +21,8 @@ struct EmailDetailView: View {
   // MARK: - VIEW
   
   var body: some View {
-    ZStack(alignment: noHtml ? .center : .top) {
-      if noHtml { ProgressView().controlSize(.large) }
+    ZStack(alignment: html.isEmpty ? .center : .top) {
+      if html.isEmpty { ProgressView().controlSize(.large) }
       else { Message }
       TitleBar
     }
@@ -34,6 +34,7 @@ struct EmailDetailView: View {
     .ignoresSafeArea()
     .task {
       try? await email.fetchHtml() // TODO: handle error
+      html = email.html // TODO: why is this local state necessary?
     }
     .onReceive(Publishers.keyboardHeight) { keyboardHeight in
       self.keyboardHeight = keyboardHeight
@@ -77,7 +78,7 @@ struct EmailDetailView: View {
   }
   
   var Message: some View {
-    WebView(content: email.html, topInset: $titleBarHeight)
+    WebView(content: html, topInset: $titleBarHeight)
       .ignoresSafeArea()
       .background(Color(.systemBackground))
       .onAppear {

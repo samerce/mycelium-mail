@@ -63,7 +63,7 @@ class EmailBundleController: NSObject, ObservableObject {
       .sink { accounts in
         accounts.forEach { account in
           Task {
-            try! await self.syncEmailBundles(account) // TODO: handle error
+            try? await self.syncEmailBundles(account) // TODO: handle error
           }
         }
       }

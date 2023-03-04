@@ -4,11 +4,11 @@ import MailCore
 
 
 private let accountCtrl = AccountController.shared
+private let dataCtrl = PersistenceController.shared
 
 
 extension Email {
   
-  var moc: NSManagedObjectContext? { managedObjectContext }
   var seen: Bool { flags.contains(.seen) }
   var uidSet: MCOIndexSet { MCOIndexSet(index: UInt64(uid)) }
   
@@ -101,9 +101,13 @@ extension Email {
     guard html.isEmpty
     else { return }
     
-    html = try await self.bodyHtml()
+    let html = try await bodyHtml()
     
-    try self.moc?.save()
+    let context = dataCtrl.newTaskContext()
+    try await context.perform {
+      self.html = html
+      try context.save()
+    }
   }
   
   private func bodyHtml() async throws -> String {
