@@ -80,7 +80,7 @@ struct CreateBundleView: View {
       HStack {
         Button("cancel") {
           withAnimation {
-            sheetCtrl.sheet = .inboxTools
+            sheetCtrl.sheet = .inbox
           }
         }
         .buttonStyle(.bordered)
@@ -150,7 +150,7 @@ struct CreateBundleView: View {
       }
       
       withAnimation {
-        sheetCtrl.sheet = .inboxTools
+        sheetCtrl.sheet = .inbox
       }
     }
     

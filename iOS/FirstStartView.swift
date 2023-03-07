@@ -20,7 +20,7 @@ struct FirstStartView: View {
           .font(.system(size: 18))
           .onReceive(mailCtrl.$emailsInSelectedBundle) { emails in
             if !emails.isEmpty {
-              withAnimation { sheetCtrl.sheet = .inboxTools }
+              withAnimation { sheetCtrl.sheet = .inbox }
             }
           }
       }

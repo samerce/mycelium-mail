@@ -89,7 +89,7 @@ struct BundleSettingsView: View {
       
       Button {
         bundle.icon = icon
-        sheetCtrl.sheet = .inboxTools
+        sheetCtrl.sheet = .inbox
       } label: {
         Text("SAVE")
           .height(27)
@@ -100,7 +100,7 @@ struct BundleSettingsView: View {
       .padding(.bottom, 18)
       
       Button {
-        sheetCtrl.sheet = .inboxTools
+        sheetCtrl.sheet = .inbox
       } label: {
         VStack(spacing: 0) {
           Text("CANCEL").font(.system(size: 12))

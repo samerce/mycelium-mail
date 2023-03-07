@@ -23,7 +23,7 @@ private enum NoteTarget: String, CaseIterable, Equatable {
 }
 
 
-struct EmailToolsSheetView: View {
+struct EmailDetailSheetView: View {
   @Environment(\.dismiss) private var dismiss
   @ObservedObject var mailCtrl = MailController.shared
   @ObservedObject var sheetCtrl = AppSheetController.shared
@@ -197,7 +197,7 @@ struct EmailToolsSheetView: View {
     Button {
       mailCtrl.navController?.popViewController(animated: true)
       withAnimation {
-        sheetCtrl.sheet = .inboxTools
+        sheetCtrl.sheet = .inbox
       }
     } label: {
       ZStack {
@@ -327,6 +327,6 @@ struct EmailToolsSheetView: View {
 
 struct EmailToolsDrawerView_Previews: PreviewProvider {
   static var previews: some View {
-    EmailToolsSheetView()
+    EmailDetailSheetView()
   }
 }

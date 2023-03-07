@@ -28,7 +28,7 @@ class AppSheetController: ObservableObject {
     mailCtrl.$emailsInSelectedBundle
       .sink { emails in
         if !emails.isEmpty && self.sheet == .firstStart {
-          self.sheet = .inboxTools
+          self.sheet = .inbox
           self.initSubscribers.forEach { $0.cancel() }
         }
       }

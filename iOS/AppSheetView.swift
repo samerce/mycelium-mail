@@ -18,7 +18,7 @@ struct AppSheetView: View {
   @ObservedObject var bundleCtrl = EmailBundleController.shared
   @ObservedObject var sheetCtrl = AppSheetController.shared
   @State var selectedDetent: PresentationDetent = .height(1)
-  @State var config: AppSheet = .inboxTools
+  @State var config: AppSheet = .inbox
   @State var detents: [UndimmedPresentationDetent] = [.height(AppSheetDetents.min)]
   
   // MARK: - VIEW
@@ -57,8 +57,8 @@ struct AppSheetView: View {
   private var Sheet: some View {
     switch config {
       case .firstStart, .downloadingEmails: FirstStartView()
-      case .inboxTools: InboxSheetView()
-      case .emailTools: EmailToolsSheetView()
+      case .inbox: InboxSheetView()
+      case .emailDetail: EmailDetailSheetView()
       case .createBundle: CreateBundleView()
       case .bundleSettings: BundleSettingsView()
       default: Text("ERROR: missing view for sheet mode '\(config.id)'")
@@ -80,7 +80,7 @@ struct AppSheet {
     detents: [.large],
     initialDetent: .large
   )
-  static let inboxTools = Self(
+  static let inbox = Self(
     id: "inbox tools",
     detents: [
       .height(90), // TODO: fix magic number
@@ -89,7 +89,7 @@ struct AppSheet {
     ],
     initialDetent: .height(90)
   )
-  static let emailTools = Self(
+  static let emailDetail = Self(
     id: "email tools",
     detents: [
       .height(90), // TODO: fix magic number

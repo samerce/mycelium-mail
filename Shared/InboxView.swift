@@ -36,8 +36,8 @@ struct InboxView: View {
       
       withAnimation {
         switch (selectedEmails.isEmpty) {
-          case true: sheetCtrl.sheet = .inboxTools
-          case false: sheetCtrl.sheet = .emailTools
+          case true: sheetCtrl.sheet = .inbox
+          case false: sheetCtrl.sheet = .emailDetail
         }
       }
     }
