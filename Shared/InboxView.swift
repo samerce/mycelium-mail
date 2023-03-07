@@ -68,7 +68,9 @@ extension InboxView {
         Spacer().frame(height: appSheetDetents.min)
       }
       .onChange(of: selectedBundle) { _ in
-        scrollProxy.scrollTo(emails.first?.objectID)
+        if let firstEmail = emails.first {
+          scrollProxy.scrollTo(firstEmail.objectID)
+        }
       }
       .introspectNavigationController {
         if mailCtrl.navController == nil {

@@ -85,12 +85,12 @@ struct BundleSettingsView: View {
       Button {
         sheetCtrl.sheet = .inboxTools
       } label: {
-        Text("CANCEL")
-          .height(22)
+        Text("SAVE")
+          .height(27)
           .frame(maxWidth: .infinity)
       }
       .buttonStyle(.bordered)
-      .tint(.pink)
+      .tint(.psyAccent)
       .padding(.bottom, 12)
       
       Divider()
@@ -99,13 +99,13 @@ struct BundleSettingsView: View {
         sheetCtrl.sheet = .inboxTools
       } label: {
         VStack(spacing: 0) {
-          Text("SAVE")
-          SystemImage(name: "chevron.compact.down", size: 27)
+          Text("CANCEL")
+          SystemImage(name: "chevron.compact.down", size: 27, color: .pink)
         }
         .frame(maxWidth: .infinity)
         .padding(.top, 12)
-        
       }
+      .tint(.pink)
     }
     .padding(.horizontal, 12)
     .padding(.bottom, safeAreaInsets.bottom)

@@ -50,6 +50,7 @@ struct AppSheetView: View {
           withAnimation { config = newConfig }
         }
       }
+      .height(screenHeight - safeAreaInsets.top)
     }
   }
   

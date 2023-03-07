@@ -35,7 +35,7 @@ struct FirstStartView: View {
         .padding(.top, 12)
         .padding(.bottom, 18)
       
-      Text("✨ EMAIL NIRVANA AWAITS ✨")
+      Text("✨ email nirvana awaits ✨")
         .font(.system(size: 18, weight: .light))
         .foregroundColor(.white.opacity(0.69))
         .padding(.bottom, 27)
