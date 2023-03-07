@@ -39,6 +39,8 @@ struct InboxSheetView: View {
 
       Toolbar
       
+      Spacer()
+      
 //      ScrollView {
 //        MailboxSection
 //          .padding(.bottom, 18)
@@ -46,6 +48,7 @@ struct InboxSheetView: View {
 //      }
 //      .padding(0)
     }
+    .height(screenHeight - safeAreaInsets.top)
   }
   
   
@@ -82,7 +85,7 @@ struct InboxSheetView: View {
   }
   
   private var Toolbar: some View {
-    return VStack(alignment: .center, spacing: 0) {
+    VStack(alignment: .center, spacing: 0) {
       HStack(spacing: 0) {
         Button(action: loginWithGoogle) {
           ZStack {

@@ -50,7 +50,6 @@ struct AppSheetView: View {
           withAnimation { config = newConfig }
         }
       }
-      .height(screenHeight - safeAreaInsets.top)
     }
   }
   
@@ -106,8 +105,8 @@ struct AppSheet {
   )
   static let bundleSettings = Self(
     id: "bundle settings",
-    detents: [.large],
-    initialDetent: .large
+    detents: [.medium, .large],
+    initialDetent: .medium
   )
   
   var id: String

@@ -61,7 +61,7 @@ struct BundleSettingsView: View {
         HStack {
           Picker("filters", selection: $conditionType) {
             ForEach(cFilterConditions, id: \.self) {
-              Text($0).tag($0)
+              Text($0["label"]!).tag($0["id"]!)
                 .foregroundColor(.psyAccent)
             }
           }
@@ -97,19 +97,16 @@ struct BundleSettingsView: View {
       }
       .buttonStyle(.bordered)
       .tint(.psyAccent)
-      .padding(.bottom, 12)
-      
-      Divider()
+      .padding(.bottom, 18)
       
       Button {
         sheetCtrl.sheet = .inboxTools
       } label: {
         VStack(spacing: 0) {
-          Text("CANCEL")
-          SystemImage(name: "chevron.compact.down", size: 27, color: .pink)
+          Text("CANCEL").font(.system(size: 12))
+          SystemImage(name: "chevron.compact.down", size: 22, color: .pink)
         }
         .frame(maxWidth: .infinity)
-        .padding(.top, 12)
       }
       .tint(.pink)
     }
@@ -127,5 +124,32 @@ struct BundleSettingsView: View {
 }
 
 let cFilterConditions = [
-  "from", "to", "subject", "query", "negatedQuery", "hasAttachment", "size"
+  [
+    "id": "from",
+    "label": "from"
+  ],
+  [
+    "id": "to",
+    "label": "to"
+  ],
+  [
+    "id": "subject",
+    "label": "subject"
+  ],
+  [
+    "id": "query",
+    "label": "search query"
+  ],
+  [
+    "id": "negatedQuery",
+    "label": "negated search query"
+  ],
+  [
+    "id": "hasAttachment",
+    "label": "has attachment"
+  ],
+  [
+    "id": "size",
+    "label": "size"
+  ]
 ]

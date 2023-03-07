@@ -10,7 +10,7 @@ class AppSheetController: ObservableObject {
   
   @Published var sheet: AppSheet = .firstStart
   @Published var percentToMid: CGFloat = 0
-  @Published var sheetSize: CGSize = CGSize() {
+  var sheetSize: CGSize = CGSize() {
     didSet {
       let sheetDistanceFromMin = sheetSize.height - AppSheetDetents.min
       let distanceFromMinToMid = AppSheetDetents.mid - AppSheetDetents.min
