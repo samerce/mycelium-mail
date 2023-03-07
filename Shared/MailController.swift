@@ -10,9 +10,10 @@ let DefaultFolder = "[Gmail]/All Mail" //"INBOX"
 let cInboxLabel = "\\Inbox"
 let cSentLabel = "\\Sent"
 
-private let moc = PersistenceController.shared.container.viewContext
 private let bundleCtrl = EmailBundleController.shared
 private let accountCtrl = AccountController.shared
+private let dataCtrl = PersistenceController.shared
+private let moc = dataCtrl.container.viewContext
 
 
 class MailController: NSObject, ObservableObject {
@@ -90,12 +91,14 @@ class MailController: NSObject, ObservableObject {
   }
   
   func moveEmail(_ email: Email, fromBundle: EmailBundle, toBundle: EmailBundle, always: Bool = true) async throws {
-    // proactively update core data and revert if update request fails
-    email.removeFromBundleSet(fromBundle)
-    email.addToBundleSet(toBundle)
-    fromBundle.removeFromEmailSet(email)
-    toBundle.addToEmailSet(email)
-    PersistenceController.shared.save()
+    await moc.perform {
+      // proactively update core data and revert if update request fails
+      email.removeFromBundleSet(fromBundle)
+      email.addToBundleSet(toBundle)
+      fromBundle.removeFromEmailSet(email)
+      toBundle.addToEmailSet(email)
+      dataCtrl.save()
+    }
     
     if toBundle.name == "inbox" {
       try await email.removeLabels(["psymail/\(fromBundle.name)"])
@@ -113,7 +116,7 @@ class MailController: NSObject, ObservableObject {
       email.addToBundleSet(fromBundle)
       fromBundle.addToEmailSet(email)
       toBundle.removeFromEmailSet(email)
-      PersistenceController.shared.save()
+      dataCtrl.save()
       // TODO: figure out UX
       throw error
     }
@@ -130,11 +133,8 @@ class MailController: NSObject, ObservableObject {
   }
   
   private func createFilterFor(email: Email, bundle: EmailBundle) async throws {
-    guard let address = email.from?.address,
-          let account = email.account
-    else {
-      throw PsyError.unexpectedError(message: "email had no 'from' address to create filter with")
-    }
+    let account = email.account
+    let address = email.from.address
     
     var filterExistsForSameBundle = false
     var filterIdToDelete: String? = nil
@@ -180,14 +180,14 @@ class MailController: NSObject, ObservableObject {
   }
   
   func emailsFromSenderOf(_ email: Email) -> [Email] {
-    let senderAddress = email.from?.address ?? email.sender?.address ?? ""
+    let senderAddress = email.from.address
     if senderAddress.isEmpty { return [] }
     
     var predicate: NSPredicate
-    let predicateFormatBase = "header.from.address == %@ OR header.sender.address == %@"
+    let predicateFormatBase = "from.address == %@ OR sender.address == %@"
     
-    let senderDisplayName = email.from?.displayName ?? email.sender?.displayName ?? ""
-    if senderDisplayName.isEmpty {
+    let senderDisplayName = email.from.displayName
+    if senderDisplayName != nil, senderDisplayName!.isEmpty {
       predicate = NSPredicate(
         format: predicateFormatBase,
         senderAddress,
@@ -196,11 +196,11 @@ class MailController: NSObject, ObservableObject {
     } else {
       predicate = NSPredicate(
         format: predicateFormatBase +
-        " OR header.from.displayName == %@ OR header.sender.displayName == %@",
+        " OR from.displayName == %@ OR sender.displayName == %@",
         senderAddress,
         senderAddress,
-        senderDisplayName,
-        senderDisplayName
+        senderDisplayName!,
+        senderDisplayName!
       )
     }
     
@@ -240,50 +240,110 @@ class MailController: NSObject, ObservableObject {
     let _: () = try await withCheckedThrowingContinuation { continuation in
       fetchHeadersAndFlags?.start {
         (error: Error?, messages: [MCOIMAPMessage]?, vanishedMessages: MCOIndexSet?) in
+        
         if let error = error {
           continuation.resume(throwing: PsyError.unexpectedError(error))
           return
         }
         
-        if messages?.count == 0 {
-          DispatchQueue.main.async {
-            UserDefaults.standard.set(Date.now.ISO8601Format(), forKey: "lastUpdated")
-            self.fetching = false
-            print("done fetching!")
+        Task {
+          do {
+//            let context = dataCtrl.newTaskContext()
+            try await self.onReceivedMessages(messages, forAccount: account, context: moc)
+            
+            DispatchQueue.main.async {
+              if moc.hasChanges {
+                try! moc.save()
+              }
+            }
+            
+            print("done saving new messages!")
+            continuation.resume()
+          }
+          catch {
+            print("error saving fetched messages \(error.localizedDescription)")
+            continuation.resume(throwing: error)
           }
         }
-        
-        if messages != nil {
-          self.saveMessages(messages!, account: account)
-        }
-        continuation.resume()
       }
     }
   }
   
-  private func saveMessages(_ messages: [MCOIMAPMessage], account: Account) {
-    for message in messages {
-      do {
-        guard fetchEmailByUid(message.uid, account: account) == nil else {
-          throw PsyError.emailAlreadyExists
-        }
-
-        let email = Email(
-          message: message, bundleName: bundleFor(message), context: moc
-        )
-        email.account = account
-        account.addToEmails(email)
-        
-        print("created \(message.uid), \(message.header.subject ?? "")")
+  private func onReceivedMessages(
+    _ messages: [MCOIMAPMessage]?, forAccount account: Account, context: NSManagedObjectContext
+  ) async throws {
+    
+    guard let messages = messages,
+          messages.count > 0
+    else {
+      print("done fetching!")
+      
+      DispatchQueue.main.async {
+        UserDefaults.standard.set(Date.now.ISO8601Format(), forKey: "lastUpdated")
+        self.fetching = false
       }
-      catch {
-        print("error saving new email message to core data: \(error.localizedDescription)")
+      return
+    }
+    
+    var index = 0
+    let emailBatchInsertRequest = NSBatchInsertRequest(entityName: "Email", managedObjectHandler: { managedObject in
+      guard index < messages.count
+      else { return true }
+      
+      let message = messages[index]
+      let header = message.header!
+      let email = managedObject as! Email
+      
+      email.hydrateWithMessage(message)
+      
+      print("created \(message.uid), \(header.subject ?? "")")
+      index += 1
+      return false
+    })
+    emailBatchInsertRequest.resultType = .objectIDs
+    
+    var objectIDs = [NSManagedObjectID]()
+    try await context.perform {
+      let insertResult = try context.execute(emailBatchInsertRequest) as? NSBatchInsertResult
+      objectIDs = insertResult?.result as? [NSManagedObjectID] ?? []
+      
+      guard insertResult != nil,
+            objectIDs.count == messages.count
+      else {
+        throw PsyError.batchInsertError
       }
     }
-
-    try? moc.save() // TODO: handle error
-    print("done saving new messages!")
+    
+    try await context.perform {
+      for emailID in objectIDs {
+        let email = context.object(with: emailID) as! Email
+        let _account = context.object(with: account.objectID) as! Account
+        email.account = _account
+        _account.addToEmails(email)
+        
+        if let bundleName = self.bundleNameForEmail(email) {
+          let bundleFetchRequest = EmailBundle.fetchRequest()
+          bundleFetchRequest.predicate = NSPredicate(format: "name == %@", bundleName)
+          bundleFetchRequest.fetchLimit = 1
+          bundleFetchRequest.fetchBatchSize = 1
+          
+          let bundle = try context.fetch(bundleFetchRequest).first!
+          
+          bundle.addToEmailSet(email)
+          email.addToBundleSet(bundle)
+        }
+        
+//        let threadFetchRequest = Email.fetchRequestWithProps("gmailThreadId", "isLatestInThread", "receivedDate")
+//        threadFetchRequest.sortDescriptors = [NSSortDescriptor(key: "receivedDate", ascending: false)]
+//        threadFetchRequest.predicate = NSPredicate(format: "gmailThreadId == %d", Int64(message.gmailThreadID))
+//
+//        let emailsInThread = try context.fetch(threadFetchRequest) as [Email]
+//        emailsInThread.forEach { $0.isLatestInThread = false }
+//        emailsInThread.first?.isLatestInThread = true
+      }
+    }
   }
+  
   
   private func highestEmailUid() -> UInt64 {
     let request: NSFetchRequest<Email> = Email.fetchRequest()
@@ -313,15 +373,13 @@ class MailController: NSObject, ObservableObject {
   }
   
   private
-  func bundleFor(_ message: MCOIMAPMessage, emailAsHtml: String = "") -> String? {
-    let labels = message.gmailLabels as! [String]? ?? []
-    
-    if labels.contains(where: { $0 == cSentLabel }) {
+  func bundleNameForEmail(_ email: Email) -> String? {
+    if email.gmailLabels.contains(cSentLabel) {
       // don't put sent emails in a bundle
       return nil
     }
     
-    if let bundleLabel = labels.first(where: { $0.contains("psymail") }) {
+    if let bundleLabel = email.gmailLabels.first(where: { $0.contains("psymail") }) {
       return bundleLabel.replacing("psymail/", with: "")
     }
     

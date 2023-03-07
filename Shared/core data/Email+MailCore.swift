@@ -9,65 +9,48 @@ private let dataCtrl = PersistenceController.shared
 
 extension Email {
   
-  var seen: Bool { flags.contains(.seen) }
   var uidSet: MCOIndexSet { MCOIndexSet(index: UInt64(uid)) }
-  
-  var session: MCOIMAPSession? {
-    if let account = account {
-      return accountCtrl.sessions[account]
-    }
-    else { return nil }
-  }
+  var session: MCOIMAPSession { accountCtrl.sessions[account]! }
   
   // MARK: - INIT
   
-  convenience init(
-    message: MCOIMAPMessage, html emailAsHtml: String? = nil,
-    bundleName: String? = nil, context: NSManagedObjectContext
-  ) {
-    self.init(context: context)
-    self.populate(message: message, html: html, bundleName: bundleName, context: context)
-  }
-  
-  func populate(message: MCOIMAPMessage, html emailAsHtml: String? = nil,
-                bundleName: String? = nil, context: NSManagedObjectContext) {
-    populate(message: message, html: emailAsHtml)
-    
-    header = EmailHeader(header: message.header, context: context)
-    header?.email = self
-    
-    if let part = message.mainPart {
-      mimePart = EmailPart(part: part, context: context)
-      mimePart?.email = self
-    }
-    
-//    thread = fetchOrMakeThread(id: message.gmailThreadID, context: context)
-//    thread?.addToEmails(self)
-    
-    if let bundleName = bundleName {
-      let bundleFetchRequest = EmailBundle.fetchRequest()
-      bundleFetchRequest.predicate = NSPredicate(format: "name == %@", bundleName)
-      bundleFetchRequest.fetchLimit = 1
-      bundleFetchRequest.fetchBatchSize = 1
-      
-      let bundle = try! context.fetch(bundleFetchRequest).first!
-      
-      bundle.addToEmailSet(self)
-      addToBundleSet(bundle)
-    }
-  }
-  
-  func populate(message: MCOIMAPMessage, html emailAsHtml: String? = nil) {
+  func hydrateWithMessage(_ message: MCOIMAPMessage) {
     uid = Int32(message.uid)
     flags = message.flags
     gmailLabels = Set(message.gmailLabels as? [String] ?? [])
     gmailMessageId = Int64(message.gmailMessageID)
+    gmailThreadId = Int64(message.gmailThreadID)
     size = Int32(message.size)
     originalFlags = message.originalFlags
     customFlags = Set(message.customFlags as? [String] ?? [])
     modSeqValue = Int64(message.modSeqValue)
-    html = emailAsHtml ?? ""
+    html = ""
     trashed = false
+    isLatestInThread = false
+    
+    let header = message.header!
+    receivedDate = header.receivedDate
+    sentDate = header.date
+    subjectRaw = header.subject ?? ""
+    userAgent = header.userAgent
+    references = Set(header.references as? [String] ?? [])
+    
+    if let _sender = header.sender {
+      sender = EmailAddress(address: _sender)
+    }
+    if let _bcc = header.bcc as? [MCOAddress] {
+      bcc = _bcc.map { EmailAddress(address: $0) }
+    }
+    if let _cc = header.cc as? [MCOAddress] {
+      cc = _cc.map { EmailAddress(address: $0) }
+    }
+    if let _replyTo = header.replyTo as? [MCOAddress] {
+      replyTo = _replyTo.map { EmailAddress(address: $0) }
+    }
+    if let _to = header.to as? [MCOAddress] {
+      to = _to.map { EmailAddress(address: $0) }
+    }
+    from = EmailAddress(address: header.from)
   }
   
   // MARK: - HELPERS
@@ -111,7 +94,7 @@ extension Email {
   }
   
   private func bodyHtml() async throws -> String {
-    guard let fetchMessage = session?.fetchParsedMessageOperation(withFolder: DefaultFolder,
+    guard let fetchMessage = session.fetchParsedMessageOperation(withFolder: DefaultFolder,
                                                                   uid: UInt32(uid))
     else {
       throw PsyError.unexpectedError(message: "failed to create fetch HTML operation")
@@ -134,6 +117,8 @@ extension Email {
 // MARK: - FLAGS
 
 extension Email {
+  
+  var seen: Bool { flags.contains(.seen) }
   
   private var flags: MCOMessageFlag {
     get {
@@ -176,7 +161,7 @@ extension Email {
   func updateFlags(_ flags: MCOMessageFlag, operation: MCOIMAPStoreFlagsRequestKind) async throws {
     print("updating imap flags")
     
-    guard let updateFlags = session!.storeFlagsOperation( // TODO: handle this force unwrap
+    guard let updateFlags = session.storeFlagsOperation( // TODO: handle this force unwrap
       withFolder: DefaultFolder,
       uids: uidSet,
       kind: .add,
@@ -199,7 +184,7 @@ extension Email {
     print("moving emails to trash")
     try await updateLabels(["\\Trash"], operation: .add)
     
-    guard let expunge = session?.expungeOperation("INBOX")
+    guard let expunge = session.expungeOperation("INBOX")
     else {
       throw PsyError.unexpectedError(message: "error creating expunge operation")
     }
@@ -224,7 +209,7 @@ extension Email {
   }
   
   func updateLabels(_ labels: [String], operation: MCOIMAPStoreFlagsRequestKind) async throws {
-    guard let addTrashLabel = session?.storeLabelsOperation(withFolder: DefaultFolder,
+    guard let addTrashLabel = session.storeLabelsOperation(withFolder: DefaultFolder,
                                                             uids: uidSet,
                                                             kind: .add,
                                                             labels: labels)

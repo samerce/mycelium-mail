@@ -2,13 +2,13 @@ import Foundation
 import CoreData
 
 
-private let byDateDescending = NSSortDescriptor(key: "date", ascending: false)
+private let byDateDescending = NSSortDescriptor(key: "receivedDate", ascending: false)
 
 
 @objc(Email)
 public class Email: NSManagedObject {
   
-  // MARK: - FETCHES
+  // MARK: - FETCHING
   
   @nonobjc public class
   func fetchRequest() -> NSFetchRequest<Email> {
@@ -48,39 +48,46 @@ public class Email: NSManagedObject {
   }
   
   @nonobjc public class
+  func fetchRequestWithProps(_ props: Any...) -> NSFetchRequest<Email> {
+    let request = Email.fetchRequest()
+    request.propertiesToFetch = props
+    return request
+  }
+  
+  @nonobjc public class
   func predicateForBundle(_ bundle: EmailBundle?) -> NSPredicate? {
-    if let bundle = bundle {
-      return NSPredicate(format: "ANY bundleSet.name == %@ AND trashed != TRUE", bundle.name)
-    }
-    return nil
+    guard let bundle = bundle
+    else { return nil }
+    
+    return NSPredicate(
+      format: "ANY bundleSet.name == %@ AND trashed != TRUE", bundle.name
+    )
   }
   
   
   // MARK: - HELPERS
   
-  private func fetchOrMakeThread(id: UInt64, context: NSManagedObjectContext) -> EmailThread? {
-    do {
-      if id > Int64.max {
-        print("error: tried to make or fetch a thread with an id greater than Int64.max, skpping. fix this!")
-        return nil
-      }
-      
-      let threadFetchRequest: NSFetchRequest<EmailThread> = EmailThread.fetchRequest()
-      threadFetchRequest.predicate = NSPredicate(format: "id == %@", Int64(id))
-      
-      let threads = try context.fetch(threadFetchRequest) as [EmailThread]
-      if !threads.isEmpty {
-        return threads.first
-      } else {
-        return EmailThread(id: Int64(id), context: context)
-      }
-    }
-    catch let error {
-      print("error fetching thread: \(error.localizedDescription)")
-    }
-    
-    print("warning: failed to create EmailThread, returning nil")
-    return nil
-  }
+//  func addThread(id: UInt64, context: NSManagedObjectContext) throws {
+//    if id > Int64.max {
+//      throw PsyError.unexpectedError(
+//        message: "error: tried to make or fetch a thread with an id greater than Int64.max, skpping. fix this!"
+//      )
+//    }
+//    
+//    let threadFetchRequest = EmailThread.fetchRequest()
+//    threadFetchRequest.predicate = NSPredicate(format: "id == %d", id)
+//    threadFetchRequest.fetchLimit = 1
+//    threadFetchRequest.fetchBatchSize = 1
+//    
+//    let threads = try context.fetch(threadFetchRequest) as [EmailThread]
+//    thread = threads.first ?? EmailThread(id: Int64(id), context: context)
+//    thread!.addToEmails(self)
+//    
+//    // the following assumes emails are always added in chronological order
+//    for email in thread!.emails.allObjects as! [Email] {
+//      email.isLatestInThread = false
+//    }
+//    self.isLatestInThread = true
+//  }
   
 }

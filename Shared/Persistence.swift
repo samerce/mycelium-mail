@@ -113,9 +113,9 @@ class PersistenceController: ObservableObject {
   /// Creates and configures a private queue context.
   func newTaskContext() -> NSManagedObjectContext {
     let taskContext = container.newBackgroundContext()
+    taskContext.automaticallyMergesChangesFromParent = true
     taskContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     taskContext.undoManager = nil
-//    taskContext.automaticallyMergesChangesFromParent = true
     return taskContext
   }
   

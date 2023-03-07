@@ -4,41 +4,122 @@ import CoreData
 
 extension Email {
   
-  var from: EmailAddress? { header!.from }
-  var sender: EmailAddress? { header!.sender }
-  var to: EmailAddress? { header!.to?.allObjects.first as? EmailAddress }
+  var moc: NSManagedObjectContext? { managedObjectContext }
   
   var subject: String {
-    header!.subject?.replacingOccurrences(of: "\r\n", with: "") ?? "None"
+    subjectRaw.replacingOccurrences(of: "\r\n", with: "")
   }
   
   var fromLine: String {
-    from?.displayName ?? sender?.displayName ??
-      from?.address ?? sender?.address ?? "Unknown"
+    from.displayName ?? sender?.displayName ?? from.address
   }
   
   var toLine: String {
-    to?.displayName ?? to?.address ?? "Unknown"
+    guard let to = to
+    else { return "Unknown" }
+    
+    return to.map { $0.displayName ?? $0.address }
+      .joined(separator: ", ")
   }
   
   var displayDate: String? {
-    guard let date = date
-    else { return nil }
-    return EmailDateFormatter.stringForDate(date)
+    return EmailDateFormatter.stringForDate(receivedDate)
   }
   
   var longDisplayDate: String? {
-    guard let date = date
-    else { return nil }
-    return EmailDateFormatter.stringForDate(date)
+    return EmailDateFormatter.stringForDate(receivedDate)
   }
   
   var bundles: [EmailBundle] {
     (bundleSet.allObjects as? [EmailBundle]) ?? []
   }
   
+  var from: EmailAddress {
+    get {
+      return (try? JSONDecoder().decode(EmailAddress.self, from: Data(fromJSON.utf8)))
+      ?? EmailAddress(address: "unknown")
+    }
+    set {
+      do {
+        let json = try JSONEncoder().encode(newValue)
+        fromJSON = String(data: json, encoding:.utf8)!
+      } catch {
+        fromJSON = ""
+      }
+    }
+  }
+  
+  var sender: EmailAddress? {
+    get {
+      return (try? JSONDecoder().decode(EmailAddress.self, from: Data(senderJSON.utf8))) ?? nil
+    }
+    set {
+      do {
+        let json = try JSONEncoder().encode(newValue)
+        senderJSON = String(data: json, encoding:.utf8)!
+      } catch {
+        senderJSON = ""
+      }
+    }
+  }
+  
+  var bcc: [EmailAddress]? {
+    get {
+      return (try? JSONDecoder().decode([EmailAddress].self, from: Data(bccJSON.utf8))) ?? nil
+    }
+    set {
+      do {
+        let json = try JSONEncoder().encode(newValue)
+        bccJSON = String(data: json, encoding:.utf8)!
+      } catch {
+        bccJSON = ""
+      }
+    }
+  }
+  
+  var cc: [EmailAddress]? {
+    get {
+      return (try? JSONDecoder().decode([EmailAddress].self, from: Data(ccJSON.utf8))) ?? nil
+    }
+    set {
+      do {
+        let json = try JSONEncoder().encode(newValue)
+        ccJSON = String(data: json, encoding:.utf8)!
+      } catch {
+        ccJSON = ""
+      }
+    }
+  }
+  
+  var replyTo: [EmailAddress]? {
+    get {
+      return (try? JSONDecoder().decode([EmailAddress].self, from: Data(replyToJSON.utf8))) ?? nil
+    }
+    set {
+      do {
+        let json = try JSONEncoder().encode(newValue)
+        replyToJSON = String(data: json, encoding:.utf8)!
+      } catch {
+        replyToJSON = ""
+      }
+    }
+  }
+  
+  var to: [EmailAddress]? {
+    get {
+      return (try? JSONDecoder().decode([EmailAddress].self, from: Data(toJSON.utf8))) ?? nil
+    }
+    set {
+      do {
+        let json = try JSONEncoder().encode(newValue)
+        toJSON = String(data: json, encoding:.utf8)!
+      } catch {
+        toJSON = ""
+      }
+    }
+  }
+  
   @NSManaged public var customFlags: Set<String>
-  @NSManaged public var date: Date?
   @NSManaged public var flagsRaw: Int16
   @NSManaged public var gmailLabels: Set<String>
   @NSManaged public var gmailMessageId: Int64
@@ -49,12 +130,25 @@ extension Email {
   @NSManaged public var size: Int32
   @NSManaged public var uid: Int32 // imap id
   @NSManaged public var trashed: Bool
-
-  @NSManaged public var bundleSet: NSSet
-  @NSManaged public var account: Account?
-  @NSManaged public var header: EmailHeader?
+  @NSManaged public var isLatestInThread: Bool
+  @NSManaged public var inReplyTo: Set<String> // message ids
+  @NSManaged public var receivedDate: Date
+  @NSManaged public var sentDate: Date
+  @NSManaged public var subjectRaw: String
+  @NSManaged public var userAgent: String? // x-mailer header
+  @NSManaged public var references: Set<String> // message ids
+  
+  @NSManaged public var fromJSON: String // EmailAddress
+  @NSManaged public var senderJSON: String // EmailAddress
+  @NSManaged public var bccJSON: String // [EmailAddress]
+  @NSManaged public var ccJSON: String // [EmailAddress]
+  @NSManaged public var replyToJSON: String // [EmailAddress]
+  @NSManaged public var toJSON: String // [EmailAddress]
+  
+  @NSManaged public var account: Account
   @NSManaged public var mimePart: EmailPart?
   @NSManaged public var thread: EmailThread?
+  @NSManaged public var bundleSet: NSSet // <EmailBundle>
   
 }
 

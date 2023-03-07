@@ -8,7 +8,7 @@ extension EmailThread {
   }
   
   @NSManaged public var id: Int64
-  @NSManaged public var emails: NSSet?
+  @NSManaged public var emails: NSSet
   
 }
 

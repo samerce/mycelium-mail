@@ -14,7 +14,7 @@ struct EmailDetailView: View {
   
   var fromLine: String {
     (showingFromDetails || isPreview)
-    ? email.from?.address ?? email.fromLine
+    ? email.from.address
     : email.fromLine
   }
   
