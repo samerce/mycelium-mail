@@ -1,4 +1,5 @@
 import SwiftUI
+import SymbolPicker
 
 
 struct BundleSettingsView: View {
@@ -12,7 +13,10 @@ struct BundleSettingsView: View {
   
   @State var conditionType: String = "from"
   @State var conditionValue: String = ""
-  var bundle: EmailBundle { bundleCtrl.selectedBundle }
+  @State var iconPickerPresented = false
+  @State var icon: String = ""
+  
+  var bundle: EmailBundle { sheetCtrl.editingBundle! }
   
   // MARK: - VIEW
   
@@ -33,8 +37,9 @@ struct BundleSettingsView: View {
         
         HStack {
           Button {
+            iconPickerPresented = true
           } label: {
-            SystemImage(name: bundle.icon, size: 36, color: .white)
+            SystemImage(name: icon, size: 36, color: .white)
           }
           .buttonStyle(.bordered)
           .tint(.secondary)
@@ -83,6 +88,7 @@ struct BundleSettingsView: View {
       Spacer()
       
       Button {
+        bundle.icon = icon
         sheetCtrl.sheet = .inboxTools
       } label: {
         Text("SAVE")
@@ -109,6 +115,13 @@ struct BundleSettingsView: View {
     }
     .padding(.horizontal, 12)
     .padding(.bottom, safeAreaInsets.bottom)
+    .sheet(isPresented: $iconPickerPresented) {
+      SymbolPicker(symbol: $icon)
+        .foregroundColor(.psyAccent)
+    }
+    .onAppear {
+      icon = bundle.icon
+    }
   }
   
 }

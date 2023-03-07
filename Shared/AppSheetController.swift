@@ -17,6 +17,7 @@ class AppSheetController: ObservableObject {
       percentToMid = min(1, max(0, sheetDistanceFromMin / distanceFromMinToMid))
     }
   }
+  @Published var editingBundle: EmailBundle?
   
   private var initSubscribers: [AnyCancellable] = []
   
@@ -36,6 +37,13 @@ class AppSheetController: ObservableObject {
   
   deinit {
     initSubscribers.forEach { $0.cancel() }
+  }
+  
+  // MARK: - PUBLIC
+  
+  func showSettingsForBundle(_ bundle: EmailBundle) {
+    editingBundle = bundle
+    sheet = .bundleSettings
   }
   
 }

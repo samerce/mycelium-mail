@@ -105,7 +105,7 @@ struct InboxSheetView: View {
             .clipped()
         }
         
-        Button { sheetCtrl.sheet = .bundleSettings } label: {
+        Button { } label: {
           ZStack {
             Image(systemName: "square.and.pencil")
               .resizable()

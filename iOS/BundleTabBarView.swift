@@ -19,11 +19,11 @@ private let cTabLimitPerRow = 5
 
 struct BundleTabBarView: View {
   @ObservedObject var bundleCtrl = EmailBundleController.shared
-  @ObservedObject var appSheetCtrl = AppSheetController.shared
+  @ObservedObject var sheetCtrl = AppSheetController.shared
   @State var activeTabRow = 0
   
   var selectedBundle: EmailBundle { bundleCtrl.selectedBundle }
-  var percentToMid: CGFloat { appSheetCtrl.percentToMid }
+  var percentToMid: CGFloat { sheetCtrl.percentToMid }
   
   var tabRows: [[EmailBundle]] {
     let orderedBundles = bundleCtrl.bundles.sorted(by: { $0.orderIndex < $1.orderIndex })
@@ -71,6 +71,13 @@ struct BundleTabBarView: View {
         .onTapGesture {
           bundleCtrl.selectedBundle = bundle
           activeTabRow = rowIndex
+        }
+        .contextMenu {
+          Button("edit") {
+            Timer.after(0.2) { _ in
+              sheetCtrl.showSettingsForBundle(bundle)
+            }
+          }
         }
       }
       
