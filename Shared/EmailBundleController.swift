@@ -3,27 +3,30 @@ import CoreData
 import Combine
 
 
-private let moc = PersistenceController.shared.container.viewContext
-
-
 class EmailBundleController: NSObject, ObservableObject {
   static let shared = EmailBundleController()
   
   @Published var emailToMoveToNewBundle: Email? // TODO: find a better place for this
   @Published var bundles = [EmailBundle]()
-  @Published var selectedBundle: EmailBundle
+  @Published var selectedBundle: EmailBundle {
+    didSet {
+      markSelectedBundleSeen()
+    }
+  }
+  @Published var syncedAccounts = Set<Account>()
   
   let bundleCtrl: NSFetchedResultsController<EmailBundle>
   let accountCtrl = AccountController.shared
+  let dataCtrl = PersistenceController.shared
   private var subscribers: [AnyCancellable] = []
   
   
   private override init() {
     let bundleRequest = EmailBundle.fetchRequestWithProps("name", "gmailLabelId")
     bundleCtrl = NSFetchedResultsController(fetchRequest: bundleRequest,
-                                           managedObjectContext: moc,
-                                           sectionNameKeyPath: nil,
-                                           cacheName: nil) // TODO: cache?
+                                            managedObjectContext: dataCtrl.context,
+                                            sectionNameKeyPath: nil,
+                                            cacheName: nil) // TODO: cache?
     try? bundleCtrl.performFetch()
     
     let bundles = bundleCtrl.fetchedObjects ?? []
@@ -35,7 +38,7 @@ class EmailBundleController: NSObject, ObservableObject {
         gmailLabelId: "",
         icon: "tray.full",
         orderIndex: 2, //bundles.count, TODO: uncomment this for release
-        context: moc
+        context: dataCtrl.context
       )
     }
     selectedBundle = inboxBundle!
@@ -45,6 +48,7 @@ class EmailBundleController: NSObject, ObservableObject {
     
     subscribeToSignedInAccounts()
     update()
+    markSelectedBundleSeen()
   }
   
   deinit {
@@ -63,7 +67,16 @@ class EmailBundleController: NSObject, ObservableObject {
       .sink { accounts in
         accounts.forEach { account in
           Task {
-            try? await self.syncEmailBundles(account) // TODO: handle error
+            do {
+              try await self.syncEmailBundles(account) // TODO: handle error
+              DispatchQueue.main.async {
+                self.syncedAccounts.insert(account)
+              }
+              print("\(account.address): bundle sync complete!")
+            }
+            catch {
+              print("\(account.address): error syncing email bundles\n\(error.localizedDescription)")
+            }
           }
         }
       }
@@ -72,36 +85,51 @@ class EmailBundleController: NSObject, ObservableObject {
   
   /// gotta sync bundles before fetch, cuz on first start the bundles must exist while emails are being created
   private func syncEmailBundles(_ account: Account) async throws {
+    let context = dataCtrl.context
+    
     let bundleFetchRequest = EmailBundle.fetchRequestWithProps("name", "gmailLabelId")
-    let bundles = try? moc.fetch(bundleFetchRequest)
+    let bundles = try context.fetch(bundleFetchRequest)
     
     let (labelListResponse, _) = try await GmailEndpoint.call(.listLabels, forAccount: account)
     let labels = (labelListResponse as! GLabelListResponse).labels
     
     // TODO: use batch insert?
-    labels.enumerated().forEach { index, label in
+    for label in labels {
       if !label.name.contains("psymail/") {
-        return
+        continue
       }
       
       let bundleName = label.name.replacing("psymail/", with: "")
-      var bundle = bundles?.first(where: { $0.name == bundleName })
-      if bundle == nil {
-        let config = cBundleConfigByName[bundleName]
-        bundle = EmailBundle(
-          name: bundleName,
-          gmailLabelId: label.id,
-          icon: config?["icon"] ?? "questionmark.square",
-          orderIndex: cBundleConfig.firstIndex(where: { $0["name"] == bundleName }) ?? bundles?.count ?? index,
-          context: moc
-        )
-      } else {
-        // TODO: update this to work with multiple accounts
-        bundle!.gmailLabelId = label.id
-      }
+      let bundle = bundles.first(where: { $0.name == bundleName })
+        ?? makeBundleNamed(bundleName, labelId: label.id, fallbackIndex: bundles.count)
+      
+      // TODO: update this to work with multiple accounts
+      bundle.gmailLabelId = label.id
     }
     
-    PersistenceController.shared.save()
+    dataCtrl.save()
+  }
+  
+  private func markSelectedBundleSeen() {
+    Timer.after(2) { _ in
+      self.dataCtrl.context.perform {
+        self.selectedBundle.onSelected()
+        self.dataCtrl.save()
+      }
+    }
+  }
+  
+  private func makeBundleNamed(_ name: String, labelId: String, fallbackIndex: Int) -> EmailBundle {
+    let config = cBundleConfigByName[name]
+    let orderIndex = cBundleConfig.firstIndex(where: { $0["name"] == name }) // TODO: fix for prod
+    
+    return EmailBundle(
+      name: name,
+      gmailLabelId: labelId,
+      icon: config?["icon"] ?? "questionmark.square",
+      orderIndex: orderIndex ?? fallbackIndex,
+      context: dataCtrl.context
+    )
   }
   
 }
@@ -122,8 +150,8 @@ private let cBundleConfig = [
     "icon": "bell"
   ],
   [
-    "name": "commerce",
-    "icon": "creditcard"
+    "name": "updates",
+    "icon": "livephoto"
   ],
   [
     "name": "inbox",
@@ -134,6 +162,10 @@ private let cBundleConfig = [
     "icon": "newspaper"
   ],
   [
+    "name": "events",
+    "icon": "calendar"
+  ],
+  [
     "name": "society",
     "icon": "building.2"
   ],
@@ -142,12 +174,8 @@ private let cBundleConfig = [
     "icon": "megaphone"
   ],
   [
-    "name": "updates",
-    "icon": "livephoto"
-  ],
-  [
-    "name": "events",
-    "icon": "calendar"
+    "name": "commerce",
+    "icon": "creditcard"
   ],
   [
     "name": "jobs",

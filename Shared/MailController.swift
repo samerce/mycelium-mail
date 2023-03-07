@@ -51,7 +51,7 @@ class MailController: NSObject, ObservableObject {
       }
       .store(in: &subscribers)
     
-    subscribeToSignedInAccounts()
+    subscribeToSyncedAccounts()
     update()
   }
   
@@ -66,16 +66,16 @@ class MailController: NSObject, ObservableObject {
     }
   }
   
-  private func subscribeToSignedInAccounts() {
-    accountCtrl.$signedInAccounts
+  private func subscribeToSyncedAccounts() {
+    bundleCtrl.$syncedAccounts
       .sink { accounts in
-        accounts.forEach(self.onSignedInAccount)
+        accounts.forEach(self.onAccountReady)
       }
       .store(in: &subscribers)
   }
   
-  func onSignedInAccount(_ account: Account) {
-    print("\(account.address) signed in")
+  func onAccountReady(_ account: Account) {
+    print("\(account.address) signed in and synced")
     
     Task {
       try? await self.fetchLatest(account) // TODO: handle error
@@ -331,6 +331,10 @@ class MailController: NSObject, ObservableObject {
           
           bundle.addToEmailSet(email)
           email.addToBundleSet(bundle)
+          
+          if bundleCtrl.selectedBundle != bundle {
+            bundle.newEmailsSinceLastSeen += 1
+          }
         }
         
 //        let threadFetchRequest = Email.fetchRequestWithProps("gmailThreadId", "isLatestInThread", "receivedDate")

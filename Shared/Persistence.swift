@@ -74,6 +74,8 @@ class PersistenceController: ObservableObject {
     return container
   }()
   
+  var context: NSManagedObjectContext { container.viewContext }
+  
   
   init(inMemory: Bool = false) {
     self.inMemory = inMemory

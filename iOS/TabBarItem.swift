@@ -10,6 +10,7 @@ struct TabBarItem: View {
   let label: String
   var selected: Bool
   var collapsible: Bool
+  var unread: Bool
   
   @ObservedObject var sheetCtrl = AppSheetController.shared
   
@@ -26,11 +27,11 @@ struct TabBarItem: View {
   
   var body: some View {
     VStack(alignment: .center) {
-      Image(systemName: iconName)
-        .resizable()
-        .aspectRatio(contentMode: .fit)
-        .frame(width: IconSize, height: IconSize)
-        .font(.system(size: IconSize, weight: .light))
+      ZStack(alignment: .top) {
+        Icon
+        UnreadIndicator
+      }
+      .width(IconSize)
       
       Text(label)
         .font(.system(size: 11, weight: .light))
@@ -40,6 +41,24 @@ struct TabBarItem: View {
     .frame(maxWidth: .infinity)
     .foregroundColor(fgColor)
     .contentShape(Rectangle())
+  }
+  
+  var Icon: some View {
+    Image(systemName: iconName)
+      .resizable()
+      .aspectRatio(contentMode: .fit)
+      .frame(width: IconSize, height: IconSize)
+      .font(.system(size: IconSize, weight: .light))
+  }
+  
+  var UnreadIndicator: some View {
+    HStack {
+      Spacer()
+      SystemImage(name: "circle.fill", size: 6, color: .psyAccent)
+        .offset(x: 3)
+        .scaleEffect(unread ? 1 : 0.0001, anchor: .center)
+        .animation(.default, value: unread)
+    }
   }
   
 }

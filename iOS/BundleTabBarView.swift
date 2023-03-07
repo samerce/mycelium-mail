@@ -65,7 +65,8 @@ struct BundleTabBarView: View {
           iconName: bundle.icon,
           label: bundle.name,
           selected: selectedBundle.name == bundle.name,
-          collapsible: activeTabRow != rowIndex
+          collapsible: activeTabRow != rowIndex,
+          unread: bundle.newEmailsSinceLastSeen > 0
         )
         .onTapGesture {
           bundleCtrl.selectedBundle = bundle
