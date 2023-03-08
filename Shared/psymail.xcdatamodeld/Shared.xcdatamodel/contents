@@ -62,8 +62,8 @@
         </uniquenessConstraints>
     </entity>
     <entity name="EmailBundle" representedClassName="EmailBundle" syncable="YES">
-        <attribute name="gmailLabelId" optional="YES" attributeType="String"/>
         <attribute name="icon" optional="YES" attributeType="String"/>
+        <attribute name="labelId" optional="YES" attributeType="String"/>
         <attribute name="lastSeenDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="name" attributeType="String" defaultValueString=""/>
         <attribute name="newEmailsSinceLastSeen" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>

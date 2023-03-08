@@ -110,8 +110,21 @@ class AccountController: ObservableObject {
     session!.oAuth2Token = account.accessToken
     session!.isVoIPEnabled = false
 
-    print("\(account.address): signed in!")
-    signedInAccounts.insert(account)
+    Task {
+      do {
+        try await account.syncBundles()
+      }
+      catch {
+        // TODO: handle error
+        print("error syncing bundles with gmail: \(error.localizedDescription)")
+      }
+      
+      
+      print("\(account.address): signed in and synced!")
+      DispatchQueue.main.async {
+        self.signedInAccounts.insert(account)
+      }
+    }
   }
   
 //  func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {

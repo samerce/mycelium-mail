@@ -32,13 +32,17 @@ public class EmailBundle: NSManagedObject {
   // MARK: - INIT
   
   convenience init(
-    name: String, gmailLabelId: String, icon: String = "", orderIndex: Int, context: NSManagedObjectContext
+    name: String, labelId: String, icon: String? = nil, orderIndex: Int, context: NSManagedObjectContext
   ) {
+    // TODO: get rid of this config for prod
+    let config = cBundleConfigByName[name]
+    let index = cBundleConfig.firstIndex(where: { $0["name"] == name }) ?? orderIndex
+    
     self.init(context: context)
     self.name = name
-    self.gmailLabelId = gmailLabelId
-    self.icon = icon
-    self.orderIndex = Int16(orderIndex)
+    self.labelId = labelId
+    self.icon = icon ?? config?["icon"] ?? "questionmark.square"
+    self.orderIndex = Int16(index)
     self.lastSeenDate = .now
     self.newEmailsSinceLastSeen = 0
   }
@@ -51,3 +55,59 @@ public class EmailBundle: NSManagedObject {
   }
   
 }
+
+
+// TODO: get rid of this
+private let cBundleConfig = [
+  [
+    "name": "notifications",
+    "icon": "bell"
+  ],
+  [
+    "name": "updates",
+    "icon": "livephoto"
+  ],
+  [
+    "name": "inbox",
+    "icon": "tray.full"
+  ],
+  [
+    "name": "newsletters",
+    "icon": "newspaper"
+  ],
+  [
+    "name": "events",
+    "icon": "calendar"
+  ],
+  [
+    "name": "society",
+    "icon": "building.2"
+  ],
+  [
+    "name": "marketing",
+    "icon": "megaphone"
+  ],
+  [
+    "name": "commerce",
+    "icon": "creditcard"
+  ],
+  [
+    "name": "jobs",
+    "icon": "briefcase",
+  ],
+  [
+    "name": "health",
+    "icon": "heart.text.square"
+  ],
+  [
+    "name": "travel",
+    "icon": "backpack"
+  ],
+  [
+    "name": "classifieds",
+    "icon": "scalemass"
+  ]
+]
+private let cBundleConfigByName = cBundleConfig.reduce(into: [:], { result, config in
+  result[config["name"]] = config
+})

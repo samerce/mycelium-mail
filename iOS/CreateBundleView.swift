@@ -162,7 +162,7 @@ struct CreateBundleView: View {
     if bundle == nil {
       let label = try await selectedAccount.createLabel("psymail/\(name)")
       bundle = EmailBundle(
-        name: name, gmailLabelId: label.id, icon: icon, orderIndex: bundleCtrl.bundles.count, context: moc
+        name: name, labelId: label.id, icon: icon, orderIndex: bundleCtrl.bundles.count, context: moc
       )
       try moc.save()
     }

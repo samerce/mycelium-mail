@@ -10,7 +10,7 @@ extension EmailBundle {
   
   @NSManaged public var name: String
   @NSManaged public var icon: String
-  @NSManaged public var gmailLabelId: String
+  @NSManaged public var labelId: String
   @NSManaged public var orderIndex: Int16
   @NSManaged public var lastSeenDate: Date
   @NSManaged public var newEmailsSinceLastSeen: Int64

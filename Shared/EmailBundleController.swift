@@ -10,19 +10,20 @@ class EmailBundleController: NSObject, ObservableObject {
   @Published var bundles = [EmailBundle]()
   @Published var selectedBundle: EmailBundle {
     didSet {
-      markSelectedBundleSeen()
+      markSelectedBundleSeenWithDelay()
     }
   }
-  @Published var syncedAccounts = Set<Account>()
   
   let bundleCtrl: NSFetchedResultsController<EmailBundle>
   let accountCtrl = AccountController.shared
   let dataCtrl = PersistenceController.shared
-  private var subscribers: [AnyCancellable] = []
   
+  var markSeenTimer: Timer?
+
+  // MARK: -
   
   private override init() {
-    let bundleRequest = EmailBundle.fetchRequestWithProps("name", "gmailLabelId")
+    let bundleRequest = EmailBundle.fetchRequestWithProps("name", "labelId")
     bundleCtrl = NSFetchedResultsController(fetchRequest: bundleRequest,
                                             managedObjectContext: dataCtrl.context,
                                             sectionNameKeyPath: nil,
@@ -35,7 +36,7 @@ class EmailBundleController: NSObject, ObservableObject {
     if inboxBundle == nil {
       inboxBundle = EmailBundle(
         name: "inbox",
-        gmailLabelId: "",
+        labelId: "",
         icon: "tray.full",
         orderIndex: 2, //bundles.count, TODO: uncomment this for release
         context: dataCtrl.context
@@ -46,13 +47,8 @@ class EmailBundleController: NSObject, ObservableObject {
     super.init()
     bundleCtrl.delegate = self
     
-    subscribeToSignedInAccounts()
     update()
-    markSelectedBundleSeen()
-  }
-  
-  deinit {
-    subscribers.forEach { $0.cancel() }
+    markSelectedBundleSeenWithDelay()
   }
   
   private func update() {
@@ -62,74 +58,14 @@ class EmailBundleController: NSObject, ObservableObject {
     }
   }
   
-  private func subscribeToSignedInAccounts() {
-    accountCtrl.$signedInAccounts
-      .sink { accounts in
-        accounts.forEach { account in
-          Task {
-            do {
-              try await self.syncEmailBundles(account) // TODO: handle error
-              DispatchQueue.main.async {
-                self.syncedAccounts.insert(account)
-              }
-              print("\(account.address): bundle sync complete!")
-            }
-            catch {
-              print("\(account.address): error syncing email bundles\n\(error.localizedDescription)")
-            }
-          }
-        }
-      }
-      .store(in: &subscribers)
-  }
-  
-  /// gotta sync bundles before fetch, cuz on first start the bundles must exist while emails are being created
-  private func syncEmailBundles(_ account: Account) async throws {
-    let context = dataCtrl.context
-    
-    let bundleFetchRequest = EmailBundle.fetchRequestWithProps("name", "gmailLabelId")
-    let bundles = try context.fetch(bundleFetchRequest)
-    
-    let (labelListResponse, _) = try await GmailEndpoint.call(.listLabels, forAccount: account)
-    let labels = (labelListResponse as! GLabelListResponse).labels
-    
-    // TODO: use batch insert?
-    for label in labels {
-      if !label.name.contains("psymail/") {
-        continue
-      }
-      
-      let bundleName = label.name.replacing("psymail/", with: "")
-      let bundle = bundles.first(where: { $0.name == bundleName })
-        ?? makeBundleNamed(bundleName, labelId: label.id, fallbackIndex: bundles.count)
-      
-      // TODO: update this to work with multiple accounts
-      bundle.gmailLabelId = label.id
-    }
-    
-    dataCtrl.save()
-  }
-  
-  private func markSelectedBundleSeen() {
-    Timer.after(2) { _ in
+  private func markSelectedBundleSeenWithDelay() {
+    markSeenTimer?.invalidate()
+    markSeenTimer = Timer.after(2) { _ in
       self.dataCtrl.context.perform {
         self.selectedBundle.onSelected()
         self.dataCtrl.save()
       }
     }
-  }
-  
-  private func makeBundleNamed(_ name: String, labelId: String, fallbackIndex: Int) -> EmailBundle {
-    let config = cBundleConfigByName[name]
-    let orderIndex = cBundleConfig.firstIndex(where: { $0["name"] == name }) // TODO: fix for prod
-    
-    return EmailBundle(
-      name: name,
-      gmailLabelId: labelId,
-      icon: config?["icon"] ?? "questionmark.square",
-      orderIndex: orderIndex ?? fallbackIndex,
-      context: dataCtrl.context
-    )
   }
   
 }
@@ -141,59 +77,3 @@ extension EmailBundleController: NSFetchedResultsControllerDelegate {
   }
   
 }
-
-
-// TODO: get rid of this
-private let cBundleConfig = [
-  [
-    "name": "notifications",
-    "icon": "bell"
-  ],
-  [
-    "name": "updates",
-    "icon": "livephoto"
-  ],
-  [
-    "name": "inbox",
-    "icon": "tray.full"
-  ],
-  [
-    "name": "newsletters",
-    "icon": "newspaper"
-  ],
-  [
-    "name": "events",
-    "icon": "calendar"
-  ],
-  [
-    "name": "society",
-    "icon": "building.2"
-  ],
-  [
-    "name": "marketing",
-    "icon": "megaphone"
-  ],
-  [
-    "name": "commerce",
-    "icon": "creditcard"
-  ],
-  [
-    "name": "jobs",
-    "icon": "briefcase",
-  ],
-  [
-    "name": "health",
-    "icon": "heart.text.square"
-  ],
-  [
-    "name": "travel",
-    "icon": "backpack"
-  ],
-  [
-    "name": "classifieds",
-    "icon": "scalemass"
-  ]
-]
-private let cBundleConfigByName = cBundleConfig.reduce(into: [:], { result, config in
-  result[config["name"]] = config
-})

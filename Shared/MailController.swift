@@ -68,7 +68,7 @@ class MailController: NSObject, ObservableObject {
   }
   
   private func subscribeToSyncedAccounts() {
-    bundleCtrl.$syncedAccounts
+    accountCtrl.$signedInAccounts
       .sink { accounts in
         accounts.forEach(self.onAccountReady)
       }
@@ -76,8 +76,6 @@ class MailController: NSObject, ObservableObject {
   }
   
   func onAccountReady(_ account: Account) {
-    print("\(account.address) signed in and synced")
-    
     Task {
       try? await self.fetchLatest(account) // TODO: handle error
     }
@@ -148,7 +146,7 @@ class MailController: NSObject, ObservableObject {
          let from = filter.criteria?.from ?? nil,
          from.contains(address) {
        
-        if addLabelIds.contains(bundle.gmailLabelId) {
+        if addLabelIds.contains(bundle.labelId) {
           filterExistsForSameBundle = true
         } else {
           // filter exists for diff bundle so delete it and create the new filter
@@ -174,7 +172,7 @@ class MailController: NSObject, ObservableObject {
         "from": address,
       ],
       "action": [
-        "addLabelIds": [bundle.gmailLabelId],
+        "addLabelIds": [bundle.labelId],
         "removeLabelIds": ["INBOX", "SPAM"] // skip the inbox, never send to spam
       ]
     ])

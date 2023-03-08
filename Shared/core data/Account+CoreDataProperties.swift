@@ -3,20 +3,7 @@ import CoreData
 
 extension Account {
   
-  @nonobjc public class func fetchRequest() -> NSFetchRequest<Account> {
-    return NSFetchRequest<Account>(entityName: "Account")
-  }
-  
-  @NSManaged public var accessToken: String?
-  @NSManaged public var accessTokenExpiration: Date?
-  @NSManaged public var address: String
-  @NSManaged public var emails: NSSet?
-  @NSManaged public var firstName: String?
-  @NSManaged public var lastName: String?
-  @NSManaged public var password: String?
-  @NSManaged public var refreshToken: String?
-  @NSManaged public var typeRaw: String?
-  @NSManaged public var userId: String
+  var moc: NSManagedObjectContext? { managedObjectContext }
   
   var type: AccountType {
     get {
@@ -33,6 +20,17 @@ extension Account {
     }
     return nil
   }
+  
+  @NSManaged public var accessToken: String?
+  @NSManaged public var accessTokenExpiration: Date?
+  @NSManaged public var address: String
+  @NSManaged public var emails: NSSet?
+  @NSManaged public var firstName: String?
+  @NSManaged public var lastName: String?
+  @NSManaged public var password: String?
+  @NSManaged public var refreshToken: String?
+  @NSManaged public var typeRaw: String?
+  @NSManaged public var userId: String
   
 }
 

@@ -8,6 +8,10 @@ public enum AccountType: String {
 @objc(Account)
 public class Account: NSManagedObject {
   
+  @nonobjc public class func fetchRequest() -> NSFetchRequest<Account> {
+    return NSFetchRequest<Account>(entityName: "Account")
+  }
+  
   convenience init(
     type: AccountType,
     address: String, userId: String,
