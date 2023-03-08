@@ -188,6 +188,10 @@ private let cBundleConfig = [
   [
     "name": "travel",
     "icon": "backpack"
+  ],
+  [
+    "name": "classifieds",
+    "icon": "scalemass"
   ]
 ]
 private let cBundleConfigByName = cBundleConfig.reduce(into: [:], { result, config in

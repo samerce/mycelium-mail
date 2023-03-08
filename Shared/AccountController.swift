@@ -109,7 +109,8 @@ class AccountController: ObservableObject {
     session!.username = account.address
     session!.oAuth2Token = account.accessToken
     session!.isVoIPEnabled = false
-    
+
+    print("\(account.address): signed in!")
     signedInAccounts.insert(account)
   }
   
