@@ -91,6 +91,8 @@ struct EmailDetailView: View {
   }
   
   func markEmailSeen() {
+    guard !isPreview else { return }
+    
     seenTimer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { _ in
       seenTimer = nil
       
