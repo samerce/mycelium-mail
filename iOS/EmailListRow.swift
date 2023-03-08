@@ -52,7 +52,7 @@ struct EmailListRow: View {
       .padding(.leading, 12)
     }
     .frame(height: 54)
-    .listRowInsets(.init(top: 3, leading: 0, bottom: 3, trailing: 0))
+    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
     .contentShape(Rectangle())
     .swipeActions(edge: .trailing) { swipeActions }
     .contextMenu { contextMenu } preview: {
@@ -70,7 +70,7 @@ struct EmailListRow: View {
     } label: {
       Label("trash", systemImage: "trash")
     }
-    .tint(.red)
+    .tint(.pink)
     
     Button { print("bundle") } label: {
       Label("bundle", systemImage: "giftcard")
