@@ -49,13 +49,14 @@ struct TabBarItem: View {
       .aspectRatio(contentMode: .fit)
       .frame(width: IconSize, height: IconSize)
       .font(.system(size: IconSize, weight: .light))
+      .padding(.top, 2)
   }
   
   var UnreadIndicator: some View {
     HStack {
       Spacer()
-      SystemImage(name: "circle.fill", size: 6, color: .psyAccent)
-        .offset(x: 3)
+      SystemImage(name: "circle.fill", size: 9, color: .psyAccent)
+        .offset(x: 4)
         .scaleEffect(unread ? 1 : 0.0001, anchor: .center)
         .animation(.default, value: unread)
     }
