@@ -75,7 +75,7 @@ struct BundleTabBarView: View {
         .contextMenu {
           Button("edit") {
             Timer.after(0.2) { _ in
-              sheetCtrl.showSettingsForBundle(bundle)
+              sheetCtrl.showSheet(.bundleSettings, bundle)
             }
           }
           Button("mark unread") {

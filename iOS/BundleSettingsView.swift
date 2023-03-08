@@ -3,130 +3,198 @@ import SymbolPicker
 
 
 struct BundleSettingsView: View {
-  @ObservedObject var bundleCtrl = EmailBundleController.shared
   @ObservedObject var sheetCtrl = AppSheetController.shared
-//  static let config = AppSheetConfig(
-//    id: "bundle settings",
-//    detents: [.height(272)],
-//    initialDetent: .height(272)
-//  )
-  
-  @State var conditionType: String = "from"
-  @State var conditionValue: String = ""
+  @State var fetching = false
   @State var iconPickerPresented = false
   @State var icon: String = ""
+  @State var filters: [GFilter] = []
   
-  var bundle: EmailBundle { sheetCtrl.editingBundle! }
+  var bundle: EmailBundle { sheetCtrl.args[0] as! EmailBundle }
   
   // MARK: - VIEW
   
   var body: some View {
-    VStack(spacing: 0) {
-//      DragSheetIcon()
-//        .padding(.top, 6)
-//        .padding(.bottom, 12)
-      
-      VStack(spacing: 0) {
-        Text("BUNDLE SETTINGS")
-          .font(.system(size: 15))
-          .foregroundColor(.secondary)
-          .frame(maxWidth: .infinity)
-          .padding(.vertical, 12)
-        
-        Divider()
-        
-        HStack {
-          Button {
-            iconPickerPresented = true
-          } label: {
-            SystemImage(name: icon, size: 36, color: .white)
-          }
-          .buttonStyle(.bordered)
-          .tint(.secondary)
-          
-          Button {
-          } label: {
-            Text(bundle.name)
-              .font(.system(size: 27, weight: .black))
-              .height(36)
-          }
-          .buttonStyle(.bordered)
-          .tint(.secondary)
-          .foregroundColor(.white)
-        }
-        .padding(.vertical, 22)
+    Group {
+      if filters.isEmpty || fetching {
+        ProgressView("LOADING FILTERS")
+          .controlSize(.large)
+          .frame(maxHeight: .infinity)
+      } else {
+        FilterList
       }
-      
-      ScrollView {
-        HStack {
-          Picker("filters", selection: $conditionType) {
-            ForEach(cFilterConditions, id: \.self) {
-              Text($0["label"]!).tag($0["id"]!)
-                .foregroundColor(.psyAccent)
-            }
+    }
+    .sheet(isPresented: $iconPickerPresented) {
+      SymbolPicker(symbol: $icon)
+        .foregroundColor(.psyAccent)
+    }
+    .task {
+      icon = bundle.icon
+      await fetchFilters()
+    }
+    .safeAreaInset(edge: .top) { Header }
+    .safeAreaInset(edge: .bottom) { Toolbar }
+  }
+  
+  var FilterList: some View {
+    List(filters, id: \.self) {
+      FilterCriteriaRow(criteria: $0.criteria!)
+        .listRowSeparator(.hidden)
+        .swipeActions {
+          Button(role: .destructive) {
+            print("deleting criteria")
+          } label: {
+            Label("trash", systemImage: "trash")
           }
-          
-          TextField("", text: $conditionValue, prompt: Text("email or name"), axis: .horizontal)
-            .textFieldStyle(.roundedBorder)
+          .tint(.pink)
         }
-        .padding(.bottom, 9)
+    }
+    .listStyle(.plain)
+  }
+  
+  var Header: some View {
+    VStack(spacing: 0) {
+      Text("BUNDLE SETTINGS")
+        .font(.system(size: 14))
+        .foregroundColor(.secondary)
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 9)
+      
+      Divider()
+      
+      HStack {
+        Button {
+          iconPickerPresented = true
+        } label: {
+          SystemImage(name: icon, size: 36, color: .white)
+        }
+        .buttonStyle(.bordered)
+        .tint(.secondary)
         
         Button {
-          
         } label: {
-          HStack {
-            SystemImage(name: "plus", size: 12, color: .white)
-            Text("add filter")
-          }
-          .frame(maxWidth: .infinity)
+          Text(bundle.name)
+            .font(.system(size: 27, weight: .black))
+            .height(36)
         }
         .buttonStyle(.bordered)
         .tint(.secondary)
         .foregroundColor(.white)
       }
-      
+      .padding(.vertical, 12)
+    }
+    .background(OverlayBackgroundView())
+  }
+  
+  var Toolbar: some View {
+    HStack(alignment: .lastTextBaseline, spacing: 0) {
+      CancelButton
       Spacer()
-      
-      Button {
-        bundle.icon = icon
-        sheetCtrl.sheet = .inbox
-      } label: {
-        Text("SAVE")
-          .height(27)
-          .frame(maxWidth: .infinity)
-      }
-      .buttonStyle(.bordered)
-      .tint(.psyAccent)
-      .padding(.bottom, 18)
-      
-      Button {
-        sheetCtrl.sheet = .inbox
-      } label: {
-        VStack(spacing: 0) {
-          Text("CANCEL").font(.system(size: 12))
-          SystemImage(name: "chevron.compact.down", size: 22, color: .pink)
-        }
-        .frame(maxWidth: .infinity)
-      }
-      .tint(.pink)
+      AddButton
+      Spacer()
+      SaveButton
     }
-    .padding(.horizontal, 12)
-    .padding(.bottom, safeAreaInsets.bottom)
-    .sheet(isPresented: $iconPickerPresented) {
-      SymbolPicker(symbol: $icon)
-        .foregroundColor(.psyAccent)
+    .padding(.top, 12)
+    .padding(.bottom, safeAreaInsets.bottom + 6)
+    .padding(.horizontal, 18)
+    .background(OverlayBackgroundView())
+  }
+  
+  var buttonWidth = 108.0
+  
+  var AddButton: some View {
+    Button {} label: {
+      Text("add filter")
+        .font(.system(size: 18))
     }
-    .onAppear {
-      icon = bundle.icon
+    .frame(maxWidth: buttonWidth)
+    .visible(if: !filters.isEmpty)
+  }
+  
+  var SaveButton: some View {
+    Button {
+      bundle.icon = icon
+      PersistenceController.shared.save()
+      sheetCtrl.sheet = .inbox
+    } label: {
+      Text("save")
+        .font(.system(size: 18, weight: .semibold))
+    }
+    .frame(maxWidth: buttonWidth, alignment: .trailing)
+  }
+  
+  var CancelButton: some View {
+    Button {
+      sheetCtrl.sheet = .inbox
+    } label: {
+      Text("cancel")
+        .font(.system(size: 18))
+    }
+    .frame(maxWidth: buttonWidth, alignment: .leading)
+  }
+  
+  func fetchFilters() async {
+    let account = AccountController.shared.signedInAccounts.first! // TODO: remove this hack
+
+    do {
+      fetching = true
+      
+      let (filterResponse, _) = try await GmailEndpoint.call(.listFilters, forAccount: account)
+      filters = (filterResponse as! GFilterListResponse).filter
+      
+      filters = filters.filter { filter in
+        guard let addLabelIds = filter.action?.addLabelIds
+        else { return false }
+        return addLabelIds.contains(bundle.labelId)
+      }
+      
+      fetching = false
+    }
+    catch {
+      // TODO: handle error
+      print("error fetching gmail filters: \(error.localizedDescription)")
     }
   }
   
 }
 
-let cFilterConditions = [
+
+private struct FilterCriteriaRow: View {
+  var criteria: GFilterCriteria
+  
+  @State var key: String
+  @State var value: String
+  var prompt: String { cFilterCriteriaById[key]?["prompt"] ?? "" }
+  
+  init(criteria: GFilterCriteria) {
+    self.criteria = criteria
+    key = "from" // ?? criteria.to ?? criteria.subject ?? criteria.query ?? criteria.negatedQuery
+    value = criteria.from ?? ""
+    //?? criteria.hasAttachment ?? criteria.excludeChats ?? criteria.size
+  }
+  
+  var body: some View {
+    HStack {
+      Picker("", selection: $key) {
+        ForEach(cFilterCriteria, id: \.["id"]) {
+          Text($0["label"]!).tag($0["id"]!)
+            .foregroundColor(.psyAccent)
+        }
+      }
+      .labelsHidden()
+      
+      TextField("", text: $value, prompt: Text(prompt), axis: .horizontal)
+        .textFieldStyle(.roundedBorder)
+    }
+  }
+  
+}
+
+
+let cFilterCriteria = [
   [
     "id": "from",
-    "label": "from"
+    "label": "from",
+    "prompt": "email or name"
   ],
   [
     "id": "to",
@@ -153,3 +221,6 @@ let cFilterConditions = [
     "label": "size"
   ]
 ]
+let cFilterCriteriaById = cFilterCriteria.reduce(into: [:]) { dict, config in
+  dict[config["id"]] = config
+}

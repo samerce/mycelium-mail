@@ -124,13 +124,23 @@ struct GFilterListResponse: Codable {
 }
 
 /// gmail filter, see: https://developers.google.com/gmail/api/reference/rest/v1/users.settings.filters
-struct GFilter: Codable {
+struct GFilter: Codable, Hashable {
+  static func == (lhs: GFilter, rhs: GFilter) -> Bool {
+    lhs.id == rhs.id
+  }
+  
   var id: String
   var criteria: GFilterCriteria?
   var action: GFilterAction?
+  
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(id)
+    hasher.combine(criteria)
+    hasher.combine(action)
+  }
 }
 
-struct GFilterCriteria: Codable {
+struct GFilterCriteria: Codable, Hashable {
   var from: String?
   var to: String?
   var subject: String?
@@ -142,7 +152,7 @@ struct GFilterCriteria: Codable {
   var sizeComparison: String? // enum: unspecified, larger, smaller
 }
 
-struct GFilterAction: Codable {
+struct GFilterAction: Codable, Hashable {
   var addLabelIds: [String]?
   var removeLabelIds: [String]?
   var forward: String?
