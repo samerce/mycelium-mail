@@ -9,6 +9,7 @@ import SymbolPicker
 let DefaultFolder = "[Gmail]/All Mail" //"INBOX"
 let cInboxLabel = "\\Inbox"
 let cSentLabel = "\\Sent"
+let cTrashLabel = "\\Trash"
 
 private let bundleCtrl = EmailBundleController.shared
 private let accountCtrl = AccountController.shared
@@ -21,7 +22,7 @@ class MailController: NSObject, ObservableObject {
   
   @Published private(set) var fetching = false
   @Published var emailsInSelectedBundle: [Email] = []
-  var navController: UINavigationController? // TODO: find a better place for this
+  @Published var selectedEmails = Set<Email>()
 
   private var subscribers: [AnyCancellable] = []
   private let emailCtrl: NSFetchedResultsController<Email>

@@ -182,7 +182,8 @@ extension Email {
   
   func moveToTrash() async throws {
     print("moving emails to trash")
-    try await updateLabels(["\\Trash"], operation: .add)
+    try await updateLabels([cTrashLabel], operation: .add)
+    try await updateLabels([cInboxLabel], operation: .remove)
     
     guard let expunge = session.expungeOperation("INBOX")
     else {
@@ -191,7 +192,8 @@ extension Email {
     try await runOperation(expunge)
 
     // TODO: replace this with refetch email from server so gmailLabels update
-    gmailLabels.insert("\\Trash")
+    gmailLabels.insert(cTrashLabel)
+    gmailLabels.remove(cInboxLabel)
     addFlags(.deleted)
     trashed = true
   }

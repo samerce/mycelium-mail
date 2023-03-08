@@ -8,6 +8,7 @@ struct InboxView: View {
   @ObservedObject var bundleCtrl = EmailBundleController.shared
   @ObservedObject var mailCtrl = MailController.shared
   @ObservedObject var sheetCtrl = AppSheetController.shared
+  @ObservedObject var navCtrl = NavController.shared
   
   @State var sheetPresented = true
   @State var selectedEmails: Set<Email> = []
@@ -72,9 +73,12 @@ extension InboxView {
           scrollProxy.scrollTo(firstEmail.objectID)
         }
       }
+      .onChange(of: selectedEmails) { _ in
+        mailCtrl.selectedEmails = selectedEmails
+      }
       .introspectNavigationController {
-        if mailCtrl.navController == nil {
-          mailCtrl.navController = $0
+        if navCtrl.navController == nil {
+          navCtrl.navController = $0
         }
       }
     }

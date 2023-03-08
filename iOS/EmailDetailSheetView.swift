@@ -24,11 +24,9 @@ private enum NoteTarget: String, CaseIterable, Equatable {
 
 
 struct EmailDetailSheetView: View {
-  @Environment(\.dismiss) private var dismiss
   @ObservedObject var mailCtrl = MailController.shared
   @ObservedObject var sheetCtrl = AppSheetController.shared
-  
-  private var email: Email?
+  @ObservedObject var navCtrl = NavController.shared
   
   @State private var replying = false
   @State private var replyText: String = ""
@@ -39,7 +37,9 @@ struct EmailDetailSheetView: View {
   @State private var noteTextField: UITextField?
   @State private var noteTarget: NoteTarget = .email
   
-//  init(_ email: Email?) { self.email = email }
+  var email: Email? { mailCtrl.selectedEmails.first }
+  
+  // MARK: - VIEW
   
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
@@ -134,6 +134,7 @@ struct EmailDetailSheetView: View {
     Button {
       Task {
         try? await email?.moveToTrash() // TODO: handle error
+        navCtrl.goBack(withSheet: .inbox)
       }
     } label: {
       ZStack {
@@ -195,10 +196,7 @@ struct EmailDetailSheetView: View {
   
   private var BackToEmailListButton: some View {
     Button {
-      mailCtrl.navController?.popViewController(animated: true)
-      withAnimation {
-        sheetCtrl.sheet = .inbox
-      }
+      navCtrl.goBack(withSheet: .inbox)
     } label: {
       ZStack {
         SystemImage("chevron.backward", size: 27)
