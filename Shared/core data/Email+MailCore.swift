@@ -182,6 +182,15 @@ extension Email {
   
   func moveToTrash() async throws {
     print("moving emails to trash")
+    
+    // TODO: replace this with refetch email from server so gmailLabels update
+    // optimistically update core data
+    gmailLabels.insert(cTrashLabel)
+    gmailLabels.remove(cInboxLabel)
+    addFlags(.deleted)
+    trashed = true
+    try? moc?.save()
+    
     try await updateLabels([cTrashLabel], operation: .add)
     try await updateLabels([cInboxLabel], operation: .remove)
     
@@ -190,12 +199,6 @@ extension Email {
       throw PsyError.unexpectedError(message: "error creating expunge operation")
     }
     try await runOperation(expunge)
-
-    // TODO: replace this with refetch email from server so gmailLabels update
-    gmailLabels.insert(cTrashLabel)
-    gmailLabels.remove(cInboxLabel)
-    addFlags(.deleted)
-    trashed = true
   }
   
   func addLabels(_ labels: [String]) async throws {

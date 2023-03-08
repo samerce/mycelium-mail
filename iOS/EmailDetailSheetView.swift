@@ -133,8 +133,8 @@ struct EmailDetailSheetView: View {
   private var TrashButton: some View {
     Button {
       Task {
-        try? await email?.moveToTrash() // TODO: handle error
         navCtrl.goBack(withSheet: .inbox)
+        try? await email?.moveToTrash() // TODO: handle error
       }
     } label: {
       ZStack {
