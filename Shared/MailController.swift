@@ -69,23 +69,30 @@ class MailController: NSObject, ObservableObject {
   
   private func subscribeToSyncedAccounts() {
     accountCtrl.$signedInAccounts
-      .sink { accounts in
-        accounts.forEach(self.onAccountReady)
+      .sink { _ in
+        Task { try? await self.fetchLatest() }
       }
       .store(in: &subscribers)
-  }
-  
-  func onAccountReady(_ account: Account) {
-    Task {
-      try? await self.fetchLatest(account) // TODO: handle error
-    }
   }
   
   // MARK: - API
   
   func fetchLatest() async throws {
+    DispatchQueue.main.async {
+      self.fetching = true
+    }
+
     for account in accountCtrl.signedInAccounts {
       try await self.fetchLatest(account)
+    }
+    
+    // "load" for at least one second
+    try? await Task.sleep(for: .seconds(1))
+
+    print("done fetching!")
+    DispatchQueue.main.async {
+      UserDefaults.standard.set(Date.now.ISO8601Format(), forKey: "lastUpdated")
+      self.fetching = false
     }
   }
   
@@ -219,10 +226,6 @@ class MailController: NSObject, ObservableObject {
   // MARK: - private
   
   private func fetchLatest(_ account: Account) async throws {
-    DispatchQueue.main.async {
-      self.fetching = true
-    }
-    
     let startUid = highestEmailUid() + 1
     let endUid = UInt64.max - startUid
     let uids = MCOIndexSet(range: MCORangeMake(startUid, endUid))
@@ -274,15 +277,7 @@ class MailController: NSObject, ObservableObject {
     
     guard let messages = messages,
           messages.count > 0
-    else {
-      print("done fetching!")
-      
-      DispatchQueue.main.async {
-        UserDefaults.standard.set(Date.now.ISO8601Format(), forKey: "lastUpdated")
-        self.fetching = false
-      }
-      return
-    }
+    else { return }
     
     var index = 0
     let emailBatchInsertRequest = NSBatchInsertRequest(entityName: "Email", managedObjectHandler: { managedObject in

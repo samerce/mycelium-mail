@@ -21,6 +21,14 @@ class AccountController: ObservableObject {
       let fetchedAccounts = try moc.fetch(Account.fetchRequest()) as [Account]
       for account in fetchedAccounts {
         accounts[account.address] = account
+        
+        if account.accessTokenExpiration?.compare(.now) == .orderedAscending {
+          print("token expired, implement refreshing!")
+          // call refresh token api:
+          // https://developers.google.com/identity/protocols/oauth2/web-server#offline
+        } else {
+          initAccount(account)
+        }
       }
     }
     catch let error {
@@ -53,12 +61,16 @@ class AccountController: ObservableObject {
   func restoreSignIn() {
     print("restoring sign-in")
     GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
-        self.handleSignIn(for: user, withError: error)
+      self.handleSignIn(for: user, withError: error)
     }
   }
   
   func handleGoogleUrl(_ url: URL) {
     GIDSignIn.sharedInstance.handle(url)
+  }
+  
+  func refreshTokensIfNeeded() {
+    
   }
   
   // MARK: - handling responses
@@ -101,6 +113,10 @@ class AccountController: ObservableObject {
     guard let account = account
     else { return }
     
+    initAccount(account)
+  }
+  
+  private func initAccount(_ account: Account) {
     var session = sessions[account]
     if session == nil {
       session = sessionForType(account.type)
