@@ -80,12 +80,8 @@ private let cBundleConfig = [
     "icon": "calendar"
   ],
   [
-    "name": "society",
-    "icon": "building.2"
-  ],
-  [
-    "name": "marketing",
-    "icon": "megaphone"
+    "name": "health",
+    "icon": "heart.text.square"
   ],
   [
     "name": "commerce",
@@ -96,16 +92,20 @@ private let cBundleConfig = [
     "icon": "briefcase",
   ],
   [
-    "name": "health",
-    "icon": "heart.text.square"
+    "name": "classifieds",
+    "icon": "scalemass"
   ],
   [
     "name": "travel",
     "icon": "backpack"
   ],
   [
-    "name": "classifieds",
-    "icon": "scalemass"
+    "name": "society",
+    "icon": "building.2"
+  ],
+  [
+    "name": "marketing",
+    "icon": "megaphone"
   ]
 ]
 private let cBundleConfigByName = cBundleConfig.reduce(into: [:], { result, config in
