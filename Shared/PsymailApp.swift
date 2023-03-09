@@ -23,6 +23,7 @@ struct PsymailApp: App {
       
       if phase == .active {
         AccountController.shared.refreshTokensIfNeeded()
+        Task { try? await MailController.shared.fetchLatest() }
       } else if phase == .background {
         PersistenceController.shared.save()
       }
