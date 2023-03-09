@@ -24,8 +24,9 @@ class AccountController: ObservableObject {
         
         if account.accessTokenExpiration?.compare(.now) == .orderedAscending {
           print("token expired, implement refreshing!")
-          // call refresh token api:
+          // TODO: call refresh token api:
           // https://developers.google.com/identity/protocols/oauth2/web-server#offline
+          restoreSignIn()
         } else {
           initAccount(account)
         }

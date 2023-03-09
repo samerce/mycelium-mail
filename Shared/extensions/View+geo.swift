@@ -1,8 +1,11 @@
 import Foundation
 import SwiftUI
 
+
 extension View {
-  @ViewBuilder func geo(_ sizeBinding: Binding<CGSize>) -> some View {
+  
+  @ViewBuilder
+  func geo(_ sizeBinding: Binding<CGSize>) -> some View {
     GeometryReader { geo in
       self
         .onAppear {
@@ -13,4 +16,5 @@ extension View {
         }
     }
   }
+  
 }
