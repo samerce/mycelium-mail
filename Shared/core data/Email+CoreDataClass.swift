@@ -2,9 +2,6 @@ import Foundation
 import CoreData
 
 
-private let byDateDescending = NSSortDescriptor(key: "receivedDate", ascending: false)
-
-
 @objc(Email)
 public class Email: NSManagedObject {
   
@@ -38,7 +35,7 @@ public class Email: NSManagedObject {
   @nonobjc public class
   func fetchRequestForBundle(_ bundle: EmailBundle?) -> NSFetchRequest<Email> {
     let fetchRequest = Email.fetchRequest()
-    fetchRequest.sortDescriptors = [byDateDescending]
+    fetchRequest.sortDescriptors = [.byDateDescending]
     fetchRequest.predicate = predicateForBundle(bundle)
     fetchRequest.fetchBatchSize = 108
     fetchRequest.fetchLimit = 216 // TODO: why does app hang without this?
@@ -60,7 +57,8 @@ public class Email: NSManagedObject {
     else { return nil }
     
     return NSPredicate(
-      format: "ANY bundleSet.name == %@ AND trashed != TRUE", bundle.name
+      format: "ANY bundleSet.name == %@ AND trashed != TRUE AND isLatestInThread == TRUE",
+      bundle.name
     )
   }
   
@@ -90,4 +88,10 @@ public class Email: NSManagedObject {
 //    self.isLatestInThread = true
 //  }
   
+}
+
+
+extension NSSortDescriptor {
+  static let byThreadIdDescending = NSSortDescriptor(key: "gmailThreadId", ascending: false)
+  static let byDateDescending = NSSortDescriptor(key: "receivedDate", ascending: false)
 }

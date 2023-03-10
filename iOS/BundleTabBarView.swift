@@ -78,8 +78,12 @@ struct BundleTabBarView: View {
               sheetCtrl.showSheet(.bundleSettings, bundle)
             }
           }
-          Button("mark unread") {
-            bundle.newEmailsSinceLastSeen = 1
+          Button("mark \(bundle.newEmailsSinceLastSeen > 0 ? "read" : "unread")") {
+            if bundle.newEmailsSinceLastSeen > 0 {
+              bundle.newEmailsSinceLastSeen = 0
+            } else {
+              bundle.newEmailsSinceLastSeen = 1
+            }
             PersistenceController.shared.save()
           }
         }

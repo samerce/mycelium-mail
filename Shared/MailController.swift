@@ -3,7 +3,6 @@ import MailCore
 import Combine
 import SwiftUI
 import CoreData
-import SymbolPicker
 
 
 let DefaultFolder = "[Gmail]/All Mail" //"INBOX"
@@ -36,7 +35,7 @@ class MailController: NSObject, ObservableObject {
     let emailRequest = Email.fetchRequestForBundle(bundleCtrl.selectedBundle)
     emailCtrl = NSFetchedResultsController(fetchRequest: emailRequest,
                                            managedObjectContext: moc,
-                                           sectionNameKeyPath: nil,
+                                           sectionNameKeyPath: nil,//"gmailThreadId",
                                            cacheName: nil) // TODO: cache?
     try? emailCtrl.performFetch()
     
@@ -252,12 +251,7 @@ class MailController: NSObject, ObservableObject {
           do {
 //            let context = dataCtrl.newTaskContext()
             try await self.onReceivedMessages(messages, forAccount: account, context: moc)
-            
-            DispatchQueue.main.async {
-              if moc.hasChanges {
-                try! moc.save()
-              }
-            }
+            dataCtrl.save()
             
             print("done saving new messages!")
             continuation.resume()
@@ -296,22 +290,20 @@ class MailController: NSObject, ObservableObject {
     })
     emailBatchInsertRequest.resultType = .objectIDs
     
-    var objectIDs = [NSManagedObjectID]()
-    try await context.perform {
+    var emailIDs = [NSManagedObjectID]()
+    try await context.perform(schedule: .enqueued) {
       let insertResult = try context.execute(emailBatchInsertRequest) as? NSBatchInsertResult
-      objectIDs = insertResult?.result as? [NSManagedObjectID] ?? []
+      emailIDs = insertResult?.result as? [NSManagedObjectID] ?? []
       
       guard insertResult != nil,
-            objectIDs.count == messages.count
+            emailIDs.count == messages.count
       else {
         throw PsyError.batchInsertError
       }
-    }
-    
-    try await context.perform {
-      for emailID in objectIDs {
+      
+      let _account = context.object(with: account.objectID) as! Account
+      for emailID in emailIDs {
         let email = context.object(with: emailID) as! Email
-        let _account = context.object(with: account.objectID) as! Account
         email.account = _account
         _account.addToEmails(email)
         
@@ -321,7 +313,7 @@ class MailController: NSObject, ObservableObject {
           bundleFetchRequest.fetchLimit = 1
           bundleFetchRequest.fetchBatchSize = 1
           
-          let bundle = try context.fetch(bundleFetchRequest).first!
+          let bundle = try bundleFetchRequest.execute().first!
           
           bundle.addToEmailSet(email)
           email.addToBundleSet(bundle)
@@ -331,13 +323,18 @@ class MailController: NSObject, ObservableObject {
           }
         }
         
-//        let threadFetchRequest = Email.fetchRequestWithProps("gmailThreadId", "isLatestInThread", "receivedDate")
-//        threadFetchRequest.sortDescriptors = [NSSortDescriptor(key: "receivedDate", ascending: false)]
-//        threadFetchRequest.predicate = NSPredicate(format: "gmailThreadId == %d", Int64(message.gmailThreadID))
+//        let threadFetchRequest = Email.fetchRequest()
+//        threadFetchRequest.sortDescriptors = [.byDateDescending]
+//        threadFetchRequest.predicate = NSPredicate(
+//          format: "trashed != TRUE AND gmailThreadId == %d",
+//          email.gmailThreadId
+//        )
 //
-//        let emailsInThread = try context.fetch(threadFetchRequest) as [Email]
-//        emailsInThread.forEach { $0.isLatestInThread = false }
-//        emailsInThread.first?.isLatestInThread = true
+//        let emailsInThread = try? moc.fetch(threadFetchRequest) as [Email]
+//        emailsInThread?.forEach { $0.isLatestInThread = false }
+//        emailsInThread?.first?.isLatestInThread = true
+        
+        print("\(email.uid) fully hydrated • \(email.subject)")
       }
     }
   }

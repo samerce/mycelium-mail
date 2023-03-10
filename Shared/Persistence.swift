@@ -98,15 +98,21 @@ class PersistenceController: ObservableObject {
   }
   
   func save() {
-    let context = container.viewContext
+    guard context.hasChanges else { return }
     
-    if context.hasChanges {
+    let _save = {
       do {
-        try context.save()
+        try self.context.save()
       } catch {
         // TODO: handle errors
         print("error saving core data context: \(error.localizedDescription)")
       }
+    }
+    
+    if Thread.isMainThread {
+      _save()
+    } else {
+      DispatchQueue.main.sync { _save() }
     }
   }
   

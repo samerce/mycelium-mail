@@ -60,7 +60,7 @@ class EmailBundleController: NSObject, ObservableObject {
   
   private func markSelectedBundleSeenWithDelay() {
     markSeenTimer?.invalidate()
-    markSeenTimer = Timer.after(2) { _ in
+    markSeenTimer = Timer.after(1) { _ in
       self.dataCtrl.context.perform {
         self.selectedBundle.onSelected()
         self.dataCtrl.save()

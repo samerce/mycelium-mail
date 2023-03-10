@@ -26,7 +26,7 @@ extension Email {
     modSeqValue = Int64(message.modSeqValue)
     html = ""
     trashed = false
-    isLatestInThread = false
+    isLatestInThread = true
     
     let header = message.header!
     receivedDate = header.receivedDate
