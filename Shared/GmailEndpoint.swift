@@ -7,45 +7,6 @@ struct GmailEndpoint {
   var responseType: Codable.Type
   var httpMethod: String
   
-  // MARK: - ENDPOINTS
-  
-  static let listFilters = Self(
-    name: "list filters",
-    url: URL(string: "https://gmail.googleapis.com/gmail/v1/users/me/settings/filters")!,
-    responseType: GFilterListResponse.self,
-    httpMethod: "GET"
-  )
-  
-  static let createFilter = Self(
-    name: "create filter",
-    url: URL(string: "https://gmail.googleapis.com/gmail/v1/users/me/settings/filters")!,
-    responseType: GFilter.self,
-    httpMethod: "POST"
-  )
-  
-  static func deleteFilter(id: String) -> GmailEndpoint {
-    return Self(
-      name: "delete filter",
-      url: URL(string: "https://gmail.googleapis.com/gmail/v1/users/me/settings/filters/\(id)")!,
-      responseType: ResponseTypeNone.self,
-      httpMethod: "DELETE"
-    )
-  }
-  
-  static let listLabels = Self(
-    name: "list labels",
-    url: URL(string: "https://gmail.googleapis.com/gmail/v1/users/me/labels")!,
-    responseType: GLabelListResponse.self,
-    httpMethod: "GET"
-  )
-  
-  static let createLabel = Self(
-    name: "create label",
-    url: URL(string: "https://gmail.googleapis.com/gmail/v1/users/me/labels")!,
-    responseType: GLabel.self,
-    httpMethod: "POST"
-  )
-  
   // MARK: - EXECUTOR
   
   @discardableResult
@@ -117,6 +78,24 @@ struct GLabelColor: Codable {
   var backgroundColor: String?
 }
 
+extension GmailEndpoint {
+  
+  static let listLabels = Self(
+    name: "list labels",
+    url: URL(string: "https://gmail.googleapis.com/gmail/v1/users/me/labels")!,
+    responseType: GLabelListResponse.self,
+    httpMethod: "GET"
+  )
+  
+  static let createLabel = Self(
+    name: "create label",
+    url: URL(string: "https://gmail.googleapis.com/gmail/v1/users/me/labels")!,
+    responseType: GLabel.self,
+    httpMethod: "POST"
+  )
+  
+}
+
 // MARK: - GMAIL FILTERS
 
 struct GFilterListResponse: Codable {
@@ -156,4 +135,33 @@ struct GFilterAction: Codable, Hashable {
   var addLabelIds: [String]?
   var removeLabelIds: [String]?
   var forward: String?
+}
+
+extension GmailEndpoint {
+  
+  static let listFilters = Self(
+    name: "list filters",
+    url: URL(string: "https://gmail.googleapis.com/gmail/v1/users/me/settings/filters")!,
+    responseType: GFilterListResponse.self,
+    httpMethod: "GET"
+  )
+  
+  // TODO: handle fact that you can only create a max of 1,000 filters
+  // https://developers.google.com/gmail/api/reference/rest/v1/users.settings.filters/create
+  static let createFilter = Self(
+    name: "create filter",
+    url: URL(string: "https://gmail.googleapis.com/gmail/v1/users/me/settings/filters")!,
+    responseType: GFilter.self,
+    httpMethod: "POST"
+  )
+  
+  static func deleteFilter(id: String) -> GmailEndpoint {
+    return Self(
+      name: "delete filter",
+      url: URL(string: "https://gmail.googleapis.com/gmail/v1/users/me/settings/filters/\(id)")!,
+      responseType: ResponseTypeNone.self,
+      httpMethod: "DELETE"
+    )
+  }
+  
 }

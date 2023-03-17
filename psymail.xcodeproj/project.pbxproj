@@ -17,6 +17,8 @@
 		3B0AB64329B5333800E224E5 /* EmailAddress+MailCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0AB64129B5333800E224E5 /* EmailAddress+MailCore.swift */; };
 		3B0AB64529B8041000E224E5 /* NavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0AB64429B8041000E224E5 /* NavController.swift */; };
 		3B0AB64629B8041000E224E5 /* NavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0AB64429B8041000E224E5 /* NavController.swift */; };
+		3B0AB65129C133EC00E224E5 /* View+scrollProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0AB65029C133EC00E224E5 /* View+scrollProxy.swift */; };
+		3B0AB65229C133EC00E224E5 /* View+scrollProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0AB65029C133EC00E224E5 /* View+scrollProxy.swift */; };
 		3B14A6B5299FE4D4005BAA30 /* SwiftUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3B14A6B4299FE4D4005BAA30 /* SwiftUIKit */; };
 		3B14A6BA299FF200005BAA30 /* View+AppSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B14A6B9299FF200005BAA30 /* View+AppSheet.swift */; };
 		3B14A6BB299FF200005BAA30 /* View+AppSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B14A6B9299FF200005BAA30 /* View+AppSheet.swift */; };
@@ -69,6 +71,8 @@
 		3B7917BE2660A0F400E764C1 /* EmailPart+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7917B32660A0F400E764C1 /* EmailPart+CoreDataClass.swift */; };
 		3B7917C12660A0F400E764C1 /* Email+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7917B52660A0F400E764C1 /* Email+CoreDataClass.swift */; };
 		3B7917C22660A0F400E764C1 /* Email+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7917B52660A0F400E764C1 /* Email+CoreDataClass.swift */; };
+		3B80B97429C4DB17002E34BE /* Encodable+dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80B97329C4DB17002E34BE /* Encodable+dictionary.swift */; };
+		3B80B97529C4DB17002E34BE /* Encodable+dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B80B97329C4DB17002E34BE /* Encodable+dictionary.swift */; };
 		3B94B91229247D2B00C85B8C /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 3B94B91129247D2B00C85B8C /* GoogleSignIn */; };
 		3B94B91429247D2B00C85B8C /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3B94B91329247D2B00C85B8C /* GoogleSignInSwift */; };
 		3B9912AF29A296AB00B3BA36 /* PsyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9912AE29A296AB00B3BA36 /* PsyError.swift */; };
@@ -143,6 +147,8 @@
 		3BF35D1129A939AD00340D49 /* UINavigationController+BackGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF35D0F29A939AD00340D49 /* UINavigationController+BackGesture.swift */; };
 		3BF35D1329AA81D300340D49 /* SystemImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF35D1229AA81D300340D49 /* SystemImage.swift */; };
 		3BF35D1429AA81D300340D49 /* SystemImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF35D1229AA81D300340D49 /* SystemImage.swift */; };
+		3BFD733129C4E894004F2563 /* ButtonImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFD733029C4E894004F2563 /* ButtonImage.swift */; };
+		3BFD733229C4E894004F2563 /* ButtonImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFD733029C4E894004F2563 /* ButtonImage.swift */; };
 		3BFFE1C329254A2000476C09 /* MailCore2 in Frameworks */ = {isa = PBXBuildFile; productRef = 3BFFE1C229254A2000476C09 /* MailCore2 */; };
 /* End PBXBuildFile section */
 
@@ -181,6 +187,7 @@
 		3B0AB62E29B2A3C200E224E5 /* EmailDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailDateFormatter.swift; sourceTree = "<group>"; };
 		3B0AB64129B5333800E224E5 /* EmailAddress+MailCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailAddress+MailCore.swift"; sourceTree = "<group>"; };
 		3B0AB64429B8041000E224E5 /* NavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NavController.swift; path = Shared/NavController.swift; sourceTree = SOURCE_ROOT; };
+		3B0AB65029C133EC00E224E5 /* View+scrollProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+scrollProxy.swift"; sourceTree = "<group>"; };
 		3B14A6B9299FF200005BAA30 /* View+AppSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+AppSheet.swift"; sourceTree = "<group>"; };
 		3B14A6C529A19E12005BAA30 /* AppSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSheetView.swift; sourceTree = "<group>"; };
 		3B2F0726264E1035006CAECE /* AppCompactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCompactView.swift; sourceTree = "<group>"; };
@@ -211,6 +218,7 @@
 		3B7917B12660A0F400E764C1 /* EmailAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAddress.swift; sourceTree = "<group>"; };
 		3B7917B32660A0F400E764C1 /* EmailPart+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailPart+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3B7917B52660A0F400E764C1 /* Email+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Email+CoreDataClass.swift"; sourceTree = "<group>"; };
+		3B80B97329C4DB17002E34BE /* Encodable+dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+dictionary.swift"; sourceTree = "<group>"; };
 		3B94B918292489D900C85B8C /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		3B94B91C29248E2400C85B8C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.1.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
 		3B9912AE29A296AB00B3BA36 /* PsyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsyError.swift; sourceTree = "<group>"; };
@@ -259,6 +267,7 @@
 		3BF35D0C29A852C200340D49 /* Email+MailCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Email+MailCore.swift"; sourceTree = "<group>"; };
 		3BF35D0F29A939AD00340D49 /* UINavigationController+BackGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+BackGesture.swift"; sourceTree = "<group>"; };
 		3BF35D1229AA81D300340D49 /* SystemImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemImage.swift; sourceTree = "<group>"; };
+		3BFD733029C4E894004F2563 /* ButtonImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -368,6 +377,7 @@
 				3B64539029AFC44E00A877A4 /* AppSheetController.swift */,
 				3B64539329AFC7C000A877A4 /* AppAlertController.swift */,
 				3B0AB62E29B2A3C200E224E5 /* EmailDateFormatter.swift */,
+				3BFD733029C4E894004F2563 /* ButtonImage.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -464,6 +474,8 @@
 				3B9912B429A566B000B3BA36 /* Timer+after.swift */,
 				3BF35D0F29A939AD00340D49 /* UINavigationController+BackGesture.swift */,
 				3B30B77329AE6B69003EE245 /* View+geo.swift */,
+				3B0AB65029C133EC00E224E5 /* View+scrollProxy.swift */,
+				3B80B97329C4DB17002E34BE /* Encodable+dictionary.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -703,13 +715,16 @@
 				3BCF6FEC29280261000C6382 /* ForEachWithIndex.swift in Sources */,
 				3B66669626521A810039D9F3 /* VisualEffectBlur.swift in Sources */,
 				3B9912B529A566B000B3BA36 /* Timer+after.swift in Sources */,
+				3B0AB65129C133EC00E224E5 /* View+scrollProxy.swift in Sources */,
 				3B5FBCBE26571687009D012C /* PsycatsJuice.mlmodel in Sources */,
 				3BF1AD8D2663EA2C002F1062 /* Account+CoreDataProperties.swift in Sources */,
 				3B9B9F9F2634B16A00E3A8B2 /* ContentView.swift in Sources */,
 				3B6E613929AAB631009CAEBF /* CreateBundleView.swift in Sources */,
+				3BFD733129C4E894004F2563 /* ButtonImage.swift in Sources */,
 				3B66668B2651EAED0039D9F3 /* ActionCell.swift in Sources */,
 				3B0AB62F29B2A3C200E224E5 /* EmailDateFormatter.swift in Sources */,
 				3B9912BB29A5892700B3BA36 /* GmailEndpoint.swift in Sources */,
+				3B80B97429C4DB17002E34BE /* Encodable+dictionary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -724,6 +739,7 @@
 				3B2F072D264F72EA006CAECE /* AppSplitView.swift in Sources */,
 				3B9B9F9E2634B16A00E3A8B2 /* PsymailApp.swift in Sources */,
 				3B5ABAFF265461C100601F26 /* WebView.swift in Sources */,
+				3B0AB65229C133EC00E224E5 /* View+scrollProxy.swift in Sources */,
 				3B7917BE2660A0F400E764C1 /* EmailPart+CoreDataClass.swift in Sources */,
 				3B14A6BB299FF200005BAA30 /* View+AppSheet.swift in Sources */,
 				3BF35D1429AA81D300340D49 /* SystemImage.swift in Sources */,
@@ -737,6 +753,7 @@
 				3BF35D0E29A852C200340D49 /* Email+MailCore.swift in Sources */,
 				3BF1AE3726697A35002F1062 /* EmailThread+CoreDataProperties.swift in Sources */,
 				3BE50196266B34AE001C2939 /* FilterView.swift in Sources */,
+				3B80B97529C4DB17002E34BE /* Encodable+dictionary.swift in Sources */,
 				3BF1AE222666FCE6002F1062 /* EmailDetailSheetView.swift in Sources */,
 				3B9B9FD12634E26A00E3A8B2 /* NewsletterClassifier.mlmodel in Sources */,
 				3B4185F729A5A7BD00A2966A /* EmailBundle+CoreDataClass.swift in Sources */,
@@ -762,6 +779,7 @@
 				3B6E613A29AAB631009CAEBF /* CreateBundleView.swift in Sources */,
 				3BCF6FED29280261000C6382 /* ForEachWithIndex.swift in Sources */,
 				3BF1AD7F2661861F002F1062 /* Email+CoreDataProperties.swift in Sources */,
+				3BFD733229C4E894004F2563 /* ButtonImage.swift in Sources */,
 				3B0AB62D29B06A7100E224E5 /* Account+Gmail.swift in Sources */,
 				3B0AB64329B5333800E224E5 /* EmailAddress+MailCore.swift in Sources */,
 				3B0AB64629B8041000E224E5 /* NavController.swift in Sources */,
