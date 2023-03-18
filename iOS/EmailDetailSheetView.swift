@@ -43,6 +43,10 @@ struct EmailDetailSheetView: View {
   
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
+      DragSheetIcon()
+        .frame(maxWidth: .infinity)
+        .padding(.top, 4)
+      
       HStack(spacing: 0) {
         AddMediaButton
         UnsubscribeButton
@@ -54,18 +58,15 @@ struct EmailDetailSheetView: View {
       }
       .frame(maxWidth: .infinity, minHeight: 40)
       .padding(0)
-      .padding(.horizontal, replying ? 6 : 24)
       
       VStack(spacing: 0) {
         Divider()
           .padding(.top, 9)
         
         HStack(spacing: 0) {
-          Spacer()
           BackToEmailListButton
-          Spacer().frame(width: 9)
-          LongDate
-          Spacer().frame(width: 9)
+          AccountLabel
+            .padding(.horizontal, 9)
           ComposeButton
         }
         .frame(maxWidth: .infinity)
@@ -79,16 +80,14 @@ struct EmailDetailSheetView: View {
       .padding(.horizontal, 18)
       .clipped()
     }
-//    .frame(width: screenWidth, height: screenHeight, alignment: .topLeading)
-//    .background(OverlayBackgroundView())
-    .foregroundColor(.psyAccent)
-//    .ignoresSafeArea()
   }
+  
+  let cButtonSize = 22.0
   
   private var AddMediaButton: some View {
     Button(action: {}) {
       ZStack {
-        SystemImage("plus.circle", size: 24)
+        SystemImage("plus.circle", size: cButtonSize)
       }
       .frame(minWidth: 36)
     }
@@ -99,10 +98,7 @@ struct EmailDetailSheetView: View {
   
   private var UnsubscribeButton: some View {
     Button(action: {}) {
-      ZStack {
-        SystemImage("hand.raised", size: 24)
-      }
-      .frame(width: 36, height: 40)
+      ButtonImage(name: "hand.raised", size: cButtonSize)
     }
     .frame(maxWidth: replying ? 0 : .infinity)
     .opacity(replying ? 0 : 1)
@@ -111,10 +107,7 @@ struct EmailDetailSheetView: View {
   
   private var ArchiveButton: some View {
     Button(action: {}) {
-      ZStack {
-        SystemImage("archivebox", size: 24)
-      }
-      .frame(width: 36, height: 40)
+      ButtonImage(name: "archivebox", size: cButtonSize)
     }
     .frame(maxWidth: replying ? 0 : .infinity)
     .opacity(replying ? 0 : 1)
@@ -123,7 +116,7 @@ struct EmailDetailSheetView: View {
   
   private var TagButton: some View {
     Button(action: {}) {
-      SystemImage("tag", size: 24)
+      ButtonImage(name: "tag", size: cButtonSize)
     }
     .frame(maxWidth: replying ? 0 : .infinity)
     .opacity(replying ? 0 : 1)
@@ -137,10 +130,7 @@ struct EmailDetailSheetView: View {
         try? await email?.moveToTrash() // TODO: handle error
       }
     } label: {
-      ZStack {
-        SystemImage("trash", size: 24)
-      }
-      .frame(maxWidth: .infinity, maxHeight: 36)
+      ButtonImage(name: "trash", size: cButtonSize)
     }
     .frame(maxWidth: replying ? 0 : .infinity)
     .opacity(replying ? 0 : 1)
@@ -153,7 +143,7 @@ struct EmailDetailSheetView: View {
         try? await email?.markFlagged() // TODO: handle error
       }
     } label: {
-      SystemImage("star", size: 24)
+      ButtonImage(name: "star", size: cButtonSize)
     }
     .frame(maxWidth: replying ? 0 : .infinity)
     .opacity(replying ? 0 : 1)
@@ -183,12 +173,10 @@ struct EmailDetailSheetView: View {
       
       replying.toggle()
     }}) {
-      ZStack {
-        SystemImage(
-          replying ? "arrow.up.circle.fill" : "arrowshape.turn.up.left",
-          size: 24
-        )
-      }
+      ButtonImage(
+        name: replying ? "arrow.up.circle.fill" : "arrowshape.turn.up.left",
+        size: cButtonSize
+      )
       .frame(minWidth: replying ? 36 : nil)
     }
     .frame(maxWidth: replying ? 36 : .infinity)
@@ -198,17 +186,14 @@ struct EmailDetailSheetView: View {
     Button {
       navCtrl.goBack(withSheet: .inbox)
     } label: {
-      ZStack {
-        SystemImage("chevron.backward", size: 27)
-      }
-      .frame(width: 54, height: 50, alignment: .leading)
+      ButtonImage(name: "chevron.backward", size: cButtonSize)
     }
   }
   
-  private var LongDate: some View {
-    Text(email?.longDisplayDate ?? "")
-      .frame(maxWidth: .infinity, minHeight: 50, alignment: .center)
-      .font(.system(size: 16, weight: .light))
+  private var AccountLabel: some View {
+    Label(email?.account.address ?? "", systemImage: "tray.full")
+      .frame(maxWidth: .infinity, minHeight: 50)
+      .font(.system(size: 14, weight: .light))
       .foregroundColor(.secondary)
       .multilineTextAlignment(.center)
       .lineLimit(1)
@@ -216,10 +201,7 @@ struct EmailDetailSheetView: View {
   
   private var ComposeButton: some View {
     Button(action: {}) {
-      ZStack {
-        SystemImage("square.and.pencil", size: 27)
-      }
-      .frame(width: 54, height: 50, alignment: .trailing)
+      ButtonImage(name: "square.and.pencil", size: cButtonSize)
     }
   }
   
