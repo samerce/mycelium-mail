@@ -53,6 +53,21 @@ class MailController: NSObject, ObservableObject {
     
     subscribeToSyncedAccounts()
     update()
+    
+    // TODO: fix this hack for threads
+    moc.perform {
+      guard let emails = try? Email.fetchRequest().execute()
+      else { return }
+
+      let emailsByThreadId = Dictionary(grouping: emails) { $0.gmailThreadId }
+      for (_, threadEmails) in emailsByThreadId {
+        let sortedEmails = threadEmails.sorted { $0.receivedDate > $1.receivedDate }
+        sortedEmails.forEach { $0.isLatestInThread = false }
+        sortedEmails.first?.isLatestInThread = true
+      }
+
+      dataCtrl.save()
+    }
   }
   
   deinit {
