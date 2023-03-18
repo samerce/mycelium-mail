@@ -25,9 +25,9 @@ class AppSheetController: ObservableObject {
   
   private init() {
     // set the sheet mode based on email availability
-    mailCtrl.$emailsInSelectedBundle
-      .sink { emails in
-        if !emails.isEmpty && self.sheet == .firstStart {
+    mailCtrl.$threadsInSelectedBundle
+      .sink { threads in
+        if !threads.isEmpty && self.sheet == .firstStart {
           self.sheet = .inbox
           self.initSubscribers.forEach { $0.cancel() }
         }

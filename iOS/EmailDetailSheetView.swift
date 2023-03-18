@@ -37,7 +37,7 @@ struct EmailDetailSheetView: View {
   @State private var noteTextField: UITextField?
   @State private var noteTarget: NoteTarget = .email
   
-  var email: Email? { mailCtrl.selectedEmails.first }
+  var thread: EmailThread? { mailCtrl.selectedThreads.first }
   
   // MARK: - VIEW
   
@@ -127,7 +127,8 @@ struct EmailDetailSheetView: View {
     Button {
       Task {
         navCtrl.goBack(withSheet: .inbox)
-        try? await email?.moveToTrash() // TODO: handle error
+        try? await thread?.moveToTrash() // TODO: handle error
+        PersistenceController.shared.save()
       }
     } label: {
       ButtonImage(name: "trash", size: cButtonSize)
@@ -140,7 +141,7 @@ struct EmailDetailSheetView: View {
   private var StarButton: some View {
     Button {
       Task {
-        try? await email?.markFlagged() // TODO: handle error
+        try? await thread?.markFlagged() // TODO: handle error
       }
     } label: {
       ButtonImage(name: "star", size: cButtonSize)
@@ -191,7 +192,7 @@ struct EmailDetailSheetView: View {
   }
   
   private var AccountLabel: some View {
-    Label(email?.account.address ?? "", systemImage: "tray.full")
+    Label(thread?.account.address ?? "", systemImage: "tray.full")
       .frame(maxWidth: .infinity, minHeight: 50)
       .font(.system(size: 14, weight: .light))
       .foregroundColor(.secondary)

@@ -14,11 +14,11 @@ struct FirstStartView: View {
       if accountCtrl.accounts.isEmpty {
         LogInPrompt
       }
-      else if mailCtrl.emailsInSelectedBundle.isEmpty {
+      else if mailCtrl.threadsInSelectedBundle.isEmpty {
         ProgressView("DOWNLOADING EMAILS")
           .controlSize(.large)
           .font(.system(size: 18))
-          .onReceive(mailCtrl.$emailsInSelectedBundle) { emails in
+          .onReceive(mailCtrl.$threadsInSelectedBundle) { emails in
             if !emails.isEmpty {
               withAnimation { sheetCtrl.sheet = .inbox }
             }

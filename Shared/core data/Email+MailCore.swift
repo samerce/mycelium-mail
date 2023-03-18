@@ -17,9 +17,9 @@ extension Email {
   func hydrateWithMessage(_ message: MCOIMAPMessage) {
     uid = Int32(message.uid)
     flags = message.flags
-    gmailLabels = Set(message.gmailLabels as? [String] ?? [])
-    gmailMessageId = Int64(message.gmailMessageID)
-    gmailThreadId = Int64(message.gmailThreadID)
+    labels = Set(message.gmailLabels as? [String] ?? [])
+    messageId = Int64(message.gmailMessageID)
+    threadId = Int64(message.gmailThreadID)
     size = Int32(message.size)
     originalFlags = message.originalFlags
     customFlags = Set(message.customFlags as? [String] ?? [])
@@ -185,11 +185,10 @@ extension Email {
     
     // TODO: replace this with refetch email from server so gmailLabels update
     // optimistically update core data
-    gmailLabels.insert(cTrashLabel)
-    gmailLabels.remove(cInboxLabel)
+    labels.insert(cTrashLabel)
+    labels.remove(cInboxLabel)
     addFlags(.deleted)
     trashed = true
-    try? moc?.save()
     
     try await updateLabels([cTrashLabel], operation: .add)
     try await updateLabels([cInboxLabel], operation: .remove)
@@ -201,16 +200,16 @@ extension Email {
     try await runOperation(expunge)
   }
   
-  func addLabels(_ labels: [String]) async throws {
+  func addLabels(_ _labels: [String]) async throws {
     print("adding imap labels \(labels)")
-    try await updateLabels(labels, operation: .add)
-    labels.forEach{ gmailLabels.insert($0) }
+    try await updateLabels(_labels, operation: .add)
+    _labels.forEach{ labels.insert($0) }
   }
   
-  func removeLabels(_ labels: [String]) async throws {
+  func removeLabels(_ _labels: [String]) async throws {
     print("removing imap labels \(labels)")
-    try await updateLabels(labels, operation: .remove)
-    labels.forEach { gmailLabels.remove($0) }
+    try await updateLabels(_labels, operation: .remove)
+    _labels.forEach { labels.remove($0) }
   }
   
   func updateLabels(_ labels: [String], operation: MCOIMAPStoreFlagsRequestKind) async throws {

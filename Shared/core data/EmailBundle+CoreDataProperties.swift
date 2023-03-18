@@ -4,8 +4,8 @@ import CoreData
 
 extension EmailBundle {
   
-  var emails: [Email] {
-    (emailSet.allObjects as? [Email]) ?? []
+  var threads: [EmailThread] {
+    (threadSet.allObjects as? [EmailThread]) ?? []
   }
   
   @NSManaged public var name: String
@@ -14,7 +14,7 @@ extension EmailBundle {
   @NSManaged public var orderIndex: Int16
   @NSManaged public var lastSeenDate: Date
   @NSManaged public var newEmailsSinceLastSeen: Int64
-  @NSManaged public var emailSet: NSSet
+  @NSManaged public var threadSet: NSSet
   
 }
 
@@ -23,17 +23,17 @@ extension EmailBundle {
 
 extension EmailBundle {
   
-  @objc(addEmailSetObject:)
-  @NSManaged public func addToEmailSet(_ value: Email)
+  @objc(addThreadSetObject:)
+  @NSManaged public func addToThreadSet(_ value: EmailThread)
   
-  @objc(removeEmailSetObject:)
-  @NSManaged public func removeFromEmailSet(_ value: Email)
+  @objc(removeThreadSetObject:)
+  @NSManaged public func removeFromThreadSet(_ value: EmailThread)
   
-  @objc(addEmailSet:)
-  @NSManaged public func addToEmailSet(_ values: NSSet)
+  @objc(addThreadSet:)
+  @NSManaged public func addToThreadSet(_ values: NSSet)
   
-  @objc(removeEmailSet:)
-  @NSManaged public func removeFromEmailSet(_ values: NSSet)
+  @objc(removeThreadSet:)
+  @NSManaged public func removeFromThreadSet(_ values: NSSet)
   
 }
 

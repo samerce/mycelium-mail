@@ -6,7 +6,7 @@ import Combine
 class EmailBundleController: NSObject, ObservableObject {
   static let shared = EmailBundleController()
   
-  @Published var emailToMoveToNewBundle: Email? // TODO: find a better place for this
+  @Published var threadToMoveToNewBundle: EmailThread? // TODO: find a better place for this
   @Published var bundles = [EmailBundle]()
   @Published var selectedBundle: EmailBundle {
     didSet {

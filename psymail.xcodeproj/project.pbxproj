@@ -149,6 +149,8 @@
 		3BF35D1429AA81D300340D49 /* SystemImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF35D1229AA81D300340D49 /* SystemImage.swift */; };
 		3BFD733129C4E894004F2563 /* ButtonImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFD733029C4E894004F2563 /* ButtonImage.swift */; };
 		3BFD733229C4E894004F2563 /* ButtonImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFD733029C4E894004F2563 /* ButtonImage.swift */; };
+		3BFD733429C6409D004F2563 /* EmailThread+MailCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFD733329C6409D004F2563 /* EmailThread+MailCore.swift */; };
+		3BFD733529C6409D004F2563 /* EmailThread+MailCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFD733329C6409D004F2563 /* EmailThread+MailCore.swift */; };
 		3BFFE1C329254A2000476C09 /* MailCore2 in Frameworks */ = {isa = PBXBuildFile; productRef = 3BFFE1C229254A2000476C09 /* MailCore2 */; };
 /* End PBXBuildFile section */
 
@@ -268,6 +270,7 @@
 		3BF35D0F29A939AD00340D49 /* UINavigationController+BackGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+BackGesture.swift"; sourceTree = "<group>"; };
 		3BF35D1229AA81D300340D49 /* SystemImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemImage.swift; sourceTree = "<group>"; };
 		3BFD733029C4E894004F2563 /* ButtonImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonImage.swift; sourceTree = "<group>"; };
+		3BFD733329C6409D004F2563 /* EmailThread+MailCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailThread+MailCore.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -313,6 +316,7 @@
 			children = (
 				3B04D75B29A5D9BF00D4186E /* EmailBundle+CoreDataProperties.swift */,
 				3B4185F429A5A7BD00A2966A /* EmailBundle+CoreDataClass.swift */,
+				3BFD733329C6409D004F2563 /* EmailThread+MailCore.swift */,
 				3BF1AE3226697A35002F1062 /* EmailThread+CoreDataClass.swift */,
 				3BF1AE3326697A35002F1062 /* EmailThread+CoreDataProperties.swift */,
 				3B0AB62B29B06A7100E224E5 /* Account+Gmail.swift */,
@@ -673,6 +677,7 @@
 				3BF35D1029A939AD00340D49 /* UINavigationController+BackGesture.swift in Sources */,
 				3B5ABAF726545D3200601F26 /* QuotedPrintable.swift in Sources */,
 				3B9B9F9D2634B16A00E3A8B2 /* PsymailApp.swift in Sources */,
+				3BFD733429C6409D004F2563 /* EmailThread+MailCore.swift in Sources */,
 				3B9912B829A587D900B3BA36 /* AppAlertView.swift in Sources */,
 				3B7917B92660A0F400E764C1 /* EmailAddress.swift in Sources */,
 				3B7917BD2660A0F400E764C1 /* EmailPart+CoreDataClass.swift in Sources */,
@@ -764,6 +769,7 @@
 				3B9B9FD32634E26A00E3A8B2 /* MarketingRecognizer.mlmodel in Sources */,
 				3B9912B629A566B000B3BA36 /* Timer+after.swift in Sources */,
 				3BF1AE2E2668812B002F1062 /* Publishers.swift in Sources */,
+				3BFD733529C6409D004F2563 /* EmailThread+MailCore.swift in Sources */,
 				3B0AB63029B2A3C200E224E5 /* EmailDateFormatter.swift in Sources */,
 				3B30B77529AE6B69003EE245 /* View+geo.swift in Sources */,
 				3BF1AE3126688150002F1062 /* Notification.swift in Sources */,

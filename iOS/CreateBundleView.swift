@@ -126,10 +126,10 @@ struct CreateBundleView: View {
       do {
         let bundle = try await getOrMakeBundleNamed(bundleName)
 
-        if let email = bundleCtrl.emailToMoveToNewBundle {
+        if let thread = bundleCtrl.threadToMoveToNewBundle {
           // TODO: get bundle from initiating context
-          try await mailCtrl.moveEmail(email, fromBundle: email.bundles.first!, toBundle: bundle)
-          bundleCtrl.emailToMoveToNewBundle = nil
+          try await mailCtrl.moveThread(thread, fromBundle: thread.bundle, toBundle: bundle)
+          bundleCtrl.threadToMoveToNewBundle = nil
           
           Timer.after(1) { _ in
             DispatchQueue.main.async {

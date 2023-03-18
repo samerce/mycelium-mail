@@ -2,7 +2,7 @@ import SwiftUI
 
 
 struct EmailListRow: View {
-  var email: Email
+  var thread: EmailThread
   
   @ObservedObject var bundleCtrl = EmailBundleController.shared
   @ObservedObject var sheetCtrl = AppSheetController.shared
@@ -14,7 +14,7 @@ struct EmailListRow: View {
   
   var body: some View {
     ZStack(alignment: .topLeading) {
-      if !email.seen {
+      if !thread.seen {
         Rectangle()
           .fill(Color.psyAccent)
           .frame(maxWidth: 4, maxHeight: 14)
@@ -24,27 +24,27 @@ struct EmailListRow: View {
       
       VStack(alignment: .leading, spacing: 4) {
         HStack(alignment: .lastTextBaseline) {
-          Text(email.fromLine)
-            .font(.system(size: 15, weight: email.seen ? .medium : .bold))
+          Text(thread.fromLine)
+            .font(.system(size: 15, weight: thread.seen ? .medium : .bold))
             .lineLimit(1)
 
           Spacer()
 
-          Text(email.displayDate ?? "")
-            .font(.system(size: 12, weight: email.seen ? .light : .regular))
+          Text(thread.displayDate)
+            .font(.system(size: 12, weight: thread.seen ? .light : .regular))
             .foregroundColor(Color.secondary)
 
           Image(systemName: "chevron.right")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .foregroundColor(email.seen ? .secondary : .psyAccent)
+            .foregroundColor(thread.seen ? .secondary : .psyAccent)
             .frame(width: 12, height: 12)
             .offset(y: 1)
         }
         .clipped()
         
-        Text(email.subject)
-          .font(.system(size: 13, weight: email.seen ? .light : .medium))
+        Text(thread.subject)
+          .font(.system(size: 13, weight: thread.seen ? .light : .medium))
           .lineLimit(1)
       }
       .foregroundColor(Color.primary)
@@ -56,7 +56,7 @@ struct EmailListRow: View {
     .contentShape(Rectangle())
     .swipeActions(edge: .trailing) { swipeActions }
     .contextMenu { contextMenu } preview: {
-      EmailDetailView(email: email, isPreview: true)
+      EmailDetailView(thread: thread, isPreview: true)
         .frame(width: screenWidth, height: screenHeight / 2)
     }
   }
@@ -65,7 +65,8 @@ struct EmailListRow: View {
   var swipeActions: some View {
     Button(role: .destructive) {
       Task {
-        try? await email.moveToTrash() // TODO: handle error
+        try? await thread.moveToTrash() // TODO: handle error
+        PersistenceController.shared.save()
       }
     } label: {
       Label("trash", systemImage: "trash")
@@ -98,7 +99,7 @@ struct EmailListRow: View {
     
     Button {
       withAnimation {
-        bundleCtrl.emailToMoveToNewBundle = email
+        bundleCtrl.threadToMoveToNewBundle = thread
         sheetCtrl.sheet = .createBundle
       }
     } label: {
@@ -117,7 +118,7 @@ struct EmailListRow: View {
       withAnimation {
         let _ = Task {
           do {
-            try await MailController.shared.moveEmail(email, fromBundle: selectedBundle, toBundle: bundle)
+            try await MailController.shared.moveThread(thread, fromBundle: selectedBundle, toBundle: bundle)
           }
           catch {
             alertCtrl.show(message: "failed to move message", icon: "xmark", delay: 1)

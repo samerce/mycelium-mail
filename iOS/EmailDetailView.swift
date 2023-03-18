@@ -3,7 +3,7 @@ import Combine
 
 
 struct EmailDetailView: View {
-  var email: Email
+  var thread: EmailThread
   var isPreview = false
   
   @State var html = ""
@@ -14,8 +14,8 @@ struct EmailDetailView: View {
   
   var fromLine: String {
     (showingFromDetails || isPreview)
-    ? email.from.address
-    : email.fromLine
+    ? thread.from.address
+    : thread.fromLine
   }
   
   // MARK: - VIEW
@@ -33,8 +33,8 @@ struct EmailDetailView: View {
     }
     .ignoresSafeArea()
     .task {
-      try? await email.fetchHtml() // TODO: handle error
-      html = email.html // TODO: why is this local state necessary?
+      try? await thread.latestReceivedEmail.fetchHtml() // TODO: handle error
+      html = thread.latestReceivedEmail.html // TODO: why is this local state necessary?
     }
     .onReceive(Publishers.keyboardHeight) { keyboardHeight in
       self.keyboardHeight = keyboardHeight
@@ -53,13 +53,13 @@ struct EmailDetailView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .lineLimit(1)
           
-          Text(email.displayDate ?? "")
+          Text(thread.displayDate)
             .font(.system(size: 14))
             .foregroundColor(.white.opacity(0.81))
         }
         .padding(.bottom, 3)
         
-        Text(email.subject)
+        Text(thread.subject)
           .font(.system(size: 18, weight: .semibold))
           .padding(.bottom, 6)
           .lineLimit(1)
@@ -98,7 +98,7 @@ struct EmailDetailView: View {
       
       Task {
         do {
-          try await email.markSeen()
+          try await thread.markSeen()
         }
         catch {
           // tell person about error

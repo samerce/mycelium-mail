@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22D5027d" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22E5236f" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="Account" representedClassName="Account" syncable="YES">
         <attribute name="accessToken" optional="YES" attributeType="String"/>
         <attribute name="accessTokenExpiration" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="address" optional="YES" attributeType="String"/>
         <attribute name="firstName" optional="YES" attributeType="String"/>
         <attribute name="lastName" optional="YES" attributeType="String"/>
+        <attribute name="nickname" attributeType="String" defaultValueString=""/>
         <attribute name="password" optional="YES" attributeType="String"/>
         <attribute name="refreshToken" optional="YES" attributeType="String"/>
         <attribute name="typeRaw" optional="YES" attributeType="String" valueTransformerName="NSSecureUnarchiveFromData" customClassName="AccountType"/>
         <attribute name="userId" optional="YES" attributeType="String"/>
-        <relationship name="emails" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Email" inverseName="account" inverseEntity="Email"/>
+        <relationship name="emailSet" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Email" inverseName="account" inverseEntity="Email"/>
+        <relationship name="threadSet" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EmailThread" inverseName="account" inverseEntity="EmailThread"/>
     </entity>
     <entity name="Email" representedClassName="Email" syncable="YES">
         <attribute name="bccJSON" optional="YES" attributeType="String" valueTransformerName="NSSecureUnarchiveFromData" customClassName="Set&lt;String&gt;"/>
@@ -18,12 +20,11 @@
         <attribute name="customFlags" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="Set&lt;String&gt;"/>
         <attribute name="flagsRaw" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="fromJSON" optional="YES" attributeType="String" valueTransformerName="NSSecureUnarchiveFromData" customClassName="EmailAddress"/>
-        <attribute name="gmailLabels" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="Set&lt;String&gt;"/>
-        <attribute name="gmailMessageId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="gmailThreadId" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="html" attributeType="String" defaultValueString=""/>
         <attribute name="inReplyTo" optional="YES" attributeType="Transformable" valueTransformerName="" customClassName="Set&lt;String&gt;"/>
         <attribute name="isLatestInThread" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="labels" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="Set&lt;String&gt;"/>
+        <attribute name="messageId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="modSeqValue" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="originalFlagsRaw" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="receivedDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -33,14 +34,14 @@
         <attribute name="sentDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="size" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="subjectRaw" attributeType="String" defaultValueString=""/>
+        <attribute name="threadId" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
         <attribute name="toJSON" optional="YES" attributeType="String" valueTransformerName="NSSecureUnarchiveFromData" customClassName="Set&lt;String&gt;"/>
         <attribute name="trashed" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="uid" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="userAgent" optional="YES" attributeType="String" defaultValueString=""/>
-        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="emails" inverseEntity="Account"/>
-        <relationship name="bundleSet" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EmailBundle" inverseName="emailSet" inverseEntity="EmailBundle"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="emailSet" inverseEntity="Account"/>
         <relationship name="mimePart" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EmailPart" inverseName="email" inverseEntity="EmailPart"/>
-        <relationship name="thread" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EmailThread" inverseName="emails" inverseEntity="EmailThread"/>
+        <relationship name="thread" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EmailThread" inverseName="emailSet" inverseEntity="EmailThread"/>
         <fetchIndex name="byDate">
             <fetchIndexElement property="receivedDate" type="Binary" order="descending"/>
         </fetchIndex>
@@ -48,12 +49,8 @@
             <fetchIndexElement property="receivedDate" type="Binary" order="descending"/>
             <fetchIndexElement property="account" type="Binary" order="ascending"/>
         </fetchIndex>
-        <fetchIndex name="byBundleIndex">
-            <fetchIndexElement property="bundleSet" type="Binary" order="descending"/>
-            <fetchIndexElement property="receivedDate" type="Binary" order="descending"/>
-        </fetchIndex>
         <fetchIndex name="byThreadId">
-            <fetchIndexElement property="gmailThreadId" type="Binary" order="descending"/>
+            <fetchIndexElement property="threadId" type="Binary" order="descending"/>
         </fetchIndex>
         <uniquenessConstraints>
             <uniquenessConstraint>
@@ -68,7 +65,7 @@
         <attribute name="name" attributeType="String" defaultValueString=""/>
         <attribute name="newEmailsSinceLastSeen" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="orderIndex" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="emailSet" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Email" inverseName="bundleSet" inverseEntity="Email"/>
+        <relationship name="threadSet" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EmailThread" inverseName="bundle" inverseEntity="EmailThread"/>
     </entity>
     <entity name="EmailPart" representedClassName="EmailPart" syncable="YES">
         <attribute name="charset" optional="YES" attributeType="String"/>
@@ -85,9 +82,17 @@
     </entity>
     <entity name="EmailThread" representedClassName="EmailThread" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="emails" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Email" inverseName="thread" inverseEntity="Email"/>
+        <attribute name="lastMessageDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="subject" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="trashed" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="threadSet" inverseEntity="Account"/>
+        <relationship name="bundle" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EmailBundle" inverseName="threadSet" inverseEntity="EmailBundle"/>
+        <relationship name="emailSet" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Email" inverseName="thread" inverseEntity="Email"/>
         <fetchIndex name="byId">
             <fetchIndexElement property="id" type="Binary" order="descending"/>
+        </fetchIndex>
+        <fetchIndex name="byDate">
+            <fetchIndexElement property="lastMessageDate" type="Binary" order="descending"/>
         </fetchIndex>
     </entity>
 </model>

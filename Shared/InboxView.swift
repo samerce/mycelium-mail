@@ -11,11 +11,11 @@ struct InboxView: View {
   @ObservedObject var navCtrl = NavController.shared
   
   @State var sheetPresented = true
-  @State var selectedEmails: Set<Email> = []
+  @State var selectedThreads: Set<EmailThread> = []
   @State var editMode: EditMode = .inactive
   
   var selectedBundle: EmailBundle { bundleCtrl.selectedBundle }
-  var emails: [Email] { mailCtrl.emailsInSelectedBundle }
+  var threads: [EmailThread] { mailCtrl.threadsInSelectedBundle }
   
   // MARK: - VIEW
   
@@ -23,20 +23,20 @@ struct InboxView: View {
     NavigationSplitView {
       EmailList
     } detail: {
-      if selectedEmails.isEmpty {
+      if selectedThreads.isEmpty {
         Text("no message selected")
       } else {
-        EmailDetailView(email: selectedEmails.first!)
+        EmailDetailView(thread: selectedThreads.first!)
       }
     }
     .sheet(isPresented: $sheetPresented) {
       AppSheetView()
     }
-    .onChange(of: selectedEmails) { _ in
+    .onChange(of: selectedThreads) { _ in
       if editMode.isEditing { return }
       
       withAnimation {
-        switch (selectedEmails.isEmpty) {
+        switch (selectedThreads.isEmpty) {
           case true: sheetCtrl.sheet = .inbox
           case false: sheetCtrl.sheet = .emailDetail
         }
@@ -52,11 +52,11 @@ extension InboxView {
   
   var EmailList: some View {
     ScrollViewReader { scrollProxy in
-      List(emails, id: \.self, selection: $selectedEmails) {
-        EmailListRow(email: $0)
+      List(threads, id: \.self, selection: $selectedThreads) {
+        EmailListRow(thread: $0)
           .id($0.objectID)
       }
-      .animation(.default, value: emails)
+      .animation(.default, value: threads)
       .listStyle(.plain)
       .listRowInsets(.none)
       .navigationBarTitleDisplayMode(.inline)
@@ -69,12 +69,12 @@ extension InboxView {
         Spacer().frame(height: appSheetDetents.min)
       }
       .onChange(of: selectedBundle) { _ in
-        if let firstEmail = emails.first {
-          scrollProxy.scrollTo(firstEmail.objectID)
+        if let firstThread = threads.first {
+          scrollProxy.scrollTo(firstThread.objectID)
         }
       }
-      .onChange(of: selectedEmails) { _ in
-        mailCtrl.selectedEmails = selectedEmails
+      .onChange(of: selectedThreads) { _ in
+        mailCtrl.selectedThreads = selectedThreads
       }
       .introspectNavigationController {
         if navCtrl.navController == nil {

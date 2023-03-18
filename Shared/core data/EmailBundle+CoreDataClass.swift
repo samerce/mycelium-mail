@@ -60,12 +60,12 @@ public class EmailBundle: NSManagedObject {
 // TODO: get rid of this
 private let cBundleConfig = [
   [
-    "name": "notifications",
-    "icon": "bell"
-  ],
-  [
     "name": "updates",
     "icon": "livephoto"
+  ],
+  [
+    "name": "notifications",
+    "icon": "bell"
   ],
   [
     "name": "inbox",

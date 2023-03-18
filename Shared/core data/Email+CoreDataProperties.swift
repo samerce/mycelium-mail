@@ -30,10 +30,6 @@ extension Email {
     return EmailDateFormatter.stringForDate(receivedDate)
   }
   
-  var bundles: [EmailBundle] {
-    (bundleSet.allObjects as? [EmailBundle]) ?? []
-  }
-  
   var from: EmailAddress {
     get {
       return (try? JSONDecoder().decode(EmailAddress.self, from: Data(fromJSON.utf8)))
@@ -121,9 +117,9 @@ extension Email {
   
   @NSManaged public var customFlags: Set<String>
   @NSManaged public var flagsRaw: Int16
-  @NSManaged public var gmailLabels: Set<String>
-  @NSManaged public var gmailMessageId: Int64
-  @NSManaged public var gmailThreadId: Int64
+  @NSManaged public var labels: Set<String>
+  @NSManaged public var messageId: Int64
+  @NSManaged public var threadId: Int64
   @NSManaged public var html: String
   @NSManaged public var modSeqValue: Int64 // last mod seq on server, see RFC4551
   @NSManaged public var originalFlagsRaw: Int16 // flags when first fetched
@@ -147,29 +143,9 @@ extension Email {
   
   @NSManaged public var account: Account
   @NSManaged public var mimePart: EmailPart?
-  @NSManaged public var thread: EmailThread?
-  @NSManaged public var bundleSet: NSSet // <EmailBundle>
+  @NSManaged public var thread: EmailThread
   
 }
-
-// MARK: - Generated accessors for emails
-
-extension Email {
-  
-  @objc(addBundleSetObject:)
-  @NSManaged public func addToBundleSet(_ value: EmailBundle)
-  
-  @objc(removeBundleSetObject:)
-  @NSManaged public func removeFromBundleSet(_ value: EmailBundle)
-  
-  @objc(addBundleSet:)
-  @NSManaged public func addToBundleSet(_ values: NSSet)
-  
-  @objc(removeBundleSet:)
-  @NSManaged public func removeFromBundleSet(_ values: NSSet)
-  
-}
-
 
 extension Email : Identifiable {
   

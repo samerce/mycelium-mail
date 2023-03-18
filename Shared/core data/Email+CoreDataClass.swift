@@ -92,6 +92,7 @@ public class Email: NSManagedObject {
 
 
 extension NSSortDescriptor {
-  static let byThreadIdDescending = NSSortDescriptor(key: "gmailThreadId", ascending: false)
+  static let byThreadIdDescending = NSSortDescriptor(key: "threadId", ascending: false)
   static let byDateDescending = NSSortDescriptor(key: "receivedDate", ascending: false)
+  static let byLastMessageDateDescending = NSSortDescriptor(key: "lastMessageDate", ascending: false)
 }

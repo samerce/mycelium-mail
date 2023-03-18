@@ -3,29 +3,54 @@ import CoreData
 
 extension EmailThread {
   
-  @nonobjc public class func fetchRequest() -> NSFetchRequest<EmailThread> {
-    return NSFetchRequest<EmailThread>(entityName: "EmailThread")
+  var emails: [Email] {
+    Set(_immutableCocoaSet: emailSet).sorted { $0.receivedDate > $1.receivedDate }
+  }
+  
+  var seen: Bool {
+    emails.allSatisfy { $0.seen }
+  }
+  
+  var fromLine: String {
+    latestReceivedEmail.fromLine
+  }
+  
+  var from: EmailAddress {
+    latestReceivedEmail.from
+  }
+  
+  var displayDate: String {
+    latestReceivedEmail.displayDate ?? "unknown"
+  }
+  
+  var latestReceivedEmail: Email {
+    emails.first(where: { $0.from.address != account.address })!
   }
   
   @NSManaged public var id: Int64
-  @NSManaged public var emails: NSSet
+  @NSManaged public var lastMessageDate: Date
+  @NSManaged public var subject: String
+  @NSManaged public var trashed: Bool
+  @NSManaged public var bundle: EmailBundle
+  @NSManaged public var account: Account
+  @NSManaged public var emailSet: NSSet
   
 }
 
 // MARK: Generated accessors for emails
 extension EmailThread {
   
-  @objc(addEmailsObject:)
-  @NSManaged public func addToEmails(_ value: Email)
+  @objc(addEmailSetObject:)
+  @NSManaged public func addToEmailSet(_ value: Email)
   
-  @objc(removeEmailsObject:)
-  @NSManaged public func removeFromEmails(_ value: Email)
+  @objc(removeEmailSetObject:)
+  @NSManaged public func removeFromEmailSet(_ value: Email)
   
-  @objc(addEmails:)
-  @NSManaged public func addToEmails(_ values: NSSet)
+  @objc(addEmailSet:)
+  @NSManaged public func addToEmailSet(_ values: NSSet)
   
-  @objc(removeEmails:)
-  @NSManaged public func removeFromEmails(_ values: NSSet)
+  @objc(removeEmailSet:)
+  @NSManaged public func removeFromEmailSet(_ values: NSSet)
   
 }
 
