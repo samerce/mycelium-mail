@@ -47,7 +47,7 @@ struct CreateBundleView: View {
   
   var CreateForm: some View {
     VStack(alignment: .center, spacing: 0) {
-      DragSheetIcon()
+      SheetHandle()
         .padding(.top, 6)
         .padding(.bottom, 9)
       

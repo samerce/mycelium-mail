@@ -46,7 +46,7 @@ struct AppSheetView: View {
     switch config {
       case .firstStart, .downloadingEmails: FirstStartView()
       case .inbox: InboxSheetView()
-      case .emailDetail: EmailDetailSheetView()
+      case .emailThread: EmailThreadSheetView()
       case .createBundle: CreateBundleView()
       case .bundleSettings: BundleSettingsView()
       default: Text("ERROR: missing view for sheet mode '\(config.id)'")
@@ -77,7 +77,7 @@ struct AppSheet {
     ],
     initialDetent: .height(AppSheetDetents.min)
   )
-  static let emailDetail = Self(
+  static let emailThread = Self(
     id: "email tools",
     detents: [
       .height(AppSheetDetents.min),

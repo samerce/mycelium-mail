@@ -21,12 +21,12 @@ struct InboxView: View {
   
   var body: some View {
     NavigationSplitView {
-      EmailList
+      InboxList
     } detail: {
       if selectedThreads.isEmpty {
         Text("no message selected")
       } else {
-        EmailDetailView(thread: selectedThreads.first!)
+        EmailThreadView(thread: selectedThreads.first!)
       }
     }
     .sheet(isPresented: $sheetPresented) {
@@ -38,7 +38,7 @@ struct InboxView: View {
       withAnimation {
         switch (selectedThreads.isEmpty) {
           case true: sheetCtrl.sheet = .inbox
-          case false: sheetCtrl.sheet = .emailDetail
+          case false: sheetCtrl.sheet = .emailThread
         }
       }
     }
@@ -50,10 +50,10 @@ struct InboxView: View {
 
 extension InboxView {
   
-  var EmailList: some View {
+  var InboxList: some View {
     ScrollViewReader { scrollProxy in
       List(threads, id: \.self, selection: $selectedThreads) {
-        EmailListRow(thread: $0)
+        InboxListRow(thread: $0)
           .id($0.objectID)
       }
       .animation(.default, value: threads)

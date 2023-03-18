@@ -16,7 +16,7 @@ struct InboxSheetView: View {
   
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
-      DragSheetIcon()
+      SheetHandle()
         .frame(maxWidth: .infinity)
         .padding(.top, 4)
       

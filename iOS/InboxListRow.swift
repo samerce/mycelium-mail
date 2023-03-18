@@ -1,7 +1,7 @@
 import SwiftUI
 
 
-struct EmailListRow: View {
+struct InboxListRow: View {
   var thread: EmailThread
   
   @ObservedObject var bundleCtrl = EmailBundleController.shared
@@ -56,7 +56,7 @@ struct EmailListRow: View {
     .contentShape(Rectangle())
     .swipeActions(edge: .trailing) { swipeActions }
     .contextMenu { contextMenu } preview: {
-      EmailDetailView(thread: thread, isPreview: true)
+      EmailThreadView(thread: thread, isPreview: true)
         .frame(width: screenWidth, height: screenHeight / 2)
     }
   }

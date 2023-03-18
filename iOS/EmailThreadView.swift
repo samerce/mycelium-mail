@@ -2,7 +2,7 @@ import SwiftUI
 import Combine
 
 
-struct EmailDetailView: View {
+struct EmailThreadView: View {
   var thread: EmailThread
   var isPreview = false
   

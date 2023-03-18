@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct DragSheetIcon: View {
+struct SheetHandle: View {
   var body: some View {
     Capsule()
       .fill(.tertiary)
@@ -8,8 +8,8 @@ struct DragSheetIcon: View {
   }
 }
 
-struct DragSheetIcon_Previews: PreviewProvider {
+struct SheetHandle_Previews: PreviewProvider {
   static var previews: some View {
-    DragSheetIcon()
+    SheetHandle()
   }
 }

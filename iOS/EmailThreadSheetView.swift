@@ -23,7 +23,7 @@ private enum NoteTarget: String, CaseIterable, Equatable {
 }
 
 
-struct EmailDetailSheetView: View {
+struct EmailThreadSheetView: View {
   @ObservedObject var mailCtrl = MailController.shared
   @ObservedObject var sheetCtrl = AppSheetController.shared
   @ObservedObject var navCtrl = NavController.shared
@@ -43,7 +43,7 @@ struct EmailDetailSheetView: View {
   
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
-      DragSheetIcon()
+      SheetHandle()
         .frame(maxWidth: .infinity)
         .padding(.top, 4)
       
@@ -306,8 +306,8 @@ struct EmailDetailSheetView: View {
   
 }
 
-struct EmailToolsDrawerView_Previews: PreviewProvider {
+struct EmailThreadSheetView_Previews: PreviewProvider {
   static var previews: some View {
-    EmailDetailSheetView()
+    EmailThreadSheetView()
   }
 }
