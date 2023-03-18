@@ -66,10 +66,15 @@ struct InboxSheetView: View {
   var lastUpdated: Date {
     try! Date(lastUpdatedString, strategy: .iso8601)
   }
-  var updatedText: String {
+  var statusText: String {
+    if mailCtrl.fetching {
+      return "checking for mail..."
+    }
+    
     let durationSinceLastUpdate = Date.now.timeIntervalSince(lastUpdated)
     let formatter = DateComponentsFormatter()
     formatter.allowedUnits = [.minute]
+    
     if let duration = formatter.string(from: durationSinceLastUpdate) {
       if durationSinceLastUpdate < 60 {
         return "updated just now"
@@ -99,13 +104,14 @@ struct InboxSheetView: View {
         }.frame(width: 54, height: 50, alignment: .leading)
         
         TimelineView(.everyMinute) { _ in
-          Text(mailCtrl.fetching ? "checking for mail..." : updatedText)
+          Text(statusText)
             .font(.system(size: 14, weight: .light))
             .foregroundColor(.secondary)
             .frame(maxWidth: .infinity)
             .opacity(Double(1 - percentToMid))
             .multilineTextAlignment(.center)
             .clipped()
+            .animation(.default, value: statusText)
         }
         
         Button { } label: {
