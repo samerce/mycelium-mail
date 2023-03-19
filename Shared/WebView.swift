@@ -3,23 +3,14 @@ import SwiftUI
 
 
 struct WebView: UIViewRepresentable {
-  let content: String
-  @Binding var topInset: CGFloat
+  let html: String
+  @Binding var height: CGFloat
   
-  init(content: String, topInset: Binding<CGFloat>) {
-    self.content = content
-    self._topInset = topInset
-  }
   
   func makeUIView(context: Context) -> WKWebView {
     let webView = WKWebView()
     webView.layoutMargins = UIEdgeInsets.zero
-    webView.scrollView.contentInset = UIEdgeInsets(
-      top: topInset, left: 0, bottom: appSheetDetents.min, right: 0
-    )
     webView.scrollView.backgroundColor = .systemBackground
-    webView.scrollView.verticalScrollIndicatorInsets.bottom = appSheetDetents.min
-    webView.scrollView.verticalScrollIndicatorInsets.top = topInset
     webView.backgroundColor = .systemBackground
     webView.navigationDelegate = context.coordinator
     configure(webView)
@@ -27,16 +18,15 @@ struct WebView: UIViewRepresentable {
   }
   
   func updateUIView(_ view: WKWebView, context: Context) {
-    view.loadHTMLString(content, baseURL: nil)
-    view.scrollView.contentInset.top = topInset
+    view.loadHTMLString(html, baseURL: nil)
   }
   
   func makeCoordinator() -> Coordinator {
-    Coordinator()
+    Coordinator(self)
   }
   
   var domPurifyConfiguration: String {
-      return """
+    return """
       {
       ALLOWED_URI_REGEXP: /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|cid|blob|xmpp|data):|[^a-z]|[a-z+.\\-]+(?:[^a-z+.\\-:]|$))/i,
       ADD_TAGS: ['proton-src', 'base'],
@@ -44,8 +34,9 @@ struct WebView: UIViewRepresentable {
       FORBID_TAGS: ['body', 'style', 'input', 'form', 'video', 'audio'],
       FORBID_ATTR: ['srcset']
       }
-      """.replacingOccurrences(of: "\n", with: "")
+    """.replacingOccurrences(of: "\n", with: "")
   }
+  
   private func configure(_ webView: WKWebView) {
 //    let left = "@media (prefers-color-scheme: dark) {body {color: white;}}:root {color-scheme: light dark;}"
     
@@ -92,28 +83,38 @@ struct WebView: UIViewRepresentable {
     )
     webView.configuration.userContentController.removeAllUserScripts()
     webView.configuration.userContentController.addUserScript(sanitize)
+    webView.configuration.userContentController.addUserScript(viewPortScript())
   }
   
   class Coordinator: NSObject, WKNavigationDelegate {
+    
+    var parent: WebView
+    var heightSet: Bool = false
+    
+    init(_ parent: WebView) {
+      self.parent = parent
+    }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-      webView.frame.size.height = 1
-      webView.frame.size = webView.scrollView.contentSize
-      webView.scrollView.contentSize.width = UIScreen.main.bounds.width
+      webView.scrollView.isScrollEnabled = false
       
 //      webView.evaluateJavaScript("window.getComputedStyle(document.body).backgroundColor") {
 //        (backgroundColor, error) in
 //          webView.backgroundColor = backgroundColor // convert from rgba to UIColor
 //      }
       
-//      webView.evaluateJavaScript("document.readyState", completionHandler: { (complete, error) in
-//        if complete != nil {
-//          webView.evaluateJavaScript("document.body.scrollHeight", completionHandler: {
-//            (height, error) in
-//              self.containerHeight.constant = height as! CGFloat
-//          })
-//        }
-//      })
+      // thanks chatGPT!
+      webView.evaluateJavaScript("document.readyState", completionHandler: { (result, error) in
+        if !self.heightSet, error == nil, let readyState = result as? String, readyState == "complete" {
+          webView.evaluateJavaScript("document.body.scrollHeight", completionHandler: { (result, error) in
+            if error == nil, let height = result as? CGFloat {
+              // set the height of the web view based on the height of the content
+              self.parent.height = height
+              self.heightSet = true
+            }
+          })
+        }
+      })
     }
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
@@ -126,4 +127,30 @@ struct WebView: UIViewRepresentable {
     }
   }
   
+  
+  private func viewPortScript() -> WKUserScript {
+    let viewPortScript = """
+          var meta = document.createElement('meta');
+          meta.setAttribute('name', 'viewport');
+          meta.setAttribute('initial-scale', '1.0');
+          meta.setAttribute('maximum-scale', '1.0');
+          meta.setAttribute('minimum-scale', '1.0');
+          meta.setAttribute('user-scalable', 'no');
+          document.getElementsByTagName('head')[0].appendChild(meta);
+      """
+    return WKUserScript(source: viewPortScript, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
+  }
+  
 }
+
+
+//let viewPortScript = """
+//      var meta = document.createElement('meta');
+//      meta.setAttribute('name', 'viewport');
+//      meta.setAttribute('content', 'width=device-width');
+//      meta.setAttribute('initial-scale', '1.0');
+//      meta.setAttribute('maximum-scale', '1.0');
+//      meta.setAttribute('minimum-scale', '1.0');
+//      meta.setAttribute('user-scalable', 'no');
+//      document.getElementsByTagName('head')[0].appendChild(meta);
+//  """

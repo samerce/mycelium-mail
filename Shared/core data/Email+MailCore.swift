@@ -119,6 +119,7 @@ extension Email {
 extension Email {
   
   var seen: Bool { flags.contains(.seen) }
+  var flagged: Bool { flags.contains(.flagged) }
   
   private var flags: MCOMessageFlag {
     get {
@@ -139,10 +140,12 @@ extension Email {
   }
   
   func markSeen() async throws {
+    guard !seen else { return }
     try await updateFlags(.seen, operation: .add)
   }
   
   func markFlagged() async throws {
+    guard !flagged else { return }
     try await updateFlags(.flagged, operation: .add)
   }
   
