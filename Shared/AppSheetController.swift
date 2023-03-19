@@ -1,15 +1,20 @@
 import Foundation
+import SwiftUI
 import Combine
+import SwiftUIKit
 
 
 private let mailCtrl = MailController.shared
+private let initialSheet = AppSheet.inbox
 
 
 class AppSheetController: ObservableObject {
   static let shared = AppSheetController()
   
-  @Published var sheet: AppSheet = .firstStart
+  @Published var sheet: AppSheet = initialSheet
+  @Published var selectedDetent: PresentationDetent = initialSheet.initialDetent
   @Published var percentToMid: CGFloat = 0
+  
   var sheetSize: CGSize = CGSize() {
     didSet {
       let sheetDistanceFromMin = sheetSize.height - AppSheetDetents.min
@@ -18,7 +23,6 @@ class AppSheetController: ObservableObject {
     }
   }
   var args: [Any] = []
-  
   private var initSubscribers: [AnyCancellable] = []
   
   // MARK: -
@@ -27,7 +31,9 @@ class AppSheetController: ObservableObject {
     // set the sheet mode based on email availability
     mailCtrl.$threadsInSelectedBundle
       .sink { threads in
-        if !threads.isEmpty && self.sheet == .firstStart {
+        if threads.isEmpty {
+          self.sheet = .firstStart
+        } else if self.sheet == .firstStart {
           self.sheet = .inbox
           self.initSubscribers.forEach { $0.cancel() }
         }
@@ -44,6 +50,10 @@ class AppSheetController: ObservableObject {
   func showSheet(_ sheet: AppSheet, _ args: Any...) {
     self.sheet = sheet
     self.args = args
+  }
+  
+  func setDetent(_ detent: PresentationDetent) {
+    selectedDetent = detent
   }
   
 }

@@ -30,7 +30,7 @@ struct InboxView: View {
       }
     }
     .sheet(isPresented: $sheetPresented) {
-      AppSheetView()
+      AppSheetView(sheet: sheetCtrl.sheet)
     }
     .onChange(of: selectedThreads) { _ in
       if editMode.isEditing { return }

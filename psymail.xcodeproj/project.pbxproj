@@ -29,6 +29,8 @@
 		3B30B77429AE6B69003EE245 /* View+geo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B30B77329AE6B69003EE245 /* View+geo.swift */; };
 		3B30B77529AE6B69003EE245 /* View+geo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B30B77329AE6B69003EE245 /* View+geo.swift */; };
 		3B36447E2652629700956E27 /* EmailThreadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B36447D2652629700956E27 /* EmailThreadView.swift */; };
+		3B4006AE29C78C06003A7354 /* AppSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4006AD29C78C06003A7354 /* AppSheet.swift */; };
+		3B4006AF29C78C06003A7354 /* AppSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4006AD29C78C06003A7354 /* AppSheet.swift */; };
 		3B4185F629A5A7BD00A2966A /* EmailBundle+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4185F429A5A7BD00A2966A /* EmailBundle+CoreDataClass.swift */; };
 		3B4185F729A5A7BD00A2966A /* EmailBundle+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4185F429A5A7BD00A2966A /* EmailBundle+CoreDataClass.swift */; };
 		3B5103AA29256D030084B6B2 /* UIApplication+window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5103A929256D030084B6B2 /* UIApplication+window.swift */; };
@@ -198,6 +200,7 @@
 		3B2F072B264F72EA006CAECE /* AppSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSplitView.swift; sourceTree = "<group>"; };
 		3B30B77329AE6B69003EE245 /* View+geo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+geo.swift"; sourceTree = "<group>"; };
 		3B36447D2652629700956E27 /* EmailThreadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailThreadView.swift; sourceTree = "<group>"; };
+		3B4006AD29C78C06003A7354 /* AppSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSheet.swift; sourceTree = "<group>"; };
 		3B4185F429A5A7BD00A2966A /* EmailBundle+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailBundle+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3B5103A929256D030084B6B2 /* UIApplication+window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+window.swift"; sourceTree = "<group>"; };
 		3B5ABAF626545D2900601F26 /* QuotedPrintable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuotedPrintable.swift; sourceTree = "<group>"; };
@@ -405,6 +408,7 @@
 			children = (
 				3B66668A2651EAED0039D9F3 /* ActionCell.swift */,
 				3B2F0726264E1035006CAECE /* AppCompactView.swift */,
+				3B4006AD29C78C06003A7354 /* AppSheet.swift */,
 				3B14A6C529A19E12005BAA30 /* AppSheetView.swift */,
 				3B6E613E29AC35D2009CAEBF /* BundleSettingsView.swift */,
 				3B66668E2651F3B00039D9F3 /* BundleTabBarView.swift */,
@@ -674,6 +678,7 @@
 				3B6666892651EAE70039D9F3 /* SearchBar.swift in Sources */,
 				3BE50195266B34AE001C2939 /* FilterView.swift in Sources */,
 				3B5ABAFE265461C100601F26 /* WebView.swift in Sources */,
+				3B4006AE29C78C06003A7354 /* AppSheet.swift in Sources */,
 				3B2F072C264F72EA006CAECE /* AppSplitView.swift in Sources */,
 				3B6666912651F3DD0039D9F3 /* TabBarItem.swift in Sources */,
 				3BF35D0D29A852C200340D49 /* Email+MailCore.swift in Sources */,
@@ -745,6 +750,7 @@
 				3BF1AE252666FF2A002F1062 /* SheetHandle.swift in Sources */,
 				3B14A6C729A19E12005BAA30 /* AppSheetView.swift in Sources */,
 				3B7917C22660A0F400E764C1 /* Email+CoreDataClass.swift in Sources */,
+				3B4006AF29C78C06003A7354 /* AppSheet.swift in Sources */,
 				3B64539229AFC44E00A877A4 /* AppSheetController.swift in Sources */,
 				3B2F072D264F72EA006CAECE /* AppSplitView.swift in Sources */,
 				3B9B9F9E2634B16A00E3A8B2 /* PsymailApp.swift in Sources */,
