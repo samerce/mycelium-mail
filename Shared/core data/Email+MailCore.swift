@@ -203,16 +203,16 @@ extension Email {
     try await runOperation(expunge)
   }
   
-  func addLabels(_ _labels: [String]) async throws {
+  func addLabels(_ labels: [String]) async throws {
     print("adding imap labels \(labels)")
-    try await updateLabels(_labels, operation: .add)
-    _labels.forEach{ labels.insert($0) }
+    try await updateLabels(labels, operation: .add)
+    labels.forEach{ self.labels.insert($0) }
   }
   
-  func removeLabels(_ _labels: [String]) async throws {
+  func removeLabels(_ labels: [String]) async throws {
     print("removing imap labels \(labels)")
-    try await updateLabels(_labels, operation: .remove)
-    _labels.forEach { labels.remove($0) }
+    try await updateLabels(labels, operation: .remove)
+    labels.forEach { self.labels.remove($0) }
   }
   
   func updateLabels(_ labels: [String], operation: MCOIMAPStoreFlagsRequestKind) async throws {
