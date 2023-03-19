@@ -187,7 +187,7 @@ struct EmailThreadSheetView: View {
     Button {
       navCtrl.goBack(withSheet: .inbox)
     } label: {
-      ButtonImage(name: "chevron.backward", size: cButtonSize)
+      ButtonImage(name: "chevron.backward", size: cButtonSize, weight: .regular)
     }
   }
   
@@ -202,7 +202,7 @@ struct EmailThreadSheetView: View {
   
   private var ComposeButton: some View {
     Button(action: {}) {
-      ButtonImage(name: "square.and.pencil", size: cButtonSize)
+      ButtonImage(name: "square.and.pencil", size: cButtonSize, weight: .regular)
     }
   }
   
