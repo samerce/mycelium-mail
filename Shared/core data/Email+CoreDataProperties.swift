@@ -118,7 +118,7 @@ extension Email {
   @NSManaged public var customFlags: Set<String>
   @NSManaged public var flagsRaw: Int16
   @NSManaged public var labels: Set<String>
-  @NSManaged public var messageId: Int64
+  @NSManaged public var messageId: String
   @NSManaged public var threadId: Int64
   @NSManaged public var html: String
   @NSManaged public var modSeqValue: Int64 // last mod seq on server, see RFC4551
@@ -126,7 +126,6 @@ extension Email {
   @NSManaged public var size: Int32
   @NSManaged public var uid: Int32 // imap id
   @NSManaged public var trashed: Bool
-  @NSManaged public var isLatestInThread: Bool
   @NSManaged public var inReplyTo: Set<String> // message ids
   @NSManaged public var receivedDate: Date
   @NSManaged public var sentDate: Date

@@ -5,6 +5,7 @@ enum PsyError: Error {
   case emailAlreadyExists
 //  case missingData
   case creationError
+  case failedToCreateOperation(_ error: Error? = nil, message: String? = "")
   case batchInsertError
   case batchDeleteError
   case persistentHistoryChangeError
@@ -24,6 +25,9 @@ extension PsyError: LocalizedError {
       
 //      case .missingData:
 //        return NSLocalizedString("Found and will discard a quake missing a valid code, magnitude, place, or time.", comment: "")
+        
+      case .failedToCreateOperation(let error, let  message):
+        return errorMessage(error, "failed to create MailCore operation.\n\(message ?? "")")
       
       case .creationError:
         return NSLocalizedString("Failed to create a new Quake object.", comment: "")

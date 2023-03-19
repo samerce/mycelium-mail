@@ -25,7 +25,7 @@ struct EmailThreadView: View {
   var body: some View {
     List {
       if isPreview {
-        Message(email: thread.latestReceivedEmail, isPreview: true)
+        Message(email: thread.lastReceivedEmail, isPreview: true)
           .listRowInsets(rowInsets)
       } else {
         ForEach(thread.emails, id: \.id) { email in

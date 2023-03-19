@@ -12,18 +12,18 @@ extension EmailThread {
   }
   
   var fromLine: String {
-    latestReceivedEmail.fromLine
+    lastReceivedEmail.fromLine
   }
   
   var from: EmailAddress {
-    latestReceivedEmail.from
+    lastReceivedEmail.from
   }
   
   var displayDate: String {
-    latestReceivedEmail.displayDate ?? "unknown"
+    lastReceivedEmail.displayDate ?? "unknown"
   }
   
-  var latestReceivedEmail: Email {
+  var lastReceivedEmail: Email {
     emails.first(where: { $0.from.address != account.address })!
   }
   

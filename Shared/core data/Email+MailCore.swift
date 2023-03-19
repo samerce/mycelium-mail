@@ -18,7 +18,6 @@ extension Email {
     uid = Int32(message.uid)
     flags = message.flags
     labels = Set(message.gmailLabels as? [String] ?? [])
-    messageId = Int64(message.gmailMessageID)
     threadId = Int64(message.gmailThreadID)
     size = Int32(message.size)
     originalFlags = message.originalFlags
@@ -26,7 +25,6 @@ extension Email {
     modSeqValue = Int64(message.modSeqValue)
     html = ""
     trashed = false
-    isLatestInThread = true
     
     let header = message.header!
     receivedDate = header.receivedDate
@@ -34,6 +32,8 @@ extension Email {
     subjectRaw = header.subject ?? ""
     userAgent = header.userAgent
     references = Set(header.references as? [String] ?? [])
+    messageId = header.messageID ?? ""
+    inReplyTo = Set(header.inReplyTo as? [String] ?? [])
     
     if let _sender = header.sender {
       sender = EmailAddress(address: _sender)
@@ -55,7 +55,25 @@ extension Email {
   
   // MARK: - HELPERS
   
-  private func runOperation(_ op: MCOIMAPOperation) async throws {
+  private func runOperation(_ op: MCOIMAPOperation?) async throws {
+    guard let op = op
+    else { throw PsyError.failedToCreateOperation() }
+    
+    let _: () = try await withCheckedThrowingContinuation { continuation in
+      op.start { error in
+        if let error = error {
+          continuation.resume(throwing: error)
+        } else {
+          continuation.resume()
+        }
+      }
+    }
+  }
+  
+  private func runOperation(_ op: MCOSMTPOperation?) async throws {
+    guard let op = op
+    else { throw PsyError.failedToCreateOperation() }
+    
     let _: () = try await withCheckedThrowingContinuation { continuation in
       op.start { error in
         if let error = error {
@@ -164,16 +182,13 @@ extension Email {
   func updateFlags(_ flags: MCOMessageFlag, operation: MCOIMAPStoreFlagsRequestKind) async throws {
     print("updating imap flags")
     
-    guard let updateFlags = session.storeFlagsOperation( // TODO: handle this force unwrap
+    // TODO: handle this force unwrap
+    try await runOperation(session.storeFlagsOperation(
       withFolder: DefaultFolder,
       uids: uidSet,
       kind: .add,
       flags: .seen
-    ) else {
-      throw PsyError.unexpectedError(message: "error creating update flags operation")
-    }
-    
-    try await runOperation(updateFlags)
+    ))
     addFlags(.seen) // TODO: update from server instead?
   }
   
@@ -195,12 +210,7 @@ extension Email {
     
     try await updateLabels([cTrashLabel], operation: .add)
     try await updateLabels([cInboxLabel], operation: .remove)
-    
-    guard let expunge = session.expungeOperation("INBOX")
-    else {
-      throw PsyError.unexpectedError(message: "error creating expunge operation")
-    }
-    try await runOperation(expunge)
+    try await runOperation(session.expungeOperation("INBOX"))
   }
   
   func addLabels(_ labels: [String]) async throws {
@@ -216,15 +226,64 @@ extension Email {
   }
   
   func updateLabels(_ labels: [String], operation: MCOIMAPStoreFlagsRequestKind) async throws {
-    guard let addTrashLabel = session.storeLabelsOperation(withFolder: DefaultFolder,
-                                                            uids: uidSet,
-                                                            kind: .add,
-                                                            labels: labels)
-    else {
-      throw PsyError.unexpectedError(message: "error creating label update operations")
-    }
+    try await runOperation(session.storeLabelsOperation(withFolder: DefaultFolder,
+                                                        uids: uidSet,
+                                                        kind: .add,
+                                                        labels: labels))
+  }
+  
+}
 
-    try await runOperation(addTrashLabel)
+// MARK: - SENDING
+
+extension Email {
+  
+  func sendReply(_ replyText: String) async throws {
+    let smtpSession = MCOSMTPSession()
+    smtpSession.hostname = "smtp.gmail.com"
+    smtpSession.port = 465
+    smtpSession.username = account.address
+    smtpSession.authType = .xoAuth2
+    smtpSession.oAuth2Token = account.accessToken
+    smtpSession.connectionType = .TLS
+    
+    let builder = MCOMessageBuilder()
+    let replyFrom = to!.first(where: { $0.address == account.address })!
+    let replyTo = [MCOAddress(displayName: from.displayName, mailbox: from.address)!]
+    + to!
+      .filter { $0.address != account.address }
+      .map { MCOAddress(displayName: $0.displayName, mailbox: $0.address)! }
+    
+    builder.header.from = MCOAddress(displayName: replyFrom.displayName, mailbox: replyFrom.address)
+    builder.header.to = replyTo
+    builder.header.cc = cc?.map { MCOAddress(displayName: $0.displayName, mailbox: $0.address)! } ?? []
+    builder.header.cc = bcc?.map { MCOAddress(displayName: $0.displayName, mailbox: $0.address)! } ?? []
+    builder.header.replyTo = [builder.header.from!]
+    builder.header.inReplyTo = [String(messageId)]
+    builder.header.references = [String(messageId)]
+    builder.header.subject = subjectRaw.contains("Re:") ? subjectRaw : "Re: \(subjectRaw)"
+
+    let formattedDate = EmailDateFormatter.moreThanAWeekLongStyle.string(from: receivedDate)
+    builder.htmlBody = """
+      <body>
+        <div>\(replyText)</div>
+        <br><br>
+        <blockquote>
+          On \(formattedDate), \(from.displayName ?? "") &lt;<a href="mailto:\(from.address)">\(from.address)</a>&gt; wrote:
+          <br ><br >
+          \(html)
+        </blockquote>
+      </body>
+    """
+    
+    do {
+      try await runOperation(smtpSession.sendOperation(with: builder.data()))
+      print("reply sent!")
+    }
+    catch {
+      print("error sending message: \(error.localizedDescription)")
+      throw error
+    }
   }
   
 }

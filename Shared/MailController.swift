@@ -250,9 +250,9 @@ class MailController: NSObject, ObservableObject {
         
         Task {
           do {
-//            let context = dataCtrl.newTaskContext()
-            try await moc.perform(schedule: .enqueued) {
-              try self.onReceivedMessages(messages, forAccount: account, context: moc)
+            let context = moc//dataCtrl.newTaskContext()
+            try await context.perform(schedule: .enqueued) {
+              try self.onReceivedMessages(messages, forAccount: account, context: context)
             }
             dataCtrl.save()
             

@@ -171,8 +171,12 @@ struct EmailThreadSheetView: View {
   private var ReplyButton: some View {
     Button(action: { withAnimation {
       if replying {
-        // send reply
-        replyText = ""
+        Task {
+          replyTextField?.resignFirstResponder()
+          sheetCtrl.setDetent(AppSheet.emailThread.initialDetent)
+          try? await thread?.lastReceivedEmail.sendReply(replyText) // TODO: handle error
+          replyText = ""
+        }
       } else {
         replyTextField?.becomeFirstResponder()
       }
@@ -285,8 +289,7 @@ struct EmailThreadSheetView: View {
         .textFieldStyle(RoundedBorderTextFieldStyle())
         .lineSpacing(1.4)
         .minimumScaleFactor(0.9)
-        .cornerRadius(9)
-        .shadow(radius: 3)
+        .cornerRadius(12)
     }
     .frame(maxHeight: 216)
     .font(.system(size: 15, weight: .thin))

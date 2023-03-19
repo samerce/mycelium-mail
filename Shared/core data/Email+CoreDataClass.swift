@@ -57,36 +57,10 @@ public class Email: NSManagedObject {
     else { return nil }
     
     return NSPredicate(
-      format: "ANY bundleSet.name == %@ AND trashed != TRUE AND isLatestInThread == TRUE",
+      format: "ANY bundleSet.name == %@ AND trashed == FALSE",
       bundle.name
     )
   }
-  
-  
-  // MARK: - HELPERS
-  
-//  func addThread(id: UInt64, context: NSManagedObjectContext) throws {
-//    if id > Int64.max {
-//      throw PsyError.unexpectedError(
-//        message: "error: tried to make or fetch a thread with an id greater than Int64.max, skpping. fix this!"
-//      )
-//    }
-//    
-//    let threadFetchRequest = EmailThread.fetchRequest()
-//    threadFetchRequest.predicate = NSPredicate(format: "id == %d", id)
-//    threadFetchRequest.fetchLimit = 1
-//    threadFetchRequest.fetchBatchSize = 1
-//    
-//    let threads = try context.fetch(threadFetchRequest) as [EmailThread]
-//    thread = threads.first ?? EmailThread(id: Int64(id), context: context)
-//    thread!.addToEmails(self)
-//    
-//    // the following assumes emails are always added in chronological order
-//    for email in thread!.emails.allObjects as! [Email] {
-//      email.isLatestInThread = false
-//    }
-//    self.isLatestInThread = true
-//  }
   
 }
 
