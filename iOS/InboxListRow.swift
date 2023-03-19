@@ -4,14 +4,6 @@ import SwiftUI
 struct InboxListRow: View {
   var thread: EmailThread
   
-  @ObservedObject var bundleCtrl = EmailBundleController.shared
-  @ObservedObject var sheetCtrl = AppSheetController.shared
-  @ObservedObject var alertCtrl = AppAlertController.shared
-  
-  var selectedBundle: EmailBundle { bundleCtrl.selectedBundle }
-  var bundles: [EmailBundle] { bundleCtrl.bundles }
-  
-  
   var body: some View {
     ZStack(alignment: .topLeading) {
       if !thread.seen {
@@ -55,7 +47,7 @@ struct InboxListRow: View {
     .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
     .contentShape(Rectangle())
     .swipeActions(edge: .trailing) { swipeActions }
-    .contextMenu { contextMenu } preview: {
+    .contextMenu { MoveToBundleMenu(thread: thread) } preview: {
       EmailThreadView(thread: thread, isPreview: true)
         .frame(width: screenWidth, height: screenHeight / 2)
     }
@@ -84,50 +76,6 @@ struct InboxListRow: View {
     }
     Button { print("notification") } label: {
       Label("notifications", systemImage: "bell")
-    }
-  }
-  
-  @ViewBuilder
-  var contextMenu: some View {
-    Text("MOVE TO BUNDLE")
-    
-    ForEach(bundles, id: \.objectID) { bundle in
-      contextMenuButtonForBundle(bundle)
-    }
-    
-    Divider()
-    
-    Button {
-      withAnimation {
-        bundleCtrl.threadToMoveToNewBundle = thread
-        sheetCtrl.sheet = .createBundle
-      }
-    } label: {
-      Text("new bundle")
-      SystemImage(name: "plus", size: 12)
-    }
-  }
-  
-  func contextMenuButtonForBundle(_ bundle: EmailBundle) -> some View {
-    Button {
-      alertCtrl.show(message: "moved to \(bundle.name)", icon: bundle.icon, delay: 0.54, action: {
-        alertCtrl.hide()
-        sheetCtrl.sheet = .bundleSettings
-      }, actionLabel: "EDIT")
-      
-      withAnimation {
-        let _ = Task {
-          do {
-            try await MailController.shared.moveThread(thread, fromBundle: selectedBundle, toBundle: bundle)
-          }
-          catch {
-            alertCtrl.show(message: "failed to move message", icon: "xmark", delay: 1)
-          }
-        }
-      }
-    } label: {
-      Text(bundle.name)
-      SystemImage(name: bundle.icon, size: 12)
     }
   }
   

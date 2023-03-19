@@ -10,12 +10,13 @@ private let Tools = [
   "block": "nosign",
   "archive": "archivebox",
   "save as pdf": "square.and.arrow.down",
-  "print": "printer"
+  "print": "printer",
+  "unsubscribe": "hand.raised"
 ]
 
 private let ToolImageSize: CGFloat = 36
 private var toolGridItems: [GridItem] {
-  Array(repeating: .init(.flexible(minimum: 54, maximum: .infinity)), count: 3)
+  Array(repeating: .init(.flexible(minimum: 54, maximum: .infinity)), count: 2)
 }
 
 private enum NoteTarget: String, CaseIterable, Equatable {
@@ -49,10 +50,10 @@ struct EmailThreadSheetView: View {
       
       HStack(spacing: 0) {
         AddMediaButton
-        UnsubscribeButton
         TagButton
-        TrashButton
         StarButton
+        TrashButton
+        BundleButton
         ReplyTextField
         ReplyButton
       }
@@ -71,7 +72,7 @@ struct EmailThreadSheetView: View {
         }
         .frame(maxWidth: .infinity)
         
-        Spacer().frame(height: 27)
+        Spacer().frame(height: 12)
         MoreTools
         
         Spacer().frame(height: 27)
@@ -86,19 +87,23 @@ struct EmailThreadSheetView: View {
   
   private var AddMediaButton: some View {
     Button(action: {}) {
-      ZStack {
-        SystemImage("plus.circle", size: cButtonSize)
-      }
-      .frame(minWidth: 36)
+      ButtonImage(name: "plus.circle", size: cButtonSize)
     }
     .frame(maxWidth: replying ? 36 : 0)
     .opacity(replying ? 1 : 0)
     .clipped()
   }
   
-  private var UnsubscribeButton: some View {
-    Button(action: {}) {
-      ButtonImage(name: "hand.raised", size: cButtonSize)
+  @ViewBuilder
+  private var BundleButton: some View {
+    Menu {
+      if let thread = thread {
+        MoveToBundleMenu(thread: thread, onMove: {
+          navCtrl.goBack(withSheet: .inbox)
+        })
+      } else { EmptyView() }
+    } label: {
+      ButtonImage(name: "mail.stack", size: cButtonSize)
     }
     .frame(maxWidth: replying ? 0 : .infinity)
     .opacity(replying ? 0 : 1)
@@ -210,24 +215,19 @@ struct EmailThreadSheetView: View {
     LazyVGrid(columns: toolGridItems, spacing: 9) {
       ForEach(Array(Tools.keys), id: \.self) { filter in
         Button(action: {}) {
-          VStack(spacing: 9) {
-            Image(systemName: Tools[filter] ?? "")
-              .resizable()
-              .aspectRatio(contentMode: .fit)
-              .frame(width: ToolImageSize, height: ToolImageSize)
-              .font(.system(size: ToolImageSize, weight: .light))
-              .contentShape(Rectangle())
-            
+          Label {
+            ButtonImage(name: Tools[filter]!, color: .white)
+          } icon: {
             Text(filter)
-              .font(.system(size: 13))
-              .multilineTextAlignment(.center)
+              .frame(maxWidth: .infinity, alignment: .leading)
           }
-          .frame(maxWidth: .infinity, maxHeight: 108)
-          .padding(18)
-          .background(Color(.tertiarySystemBackground))
-          .foregroundColor(Color(.secondaryLabel))
-          .cornerRadius(9)
-          .shadow(radius: 3)
+          .font(.system(size: 15))
+          .frame(maxWidth: .infinity)
+          .padding(.vertical, 9)
+          .padding(.horizontal, 12)
+          .background(OverlayBackgroundView(blurStyle: .systemThickMaterial))
+          .foregroundColor(.primary)
+          .cornerRadius(12)
         }
       }
     }
@@ -238,7 +238,7 @@ struct EmailThreadSheetView: View {
       HStack(spacing: 0) {
         Text("NOTES")
           .frame(maxWidth: .infinity, alignment: .leading)
-          .font(.system(size: 12, weight: .light))
+          .font(.system(size: 12))
           .foregroundColor(Color(.gray))
         
         Spacer()
@@ -263,21 +263,20 @@ struct EmailThreadSheetView: View {
         }) {
           HStack(spacing: 0) {
             Text("add \(noteTarget.rawValue) note")
-              .font(.system(size: 18))
-              .padding(.horizontal, 18)
-              .padding(.vertical, 18)
+              .font(.system(size: 15))
+              .padding(.trailing, 12)
               .frame(maxWidth: .infinity, alignment: .leading)
             
-            SystemImage("note.text.badge.plus", size: 24)
-              .padding(.trailing, 18)
+            SystemImage(name: "note.text.badge.plus", size: 22, color: .white)
           }
+          .padding(12)
           .frame(maxWidth: .infinity, alignment: .leading)
-          .background(Color(.tertiarySystemBackground))
-          .cornerRadius(9)
+          .background(OverlayBackgroundView(blurStyle: .systemThickMaterial))
+          .cornerRadius(12)
         }
       }
     }
-    .foregroundColor(Color(.secondaryLabel))
+    .foregroundColor(.white)
   }
   
   private var Editor: some View {
@@ -290,18 +289,8 @@ struct EmailThreadSheetView: View {
         .shadow(radius: 3)
     }
     .frame(maxHeight: 216)
-    .font(.system(size: 16, weight: .light))
+    .font(.system(size: 15, weight: .thin))
     .foregroundColor(noting ? .white : .psyAccent.opacity(0.9))
-  }
-  
-  private func SystemImage(_ name: String, size: CGFloat) -> some View {
-    Image(systemName: name)
-      .resizable()
-      .aspectRatio(contentMode: .fit)
-      .font(.system(size: size, weight: .light, design: .default))
-      .frame(width: size, height: size)
-      .contentShape(Rectangle())
-      .clipped()
   }
   
 }

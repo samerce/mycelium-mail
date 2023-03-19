@@ -151,6 +151,8 @@
 		3BFD733229C4E894004F2563 /* ButtonImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFD733029C4E894004F2563 /* ButtonImage.swift */; };
 		3BFD733429C6409D004F2563 /* EmailThread+MailCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFD733329C6409D004F2563 /* EmailThread+MailCore.swift */; };
 		3BFD733529C6409D004F2563 /* EmailThread+MailCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFD733329C6409D004F2563 /* EmailThread+MailCore.swift */; };
+		3BFD733729C6CC79004F2563 /* MoveToBundleMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFD733629C6CC79004F2563 /* MoveToBundleMenu.swift */; };
+		3BFD733829C6CC79004F2563 /* MoveToBundleMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFD733629C6CC79004F2563 /* MoveToBundleMenu.swift */; };
 		3BFFE1C329254A2000476C09 /* MailCore2 in Frameworks */ = {isa = PBXBuildFile; productRef = 3BFFE1C229254A2000476C09 /* MailCore2 */; };
 /* End PBXBuildFile section */
 
@@ -271,6 +273,7 @@
 		3BF35D1229AA81D300340D49 /* SystemImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemImage.swift; sourceTree = "<group>"; };
 		3BFD733029C4E894004F2563 /* ButtonImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonImage.swift; sourceTree = "<group>"; };
 		3BFD733329C6409D004F2563 /* EmailThread+MailCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailThread+MailCore.swift"; sourceTree = "<group>"; };
+		3BFD733629C6CC79004F2563 /* MoveToBundleMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveToBundleMenu.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -415,6 +418,7 @@
 				3BF1AE1D2666F5E7002F1062 /* InboxListRow.swift */,
 				3B6666842651EAA90039D9F3 /* InboxSheetView.swift */,
 				3B9B9F7C2634B16A00E3A8B2 /* Info.plist */,
+				3BFD733629C6CC79004F2563 /* MoveToBundleMenu.swift */,
 				3B6666862651EACD0039D9F3 /* OverlayBackgroundView.swift */,
 				3B6666882651EAE70039D9F3 /* SearchBar.swift */,
 				3B6666902651F3DD0039D9F3 /* TabBarItem.swift */,
@@ -659,6 +663,7 @@
 			files = (
 				3BF1AE1E2666F5E7002F1062 /* InboxListRow.swift in Sources */,
 				3BF1AE242666FF2A002F1062 /* SheetHandle.swift in Sources */,
+				3BFD733729C6CC79004F2563 /* MoveToBundleMenu.swift in Sources */,
 				3BF1AD8B2663EA2C002F1062 /* Account+CoreDataClass.swift in Sources */,
 				3BF1AD822661861F002F1062 /* EmailPart+CoreDataProperties.swift in Sources */,
 				3BF1AE3026688150002F1062 /* Notification.swift in Sources */,
@@ -793,6 +798,7 @@
 				3B5FBC342655EF85009D012C /* EmailClassifierAgnes.mlmodel in Sources */,
 				3B7917BA2660A0F400E764C1 /* EmailAddress.swift in Sources */,
 				3BF1AD6826617746002F1062 /* InboxView.swift in Sources */,
+				3BFD733829C6CC79004F2563 /* MoveToBundleMenu.swift in Sources */,
 				3B5FBCBF26571687009D012C /* PsycatsJuice.mlmodel in Sources */,
 				3B6B4F1929A6D007003F3AFA /* FirstStartView.swift in Sources */,
 				3B6666F02652383D0039D9F3 /* psymail.xcdatamodeld in Sources */,
