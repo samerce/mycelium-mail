@@ -2,6 +2,9 @@ import SwiftUI
 import Combine
 
 
+private var dataCtrl = PersistenceController.shared
+
+
 struct EmailThreadView: View {
   var thread: EmailThread
   var isPreview = false
@@ -30,10 +33,9 @@ struct EmailThreadView: View {
       } else {
         ForEach(thread.emails, id: \.id) { email in
           Message(email: email)
-            .listRowInsets(rowInsets)
+            .listRowInsets(.init())
             .listRowBackground(Color.clear)
             .listRowSeparator(.hidden)
-            .cornerRadius(12)
             .contextMenu {
               Button {
                 Task { await deleteEmail(email) }
@@ -78,7 +80,7 @@ struct EmailThreadView: View {
       } else {
         try await email.moveToTrash()
       }
-      PersistenceController.shared.save()
+      dataCtrl.save()
     }
     catch {
       print("error deleting email or thread: \(error.localizedDescription)")
@@ -102,6 +104,10 @@ struct Message: View {
     (showingFromDetails || isPreview)
     ? email.from.address
     : email.fromLine
+  }
+  
+  var isSolo: Bool {
+    email.thread.emails.count == 1
   }
   
   // MARK: -
@@ -134,30 +140,33 @@ struct Message: View {
   
   var Content: some View {
     VStack(spacing: 0) {
-      HStack(alignment: .lastTextBaseline, spacing: 0) {
-        Text(fromLine)
-          .font(.system(size: 13, weight: .medium))
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .lineLimit(1)
-        
-        Text(email.displayDate ?? "")
-          .font(.system(size: 13))
-          .foregroundColor(.secondary)
-      }
-      .padding(.horizontal, 12)
-      .padding(.vertical, 6)
-      .background(OverlayBackgroundView(blurStyle: .systemMaterial))
-      .onTapGesture {
-        showingFromDetails.toggle()
-      }
-      
+      SenderLine.visible(if: !isSolo)
       Html
+    }
+    .padding(.horizontal, isSolo ? 0 : 6)
+  }
+  
+  var SenderLine: some View {
+    HStack(alignment: .lastTextBaseline, spacing: 0) {
+      Text(fromLine)
+        .font(.system(size: 13, weight: .medium))
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .lineLimit(1)
+      
+      Text(email.displayDate ?? "")
+        .font(.system(size: 13))
+    }
+    .foregroundColor(.secondary)
+    .padding(.horizontal, 12)
+    .padding(.vertical, 4)
+    .contentShape(Rectangle())
+    .onTapGesture {
+      showingFromDetails.toggle()
     }
   }
   
   var Html: some View {
     WebView(html: html, height: $htmlHeight)
-      .background(Color(.systemBackground))
       .onAppear {
         markEmailSeen()
       }
@@ -166,6 +175,7 @@ struct Message: View {
         seenTimer = nil
       }
       .height(htmlHeight)
+      .cornerRadius(isSolo ? 0 : 12)
   }
   
   func markEmailSeen() {

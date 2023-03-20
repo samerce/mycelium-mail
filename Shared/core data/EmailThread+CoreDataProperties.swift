@@ -1,5 +1,7 @@
 import Foundation
 import CoreData
+import OrderedCollections
+
 
 extension EmailThread {
   
@@ -11,12 +13,33 @@ extension EmailThread {
     emails.allSatisfy { $0.seen }
   }
   
-  var fromLine: String {
-    lastReceivedEmail.fromLine
+  var flagged: Bool {
+    emails.contains(where: { $0.flagged })
   }
   
-  var from: EmailAddress {
-    lastReceivedEmail.from
+  var fromLine: String {
+    let senders = emails.reduce(into: OrderedSet<String>()) { line, email in
+      guard let name = email.from.displayName?.split(separator: " ").first,
+            (email.sender?.address != email.account.address &&
+             email.from.address != email.account.address)
+      else {
+        return
+      }
+      line.append(String(name))
+    }
+    
+    if emails.count == 1 || senders.count == 1 {
+      return emails.first!.fromLine
+    }
+      
+    return senders.joined(separator: ", ")
+  }
+  
+  var from: [EmailAddress] {
+    emails
+      .filter { $0.from.address != $0.account.address && $0.sender?.address != $0.account.address }
+      .map { $0.from }
+      .removingDuplicates()
   }
   
   var displayDate: String {
@@ -25,10 +48,6 @@ extension EmailThread {
   
   var lastReceivedEmail: Email {
     emails.first(where: { $0.from.address != account.address })!
-  }
-  
-  var flagged: Bool {
-    emails.contains(where: { $0.flagged })
   }
   
   @NSManaged public var id: Int64

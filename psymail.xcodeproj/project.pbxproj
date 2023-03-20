@@ -33,6 +33,11 @@
 		3B4006AF29C78C06003A7354 /* AppSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4006AD29C78C06003A7354 /* AppSheet.swift */; };
 		3B4185F629A5A7BD00A2966A /* EmailBundle+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4185F429A5A7BD00A2966A /* EmailBundle+CoreDataClass.swift */; };
 		3B4185F729A5A7BD00A2966A /* EmailBundle+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4185F429A5A7BD00A2966A /* EmailBundle+CoreDataClass.swift */; };
+		3B46446729C8F0F9003E64EA /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 3B46446629C8F0F9003E64EA /* Collections */; };
+		3B46446929C8F0F9003E64EA /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 3B46446829C8F0F9003E64EA /* DequeModule */; };
+		3B46446B29C8F0F9003E64EA /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 3B46446A29C8F0F9003E64EA /* OrderedCollections */; };
+		3B46446D29C8F45D003E64EA /* Array+psy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46446C29C8F45D003E64EA /* Array+psy.swift */; };
+		3B46446E29C8F45D003E64EA /* Array+psy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46446C29C8F45D003E64EA /* Array+psy.swift */; };
 		3B5103AA29256D030084B6B2 /* UIApplication+window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5103A929256D030084B6B2 /* UIApplication+window.swift */; };
 		3B5103AB29256D030084B6B2 /* UIApplication+window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5103A929256D030084B6B2 /* UIApplication+window.swift */; };
 		3B5ABAF726545D3200601F26 /* QuotedPrintable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5ABAF626545D2900601F26 /* QuotedPrintable.swift */; };
@@ -202,6 +207,7 @@
 		3B36447D2652629700956E27 /* EmailThreadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailThreadView.swift; sourceTree = "<group>"; };
 		3B4006AD29C78C06003A7354 /* AppSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSheet.swift; sourceTree = "<group>"; };
 		3B4185F429A5A7BD00A2966A /* EmailBundle+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailBundle+CoreDataClass.swift"; sourceTree = "<group>"; };
+		3B46446C29C8F45D003E64EA /* Array+psy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+psy.swift"; sourceTree = "<group>"; };
 		3B5103A929256D030084B6B2 /* UIApplication+window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+window.swift"; sourceTree = "<group>"; };
 		3B5ABAF626545D2900601F26 /* QuotedPrintable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuotedPrintable.swift; sourceTree = "<group>"; };
 		3B5ABAFD265461C100601F26 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
@@ -284,10 +290,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B46446729C8F0F9003E64EA /* Collections in Frameworks */,
 				3B14A6B5299FE4D4005BAA30 /* SwiftUIKit in Frameworks */,
 				3B5FBCFC26587F59009D012C /* Introspect in Frameworks */,
 				3B6E613D29AAC99F009CAEBF /* SymbolPicker in Frameworks */,
 				3B94B91229247D2B00C85B8C /* GoogleSignIn in Frameworks */,
+				3B46446B29C8F0F9003E64EA /* OrderedCollections in Frameworks */,
+				3B46446929C8F0F9003E64EA /* DequeModule in Frameworks */,
 				3B94B91429247D2B00C85B8C /* GoogleSignInSwift in Frameworks */,
 				3BFFE1C329254A2000476C09 /* MailCore2 in Frameworks */,
 			);
@@ -474,6 +483,7 @@
 		3BD150A2265331DF0058B094 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
+				3B46446C29C8F45D003E64EA /* Array+psy.swift */,
 				3BE50197266B4B0A001C2939 /* Color+psy.swift */,
 				3B80B97329C4DB17002E34BE /* Encodable+dictionary.swift */,
 				3BCF6FEB29280261000C6382 /* ForEachWithIndex.swift */,
@@ -516,6 +526,9 @@
 				3BFFE1C229254A2000476C09 /* MailCore2 */,
 				3B14A6B4299FE4D4005BAA30 /* SwiftUIKit */,
 				3B6E613C29AAC99F009CAEBF /* SymbolPicker */,
+				3B46446629C8F0F9003E64EA /* Collections */,
+				3B46446829C8F0F9003E64EA /* DequeModule */,
+				3B46446A29C8F0F9003E64EA /* OrderedCollections */,
 			);
 			productName = "mushroom-mail (iOS)";
 			productReference = 3B9B9F792634B16A00E3A8B2 /* psymail.app */;
@@ -614,6 +627,7 @@
 				3BFFE1C129254A2000476C09 /* XCRemoteSwiftPackageReference "mailcore2" */,
 				3B14A6B3299FE4D3005BAA30 /* XCRemoteSwiftPackageReference "SwiftUIKit" */,
 				3B6E613B29AAC99F009CAEBF /* XCRemoteSwiftPackageReference "SymbolPicker" */,
+				3B46446529C8F0F9003E64EA /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
 			productRefGroup = 3B9B9F7A2634B16A00E3A8B2 /* Products */;
 			projectDirPath = "";
@@ -725,6 +739,7 @@
 				3B14A6BA299FF200005BAA30 /* View+AppSheet.swift in Sources */,
 				3B66668D2651EB000039D9F3 /* FavoriteCell.swift in Sources */,
 				3BF1AE2D2668812B002F1062 /* Publishers.swift in Sources */,
+				3B46446D29C8F45D003E64EA /* Array+psy.swift in Sources */,
 				3B4185F629A5A7BD00A2966A /* EmailBundle+CoreDataClass.swift in Sources */,
 				3BD150A4265332010058B094 /* rainbow.swift in Sources */,
 				3BCF6FEC29280261000C6382 /* ForEachWithIndex.swift in Sources */,
@@ -758,6 +773,7 @@
 				3B0AB65229C133EC00E224E5 /* View+scrollProxy.swift in Sources */,
 				3B7917BE2660A0F400E764C1 /* EmailPart+CoreDataClass.swift in Sources */,
 				3B14A6BB299FF200005BAA30 /* View+AppSheet.swift in Sources */,
+				3B46446E29C8F45D003E64EA /* Array+psy.swift in Sources */,
 				3BF35D1429AA81D300340D49 /* SystemImage.swift in Sources */,
 				3BF1AD832661861F002F1062 /* EmailPart+CoreDataProperties.swift in Sources */,
 				3BE50199266B4B0A001C2939 /* Color+psy.swift in Sources */,
@@ -1216,6 +1232,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		3B46446529C8F0F9003E64EA /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		3B5FBCFA26587F58009D012C /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
@@ -1255,6 +1279,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3B14A6B3299FE4D3005BAA30 /* XCRemoteSwiftPackageReference "SwiftUIKit" */;
 			productName = SwiftUIKit;
+		};
+		3B46446629C8F0F9003E64EA /* Collections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B46446529C8F0F9003E64EA /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = Collections;
+		};
+		3B46446829C8F0F9003E64EA /* DequeModule */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B46446529C8F0F9003E64EA /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = DequeModule;
+		};
+		3B46446A29C8F0F9003E64EA /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B46446529C8F0F9003E64EA /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
 		};
 		3B5FBCFB26587F59009D012C /* Introspect */ = {
 			isa = XCSwiftPackageProductDependency;

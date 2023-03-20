@@ -67,7 +67,6 @@ struct EmailThreadSheetView: View {
         HStack(spacing: 0) {
           BackToEmailListButton
           AccountLabel
-            .padding(.horizontal, 9)
           ComposeButton
         }
         .frame(maxWidth: .infinity)
@@ -225,13 +224,41 @@ struct EmailThreadSheetView: View {
     }
   }
   
+  @State var showingHeaderDetails = false
+  var fromLine: String {
+    guard let thread = thread
+    else { return "unknown sender" }
+    
+    return showingHeaderDetails
+    ? thread.from.map { $0.address }.joined(separator: ", ")
+    : thread.fromLine
+  }
+  var accountLine: String {
+    // TODO: use account nickname instead of hardcoded string
+    (showingHeaderDetails ? thread?.account.address : "samerce") ?? ""
+  }
+  
   private var AccountLabel: some View {
-    Label(thread?.account.address ?? "", systemImage: "tray.full")
-      .frame(maxWidth: .infinity, minHeight: 50)
-      .font(.system(size: 14, weight: .light))
-      .foregroundColor(.secondary)
-      .multilineTextAlignment(.center)
-      .lineLimit(1)
+    VStack(alignment: .center, spacing: 0) {
+      Text(fromLine)
+        .font(.system(size: 12))
+        .padding(.bottom, 2)
+      
+      Label {
+        Text(accountLine)
+          .font(.system(size: 12, weight: .light))
+      } icon: {
+        SystemImage(name: "tray.full", size: 12, color: .secondary, weight: .light)
+      }
+    }
+    .foregroundColor(.secondary)
+    .lineLimit(1)
+    .frame(maxWidth: .infinity, minHeight: 50)
+    .padding(.horizontal, 12)
+    .contentShape(Rectangle())
+    .onTapGesture {
+      showingHeaderDetails.toggle()
+    }
   }
   
   private var ComposeButton: some View {

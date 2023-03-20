@@ -44,7 +44,7 @@ extension EmailThread {
     try await managedObjectContext?.perform {
       self.bundle.removeFromThreadSet(self)
       
-      var newBundleName = flagged ? "starred" : try self.calculatedBundleName()
+      let newBundleName = flagged ? "starred" : try self.calculatedBundleName()
       let newBundle = try EmailBundle.fetchRequestWithName(newBundleName).execute().first!
       
       newBundle.addToThreadSet(self)

@@ -104,6 +104,7 @@ class AccountController: ObservableObject {
         context: moc
       )
       accounts[account!.address] = account
+      account!.nickname = "samerce" // TODO: remove before release
     } else {
       account!.accessToken = auth.accessToken
       account!.accessTokenExpiration = auth.accessTokenExpirationDate

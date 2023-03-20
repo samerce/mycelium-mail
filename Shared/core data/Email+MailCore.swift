@@ -158,10 +158,16 @@ extension Email {
   }
   
   func markSeen(_ seen: Bool = true) async throws {
+    guard seen != self.seen
+    else { return }
+    
     try await updateFlags(.seen, operation: seen ? .add : .remove)
   }
   
   func markFlagged(_ flagged: Bool = true) async throws {
+    guard flagged != self.flagged
+    else { return }
+    
     try await updateFlags(.flagged, operation: flagged ? .add : .remove)
   }
   
