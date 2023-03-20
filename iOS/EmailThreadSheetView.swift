@@ -70,9 +70,10 @@ struct EmailThreadSheetView: View {
           ComposeButton
         }
         .frame(maxWidth: .infinity)
+        .padding(.vertical, 6)
         
-        Spacer().frame(height: 18)
         MoreTools
+          .padding(.top, 27)
         
         Spacer().frame(height: 27)
         Notes
@@ -234,30 +235,34 @@ struct EmailThreadSheetView: View {
     : thread.fromLine
   }
   var accountLine: String {
-    // TODO: use account nickname instead of hardcoded string
-    (showingHeaderDetails ? thread?.account.address : "samerce") ?? ""
+    (showingHeaderDetails ? thread?.account.address : thread?.account.nickname) ?? ""
   }
   
   private var AccountLabel: some View {
-    VStack(alignment: .center, spacing: 0) {
-      Text(fromLine)
-        .font(.system(size: 12))
-        .padding(.bottom, 2)
+    HStack {
+      Spacer()
       
-      Label {
-        Text(accountLine)
-          .font(.system(size: 12, weight: .light))
-      } icon: {
-        SystemImage(name: "tray.full", size: 12, color: .secondary, weight: .light)
+      VStack(alignment: .center, spacing: 0) {
+        Text(fromLine)
+          .font(.system(size: 12))
+          .padding(.bottom, 2)
+        
+        HStack {
+          SystemImage(name: "tray.full", size: 12, color: .secondary, weight: .light)
+            .padding(.top, 2)
+          Text(accountLine)
+            .font(.system(size: 12, weight: .light))
+        }
       }
-    }
-    .foregroundColor(.secondary)
-    .lineLimit(1)
-    .frame(maxWidth: .infinity, minHeight: 50)
-    .padding(.horizontal, 12)
-    .contentShape(Rectangle())
-    .onTapGesture {
-      showingHeaderDetails.toggle()
+      .foregroundColor(.secondary)
+      .lineLimit(1)
+      .padding(.horizontal, 12)
+      .contentShape(Rectangle())
+      .onTapGesture {
+        showingHeaderDetails.toggle()
+      }
+      
+      Spacer()
     }
   }
   

@@ -103,8 +103,8 @@ class AccountController: ObservableObject {
         refreshToken: auth.refreshToken,
         context: moc
       )
+      account!.nickname = String(account!.address.split(separator: "@").first!) // TODO: let user pick
       accounts[account!.address] = account
-      account!.nickname = "samerce" // TODO: remove before release
     } else {
       account!.accessToken = auth.accessToken
       account!.accessTokenExpiration = auth.accessTokenExpirationDate

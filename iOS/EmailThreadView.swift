@@ -143,7 +143,7 @@ struct Message: View {
       SenderLine.visible(if: !isSolo)
       Html
     }
-    .padding(.horizontal, isSolo ? 0 : 6)
+    .padding(.horizontal, isSolo ? 0 : 9)
   }
   
   var SenderLine: some View {
