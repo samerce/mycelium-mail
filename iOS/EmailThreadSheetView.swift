@@ -25,13 +25,14 @@ private enum NoteTarget: String, CaseIterable, Equatable {
 
 
 struct EmailThreadSheetView: View {
+  @ObservedObject var dataCtrl = PersistenceController.shared
   @ObservedObject var mailCtrl = MailController.shared
   @ObservedObject var sheetCtrl = AppSheetController.shared
   @ObservedObject var navCtrl = NavController.shared
   
   @State private var replying = false
   @State private var replyText: String = ""
-  @State private var replyTextField: UITextField?
+  @FocusState var replyFieldFocused: Bool
   
   @State private var noting = false
   @State private var noteText: String = "add note"
@@ -49,8 +50,8 @@ struct EmailThreadSheetView: View {
         .padding(.top, 4)
       
       HStack(spacing: 0) {
-        AddMediaButton
-        TagButton
+        CancelReplyButton
+        ArchiveButton
         StarButton
         TrashButton
         BundleButton
@@ -58,7 +59,6 @@ struct EmailThreadSheetView: View {
         ReplyButton
       }
       .frame(maxWidth: .infinity, minHeight: 40)
-      .padding(0)
       
       VStack(spacing: 0) {
         Divider()
@@ -72,18 +72,30 @@ struct EmailThreadSheetView: View {
         }
         .frame(maxWidth: .infinity)
         
-        Spacer().frame(height: 12)
+        Spacer().frame(height: 18)
         MoreTools
         
         Spacer().frame(height: 27)
         Notes
       }
-      .padding(.horizontal, 18)
+      .padding(.horizontal, 6)
       .clipped()
     }
+    .padding(.horizontal, 12)
   }
   
   let cButtonSize = 22.0
+  
+  private var CancelReplyButton: some View {
+    Button {
+      replying = false
+    } label: {
+      ButtonImage(name: "xmark.circle", size: cButtonSize)
+    }
+    .frame(maxWidth: replying ? 36 : 0)
+    .opacity(replying ? 1 : 0)
+    .clipped()
+  }
   
   private var AddMediaButton: some View {
     Button(action: {}) {
@@ -99,6 +111,7 @@ struct EmailThreadSheetView: View {
     Menu {
       if let thread = thread {
         MoveToBundleMenu(thread: thread, onMove: {
+          save()
           navCtrl.goBack(withSheet: .inbox)
         })
       } else { EmptyView() }
@@ -111,7 +124,13 @@ struct EmailThreadSheetView: View {
   }
   
   private var ArchiveButton: some View {
-    Button(action: {}) {
+    Button {
+      Task {
+        try await thread?.archive()
+        save()
+        navCtrl.goBack(withSheet: .inbox)
+      }
+    } label: {
       ButtonImage(name: "archivebox", size: cButtonSize)
     }
     .frame(maxWidth: replying ? 0 : .infinity)
@@ -131,9 +150,9 @@ struct EmailThreadSheetView: View {
   private var TrashButton: some View {
     Button {
       Task {
-        navCtrl.goBack(withSheet: .inbox)
         try? await thread?.moveToTrash() // TODO: handle error
-        PersistenceController.shared.save()
+        save()
+        navCtrl.goBack(withSheet: .inbox)
       }
     } label: {
       ButtonImage(name: "trash", size: cButtonSize)
@@ -146,10 +165,14 @@ struct EmailThreadSheetView: View {
   private var StarButton: some View {
     Button {
       Task {
-        try? await thread?.markFlagged() // TODO: handle error
+        try? await thread!.markFlagged(!thread!.flagged) // TODO: handle error
+        save()
       }
     } label: {
-      ButtonImage(name: "star", size: cButtonSize)
+      ButtonImage(
+        name: (thread == nil || !thread!.flagged) ? "star" : "star.fill",
+        size: cButtonSize
+      )
     }
     .frame(maxWidth: replying ? 0 : .infinity)
     .opacity(replying ? 0 : 1)
@@ -158,27 +181,29 @@ struct EmailThreadSheetView: View {
   
   private var ReplyTextField: some View {
     TextField("", text: $replyText)
-      .introspectTextField {
-        replyTextField = $0
-      }
       .frame(maxWidth: replying ? .infinity : 0)
       .opacity(replying ? 1 : 0)
       .clipped()
       .textFieldStyle(RoundedBorderTextFieldStyle())
       .cornerRadius(108)
+      .focused($replyFieldFocused)
+      .onChange(of: replying) { _ in
+        if replying {
+          replyFieldFocused = true
+        } else {
+          replyFieldFocused = false
+          sheetCtrl.setDetent(AppSheet.emailThread.initialDetent)
+        }
+      }
   }
   
   private var ReplyButton: some View {
     Button(action: { withAnimation {
       if replying {
         Task {
-          replyTextField?.resignFirstResponder()
-          sheetCtrl.setDetent(AppSheet.emailThread.initialDetent)
           try? await thread?.lastReceivedEmail.sendReply(replyText) // TODO: handle error
           replyText = ""
         }
-      } else {
-        replyTextField?.becomeFirstResponder()
       }
       
       replying.toggle()
@@ -229,7 +254,7 @@ struct EmailThreadSheetView: View {
           .frame(maxWidth: .infinity)
           .padding(.vertical, 9)
           .padding(.horizontal, 12)
-          .background(OverlayBackgroundView(blurStyle: .systemThickMaterial))
+          .background(OverlayBackgroundView(blurStyle: .prominent))
           .foregroundColor(.primary)
           .cornerRadius(12)
         }
@@ -247,15 +272,15 @@ struct EmailThreadSheetView: View {
         
         Spacer()
         
-        Picker("", selection: $noteTarget) {
-          ForEach(NoteTarget.allCases, id: \.rawValue) { target in
-            Text(target.rawValue)
-              .font(.system(size: 12))
-              .tag(target)
-          }
-        }
-        .pickerStyle(SegmentedPickerStyle())
-        .frame(maxWidth: 168)
+//        Picker("", selection: $noteTarget) {
+//          ForEach(NoteTarget.allCases, id: \.rawValue) { target in
+//            Text(target.rawValue)
+//              .font(.system(size: 12))
+//              .tag(target)
+//          }
+//        }
+//        .pickerStyle(SegmentedPickerStyle())
+//        .frame(maxWidth: 168)
       }
       
       Spacer().frame(height: 12)
@@ -266,7 +291,7 @@ struct EmailThreadSheetView: View {
           withAnimation { noting = true }
         }) {
           HStack(spacing: 0) {
-            Text("add \(noteTarget.rawValue) note")
+            Text("add note")
               .font(.system(size: 15))
               .padding(.trailing, 12)
               .frame(maxWidth: .infinity, alignment: .leading)
@@ -275,7 +300,7 @@ struct EmailThreadSheetView: View {
           }
           .padding(12)
           .frame(maxWidth: .infinity, alignment: .leading)
-          .background(OverlayBackgroundView(blurStyle: .systemThickMaterial))
+          .background(OverlayBackgroundView(blurStyle: .prominent))
           .cornerRadius(12)
         }
       }
@@ -294,6 +319,11 @@ struct EmailThreadSheetView: View {
     .frame(maxHeight: 216)
     .font(.system(size: 15, weight: .thin))
     .foregroundColor(noting ? .white : .psyAccent.opacity(0.9))
+  }
+  
+  func save() {
+    dataCtrl.save()
+    dataCtrl.context.refresh(thread!, mergeChanges: true)
   }
   
 }

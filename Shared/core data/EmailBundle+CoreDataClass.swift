@@ -24,8 +24,6 @@ public class EmailBundle: NSManagedObject {
   func fetchRequestWithName(_ name: String) -> NSFetchRequest<EmailBundle> {
     let request = EmailBundle.fetchRequest()
     request.predicate = NSPredicate(format: "name == %@", name)
-    request.fetchBatchSize = 1
-    request.fetchLimit = 1
     return request
   }
   
@@ -58,14 +56,14 @@ public class EmailBundle: NSManagedObject {
 
 
 // TODO: get rid of this
-private let cBundleConfig = [
-  [
-    "name": "updates",
-    "icon": "livephoto"
-  ],
+let cBundleConfig = [
   [
     "name": "notifications",
     "icon": "bell"
+  ],
+  [
+    "name": "starred",
+    "icon": "star"
   ],
   [
     "name": "inbox",
@@ -80,8 +78,8 @@ private let cBundleConfig = [
     "icon": "calendar"
   ],
   [
-    "name": "health",
-    "icon": "heart.text.square"
+    "name": "updates",
+    "icon": "livephoto"
   ],
   [
     "name": "commerce",
@@ -100,12 +98,28 @@ private let cBundleConfig = [
     "icon": "backpack"
   ],
   [
+    "name": "marketing",
+    "icon": "megaphone"
+  ],
+  [
     "name": "society",
     "icon": "building.2"
   ],
   [
-    "name": "marketing",
-    "icon": "megaphone"
+    "name": "health",
+    "icon": "heart.text.square"
+  ],
+  [
+    "name": "archive",
+    "icon": "archivebox"
+  ],
+  [
+    "name": "sent",
+    "icon": "tray.and.arrow.up"
+  ],
+  [
+    "name": "drafts",
+    "icon": "doc.text"
   ]
 ]
 private let cBundleConfigByName = cBundleConfig.reduce(into: [:], { result, config in

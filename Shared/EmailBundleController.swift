@@ -41,6 +41,7 @@ class EmailBundleController: NSObject, ObservableObject {
         orderIndex: 2, //bundles.count, TODO: uncomment this for release
         context: dataCtrl.context
       )
+      dataCtrl.save()
     }
     selectedBundle = inboxBundle!
     
@@ -69,6 +70,34 @@ class EmailBundleController: NSObject, ObservableObject {
   }
   
 }
+
+// MARK: - PUBLIC
+
+extension EmailBundleController {
+  
+  func initDefaultBundles() {
+    makePreconfiguredBundleNamed("archive")
+    makePreconfiguredBundleNamed("starred")
+//    makePreconfiguredBundleNamed("sent")
+//    makePreconfiguredBundleNamed("drafts")
+    dataCtrl.save()
+  }
+  
+  private func makePreconfiguredBundleNamed(_ name: String) {
+    let configIndex = cBundleConfig.firstIndex(where: { $0["name"] == name })!
+    let config = cBundleConfig[configIndex]
+    let _ = EmailBundle(
+      name: name,
+      labelId: "",
+      icon: config["icon"],
+      orderIndex: configIndex,
+      context: dataCtrl.context
+    )
+  }
+  
+}
+
+// MARK: - FETECHED RESULTS CONTROLLER DELEGATE
 
 extension EmailBundleController: NSFetchedResultsControllerDelegate {
   

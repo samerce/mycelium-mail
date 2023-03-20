@@ -42,6 +42,7 @@ struct FirstStartView: View {
       
       Button {
         AccountController.shared.signIn()
+        EmailBundleController.shared.initDefaultBundles()
       } label: {
         Text("SIGN IN")
           .font(.system(size: 18))

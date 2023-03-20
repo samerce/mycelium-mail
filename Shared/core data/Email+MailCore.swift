@@ -157,14 +157,36 @@ extension Email {
     }
   }
   
-  func markSeen() async throws {
-    guard !seen else { return }
-    try await updateFlags(.seen, operation: .add)
+  func markSeen(_ seen: Bool = true) async throws {
+    try await updateFlags(.seen, operation: seen ? .add : .remove)
   }
   
-  func markFlagged() async throws {
-    guard !flagged else { return }
-    try await updateFlags(.flagged, operation: .add)
+  func markFlagged(_ flagged: Bool = true) async throws {
+    try await updateFlags(.flagged, operation: flagged ? .add : .remove)
+  }
+  
+  func updateFlags(_ flags: MCOMessageFlag, operation: MCOIMAPStoreFlagsRequestKind) async throws {
+    print("updating imap flags")
+    
+    // TODO: handle this force unwrap
+    try await runOperation(session.storeFlagsOperation(
+      withFolder: DefaultFolder,
+      uids: uidSet,
+      kind: operation,
+      flags: flags
+    ))
+
+    // TODO: update from server instead?
+    switch operation {
+      case .add:
+        addFlags(flags)
+      case .remove:
+        removeFlags(flags)
+      case .set:
+        addFlags(flags)
+      @unknown default:
+        fatalError()
+    }
   }
   
   func addFlags(_ _flags: MCOMessageFlag) {
@@ -177,19 +199,6 @@ extension Email {
     var newFlags = flags
     newFlags.remove(_flags)
     flags = newFlags
-  }
-  
-  func updateFlags(_ flags: MCOMessageFlag, operation: MCOIMAPStoreFlagsRequestKind) async throws {
-    print("updating imap flags")
-    
-    // TODO: handle this force unwrap
-    try await runOperation(session.storeFlagsOperation(
-      withFolder: DefaultFolder,
-      uids: uidSet,
-      kind: .add,
-      flags: .seen
-    ))
-    addFlags(.seen) // TODO: update from server instead?
   }
   
 }
@@ -213,14 +222,23 @@ extension Email {
     try await runOperation(session.expungeOperation("INBOX"))
   }
   
+  func archive() async throws {
+    print("archiving \(subject)")
+    
+    labels.remove(cInboxLabel)
+    try await updateLabels([cInboxLabel], operation: .remove)
+  }
+  
   func addLabels(_ labels: [String]) async throws {
     print("adding imap labels \(labels)")
+    
     try await updateLabels(labels, operation: .add)
     labels.forEach{ self.labels.insert($0) }
   }
   
   func removeLabels(_ labels: [String]) async throws {
     print("removing imap labels \(labels)")
+    
     try await updateLabels(labels, operation: .remove)
     labels.forEach { self.labels.remove($0) }
   }
@@ -228,7 +246,7 @@ extension Email {
   func updateLabels(_ labels: [String], operation: MCOIMAPStoreFlagsRequestKind) async throws {
     try await runOperation(session.storeLabelsOperation(withFolder: DefaultFolder,
                                                         uids: uidSet,
-                                                        kind: .add,
+                                                        kind: operation,
                                                         labels: labels))
   }
   

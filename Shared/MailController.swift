@@ -315,7 +315,7 @@ class MailController: NSObject, ObservableObject {
         }
       }
 
-      print("\(email.uid) hydrated • \(email.subject)")
+      print("\(email.uid) saved • \(email.subject)")
     }
   }
   
@@ -415,7 +415,7 @@ class MailController: NSObject, ObservableObject {
           }
         }
 
-        print("\(email.uid) fully hydrated • \(email.subject)")
+        print("\(email.uid) saved • \(email.subject)")
       }
     }
   }
@@ -448,15 +448,33 @@ class MailController: NSObject, ObservableObject {
     return nil
   }
   
-  private
+  
   func bundleNameForEmail(_ email: Email) -> String? {
+    // the if-statement order is important
+    
     if email.labels.contains(cSentLabel) || email.labels.contains(cDraftLabel) {
-      // don't put sent or draft emails in a bundle
       return nil
     }
     
+    if email.flagged {
+      return "starred"
+    }
+
+    // TODO: re-enable these when their bundles can work with EmailThread
+//    if email.labels.contains(cSentLabel) {
+//      return "sent"
+//    }
+//
+//    if email.labels.contains(cDraftLabel) {
+//      return "drafts"
+//    }
+    
     if let bundleLabel = email.labels.first(where: { $0.contains("psymail") }) {
       return bundleLabel.replacing("psymail/", with: "")
+    }
+    
+    if !email.labels.contains(cInboxLabel) {
+      return "archive"
     }
     
     return "inbox"

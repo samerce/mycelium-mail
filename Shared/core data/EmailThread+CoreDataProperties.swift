@@ -27,6 +27,10 @@ extension EmailThread {
     emails.first(where: { $0.from.address != account.address })!
   }
   
+  var flagged: Bool {
+    emails.contains(where: { $0.flagged })
+  }
+  
   @NSManaged public var id: Int64
   @NSManaged public var lastMessageDate: Date
   @NSManaged public var subject: String
