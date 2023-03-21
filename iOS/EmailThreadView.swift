@@ -17,11 +17,6 @@ struct EmailThreadView: View {
     ? AppSheetDetents.min + safeAreaInsets.bottom
     : keyboardHeight
   }
-  var rowInsets: EdgeInsets {
-    isPreview
-    ? .init()
-    : .init(top: 0, leading: 9, bottom: 12, trailing: 9)
-  }
   
   // MARK: - VIEW
   
@@ -29,13 +24,14 @@ struct EmailThreadView: View {
     List {
       if isPreview {
         Message(email: thread.lastReceivedEmail, isPreview: true)
-          .listRowInsets(rowInsets)
+          .listRowInsets(.init())
       } else {
         ForEach(thread.emails, id: \.id) { email in
           Message(email: email)
             .listRowInsets(.init())
             .listRowBackground(Color.clear)
             .listRowSeparator(.hidden)
+            .padding(.bottom, 12)
         }
       }
     }
