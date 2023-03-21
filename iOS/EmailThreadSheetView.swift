@@ -357,11 +357,11 @@ struct ThreadTools: View {
           navCtrl.goBack(withSheet: .inbox)
         }
       }
-      ToolButton("mark \(seen ? "unread" : "read")", seen ? "envelope.badge" : "envelope.open") {
+      ToolButton("mark unread", "envelope.badge") {
         Task {
-          sheetCtrl.setDetent(AppSheet.emailThread.initialDetent)
           try await thread?.markSeen(!seen)
           dataCtrl.save()
+          navCtrl.goBack(withSheet: .inbox)
         }
       }
       ToolButton("unsubscribe", "hand.raised")
