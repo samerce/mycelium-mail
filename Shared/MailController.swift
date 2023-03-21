@@ -174,16 +174,12 @@ class MailController: NSObject, ObservableObject {
     }
     
     print("creating filter for \(address) to \(bundle.name)")
-    try await Gmail.call(.createFilter, forAccount: account, withBody: [
-      /// see:  https://developers.google.com/gmail/api/guides/filter_settings
-      "criteria": [
-        "from": address,
-      ],
-      "action": [
-        "addLabelIds": [bundle.labelId],
-        "removeLabelIds": ["INBOX", "SPAM"] // skip the inbox, never send to spam
-      ]
-    ])
+
+    /// see:  https://developers.google.com/gmail/api/guides/filter_settings
+    let criteria = GFilterCriteria(from: address)
+    let action = GFilterAction(addLabelIds: [bundle.labelId], removeLabelIds: ["INBOX", "SPAM"])
+    let newFilter = GFilter(id: "", criteria: criteria, action: action)
+    try await Gmail.call(.createFilter, forAccount: account, withBody: newFilter)
   }
   
   func emailsFromSenderOf(_ email: Email) -> [Email] {

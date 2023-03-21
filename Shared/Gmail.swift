@@ -5,7 +5,7 @@ struct Gmail {
   
   @discardableResult
   static func call(
-    _ endpoint: GmailEndpoint, forAccount account: Account, withBody body: Any? = nil
+    _ endpoint: GmailEndpoint, forAccount account: Account, withBody body: Codable? = nil
   ) async throws -> (Decodable, URLResponse) {
     
     var request = URLRequest(url: endpoint.url)
@@ -16,7 +16,7 @@ struct Gmail {
       request.addValue("application/json", forHTTPHeaderField: "Content-Type")
       
       do {
-        request.httpBody = try JSONSerialization.data(withJSONObject: body, options: [])
+        request.httpBody = try JSONEncoder().encode(body)
       } catch {
         print("error creating http body for gmail call")
         throw error

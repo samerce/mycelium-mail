@@ -54,9 +54,12 @@ struct BundleSettingsView: View {
   var FilterList: some View {
     List(selection: $selectedFilters) {
       Text("FILTERS")
-        .font(.system(size: 14, weight: .medium))
+        .font(.system(size: 13))
         .foregroundColor(.secondary)
         .listRowBackground(Color.clear)
+        .listRowInsets(.init())
+        .listRowSeparator(.hidden)
+        .padding(.horizontal, 12)
       
       ForEach(validFilters, id: \.id) { filter in
         FilterListRow(criteria: Binding(
@@ -80,7 +83,7 @@ struct BundleSettingsView: View {
           .tint(.pink)
         }
         .listRowSeparator(.hidden)
-        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+        .listRowInsets(.init())
         .listRowBackground(Color.clear)
       }
     }
@@ -93,7 +96,7 @@ struct BundleSettingsView: View {
   var Header: some View {
     VStack(spacing: 0) {
       Text("BUNDLE SETTINGS")
-        .font(.system(size: 14))
+        .font(.system(size: 13))
         .foregroundColor(.secondary)
         .frame(maxWidth: .infinity)
         .padding(.vertical, 9)
@@ -165,9 +168,9 @@ struct BundleSettingsView: View {
         withAnimation {
           let newFilter = GFilter(id: UUID().uuidString)
           newFilters.insert(newFilter, at: 0)
-          criteriaByFilterId[newFilter.id] = [
-            cCriteriaOptionsById["from"]!.copy()
-          ]
+          
+          let options = cCriteriaOptionsById["from"]!
+          criteriaByFilterId[newFilter.id] = [options]
         }
       }
     } label: {
@@ -259,7 +262,7 @@ private struct FilterListRow: View {
   
   func CriteriaOptionButton(optionId: String) -> some View {
     Button(cCriteriaOptionsById[optionId]!.label) {
-      let newCriteria = cCriteriaOptionsById[optionId]!.copy()
+      let newCriteria = cCriteriaOptionsById[optionId]!
       criteria.append(newCriteria)
     }
   }
@@ -314,7 +317,9 @@ extension BundleSettingsView {
       criteriaByFilterId = filters.reduce(into: [:], { dict, filter in
         dict[filter.id] = cCriteriaOptions.reduce(into: []) { array, option in
           if let value = filter.criteria.value(for: option.id) {
-            array.append(option.copy(value: value as? String))
+            var _option = option
+            _option.value = value as? String ?? ""
+            array.append(_option)
           }
         }
       })
@@ -334,25 +339,23 @@ extension BundleSettingsView {
     let account = AccountController.shared.accounts.first!.value
     
     for (filterId, criteria) in criteriaByFilterId {
-      let filter = filters.first(where: { $0.id == filterId })!
+      var filter = filters.first(where: { $0.id == filterId })!
       
       if criteria.allSatisfy({ $0.deleted }) {
         deletedFilters.insert(filter)
         continue
       }
       
-      if !criteria.contains(where: { $0.edited }) {
+      if !criteria.contains(where: { $0.edited || $0.deleted }) {
         continue
       }
       
       Task {
-        let action = filter.action ?? GFilterAction(addLabelIds: [bundle.labelId])
+        filter.criteria = gCriteriaFromCriteria(criteria)
+        filter.action = filter.action ?? GFilterAction(addLabelIds: [bundle.labelId])
         
         // TODO: get account from bundle instead of this hack
-        try await Gmail.call(.createFilter, forAccount: account, withBody: [
-          "criteria": gCriteriaFromCriteria(criteria),
-          "action": action
-        ])
+        try await Gmail.call(.createFilter, forAccount: account, withBody: filter)
         
         // TODO: retry on failure?
         try await Gmail.call(.deleteFilter(id: filterId), forAccount: account)
@@ -373,15 +376,15 @@ extension BundleSettingsView {
 
 func gCriteriaFromCriteria(_ criteria: [Criterion]) -> GFilterCriteria {
   var gCriteria = GFilterCriteria()
-  gCriteria.from = criteria.first(where: { $0.id == "from" })?.value as? String ?? ""
-  gCriteria.to = criteria.first(where: { $0.id == "to" })?.value as? String ?? ""
-  gCriteria.subject = criteria.first(where: { $0.id == "subject" })?.value as? String ?? ""
-  gCriteria.query = criteria.first(where: { $0.id == "query" })?.value as? String ?? ""
-  gCriteria.negatedQuery = criteria.first(where: { $0.id == "negatedQuery" })?.value as? String ?? ""
+  gCriteria.from = criteria.first(where: { $0.id == "from" })?.value as? String
+  gCriteria.to = criteria.first(where: { $0.id == "to" })?.value as? String
+  gCriteria.subject = criteria.first(where: { $0.id == "subject" })?.value as? String
+  gCriteria.query = criteria.first(where: { $0.id == "query" })?.value as? String
+  gCriteria.negatedQuery = criteria.first(where: { $0.id == "negatedQuery" })?.value as? String
   gCriteria.hasAttachment = false //criteria.first(where: { $0.id == "hasAttachment" })?.value as? Bool ?? false
-  gCriteria.excludeChats = true
+  gCriteria.excludeChats = false
   gCriteria.size = 0 //criteria.first(where: { $0.id == "size" })?.value as? Int ?? 0
-  gCriteria.sizeComparison = criteria.first(where: { $0.id == "sizeComparison" })?.value as? String ?? ""
+  gCriteria.sizeComparison = criteria.first(where: { $0.id == "sizeComparison" })?.value as? String
   return gCriteria
 }
 
@@ -393,8 +396,8 @@ let cCriteriaOptions = [
   Criterion(id: "from", value: "", label: "from", prompt: "email or name"),
   Criterion(id: "to", value: "", label: "to", prompt: "email or name"),
   Criterion(id: "subject", value: "", label: "subject", prompt: "subject text"),
-  Criterion(id: "query", value: "", label: "search query", prompt: "any text"),
-  Criterion(id: "negatedQuery", value: "", label: "negated query", prompt: "text to omit"),
+  Criterion(id: "query", value: "", label: "has the words", prompt: "any text"),
+  Criterion(id: "negatedQuery", value: "", label: "doesn't have", prompt: "text to omit"),
   Criterion(id: "hasAttachment", value: "", label: "has attachment", prompt: "yes or no"),
   Criterion(id: "excludeChats", value: "", label: "exclude chats", prompt: "yes or no"),
   Criterion(id: "size", value: "", label: "size", prompt: "email size"),
@@ -412,14 +415,4 @@ struct Criterion: Hashable {
   var prompt: String
   var edited: Bool = false
   var deleted = false
-  
-  func copy(id: String? = nil, value: String? = nil, label: String? = nil, prompt: String? = nil) -> Criterion {
-    return Criterion(id: (id ?? self.id).copy() as! String,
-                     value: (value ?? self.value).copy() as! String,
-                     label: (label ?? self.label).copy() as! String,
-                     prompt: (prompt ?? self.prompt).copy() as! String,
-                     edited: true,
-                     deleted: false)
-  }
-  
 }
