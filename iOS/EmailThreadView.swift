@@ -36,13 +36,6 @@ struct EmailThreadView: View {
             .listRowInsets(.init())
             .listRowBackground(Color.clear)
             .listRowSeparator(.hidden)
-            .contextMenu {
-              Button {
-                Task { await deleteEmail(email) }
-              } label: {
-                Label("delete", systemImage: "trash")
-              }
-            }
         }
       }
     }
@@ -140,7 +133,7 @@ struct Message: View {
   
   var Content: some View {
     VStack(spacing: 0) {
-      SenderLine.visible(if: !isSolo)
+      SenderLine.visible(if: !isSolo || isPreview)
       Html
     }
     .padding(.horizontal, isSolo ? 0 : 9)

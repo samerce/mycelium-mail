@@ -242,7 +242,7 @@ private struct FilterListRow: View {
     .padding(.horizontal, 12)
     .padding(.bottom, 12)
     .padding(.top, 6)
-    .background(OverlayBackgroundView(blurStyle: .systemChromeMaterialDark))
+    .background(Color(.systemBackground))
     .cornerRadius(12)
     .padding(.horizontal, 9)
     .padding(.vertical, 6)
