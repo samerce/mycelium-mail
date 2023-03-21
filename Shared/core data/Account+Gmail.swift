@@ -3,7 +3,7 @@ import Foundation
 extension Account {
   
   func createLabel(_ name: String) async throws -> GLabel {
-    let (labelListResponse, _) = try await GmailEndpoint.call(.listLabels, forAccount: self)
+    let (labelListResponse, _) = try await Gmail.call(.listLabels, forAccount: self)
     let labels = (labelListResponse as! GLabelListResponse).labels
     
     if let label = labels.first(where: { $0.name == name }) {
@@ -11,7 +11,7 @@ extension Account {
       return label
     }
     
-    let (label, _) = try await GmailEndpoint.call(.createLabel, forAccount: self, withBody: [
+    let (label, _) = try await Gmail.call(.createLabel, forAccount: self, withBody: [
       "name": name,
       "labelListVisibility": "labelShow",
       "messageListVisibility": "show",
@@ -29,7 +29,7 @@ extension Account {
     let bundleFetchRequest = EmailBundle.fetchRequestWithProps("name", "labelId")
     let bundles = try context.fetch(bundleFetchRequest)
     
-    let (labelListResponse, _) = try await GmailEndpoint.call(.listLabels, forAccount: self)
+    let (labelListResponse, _) = try await Gmail.call(.listLabels, forAccount: self)
     let labels = (labelListResponse as! GLabelListResponse).labels
     
     // TODO: use batch insert?

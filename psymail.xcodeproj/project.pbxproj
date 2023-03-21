@@ -88,8 +88,8 @@
 		3B9912B629A566B000B3BA36 /* Timer+after.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9912B429A566B000B3BA36 /* Timer+after.swift */; };
 		3B9912B829A587D900B3BA36 /* AppAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9912B729A587D900B3BA36 /* AppAlertView.swift */; };
 		3B9912B929A587D900B3BA36 /* AppAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9912B729A587D900B3BA36 /* AppAlertView.swift */; };
-		3B9912BB29A5892700B3BA36 /* GmailEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9912BA29A5892700B3BA36 /* GmailEndpoint.swift */; };
-		3B9912BC29A5892700B3BA36 /* GmailEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9912BA29A5892700B3BA36 /* GmailEndpoint.swift */; };
+		3B9912BB29A5892700B3BA36 /* Gmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9912BA29A5892700B3BA36 /* Gmail.swift */; };
+		3B9912BC29A5892700B3BA36 /* Gmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9912BA29A5892700B3BA36 /* Gmail.swift */; };
 		3B9B9F8E2634B16A00E3A8B2 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F8D2634B16A00E3A8B2 /* Tests_iOS.swift */; };
 		3B9B9F992634B16A00E3A8B2 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F982634B16A00E3A8B2 /* Tests_macOS.swift */; };
 		3B9B9F9D2634B16A00E3A8B2 /* PsymailApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9F712634B16900E3A8B2 /* PsymailApp.swift */; };
@@ -237,7 +237,7 @@
 		3B9912AE29A296AB00B3BA36 /* PsyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsyError.swift; sourceTree = "<group>"; };
 		3B9912B429A566B000B3BA36 /* Timer+after.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Timer+after.swift"; sourceTree = "<group>"; };
 		3B9912B729A587D900B3BA36 /* AppAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAlertView.swift; sourceTree = "<group>"; };
-		3B9912BA29A5892700B3BA36 /* GmailEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GmailEndpoint.swift; sourceTree = "<group>"; };
+		3B9912BA29A5892700B3BA36 /* Gmail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gmail.swift; sourceTree = "<group>"; };
 		3B9B9F712634B16900E3A8B2 /* PsymailApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsymailApp.swift; sourceTree = "<group>"; };
 		3B9B9F722634B16900E3A8B2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3B9B9F732634B16900E3A8B2 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -387,7 +387,7 @@
 				3BA7DC90265DFB4B009623EF /* EmailClassifiers */,
 				3B0AB62E29B2A3C200E224E5 /* EmailDateFormatter.swift */,
 				3BD150A2265331DF0058B094 /* extensions */,
-				3B9912BA29A5892700B3BA36 /* GmailEndpoint.swift */,
+				3B9912BA29A5892700B3BA36 /* Gmail.swift */,
 				3BF1AD6626617746002F1062 /* InboxView.swift */,
 				3BF1AD602660ACF0002F1062 /* MailController.swift */,
 				3B0AB64429B8041000E224E5 /* NavController.swift */,
@@ -753,7 +753,7 @@
 				3BFD733129C4E894004F2563 /* ButtonImage.swift in Sources */,
 				3B66668B2651EAED0039D9F3 /* ActionCell.swift in Sources */,
 				3B0AB62F29B2A3C200E224E5 /* EmailDateFormatter.swift in Sources */,
-				3B9912BB29A5892700B3BA36 /* GmailEndpoint.swift in Sources */,
+				3B9912BB29A5892700B3BA36 /* Gmail.swift in Sources */,
 				3B80B97429C4DB17002E34BE /* Encodable+dictionary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -777,7 +777,7 @@
 				3BF35D1429AA81D300340D49 /* SystemImage.swift in Sources */,
 				3BF1AD832661861F002F1062 /* EmailPart+CoreDataProperties.swift in Sources */,
 				3BE50199266B4B0A001C2939 /* Color+psy.swift in Sources */,
-				3B9912BC29A5892700B3BA36 /* GmailEndpoint.swift in Sources */,
+				3B9912BC29A5892700B3BA36 /* Gmail.swift in Sources */,
 				3B9912B029A296AB00B3BA36 /* PsyError.swift in Sources */,
 				3BF1AD6526615F18002F1062 /* AccountController.swift in Sources */,
 				3BF1AE2826672A57002F1062 /* EmailDetailToolbarView.swift in Sources */,

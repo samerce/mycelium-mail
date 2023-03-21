@@ -301,7 +301,7 @@ extension BundleSettingsView {
     do {
       fetching = true
       
-      let (filterResponse, _) = try await GmailEndpoint.call(.listFilters, forAccount: account)
+      let (filterResponse, _) = try await Gmail.call(.listFilters, forAccount: account)
       filters = (filterResponse as! GFilterListResponse).filter
       
       filters = filters.filter { filter in
@@ -349,13 +349,13 @@ extension BundleSettingsView {
         let action = filter.action ?? GFilterAction(addLabelIds: [bundle.labelId])
         
         // TODO: get account from bundle instead of this hack
-        try await GmailEndpoint.call(.createFilter, forAccount: account, withBody: [
+        try await Gmail.call(.createFilter, forAccount: account, withBody: [
           "criteria": gCriteriaFromCriteria(criteria),
           "action": action
         ])
         
         // TODO: retry on failure?
-        try await GmailEndpoint.call(.deleteFilter(id: filterId), forAccount: account)
+        try await Gmail.call(.deleteFilter(id: filterId), forAccount: account)
         
         alertCtrl.show(message: "bundle settings updated", icon: "checkmark")
       }
@@ -363,7 +363,7 @@ extension BundleSettingsView {
     
     for filter in deletedFilters {
       Task {
-        try await GmailEndpoint.call(.deleteFilter(id: filter.id), forAccount: account)
+        try await Gmail.call(.deleteFilter(id: filter.id), forAccount: account)
       }
     }
   }

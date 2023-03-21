@@ -146,7 +146,7 @@ class MailController: NSObject, ObservableObject {
     var filterExistsForSameBundle = false
     var filterIdToDelete: String? = nil
     
-    let (filterListResponse, _) = try await GmailEndpoint.call(.listFilters, forAccount: account)
+    let (filterListResponse, _) = try await Gmail.call(.listFilters, forAccount: account)
     let filters = (filterListResponse as! GFilterListResponse).filter
     
     filters.forEach { filter in
@@ -170,11 +170,11 @@ class MailController: NSObject, ObservableObject {
     
     if let id = filterIdToDelete {
       print("filter already exists to send \(address) to a different bundle; deleting existing filter")
-      try await GmailEndpoint.call(.deleteFilter(id: id), forAccount: account)
+      try await Gmail.call(.deleteFilter(id: id), forAccount: account)
     }
     
     print("creating filter for \(address) to \(bundle.name)")
-    try await GmailEndpoint.call(.createFilter, forAccount: account, withBody: [
+    try await Gmail.call(.createFilter, forAccount: account, withBody: [
       /// see:  https://developers.google.com/gmail/api/guides/filter_settings
       "criteria": [
         "from": address,

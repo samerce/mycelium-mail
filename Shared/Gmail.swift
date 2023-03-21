@@ -1,7 +1,7 @@
 import Foundation
 
 
-struct GmailEndpoint {
+struct Gmail {
   var name: String
   var url: URL
   var responseType: Codable.Type
@@ -11,7 +11,7 @@ struct GmailEndpoint {
   
   @discardableResult
   static func call(
-    _ endpoint: GmailEndpoint, forAccount account: Account, withBody body: Any? = nil
+    _ endpoint: Gmail, forAccount account: Account, withBody body: Any? = nil
   ) async throws -> (Decodable, URLResponse) {
     
     var request = URLRequest(url: endpoint.url)
@@ -78,7 +78,7 @@ struct GLabelColor: Codable {
   var backgroundColor: String?
 }
 
-extension GmailEndpoint {
+extension Gmail {
   
   static let listLabels = Self(
     name: "list labels",
@@ -137,7 +137,7 @@ struct GFilterAction: Codable, Hashable {
   var forward: String?
 }
 
-extension GmailEndpoint {
+extension Gmail {
   
   static let listFilters = Self(
     name: "list filters",
@@ -155,7 +155,7 @@ extension GmailEndpoint {
     httpMethod: "POST"
   )
   
-  static func deleteFilter(id: String) -> GmailEndpoint {
+  static func deleteFilter(id: String) -> Gmail {
     return Self(
       name: "delete filter",
       url: URL(string: "https://gmail.googleapis.com/gmail/v1/users/me/settings/filters/\(id)")!,
