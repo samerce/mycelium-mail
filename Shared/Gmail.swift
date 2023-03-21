@@ -2,16 +2,10 @@ import Foundation
 
 
 struct Gmail {
-  var name: String
-  var url: URL
-  var responseType: Codable.Type
-  var httpMethod: String
-  
-  // MARK: - EXECUTOR
   
   @discardableResult
   static func call(
-    _ endpoint: Gmail, forAccount account: Account, withBody body: Any? = nil
+    _ endpoint: GmailEndpoint, forAccount account: Account, withBody body: Any? = nil
   ) async throws -> (Decodable, URLResponse) {
     
     var request = URLRequest(url: endpoint.url)
@@ -50,11 +44,7 @@ struct Gmail {
   
 }
 
-
-struct ResponseTypeNone: Codable {}
-
-
-// MARK: - GMAIL LABELS
+// MARK: - LABELS
 
 struct GLabelListResponse: Codable {
   var labels: [GLabel]
@@ -78,7 +68,7 @@ struct GLabelColor: Codable {
   var backgroundColor: String?
 }
 
-extension Gmail {
+extension GmailEndpoint {
   
   static let listLabels = Self(
     name: "list labels",
@@ -96,7 +86,7 @@ extension Gmail {
   
 }
 
-// MARK: - GMAIL FILTERS
+// MARK: - FILTERS
 
 struct GFilterListResponse: Codable {
   var filter: [GFilter]
@@ -137,7 +127,7 @@ struct GFilterAction: Codable, Hashable {
   var forward: String?
 }
 
-extension Gmail {
+extension GmailEndpoint {
   
   static let listFilters = Self(
     name: "list filters",
@@ -155,7 +145,7 @@ extension Gmail {
     httpMethod: "POST"
   )
   
-  static func deleteFilter(id: String) -> Gmail {
+  static func deleteFilter(id: String) -> GmailEndpoint {
     return Self(
       name: "delete filter",
       url: URL(string: "https://gmail.googleapis.com/gmail/v1/users/me/settings/filters/\(id)")!,
@@ -165,3 +155,14 @@ extension Gmail {
   }
   
 }
+
+// MARK: - DEFINITIONS
+
+struct GmailEndpoint {
+  var name: String
+  var url: URL
+  var responseType: Codable.Type
+  var httpMethod: String
+}
+
+struct ResponseTypeNone: Codable {}
