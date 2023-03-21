@@ -1,6 +1,9 @@
 import SwiftUI
 
 
+private let dataCtrl = PersistenceController.shared
+
+
 struct InboxListRow: View {
   var thread: EmailThread
   
@@ -46,7 +49,8 @@ struct InboxListRow: View {
     .frame(height: 54)
     .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
     .contentShape(Rectangle())
-    .swipeActions(edge: .trailing) { swipeActions }
+    .swipeActions(edge: .leading) { swipeActionsLeading }
+    .swipeActions(edge: .trailing) { swipeActionsTrailing }
     .contextMenu { MoveToBundleMenu(thread: thread) } preview: {
       EmailThreadView(thread: thread, isPreview: true)
         .frame(width: screenWidth, height: screenHeight / 2)
@@ -54,25 +58,51 @@ struct InboxListRow: View {
   }
   
   @ViewBuilder
-  var swipeActions: some View {
+  var swipeActionsLeading: some View {
+    Button {
+      Task {
+        try await thread.markSeen(!thread.seen) // TODO: handle error
+        dataCtrl.save()
+      }
+    } label: {
+      Label("mark \(thread.seen ? "unread" : "read")",
+            systemImage: thread.seen ? "envelope.badge" : "envelope.open")
+    }
+  }
+  
+  @ViewBuilder
+  var swipeActionsTrailing: some View {
     Button(role: .destructive) {
       Task {
         try? await thread.moveToTrash() // TODO: handle error
-        PersistenceController.shared.save()
+        dataCtrl.save()
       }
     } label: {
       Label("trash", systemImage: "trash")
     }
     .tint(.pink)
     
-    Button { print("bundle") } label: {
-      Label("bundle", systemImage: "giftcard")
+    Button {
+    
+    } label: {
+      Label("bundle", systemImage: "mail.stack")
     }
-    Button { print("bundle") } label: {
-      Label("follow up", systemImage: "pin")
+    
+    Button {
+      Task {
+        try await thread.markFlagged() // TODO: handle error
+        dataCtrl.save()
+      }
+    } label: {
+      Label("star", systemImage: thread.flagged ? "star.fill" : "star")
     }
-    Button { print("note") } label: {
-      Label("note", systemImage: "note.text")
+    Button {
+      Task {
+        try await thread.archive() // TODO: handle error
+        dataCtrl.save()
+      }
+    } label: {
+      Label("archive", systemImage: "archivebox")
     }
     Button { print("notification") } label: {
       Label("notifications", systemImage: "bell")
