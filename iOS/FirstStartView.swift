@@ -6,6 +6,7 @@ struct FirstStartView: View {
   @ObservedObject var mailCtrl = MailController.shared
   @ObservedObject var sheetCtrl = AppSheetController.shared
   @ObservedObject var accountCtrl = AccountController.shared
+  @AppStorage("completedIniitalDownload") var completedInitialDownload: Bool = false
   
   // MARK: - VIEW
   
@@ -20,6 +21,7 @@ struct FirstStartView: View {
           .font(.system(size: 18))
           .onReceive(mailCtrl.$threadsInSelectedBundle) { emails in
             if !emails.isEmpty {
+              completedInitialDownload = true
               withAnimation { sheetCtrl.sheet = .inbox }
             }
           }

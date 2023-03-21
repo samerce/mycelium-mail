@@ -14,6 +14,7 @@ class AppSheetController: ObservableObject {
   @Published var sheet: AppSheet = initialSheet
   @Published var selectedDetent: PresentationDetent = initialSheet.initialDetent
   @Published var percentToMid: CGFloat = 0
+  @AppStorage("completedIniitalDownload") var completedInitialDownload: Bool = true
   
   var sheetSize: CGSize = CGSize() {
     didSet {
@@ -23,26 +24,11 @@ class AppSheetController: ObservableObject {
     }
   }
   var args: [Any] = []
-  private var initSubscribers: [AnyCancellable] = []
   
   // MARK: -
   
   private init() {
-    // set the sheet mode based on email availability
-    mailCtrl.$threadsInSelectedBundle
-      .sink { threads in
-        if threads.isEmpty {
-          self.sheet = .firstStart
-        } else if self.sheet == .firstStart {
-          self.sheet = .inbox
-          self.initSubscribers.forEach { $0.cancel() }
-        }
-      }
-      .store(in: &initSubscribers)
-  }
-  
-  deinit {
-    initSubscribers.forEach { $0.cancel() }
+    sheet = completedInitialDownload ? .inbox : .firstStart
   }
   
   // MARK: - PUBLIC
