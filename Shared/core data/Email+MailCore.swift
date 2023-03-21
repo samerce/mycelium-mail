@@ -258,6 +258,29 @@ extension Email {
   
 }
 
+// MARK: - FOLDERS
+
+extension Email {
+  
+  func moveToJunk() async throws {
+    print("moving \(subject) to junk")
+    
+    let moveOp = session.moveMessagesOperation(withFolder: DefaultFolder, uids: uidSet, destFolder: cJunkFolder)
+    
+    return try await withCheckedThrowingContinuation { continuation in
+      moveOp?.start { error, uidDict in
+        if let error = error {
+          continuation.resume(throwing: PsyError.unexpectedError(error))
+          return
+        }
+        
+        continuation.resume()
+      }
+    }
+  }
+  
+}
+
 // MARK: - SENDING
 
 extension Email {

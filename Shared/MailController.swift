@@ -6,6 +6,7 @@ import CoreData
 
 
 let DefaultFolder = "[Gmail]/All Mail" //"INBOX"
+let cJunkFolder = "[Gmail]/Spam"
 let cInboxLabel = "\\Inbox"
 let cSentLabel = "\\Sent"
 let cTrashLabel = "\\Trash"

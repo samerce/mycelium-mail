@@ -1,18 +1,11 @@
 import SwiftUI
 import Introspect
 
-private let Tools = [
-  "forward": "arrowshape.turn.up.right",
-  "mark unread": "envelope",
-  "junk": "xmark.bin",
-  "mute": "bell.slash",
-  "notify": "bell",
-  "block": "nosign",
-  "archive": "archivebox",
-  "save as pdf": "square.and.arrow.down",
-  "print": "printer",
-  "unsubscribe": "hand.raised"
-]
+
+private let dataCtrl = PersistenceController.shared
+private let sheetCtrl = AppSheetController.shared
+private let navCtrl = NavController.shared
+
 
 private let ToolImageSize: CGFloat = 36
 private var toolGridItems: [GridItem] {
@@ -25,10 +18,7 @@ private enum NoteTarget: String, CaseIterable, Equatable {
 
 
 struct EmailThreadSheetView: View {
-  @ObservedObject var dataCtrl = PersistenceController.shared
   @ObservedObject var mailCtrl = MailController.shared
-  @ObservedObject var sheetCtrl = AppSheetController.shared
-  @ObservedObject var navCtrl = NavController.shared
   
   @State private var replying = false
   @State private var replyText: String = ""
@@ -72,7 +62,7 @@ struct EmailThreadSheetView: View {
         .frame(maxWidth: .infinity)
         .padding(.vertical, 6)
         
-        MoreTools
+        ThreadTools(thread: thread)
           .padding(.top, 27)
         
         Spacer().frame(height: 27)
@@ -246,15 +236,16 @@ struct EmailThreadSheetView: View {
         Text(fromLine)
           .font(.system(size: 12))
           .padding(.bottom, 2)
+          .foregroundColor(.white)
         
         HStack {
           SystemImage(name: "tray.full", size: 12, color: .secondary, weight: .light)
             .padding(.top, 2)
           Text(accountLine)
             .font(.system(size: 12, weight: .light))
+            .foregroundColor(.secondary)
         }
       }
-      .foregroundColor(.secondary)
       .lineLimit(1)
       .padding(.horizontal, 12)
       .contentShape(Rectangle())
@@ -269,28 +260,6 @@ struct EmailThreadSheetView: View {
   private var ComposeButton: some View {
     Button(action: {}) {
       ButtonImage(name: "square.and.pencil", size: cButtonSize, weight: .regular)
-    }
-  }
-  
-  private var MoreTools: some View {
-    LazyVGrid(columns: toolGridItems, spacing: 9) {
-      ForEach(Array(Tools.keys), id: \.self) { filter in
-        Button(action: {}) {
-          Label {
-            ButtonImage(name: Tools[filter]!, color: .white)
-          } icon: {
-            Text(filter)
-              .frame(maxWidth: .infinity, alignment: .leading)
-          }
-          .font(.system(size: 15))
-          .frame(maxWidth: .infinity)
-          .padding(.vertical, 9)
-          .padding(.horizontal, 12)
-          .background(OverlayBackgroundView(blurStyle: .prominent))
-          .foregroundColor(.primary)
-          .cornerRadius(12)
-        }
-      }
     }
   }
   
@@ -365,3 +334,70 @@ struct EmailThreadSheetView_Previews: PreviewProvider {
     EmailThreadSheetView()
   }
 }
+
+// MARK: - TOOLS
+
+struct ThreadTools: View {
+  var thread: EmailThread?
+  
+  var seen: Bool {
+    thread != nil && thread!.seen
+  }
+  
+  var body: some View {
+    LazyVGrid(columns: toolGridItems, spacing: 9) {
+      ToolButton("remind me", "clock")
+        .opacity(0.5)
+      ToolButton("forward", "arrowshape.turn.up.right")
+        .opacity(0.5)
+      ToolButton("junk", "xmark.bin") {
+        Task {
+          try await thread?.moveToJunk()
+          dataCtrl.save()
+          navCtrl.goBack(withSheet: .inbox)
+        }
+      }
+      ToolButton("mark \(seen ? "unread" : "read")", seen ? "envelope.badge" : "envelope.open") {
+        Task {
+          sheetCtrl.setDetent(AppSheet.emailThread.initialDetent)
+          try await thread?.markSeen(!seen)
+          dataCtrl.save()
+        }
+      }
+      ToolButton("unsubscribe", "hand.raised")
+        .opacity(0.5)
+      ToolButton("block sender", "nosign")
+        .opacity(0.5)
+      ToolButton("mute", "bell.slash")
+        .opacity(0.5)
+      ToolButton("notify me", "bell")
+        .opacity(0.5)
+      ToolButton("save as pdf", "square.and.arrow.down")
+        .opacity(0.5)
+      ToolButton("print", "printer")
+        .opacity(0.5)
+    }
+  }
+    
+  func ToolButton(_ label: String, _ icon: String, _ action: (() -> Void)? = nil) -> some View {
+    Button { action?() } label: {
+      Label {
+        ButtonImage(name: icon, color: .white)
+      } icon: {
+        Text(label)
+          .frame(maxWidth: .infinity, alignment: .leading)
+      }
+      .font(.system(size: 15))
+      .frame(maxWidth: .infinity)
+      .padding(.vertical, 9)
+      .padding(.horizontal, 12)
+      .background(OverlayBackgroundView(blurStyle: .prominent))
+      .foregroundColor(.primary)
+      .cornerRadius(12)
+    }
+  }
+  
+}
+
+// MARK: - DEFINITIONS
+

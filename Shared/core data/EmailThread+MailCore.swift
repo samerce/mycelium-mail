@@ -30,6 +30,13 @@ extension EmailThread {
     trashed = true
   }
   
+  func moveToJunk() async throws {
+    for email in emails {
+      try await email.moveToJunk()
+    }
+    trashed = true // TODO: separate property for spam?
+  }
+  
   func markSeen(_ seen: Bool = true) async throws {
     for email in emails {
       try await email.markSeen(seen)
