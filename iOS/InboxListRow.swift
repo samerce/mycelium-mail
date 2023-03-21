@@ -61,8 +61,14 @@ struct InboxListRow: View {
   var swipeActionsLeading: some View {
     Button {
       Task {
-        try await thread.markSeen(!thread.seen) // TODO: handle error
-        dataCtrl.save()
+        do {
+          try await thread.markSeen(!thread.seen) // TODO: handle error
+          dataCtrl.save()
+        }
+        catch {
+          print("error marking \(thread.subject): \(error.localizedDescription)")
+          // TODO: error ux
+        }
       }
     } label: {
       Label("mark \(thread.seen ? "unread" : "read")",
@@ -74,8 +80,14 @@ struct InboxListRow: View {
   var swipeActionsTrailing: some View {
     Button(role: .destructive) {
       Task {
-        try? await thread.moveToTrash() // TODO: handle error
-        dataCtrl.save()
+        do {
+          try await thread.moveToTrash() // TODO: handle error
+          dataCtrl.save()
+        }
+        catch {
+          print("error deleting \(thread.subject): \(error.localizedDescription)")
+          // TODO: error ux
+        }
       }
     } label: {
       Label("trash", systemImage: "trash")
@@ -90,16 +102,28 @@ struct InboxListRow: View {
     
     Button {
       Task {
-        try await thread.markFlagged() // TODO: handle error
-        dataCtrl.save()
+        do {
+          try await thread.markFlagged()
+          dataCtrl.save()
+        }
+        catch {
+          print("error flagging \(thread.subject): \(error.localizedDescription)")
+          // TODO: error ux
+        }
       }
     } label: {
       Label("star", systemImage: thread.flagged ? "star.fill" : "star")
     }
     Button {
       Task {
-        try await thread.archive() // TODO: handle error
-        dataCtrl.save()
+        do {
+          try await thread.archive() // TODO: handle error
+          dataCtrl.save()
+        }
+        catch {
+          print("error archiving \(thread.subject): \(error.localizedDescription)")
+          // TODO: error ux
+        }
       }
     } label: {
       Label("archive", systemImage: "archivebox")
