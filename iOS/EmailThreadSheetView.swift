@@ -43,8 +43,8 @@ struct EmailThreadSheetView: View {
         CancelReplyButton
         ArchiveButton
         StarButton
-        TrashButton
         BundleButton
+        TrashButton
         ReplyTextField
         ReplyButton
       }
