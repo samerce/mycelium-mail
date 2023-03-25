@@ -62,8 +62,8 @@ let cBundleConfig = [
     "icon": "bell"
   ],
   [
-    "name": "starred",
-    "icon": "star"
+    "name": "important",
+    "icon": "flag"
   ],
   [
     "name": "inbox",

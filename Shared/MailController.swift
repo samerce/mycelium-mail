@@ -97,6 +97,20 @@ class MailController: NSObject, ObservableObject {
     }
   }
   
+  func moveThread(_ thread: EmailThread, toBundleNamed bundleName: String, always: Bool = true) async throws {
+    var toBundle: EmailBundle?
+    try await moc.perform {
+      toBundle = try EmailBundle.fetchRequestWithName(bundleName).execute().first
+    }
+    
+    guard let toBundle = toBundle
+    else {
+      throw PsyError.unexpectedError(message: "couldn't find bundle named \(bundleName) for move operation")
+    }
+    
+    try await moveThread(thread, fromBundle: thread.bundle, toBundle: toBundle, always: always)
+  }
+  
   func moveThread(_ thread: EmailThread, fromBundle: EmailBundle, toBundle: EmailBundle, always: Bool = true) async throws {
     await moc.perform {
       // proactively update core data and revert if update request fails
@@ -453,10 +467,6 @@ class MailController: NSObject, ObservableObject {
       return nil
     }
     
-    if email.flagged {
-      return "starred"
-    }
-
     // TODO: re-enable these when their bundles can work with EmailThread
 //    if email.labels.contains(cSentLabel) {
 //      return "sent"
@@ -468,10 +478,6 @@ class MailController: NSObject, ObservableObject {
     
     if let bundleLabel = email.labels.first(where: { $0.contains("psymail") }) {
       return bundleLabel.replacing("psymail/", with: "")
-    }
-    
-    if !email.labels.contains(cInboxLabel) {
-      return "archive"
     }
     
     return "inbox"

@@ -10,7 +10,7 @@ extension EmailBundle {
   
   var layout: EmailBundleLayout {
     get {
-      EmailBundleLayout(rawValue: layoutString) ?? .page
+      EmailBundleLayout(rawValue: layoutString) ?? .list
     }
     set {
       layoutString = newValue.rawValue

@@ -116,7 +116,7 @@ struct EmailThreadSheetView: View {
   private var ArchiveButton: some View {
     Button {
       Task {
-        try await thread?.archive()
+        try await mailCtrl.moveThread(thread!, toBundleNamed: "archive", always: false)
         save()
         navCtrl.goBack(withSheet: .inbox)
       }

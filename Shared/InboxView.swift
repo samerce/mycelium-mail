@@ -35,11 +35,9 @@ struct InboxView: View {
     .onChange(of: selectedThreads) { _ in
       if editMode.isEditing { return }
       
-      withAnimation {
-        switch (selectedThreads.isEmpty) {
-          case true: sheetCtrl.sheet = .inbox
-          case false: sheetCtrl.sheet = .emailThread
-        }
+      switch (selectedThreads.isEmpty) {
+        case true: sheetCtrl.sheet = .inbox
+        case false: sheetCtrl.sheet = .emailThread
       }
     }
   }
@@ -115,7 +113,6 @@ extension InboxView {
       InboxListRow(thread: $0)
         .id($0.objectID)
     }
-    .animation(.default, value: threads)
     .listStyle(.plain)
     .onChange(of: selectedBundle) { _ in
       if let firstThread = threads.first {

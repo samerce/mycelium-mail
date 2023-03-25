@@ -228,13 +228,6 @@ extension Email {
     try await runOperation(session.expungeOperation("INBOX"))
   }
   
-  func archive() async throws {
-    print("archiving \(subject)")
-    
-    labels.remove(cInboxLabel)
-    try await updateLabels([cInboxLabel], operation: .remove)
-  }
-  
   func addLabels(_ labels: [String]) async throws {
     print("adding imap labels \(labels)")
     

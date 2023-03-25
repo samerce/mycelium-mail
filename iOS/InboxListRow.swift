@@ -115,14 +115,16 @@ struct InboxListRow: View {
       Label("star", systemImage: thread.flagged ? "star.fill" : "star")
     }
     Button {
-      Task {
-        do {
-          try await thread.archive() // TODO: handle error
-          dataCtrl.save()
-        }
-        catch {
-          print("error archiving \(thread.subject): \(error.localizedDescription)")
-          // TODO: error ux
+      Timer.after(1) { _ in
+        Task {
+          do {
+            try await MailController.shared.moveThread(thread, toBundleNamed: "archive", always: false)
+            dataCtrl.save()
+          }
+          catch {
+            print("error archiving \(thread.subject): \(error.localizedDescription)")
+            // TODO: error ux
+          }
         }
       }
     } label: {

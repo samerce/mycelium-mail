@@ -76,11 +76,9 @@ class EmailBundleController: NSObject, ObservableObject {
 extension EmailBundleController {
   
   func initDefaultBundles() {
-    makePreconfiguredBundleNamed("archive")
-    makePreconfiguredBundleNamed("starred")
 //    makePreconfiguredBundleNamed("sent")
 //    makePreconfiguredBundleNamed("drafts")
-    dataCtrl.save()
+//    dataCtrl.save()
   }
   
   private func makePreconfiguredBundleNamed(_ name: String) {
