@@ -10,27 +10,27 @@ struct InboxView: View {
   @ObservedObject var sheetCtrl = AppSheetController.shared
   @ObservedObject var navCtrl = NavController.shared
   
-  @State var sheetPresented = true
   @State var selectedThreads: Set<EmailThread> = []
   @State var editMode: EditMode = .inactive
+  @State var threadPageIndex: Int = 0
+  @State var scrollProxy: ScrollViewProxy?
   
   var selectedBundle: EmailBundle { bundleCtrl.selectedBundle }
   var threads: [EmailThread] { mailCtrl.threadsInSelectedBundle }
+  var selectedThread: EmailThread? {
+    switch selectedBundle.layout {
+      case .page: return threads.count > 0 ? threads[threadPageIndex] : nil
+      case .list: return selectedThreads.first
+    }
+  }
   
   // MARK: - VIEW
   
   var body: some View {
     NavigationSplitView {
-      InboxList
+      ThreadList
     } detail: {
-      if selectedThreads.isEmpty {
-        Text("no message selected")
-      } else {
-        EmailThreadView(thread: selectedThreads.first!)
-      }
-    }
-    .sheet(isPresented: $sheetPresented) {
-      AppSheetView(sheet: sheetCtrl.sheet)
+      ThreadDetails
     }
     .onChange(of: selectedThreads) { _ in
       if editMode.isEditing { return }
@@ -44,43 +44,38 @@ struct InboxView: View {
     }
   }
   
-}
-
-// MARK: - EmailList
-
-extension InboxView {
+  var ThreadList: some View {
+    ZStack {
+      switch selectedBundle.layout {
+        case .page: PageList
+        case .list: InboxList
+      }
+    }
+    .navigationBarTitleDisplayMode(.inline)
+    .environment(\.editMode, $editMode)
+    .toolbar(content: ToolbarContent)
+    .safeAreaInset(edge: .bottom) {
+      Spacer().height(appSheetDetents.min)
+    }
+    .introspectNavigationController {
+      if navCtrl.navController == nil {
+        navCtrl.navController = $0
+      }
+    }
+    .refreshable {
+      try? await mailCtrl.fetchLatest()
+    }
+    .onChange(of: selectedThreads) { _ in
+      mailCtrl.selectedThreads = selectedThreads
+    }
+  }
   
-  var InboxList: some View {
-    ScrollViewReader { scrollProxy in
-      List(threads, id: \.self, selection: $selectedThreads) {
-        InboxListRow(thread: $0)
-          .id($0.objectID)
-      }
-      .animation(.default, value: threads)
-      .listStyle(.plain)
-      .listRowInsets(.none)
-      .navigationBarTitleDisplayMode(.inline)
-      .environment(\.editMode, $editMode)
-      .toolbar(content: ToolbarContent)
-      .refreshable {
-        try? await mailCtrl.fetchLatest()
-      }
-      .safeAreaInset(edge: .bottom) {
-        Spacer().frame(height: appSheetDetents.min)
-      }
-      .onChange(of: selectedBundle) { _ in
-        if let firstThread = threads.first {
-          scrollProxy.scrollTo(firstThread.objectID)
-        }
-      }
-      .onChange(of: selectedThreads) { _ in
-        mailCtrl.selectedThreads = selectedThreads
-      }
-      .introspectNavigationController {
-        if navCtrl.navController == nil {
-          navCtrl.navController = $0
-        }
-      }
+  @ViewBuilder
+  var ThreadDetails: some View {
+    if let thread = selectedThread {
+      EmailThreadView(thread: thread)
+    } else {
+      Text("no message selected")
     }
   }
   
@@ -108,6 +103,70 @@ extension InboxView {
       }
     }
   }
+  
+}
+
+// MARK: - InboxList
+
+extension InboxView {
+  
+  var InboxList: some View {
+    List(threads, id: \.self, selection: $selectedThreads) {
+      InboxListRow(thread: $0)
+        .id($0.objectID)
+    }
+    .animation(.default, value: threads)
+    .listStyle(.plain)
+    .onChange(of: selectedBundle) { _ in
+      if let firstThread = threads.first {
+        scrollProxy?.scrollTo(firstThread.objectID)
+      }
+    }
+    .scrollProxy($scrollProxy)
+  }
+  
+}
+
+// MARK: - PageList
+
+extension InboxView {
+  
+  @ViewBuilder
+  var PageList: some View {
+    if threads.count == 0 {
+      EmptyView()
+    } else {
+      PageView(selection: $threadPageIndex, axis: .vertical, spacing: 0, prev: prev, next: next) { threadIndex in
+        NavigationLink {
+          ThreadDetails
+        } label: {
+          ThreadPage(thread: threads[threadIndex])
+        }
+      }
+      .ignoresSafeArea()
+      .onChange(of: selectedBundle) { _ in
+        threadPageIndex = 0
+      }
+      .scrollProxy($scrollProxy)
+    }
+  }
+  
+  func prev(_ threadIndex: Int) -> Int? {
+    if threadIndex == 0 {
+      return nil
+    } else {
+      return threadIndex - 1
+    }
+  }
+  
+  func next(_ threadIndex: Int) -> Int? {
+    if threadIndex == threads.count - 1 {
+      return nil
+    } else {
+      return threadIndex + 1
+    }
+  }
+  
 }
 
 

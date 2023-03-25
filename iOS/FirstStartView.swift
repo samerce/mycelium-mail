@@ -6,7 +6,7 @@ struct FirstStartView: View {
   @ObservedObject var mailCtrl = MailController.shared
   @ObservedObject var sheetCtrl = AppSheetController.shared
   @ObservedObject var accountCtrl = AccountController.shared
-  @AppStorage("completedIniitalDownload") var completedInitialDownload: Bool = false
+  @AppStorage(AppStorageKeys.completedInitialDownload) var completedInitialDownload = false
   
   // MARK: - VIEW
   

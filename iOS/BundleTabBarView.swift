@@ -22,8 +22,16 @@ struct BundleTabBarView: View {
   @ObservedObject var sheetCtrl = AppSheetController.shared
   @State var activeTabRow = 0
   
+  var layoutBinding: Binding<EmailBundleLayout>
   var selectedBundle: EmailBundle { bundleCtrl.selectedBundle }
   var percentToMid: CGFloat { sheetCtrl.percentToMid }
+  
+  init() {
+    layoutBinding = Binding(
+      get: { EmailBundleController.shared.selectedBundle.layout },
+      set: { value in EmailBundleController.shared.selectedBundle.layout = value }
+    )
+  }
   
   var tabRows: [[EmailBundle]] {
     let orderedBundles = bundleCtrl.bundles.sorted(by: { $0.orderIndex < $1.orderIndex })
@@ -85,6 +93,10 @@ struct BundleTabBarView: View {
               bundle.newEmailsSinceLastSeen = 1
             }
             PersistenceController.shared.save()
+          }
+          Picker("layout", selection: layoutBinding) {
+            Label("list", systemImage: "rectangle.grid.1x2").tag(EmailBundleLayout.list)
+            Label("page", systemImage: "doc.richtext.fill").tag(EmailBundleLayout.page)
           }
         }
       }

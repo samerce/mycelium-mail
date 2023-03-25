@@ -23,14 +23,10 @@ struct EmailThreadView: View {
   var body: some View {
     List {
       if isPreview {
-        Message(email: thread.lastReceivedEmail, isPreview: true)
-          .listRowInsets(.init())
+        MessageRow(email: thread.lastReceivedEmail, isPreview: true)
       } else {
         ForEach(thread.emails, id: \.id) { email in
-          Message(email: email)
-            .listRowInsets(.init())
-            .listRowBackground(Color.clear)
-            .listRowSeparator(.hidden)
+          MessageRow(email: email)
             .padding(.bottom, 12)
         }
       }
@@ -80,13 +76,11 @@ struct EmailThreadView: View {
 }
 
 
-struct Message: View {
+private struct MessageRow: View {
   var email: Email
   var isPreview: Bool = false
   
-  @State var html = ""
   @State var seenTimer: Timer?
-  @State var htmlHeight: CGFloat = 0.0
   @State var showingFromDetails = false
   
   var fromLine: String {
@@ -102,36 +96,24 @@ struct Message: View {
   // MARK: -
   
   var body: some View {
-    ZStack {
-      if html.isEmpty {
-        ProgressView()
-          .controlSize(.large)
-          .frame(maxWidth: .infinity)
-      }
-      else { Content }
-    }
-    .task {
-      try? await email.fetchHtml() // TODO: handle error
-      html = email.html // TODO: why is this local state necessary?
-      
-      let indexWhereReplyStarts = html.firstMatch(
-        // TODO: make this way more robust
-        of: /(<blockquote|<div class="gmail_quote|<div class="zmail_extra|<div class="moz-cite-prefix)/
-      )?.range.lowerBound.utf16Offset(in: html) ?? 0
-      
-      if indexWhereReplyStarts > 0 {
-        html = String(html.dropLast(html.count - indexWhereReplyStarts))
-        html = String(html.trimmingPrefix(/<br >/))
-        html = html.trimmingCharacters(in: .whitespacesAndNewlines)
-      }
-    }
-  }
-  
-  var Content: some View {
     VStack(spacing: 0) {
-      SenderLine.visible(if: !isSolo || isPreview)
-      Html
+      if (!isSolo || isPreview) {
+        SenderLine
+      }
+      
+      MessageView(email: email)
+        .cornerRadius(isSolo ? 0 : 12)
+        .onAppear {
+          markEmailSeen()
+        }
+        .onDisappear {
+          seenTimer?.invalidate()
+          seenTimer = nil
+        }
     }
+    .listRowInsets(.init())
+    .listRowBackground(Color.clear)
+    .listRowSeparator(.hidden)
     .padding(.horizontal, isSolo ? 0 : 9)
   }
   
@@ -152,19 +134,6 @@ struct Message: View {
     .onTapGesture {
       showingFromDetails.toggle()
     }
-  }
-  
-  var Html: some View {
-    WebView(html: html, height: $htmlHeight)
-      .onAppear {
-        markEmailSeen()
-      }
-      .onDisappear {
-        seenTimer?.invalidate()
-        seenTimer = nil
-      }
-      .height(htmlHeight)
-      .cornerRadius(isSolo ? 0 : 12)
   }
   
   func markEmailSeen() {

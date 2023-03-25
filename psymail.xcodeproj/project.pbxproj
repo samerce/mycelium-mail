@@ -106,6 +106,16 @@
 		3B9B9FD32634E26A00E3A8B2 /* MarketingRecognizer.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9FCE2634E26A00E3A8B2 /* MarketingRecognizer.mlmodel */; };
 		3B9B9FD42634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9FCF2634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel */; };
 		3B9B9FD52634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3B9B9FCF2634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel */; };
+		3BAD28F529CB741B00ECA64F /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAD28F429CB741B00ECA64F /* PageView.swift */; };
+		3BAD28F629CB741B00ECA64F /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAD28F429CB741B00ECA64F /* PageView.swift */; };
+		3BAD28FB29CDF0C300ECA64F /* AppStorageKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAD28FA29CDF0C300ECA64F /* AppStorageKeys.swift */; };
+		3BAD28FC29CDF0C300ECA64F /* AppStorageKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAD28FA29CDF0C300ECA64F /* AppStorageKeys.swift */; };
+		3BAD28FE29CDF1E300ECA64F /* EmailBundleLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAD28FD29CDF1E300ECA64F /* EmailBundleLayout.swift */; };
+		3BAD28FF29CDF1E300ECA64F /* EmailBundleLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAD28FD29CDF1E300ECA64F /* EmailBundleLayout.swift */; };
+		3BC0F20329CF80C100D9389F /* ThreadPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC0F20229CF80C100D9389F /* ThreadPage.swift */; };
+		3BC0F20429CF80C100D9389F /* ThreadPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC0F20229CF80C100D9389F /* ThreadPage.swift */; };
+		3BC0F20629CF818900D9389F /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC0F20529CF818900D9389F /* MessageView.swift */; };
+		3BC0F20729CF818900D9389F /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC0F20529CF818900D9389F /* MessageView.swift */; };
 		3BCF6FEC29280261000C6382 /* ForEachWithIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCF6FEB29280261000C6382 /* ForEachWithIndex.swift */; };
 		3BCF6FED29280261000C6382 /* ForEachWithIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCF6FEB29280261000C6382 /* ForEachWithIndex.swift */; };
 		3BD150A4265332010058B094 /* rainbow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD150A3265332010058B094 /* rainbow.swift */; };
@@ -256,6 +266,11 @@
 		3B9B9FCD2634E26A00E3A8B2 /* NewsletterClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = NewsletterClassifier.mlmodel; sourceTree = "<group>"; };
 		3B9B9FCE2634E26A00E3A8B2 /* MarketingRecognizer.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MarketingRecognizer.mlmodel; sourceTree = "<group>"; };
 		3B9B9FCF2634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = PoliticsRecognizer.mlmodel; sourceTree = "<group>"; };
+		3BAD28F429CB741B00ECA64F /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
+		3BAD28FA29CDF0C300ECA64F /* AppStorageKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStorageKeys.swift; sourceTree = "<group>"; };
+		3BAD28FD29CDF1E300ECA64F /* EmailBundleLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailBundleLayout.swift; sourceTree = "<group>"; };
+		3BC0F20229CF80C100D9389F /* ThreadPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadPage.swift; sourceTree = "<group>"; };
+		3BC0F20529CF818900D9389F /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		3BCF6FEB29280261000C6382 /* ForEachWithIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForEachWithIndex.swift; sourceTree = "<group>"; };
 		3BD150A3265332010058B094 /* rainbow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rainbow.swift; sourceTree = "<group>"; };
 		3BE50194266B34AE001C2939 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
@@ -378,24 +393,29 @@
 				3B9912B729A587D900B3BA36 /* AppAlertView.swift */,
 				3B64539029AFC44E00A877A4 /* AppSheetController.swift */,
 				3B2F072B264F72EA006CAECE /* AppSplitView.swift */,
+				3BAD28FA29CDF0C300ECA64F /* AppStorageKeys.swift */,
 				3B9B9F742634B16A00E3A8B2 /* Assets.xcassets */,
 				3BFD733029C4E894004F2563 /* ButtonImage.swift */,
 				3B9B9F722634B16900E3A8B2 /* ContentView.swift */,
 				3B6F6560265EF4F000E07FE7 /* core data */,
-				3BF1AE232666FF2A002F1062 /* SheetHandle.swift */,
 				3B64538D29AFBB1600A877A4 /* EmailBundleController.swift */,
+				3BAD28FD29CDF1E300ECA64F /* EmailBundleLayout.swift */,
 				3BA7DC90265DFB4B009623EF /* EmailClassifiers */,
 				3B0AB62E29B2A3C200E224E5 /* EmailDateFormatter.swift */,
 				3BD150A2265331DF0058B094 /* extensions */,
 				3B9912BA29A5892700B3BA36 /* Gmail.swift */,
 				3BF1AD6626617746002F1062 /* InboxView.swift */,
 				3BF1AD602660ACF0002F1062 /* MailController.swift */,
+				3BC0F20529CF818900D9389F /* MessageView.swift */,
 				3B0AB64429B8041000E224E5 /* NavController.swift */,
+				3BAD28F429CB741B00ECA64F /* PageView.swift */,
 				3B9B9F732634B16900E3A8B2 /* Persistence.swift */,
 				3B9912AE29A296AB00B3BA36 /* PsyError.swift */,
 				3B6666ED2652383D0039D9F3 /* psymail.xcdatamodeld */,
 				3B9B9F712634B16900E3A8B2 /* PsymailApp.swift */,
+				3BF1AE232666FF2A002F1062 /* SheetHandle.swift */,
 				3BF35D1229AA81D300340D49 /* SystemImage.swift */,
+				3BC0F20229CF80C100D9389F /* ThreadPage.swift */,
 				3B5ABAFD265461C100601F26 /* WebView.swift */,
 			);
 			path = Shared;
@@ -679,6 +699,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BC0F20329CF80C100D9389F /* ThreadPage.swift in Sources */,
 				3BF1AE1E2666F5E7002F1062 /* InboxListRow.swift in Sources */,
 				3BF1AE242666FF2A002F1062 /* SheetHandle.swift in Sources */,
 				3BFD733729C6CC79004F2563 /* MoveToBundleMenu.swift in Sources */,
@@ -699,6 +720,7 @@
 				3B36447E2652629700956E27 /* EmailThreadView.swift in Sources */,
 				3BF1AD612660ACF0002F1062 /* MailController.swift in Sources */,
 				3BF35D1029A939AD00340D49 /* UINavigationController+BackGesture.swift in Sources */,
+				3BC0F20629CF818900D9389F /* MessageView.swift in Sources */,
 				3B5ABAF726545D3200601F26 /* QuotedPrintable.swift in Sources */,
 				3B9B9F9D2634B16A00E3A8B2 /* PsymailApp.swift in Sources */,
 				3BFD733429C6409D004F2563 /* EmailThread+MailCore.swift in Sources */,
@@ -720,6 +742,7 @@
 				3B6666832651EA040039D9F3 /* AppCompactView.swift in Sources */,
 				3BF1AE1B2665FA89002F1062 /* View+if.swift in Sources */,
 				3B9B9FA12634B16A00E3A8B2 /* Persistence.swift in Sources */,
+				3BAD28F529CB741B00ECA64F /* PageView.swift in Sources */,
 				3B0AB64229B5333800E224E5 /* EmailAddress+MailCore.swift in Sources */,
 				3BF1AD6426615F18002F1062 /* AccountController.swift in Sources */,
 				3BF1AE212666FCE6002F1062 /* EmailThreadSheetView.swift in Sources */,
@@ -731,9 +754,11 @@
 				3B6B4F1829A6D007003F3AFA /* FirstStartView.swift in Sources */,
 				3B5FBC332655EF85009D012C /* EmailClassifierAgnes.mlmodel in Sources */,
 				3B7917C12660A0F400E764C1 /* Email+CoreDataClass.swift in Sources */,
+				3BAD28FB29CDF0C300ECA64F /* AppStorageKeys.swift in Sources */,
 				3B66668F2651F3B00039D9F3 /* BundleTabBarView.swift in Sources */,
 				3BF1AE2726672A57002F1062 /* EmailDetailToolbarView.swift in Sources */,
 				3BF1AD6726617746002F1062 /* InboxView.swift in Sources */,
+				3BAD28FE29CDF1E300ECA64F /* EmailBundleLayout.swift in Sources */,
 				3B9B9FD22634E26A00E3A8B2 /* MarketingRecognizer.mlmodel in Sources */,
 				3B0AB62C29B06A7100E224E5 /* Account+Gmail.swift in Sources */,
 				3B14A6BA299FF200005BAA30 /* View+AppSheet.swift in Sources */,
@@ -780,7 +805,9 @@
 				3B9912BC29A5892700B3BA36 /* Gmail.swift in Sources */,
 				3B9912B029A296AB00B3BA36 /* PsyError.swift in Sources */,
 				3BF1AD6526615F18002F1062 /* AccountController.swift in Sources */,
+				3BAD28FF29CDF1E300ECA64F /* EmailBundleLayout.swift in Sources */,
 				3BF1AE2826672A57002F1062 /* EmailDetailToolbarView.swift in Sources */,
+				3BAD28F629CB741B00ECA64F /* PageView.swift in Sources */,
 				3B9B9FD52634E26A00E3A8B2 /* PoliticsRecognizer.mlmodel in Sources */,
 				3BF35D0E29A852C200340D49 /* Email+MailCore.swift in Sources */,
 				3BF1AE3726697A35002F1062 /* EmailThread+CoreDataProperties.swift in Sources */,
@@ -806,6 +833,7 @@
 				3B04D75D29A5D9BF00D4186E /* EmailBundle+CoreDataProperties.swift in Sources */,
 				3BF1AE3526697A35002F1062 /* EmailThread+CoreDataClass.swift in Sources */,
 				3BD150A5265332010058B094 /* rainbow.swift in Sources */,
+				3BC0F20429CF80C100D9389F /* ThreadPage.swift in Sources */,
 				3BF1AD622660ACF0002F1062 /* MailController.swift in Sources */,
 				3BF1AD8C2663EA2C002F1062 /* Account+CoreDataClass.swift in Sources */,
 				3B64539529AFC7C000A877A4 /* AppAlertController.swift in Sources */,
@@ -813,6 +841,7 @@
 				3BCF6FED29280261000C6382 /* ForEachWithIndex.swift in Sources */,
 				3BF1AD7F2661861F002F1062 /* Email+CoreDataProperties.swift in Sources */,
 				3BFD733229C4E894004F2563 /* ButtonImage.swift in Sources */,
+				3BC0F20729CF818900D9389F /* MessageView.swift in Sources */,
 				3B0AB62D29B06A7100E224E5 /* Account+Gmail.swift in Sources */,
 				3B0AB64329B5333800E224E5 /* EmailAddress+MailCore.swift in Sources */,
 				3B0AB64629B8041000E224E5 /* NavController.swift in Sources */,
@@ -827,6 +856,7 @@
 				3B9B9FA02634B16A00E3A8B2 /* ContentView.swift in Sources */,
 				3B5103AB29256D030084B6B2 /* UIApplication+window.swift in Sources */,
 				3B5ABAF826545D3200601F26 /* QuotedPrintable.swift in Sources */,
+				3BAD28FC29CDF0C300ECA64F /* AppStorageKeys.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

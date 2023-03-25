@@ -61,6 +61,7 @@
         <attribute name="icon" optional="YES" attributeType="String"/>
         <attribute name="labelId" optional="YES" attributeType="String"/>
         <attribute name="lastSeenDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="layoutString" optional="YES" attributeType="String"/>
         <attribute name="name" attributeType="String" defaultValueString=""/>
         <attribute name="newEmailsSinceLastSeen" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="orderIndex" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>

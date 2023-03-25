@@ -14,7 +14,7 @@ class AppSheetController: ObservableObject {
   @Published var sheet: AppSheet = initialSheet
   @Published var selectedDetent: PresentationDetent = initialSheet.initialDetent
   @Published var percentToMid: CGFloat = 0
-  @AppStorage("completedIniitalDownload") var completedInitialDownload: Bool = true
+  @AppStorage(AppStorageKeys.completedInitialDownload) var completedInitialDownload = false
   
   var sheetSize: CGSize = CGSize() {
     didSet {
