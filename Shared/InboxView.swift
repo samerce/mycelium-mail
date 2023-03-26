@@ -12,8 +12,9 @@ struct InboxView: View {
   
   @State var selectedThreads: Set<EmailThread> = []
   @State var editMode: EditMode = .inactive
-  @State var threadPageIndex: Int = 0
   @State var scrollProxy: ScrollViewProxy?
+  @State var threadPageIndex: Int = 0
+  @State var goToPage: (Int) -> Void = {_ in }
   
   var selectedBundle: EmailBundle { bundleCtrl.selectedBundle }
   var threads: [EmailThread] { mailCtrl.threadsInSelectedBundle }
@@ -133,18 +134,25 @@ extension InboxView {
     if threads.count == 0 {
       EmptyView()
     } else {
-      PageView(selection: $threadPageIndex, axis: .vertical, spacing: 0, prev: prev, next: next) { threadIndex in
-        NavigationLink {
-          ThreadDetails
-        } label: {
-          ThreadPage(thread: threads[threadIndex])
-        }
+      PageView(selection: $threadPageIndex, axis: .vertical, spacing: 0, prev: prev, next: next, goToPage: $goToPage) { threadIndex in
+        ThreadPage(thread: threads[threadIndex])
+      }
+      .navigationDestination(for: EmailThread.self) { thread in
+        ThreadDetails
+          .onAppear {
+            selectedThreads.insert(thread)
+          }
+          .onDisappear {
+            selectedThreads.remove(thread)
+          }
       }
       .ignoresSafeArea()
-      .onChange(of: selectedBundle) { _ in
-        threadPageIndex = 0
+      .onAppear {
+        goToPage(0)
       }
-      .scrollProxy($scrollProxy)
+      .onChange(of: selectedBundle) { _ in
+        goToPage(0)
+      }
     }
   }
   

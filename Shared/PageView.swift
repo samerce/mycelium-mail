@@ -20,9 +20,10 @@ public struct PageView<Content: View, Item: Hashable> {
   let spacing: Int
   let prev: ItemProvider
   let next: ItemProvider
+  @Binding var goToPage: (Item) -> Void
   @ViewBuilder let content: (Item) -> Content
   
-  public init(selection: Binding<Item>, style: TransitionStyle = .scroll, axis: Axis = .horizontal, spacing: Int = 10, prev: @escaping ItemProvider, next: @escaping ItemProvider, @ViewBuilder content: @escaping ViewProvider) {
+  public init(selection: Binding<Item>, style: TransitionStyle = .scroll, axis: Axis = .horizontal, spacing: Int = 10, prev: @escaping ItemProvider, next: @escaping ItemProvider, goToPage: Binding<(Item) -> Void>, @ViewBuilder content: @escaping ViewProvider) {
     _selection = selection
     self.style = style
     self.axis = axis
@@ -30,6 +31,7 @@ public struct PageView<Content: View, Item: Hashable> {
     self.prev = prev
     self.next = next
     self.content = content
+    self._goToPage = goToPage
   }
 }
 
@@ -47,6 +49,20 @@ extension PageView: UIViewControllerRepresentable {
     viewController.dataSource = context.coordinator
     let initialView = ItemHostingController(item: selection, view: content(selection))
     viewController.setViewControllers([initialView], direction: .forward, animated: false)
+    
+    goToPage = { item in
+      DispatchQueue.main.async {
+        // forces controller to reload its data
+        viewController.dataSource = nil
+        viewController.dataSource = context.coordinator
+        
+        let itemViewController = ItemHostingController(item: item, view: content(item))
+        viewController.setViewControllers([itemViewController], direction: .forward, animated: false)
+        
+        selection = item
+      }
+    }
+    
     return viewController
   }
   
