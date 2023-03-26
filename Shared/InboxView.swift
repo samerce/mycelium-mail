@@ -146,6 +146,9 @@ extension InboxView {
             selectedThreads.remove(thread)
           }
       }
+      .safeAreaInset(edge: .bottom) {
+        Spacer().height(appSheetDetents.min)
+      }
       .ignoresSafeArea()
       .onAppear {
         goToPage(0)

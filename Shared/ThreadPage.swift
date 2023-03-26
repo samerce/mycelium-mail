@@ -17,7 +17,7 @@ struct ThreadPage: View {
           
           MessageView(email: email)
             .allowsHitTesting(false)
-            .frame(maxHeight: 494, alignment: .top) // TODO: how to figure out dynamic value here?
+            .frame(maxHeight: 505, alignment: .top) // TODO: how to figure out dynamic value here?
             .clipped()
             .cornerRadius(12)
             .padding(.bottom, 12)
@@ -25,11 +25,10 @@ struct ThreadPage: View {
       }
       
       Toolbar
-    }
-    .safeAreaInset(edge: .bottom) {
-      Spacer().height(appSheetDetents.min)
+        .padding(.bottom, 12)
     }
     .padding(9)
+    .frame(maxHeight: .infinity, alignment: .top)
   }
   
   var Header: some View {
