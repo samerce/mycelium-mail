@@ -76,28 +76,10 @@ struct BundleTabBarView: View {
           collapsible: activeTabRow != rowIndex,
           unread: bundle.newEmailsSinceLastSeen > 0
         )
+        .contextMenu { ContextMenu(bundle) }
         .onTapGesture {
           bundleCtrl.selectedBundle = bundle
           activeTabRow = rowIndex
-        }
-        .contextMenu {
-          Button("edit") {
-            Timer.after(0.2) { _ in
-              sheetCtrl.showSheet(.bundleSettings, bundle)
-            }
-          }
-          Button("mark \(bundle.newEmailsSinceLastSeen > 0 ? "read" : "unread")") {
-            if bundle.newEmailsSinceLastSeen > 0 {
-              bundle.newEmailsSinceLastSeen = 0
-            } else {
-              bundle.newEmailsSinceLastSeen = 1
-            }
-            PersistenceController.shared.save()
-          }
-          Picker("layout", selection: layoutBinding) {
-            Label("list", systemImage: "rectangle.grid.1x2").tag(EmailBundleLayout.list)
-            Label("page", systemImage: "doc.richtext.fill").tag(EmailBundleLayout.page)
-          }
         }
       }
       
@@ -106,6 +88,29 @@ struct BundleTabBarView: View {
     .opacity(rowOpacity(rowIndex))
     .height(rowHeight(rowIndex))
     .clipped()
+  }
+  
+  @ViewBuilder
+  func ContextMenu(_ bundle: EmailBundle) -> some View {
+    Picker("layout", selection: layoutBinding) {
+      Label("list", systemImage: "rectangle.grid.1x2").tag(EmailBundleLayout.list)
+      Label("page", systemImage: "doc.richtext.fill").tag(EmailBundleLayout.page)
+    }
+    
+    Button("edit") {
+      Timer.after(0.2) { _ in
+        sheetCtrl.showSheet(.bundleSettings, bundle)
+      }
+    }
+    
+    Button("mark \(bundle.newEmailsSinceLastSeen > 0 ? "read" : "unread")") {
+      if bundle.newEmailsSinceLastSeen > 0 {
+        bundle.newEmailsSinceLastSeen = 0
+      } else {
+        bundle.newEmailsSinceLastSeen = 1
+      }
+      PersistenceController.shared.save()
+    }
   }
   
   // MARK: - HELPERS
