@@ -14,7 +14,7 @@ struct InboxView: View {
   @State var editMode: EditMode = .inactive
   @State var scrollProxy: ScrollViewProxy?
   @State var threadPageIndex: Int = 0
-  @State var goToPage: (Int) -> Void = {_ in }
+  @State var goToPage: (Int, Bool) -> Void = {_,_ in }
   
   var selectedBundle: EmailBundle { bundleCtrl.selectedBundle }
   var threads: [EmailThread] { mailCtrl.threadsInSelectedBundle }
@@ -52,7 +52,7 @@ struct InboxView: View {
     }
     .navigationBarTitleDisplayMode(.inline)
     .environment(\.editMode, $editMode)
-    .toolbar(content: ToolbarContent)
+    .toolbar(content: topToolbar)
     .safeAreaInset(edge: .bottom) {
       Spacer().height(appSheetDetents.min)
     }
@@ -79,7 +79,7 @@ struct InboxView: View {
   }
   
   @ToolbarContentBuilder
-  private func ToolbarContent() -> some ToolbarContent {
+  private func topToolbar() -> some ToolbarContent {
     ToolbarItem(placement: .navigationBarLeading) {
       Button(action: {}) {
         SystemImage(name: "rectangle.grid.1x2", size: 20)
@@ -115,12 +115,7 @@ extension InboxView {
         .id($0.objectID)
     }
     .listStyle(.plain)
-    .onChange(of: selectedBundle) { _ in
-      if let firstThread = threads.first {
-        scrollProxy?.scrollTo(firstThread.objectID)
-      }
-    }
-    .scrollProxy($scrollProxy)
+    .scrollProxy($navCtrl.scrollProxy)
   }
   
 }
@@ -146,15 +141,9 @@ extension InboxView {
             selectedThreads.remove(thread)
           }
       }
-      .safeAreaInset(edge: .bottom) {
-        Spacer().height(appSheetDetents.min)
-      }
-      .ignoresSafeArea()
       .onAppear {
-        goToPage(0)
-      }
-      .onChange(of: selectedBundle) { _ in
-        goToPage(0)
+        goToPage(0, false)
+        navCtrl.goToPage = goToPage
       }
     }
   }
