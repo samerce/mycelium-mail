@@ -7,8 +7,8 @@ private let mailCtrl = MailController.shared
 private let bundleCtrl = EmailBundleController.shared
 
 
-class NavController: ObservableObject {
-  static let shared = NavController()
+class InboxNavController: ObservableObject {
+  static let shared = InboxNavController()
   
   let sheetCtrl = AppSheetController.shared
   

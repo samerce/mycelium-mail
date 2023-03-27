@@ -8,7 +8,7 @@ struct InboxView: View {
   @ObservedObject var bundleCtrl = EmailBundleController.shared
   @ObservedObject var mailCtrl = MailController.shared
   @ObservedObject var sheetCtrl = AppSheetController.shared
-  @ObservedObject var navCtrl = NavController.shared
+  @ObservedObject var navCtrl = InboxNavController.shared
   
   @State var selectedThreads: Set<EmailThread> = []
   @State var editMode: EditMode = .inactive

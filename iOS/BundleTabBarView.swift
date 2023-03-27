@@ -15,7 +15,7 @@ private let HeaderHeight = 42.0
 private let TabRowPadding = 6.0
 private let TabRowHPadding = TabRowPadding * 2
 private let cTabLimitPerRow = 5
-private let inboxNavCtrl = NavController.shared
+private let inboxNavCtrl = InboxNavController.shared
 
 
 struct BundleTabBarView: View {

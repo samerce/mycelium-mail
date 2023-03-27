@@ -4,7 +4,7 @@ import Introspect
 
 private let dataCtrl = PersistenceController.shared
 private let sheetCtrl = AppSheetController.shared
-private let navCtrl = NavController.shared
+private let navCtrl = InboxNavController.shared
 
 
 private let ToolImageSize: CGFloat = 36

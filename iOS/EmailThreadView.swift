@@ -9,7 +9,7 @@ struct EmailThreadView: View {
   var thread: EmailThread
   var isPreview = false
   
-  @ObservedObject var navCtrl = NavController.shared
+  @ObservedObject var navCtrl = InboxNavController.shared
   @State var keyboardHeight: CGFloat = 0
   
   var bottomInset: CGFloat {
