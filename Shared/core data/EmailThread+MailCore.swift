@@ -29,6 +29,13 @@ extension EmailThread {
     }
     trashed = true
   }
+
+  func restoreFromTrash() async throws {
+    for email in emails {
+      try await email.restoreFromTrash()
+    }
+    trashed = false
+  }
   
   func moveToJunk() async throws {
     for email in emails {

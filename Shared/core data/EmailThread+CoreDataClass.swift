@@ -5,6 +5,8 @@ import CoreData
 @objc(EmailThread)
 public class EmailThread: NSManagedObject {
   
+  // MARK: - FETCHING
+  
   @nonobjc public class
   func fetchRequest(id: Int64? = nil) -> NSFetchRequest<EmailThread> {
     let request = NSFetchRequest<EmailThread>(entityName: "EmailThread")
@@ -37,13 +39,29 @@ public class EmailThread: NSManagedObject {
     )
   }
   
-  // MARK: - INIT
+  // MARK: - MANIPULATION
   
-//  convenience init(id: Int64, context: NSManagedObjectContext) {
-//    self.init(context: context)
-//    self.id = id
-//    self.emails = NSSet()
-//    self.trashed = false
-//  }
+  /// MailController should be the only one that calls this
+  func moveToBundle(_ toBundle: EmailBundle, fromBundle: EmailBundle, always: Bool = true) async throws {
+    try await managedObjectContext?.perform {
+      self.bundle = toBundle
+      fromBundle.removeFromThreadSet(self)
+      toBundle.addToThreadSet(self)
+      try self.managedObjectContext?.save() // optimistically update the ui
+    }
+    
+    if toBundle.name == "inbox" {
+      try await self.removeLabels(["psymail/\(fromBundle.name)"])
+      try await self.deleteFilterForBundle(fromBundle)
+      return
+    }
+    
+    try await self.addLabels(["psymail/\(toBundle.name)"])
+    try await self.removeLabels([cInboxLabel])
+    
+    if always {
+      try await self.filterIntoBundle(toBundle)
+    }
+  }
   
 }

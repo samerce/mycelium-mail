@@ -115,6 +115,7 @@ extension InboxView {
         .id($0.objectID)
     }
     .listStyle(.plain)
+    .animation(.default, value: threads)
     .scrollProxy($navCtrl.scrollProxy)
   }
   

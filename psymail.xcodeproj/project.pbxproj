@@ -116,6 +116,14 @@
 		3BC0F20429CF80C100D9389F /* ThreadPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC0F20229CF80C100D9389F /* ThreadPage.swift */; };
 		3BC0F20629CF818900D9389F /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC0F20529CF818900D9389F /* MessageView.swift */; };
 		3BC0F20729CF818900D9389F /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC0F20529CF818900D9389F /* MessageView.swift */; };
+		3BC0F20929D1F2B900D9389F /* TaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC0F20829D1F2B900D9389F /* TaskController.swift */; };
+		3BC0F20A29D1F2B900D9389F /* TaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC0F20829D1F2B900D9389F /* TaskController.swift */; };
+		3BC0F21029D3537E00D9389F /* EmailThread+Gmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC0F20F29D3537E00D9389F /* EmailThread+Gmail.swift */; };
+		3BC0F21129D3537E00D9389F /* EmailThread+Gmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC0F20F29D3537E00D9389F /* EmailThread+Gmail.swift */; };
+		3BC0F21629D6015F00D9389F /* MailController+MoveThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC0F21529D6015F00D9389F /* MailController+MoveThread.swift */; };
+		3BC0F21729D6015F00D9389F /* MailController+MoveThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC0F21529D6015F00D9389F /* MailController+MoveThread.swift */; };
+		3BC0F21929D604F100D9389F /* MailController+TrashThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC0F21829D604F100D9389F /* MailController+TrashThread.swift */; };
+		3BC0F21A29D604F100D9389F /* MailController+TrashThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC0F21829D604F100D9389F /* MailController+TrashThread.swift */; };
 		3BCF6FEC29280261000C6382 /* ForEachWithIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCF6FEB29280261000C6382 /* ForEachWithIndex.swift */; };
 		3BCF6FED29280261000C6382 /* ForEachWithIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCF6FEB29280261000C6382 /* ForEachWithIndex.swift */; };
 		3BD150A4265332010058B094 /* rainbow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD150A3265332010058B094 /* rainbow.swift */; };
@@ -271,6 +279,10 @@
 		3BAD28FD29CDF1E300ECA64F /* EmailBundleLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailBundleLayout.swift; sourceTree = "<group>"; };
 		3BC0F20229CF80C100D9389F /* ThreadPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadPage.swift; sourceTree = "<group>"; };
 		3BC0F20529CF818900D9389F /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
+		3BC0F20829D1F2B900D9389F /* TaskController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskController.swift; sourceTree = "<group>"; };
+		3BC0F20F29D3537E00D9389F /* EmailThread+Gmail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailThread+Gmail.swift"; sourceTree = "<group>"; };
+		3BC0F21529D6015F00D9389F /* MailController+MoveThread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MailController+MoveThread.swift"; sourceTree = "<group>"; };
+		3BC0F21829D604F100D9389F /* MailController+TrashThread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MailController+TrashThread.swift"; sourceTree = "<group>"; };
 		3BCF6FEB29280261000C6382 /* ForEachWithIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForEachWithIndex.swift; sourceTree = "<group>"; };
 		3BD150A3265332010058B094 /* rainbow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rainbow.swift; sourceTree = "<group>"; };
 		3BE50194266B34AE001C2939 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
@@ -358,6 +370,7 @@
 				3BF1AD7C2661861F002F1062 /* EmailPart+CoreDataProperties.swift */,
 				3BF1AE3226697A35002F1062 /* EmailThread+CoreDataClass.swift */,
 				3BF1AE3326697A35002F1062 /* EmailThread+CoreDataProperties.swift */,
+				3BC0F20F29D3537E00D9389F /* EmailThread+Gmail.swift */,
 				3BFD733329C6409D004F2563 /* EmailThread+MailCore.swift */,
 			);
 			path = "core data";
@@ -404,10 +417,10 @@
 				3B0AB62E29B2A3C200E224E5 /* EmailDateFormatter.swift */,
 				3BD150A2265331DF0058B094 /* extensions */,
 				3B9912BA29A5892700B3BA36 /* Gmail.swift */,
-				3BF1AD6626617746002F1062 /* InboxView.swift */,
-				3BF1AD602660ACF0002F1062 /* MailController.swift */,
-				3BC0F20529CF818900D9389F /* MessageView.swift */,
 				3B0AB64429B8041000E224E5 /* InboxNavController.swift */,
+				3BF1AD6626617746002F1062 /* InboxView.swift */,
+				3BF50BB129D8CDC700098AA2 /* mail controller */,
+				3BC0F20529CF818900D9389F /* MessageView.swift */,
 				3BAD28F429CB741B00ECA64F /* PageView.swift */,
 				3B9B9F732634B16900E3A8B2 /* Persistence.swift */,
 				3B9912AE29A296AB00B3BA36 /* PsyError.swift */,
@@ -415,6 +428,7 @@
 				3B9B9F712634B16900E3A8B2 /* PsymailApp.swift */,
 				3BF1AE232666FF2A002F1062 /* SheetHandle.swift */,
 				3BF35D1229AA81D300340D49 /* SystemImage.swift */,
+				3BC0F20829D1F2B900D9389F /* TaskController.swift */,
 				3BC0F20229CF80C100D9389F /* ThreadPage.swift */,
 				3B5ABAFD265461C100601F26 /* WebView.swift */,
 			);
@@ -520,6 +534,16 @@
 				3B0AB65029C133EC00E224E5 /* View+scrollProxy.swift */,
 			);
 			path = extensions;
+			sourceTree = "<group>";
+		};
+		3BF50BB129D8CDC700098AA2 /* mail controller */ = {
+			isa = PBXGroup;
+			children = (
+				3BF1AD602660ACF0002F1062 /* MailController.swift */,
+				3BC0F21529D6015F00D9389F /* MailController+MoveThread.swift */,
+				3BC0F21829D604F100D9389F /* MailController+TrashThread.swift */,
+			);
+			path = "mail controller";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -719,12 +743,14 @@
 				3BF35D0D29A852C200340D49 /* Email+MailCore.swift in Sources */,
 				3B36447E2652629700956E27 /* EmailThreadView.swift in Sources */,
 				3BF1AD612660ACF0002F1062 /* MailController.swift in Sources */,
+				3BC0F20929D1F2B900D9389F /* TaskController.swift in Sources */,
 				3BF35D1029A939AD00340D49 /* UINavigationController+BackGesture.swift in Sources */,
 				3BC0F20629CF818900D9389F /* MessageView.swift in Sources */,
 				3B5ABAF726545D3200601F26 /* QuotedPrintable.swift in Sources */,
 				3B9B9F9D2634B16A00E3A8B2 /* PsymailApp.swift in Sources */,
 				3BFD733429C6409D004F2563 /* EmailThread+MailCore.swift in Sources */,
 				3B9912B829A587D900B3BA36 /* AppAlertView.swift in Sources */,
+				3BC0F21629D6015F00D9389F /* MailController+MoveThread.swift in Sources */,
 				3B7917B92660A0F400E764C1 /* EmailAddress.swift in Sources */,
 				3B7917BD2660A0F400E764C1 /* EmailPart+CoreDataClass.swift in Sources */,
 				3B30B77429AE6B69003EE245 /* View+geo.swift in Sources */,
@@ -741,6 +767,7 @@
 				3B5103AA29256D030084B6B2 /* UIApplication+window.swift in Sources */,
 				3B6666832651EA040039D9F3 /* AppCompactView.swift in Sources */,
 				3BF1AE1B2665FA89002F1062 /* View+if.swift in Sources */,
+				3BC0F21029D3537E00D9389F /* EmailThread+Gmail.swift in Sources */,
 				3B9B9FA12634B16A00E3A8B2 /* Persistence.swift in Sources */,
 				3BAD28F529CB741B00ECA64F /* PageView.swift in Sources */,
 				3B0AB64229B5333800E224E5 /* EmailAddress+MailCore.swift in Sources */,
@@ -780,6 +807,7 @@
 				3B0AB62F29B2A3C200E224E5 /* EmailDateFormatter.swift in Sources */,
 				3B9912BB29A5892700B3BA36 /* Gmail.swift in Sources */,
 				3B80B97429C4DB17002E34BE /* Encodable+dictionary.swift in Sources */,
+				3BC0F21929D604F100D9389F /* MailController+TrashThread.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -798,9 +826,11 @@
 				3B0AB65229C133EC00E224E5 /* View+scrollProxy.swift in Sources */,
 				3B7917BE2660A0F400E764C1 /* EmailPart+CoreDataClass.swift in Sources */,
 				3B14A6BB299FF200005BAA30 /* View+AppSheet.swift in Sources */,
+				3BC0F21A29D604F100D9389F /* MailController+TrashThread.swift in Sources */,
 				3B46446E29C8F45D003E64EA /* Array+psy.swift in Sources */,
 				3BF35D1429AA81D300340D49 /* SystemImage.swift in Sources */,
 				3BF1AD832661861F002F1062 /* EmailPart+CoreDataProperties.swift in Sources */,
+				3BC0F21729D6015F00D9389F /* MailController+MoveThread.swift in Sources */,
 				3BE50199266B4B0A001C2939 /* Color+psy.swift in Sources */,
 				3B9912BC29A5892700B3BA36 /* Gmail.swift in Sources */,
 				3B9912B029A296AB00B3BA36 /* PsyError.swift in Sources */,
@@ -814,6 +844,7 @@
 				3BE50196266B34AE001C2939 /* FilterView.swift in Sources */,
 				3B80B97529C4DB17002E34BE /* Encodable+dictionary.swift in Sources */,
 				3BF1AE222666FCE6002F1062 /* EmailThreadSheetView.swift in Sources */,
+				3BC0F21129D3537E00D9389F /* EmailThread+Gmail.swift in Sources */,
 				3B9B9FD12634E26A00E3A8B2 /* NewsletterClassifier.mlmodel in Sources */,
 				3B4185F729A5A7BD00A2966A /* EmailBundle+CoreDataClass.swift in Sources */,
 				3B64538F29AFBB1600A877A4 /* EmailBundleController.swift in Sources */,
@@ -830,6 +861,7 @@
 				3B6E614029AC35D2009CAEBF /* BundleSettingsView.swift in Sources */,
 				3BF1AD8E2663EA2C002F1062 /* Account+CoreDataProperties.swift in Sources */,
 				3BF1AE2B26683514002F1062 /* View+screen.swift in Sources */,
+				3BC0F20A29D1F2B900D9389F /* TaskController.swift in Sources */,
 				3B04D75D29A5D9BF00D4186E /* EmailBundle+CoreDataProperties.swift in Sources */,
 				3BF1AE3526697A35002F1062 /* EmailThread+CoreDataClass.swift in Sources */,
 				3BD150A5265332010058B094 /* rainbow.swift in Sources */,

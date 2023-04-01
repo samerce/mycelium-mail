@@ -2,6 +2,7 @@ import SwiftUI
 
 
 private let dataCtrl = PersistenceController.shared
+private let mailCtrl = MailController.shared
 
 
 struct InboxListRow: View {
@@ -79,16 +80,7 @@ struct InboxListRow: View {
   @ViewBuilder
   var swipeActionsTrailing: some View {
     Button(role: .destructive) {
-      Task {
-        do {
-          try await thread.moveToTrash() // TODO: handle error
-          dataCtrl.save()
-        }
-        catch {
-          print("error deleting \(thread.subject): \(error.localizedDescription)")
-          // TODO: error ux
-        }
-      }
+      mailCtrl.trashThread(thread)
     } label: {
       Label("trash", systemImage: "trash")
     }
@@ -116,16 +108,7 @@ struct InboxListRow: View {
     }
     Button {
       Timer.after(1) { _ in
-        Task {
-          do {
-            try await MailController.shared.moveThread(thread, toBundleNamed: "archive", always: false)
-            dataCtrl.save()
-          }
-          catch {
-            print("error archiving \(thread.subject): \(error.localizedDescription)")
-            // TODO: error ux
-          }
-        }
+        mailCtrl.moveThread(thread, toBundleNamed: "archive", always: false)
       }
     } label: {
       Label("archive", systemImage: "archivebox")

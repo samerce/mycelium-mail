@@ -22,8 +22,8 @@ class AppAlertController: ObservableObject {
     icon: String,
     duration: TimeInterval = 4,
     delay: TimeInterval = 0,
-    action: (() -> Void)? = nil,
-    actionLabel: String? = nil
+    actionLabel: String? = nil,
+    action: (() -> Void)? = nil
   ) {
     self.message = message
     self.icon = icon

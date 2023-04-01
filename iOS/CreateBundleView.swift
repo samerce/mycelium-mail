@@ -128,7 +128,7 @@ struct CreateBundleView: View {
 
         if let thread = bundleCtrl.threadToMoveToNewBundle {
           // TODO: get bundle from initiating context
-          try await mailCtrl.moveThread(thread, fromBundle: thread.bundle, toBundle: bundle)
+          mailCtrl.moveThread(thread, toBundle: bundle, fromBundle: thread.bundle)
           bundleCtrl.threadToMoveToNewBundle = nil
           
           Timer.after(1) { _ in

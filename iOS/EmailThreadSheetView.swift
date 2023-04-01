@@ -100,10 +100,10 @@ struct EmailThreadSheetView: View {
   private var BundleButton: some View {
     Menu {
       if let thread = thread {
-        MoveToBundleMenu(thread: thread, onMove: {
+        MoveToBundleMenu(thread: thread) {
           save()
           navCtrl.goBack(withSheet: .inbox)
-        })
+        }
       } else { EmptyView() }
     } label: {
       ButtonImage(name: "mail.stack", size: cButtonSize)
@@ -115,11 +115,8 @@ struct EmailThreadSheetView: View {
   
   private var ArchiveButton: some View {
     Button {
-      Task {
-        try await mailCtrl.moveThread(thread!, toBundleNamed: "archive", always: false)
-        save()
-        navCtrl.goBack(withSheet: .inbox)
-      }
+      mailCtrl.moveThread(thread!, toBundleNamed: "archive", always: false)
+      navCtrl.goBack(withSheet: .inbox)
     } label: {
       ButtonImage(name: "archivebox", size: cButtonSize)
     }
@@ -139,11 +136,8 @@ struct EmailThreadSheetView: View {
   
   private var TrashButton: some View {
     Button {
-      Task {
-        try? await thread?.moveToTrash() // TODO: handle error
-        save()
-        navCtrl.goBack(withSheet: .inbox)
-      }
+      mailCtrl.trashThread(thread!)
+      navCtrl.goBack(withSheet: .inbox)
     } label: {
       ButtonImage(name: "trash", size: cButtonSize)
     }

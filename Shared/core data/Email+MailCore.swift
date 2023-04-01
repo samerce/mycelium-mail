@@ -214,32 +214,51 @@ extension Email {
 extension Email {
   
   func moveToTrash() async throws {
-    print("moving emails to trash")
+    print("moving email to trash")
     
     // TODO: replace this with refetch email from server so gmailLabels update
-    // optimistically update core data
-    labels.insert(cTrashLabel)
-    labels.remove(cInboxLabel)
-    addFlags(.deleted)
-    trashed = true
+    await managedObjectContext?.perform {
+      self.labels.insert(cTrashLabel)
+      self.labels.remove(cInboxLabel)
+      self.addFlags(.deleted)
+      self.trashed = true
+    }
     
     try await updateLabels([cTrashLabel], operation: .add)
     try await updateLabels([cInboxLabel], operation: .remove)
     try await runOperation(session.expungeOperation("INBOX"))
   }
   
+  func restoreFromTrash() async throws {
+    print("restoring email from trash")
+    
+    await managedObjectContext?.perform {
+      self.labels.insert(cInboxLabel)
+      self.labels.remove(cTrashLabel)
+      self.removeFlags(.deleted)
+      self.trashed = false
+    }
+    
+    try await updateLabels([cTrashLabel], operation: .remove)
+    try await updateLabels([cInboxLabel], operation: .add)
+  }
+  
   func addLabels(_ labels: [String]) async throws {
     print("adding imap labels \(labels)")
     
     try await updateLabels(labels, operation: .add)
-    labels.forEach{ self.labels.insert($0) }
+    await managedObjectContext?.perform {
+      labels.forEach{ self.labels.insert($0) }
+    }
   }
   
   func removeLabels(_ labels: [String]) async throws {
     print("removing imap labels \(labels)")
     
     try await updateLabels(labels, operation: .remove)
-    labels.forEach { self.labels.remove($0) }
+    await managedObjectContext?.perform {
+      labels.forEach { self.labels.remove($0) }
+    }
   }
   
   func updateLabels(_ labels: [String], operation: MCOIMAPStoreFlagsRequestKind) async throws {

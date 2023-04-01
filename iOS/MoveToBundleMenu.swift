@@ -2,6 +2,9 @@ import Foundation
 import SwiftUI
 
 
+private let mailCtrl = MailController.shared
+
+
 struct MoveToBundleMenu: View {
   var thread: EmailThread
   var onMove: (() -> Void)?
@@ -37,22 +40,13 @@ struct MoveToBundleMenu: View {
   
   func buttonForBundle(_ bundle: EmailBundle) -> some View {
     Button {
-      alertCtrl.show(message: "moved to \(bundle.name)", icon: bundle.icon, delay: 0.54, action: {
+      alertCtrl.show(message: "moved to \(bundle.name)", icon: bundle.icon, delay: 0.54, actionLabel: "EDIT") {
         alertCtrl.hide()
-        sheetCtrl.sheet = .bundleSettings
-      }, actionLabel: "EDIT")
-      
-      withAnimation {
-        let _ = Task {
-          do {
-            self.onMove?()
-            try await MailController.shared.moveThread(thread, fromBundle: selectedBundle, toBundle: bundle)
-          }
-          catch {
-            alertCtrl.show(message: "failed to move message", icon: "xmark", delay: 1)
-          }
-        }
+        sheetCtrl.showSheet(.bundleSettings, bundle)
       }
+      
+      self.onMove?()
+      mailCtrl.moveThread(thread, toBundle: bundle)
     } label: {
       Text(bundle.name)
       SystemImage(name: bundle.icon, size: 12)
