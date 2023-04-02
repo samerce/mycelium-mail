@@ -79,7 +79,9 @@ class MailController: NSObject, ObservableObject {
   // MARK: - API
   
   func fetchLatest() async throws {
-    DispatchQueue.main.async {
+    if fetching { return }
+    
+    DispatchQueue.main.sync {
       self.fetching = true
     }
 
@@ -91,7 +93,7 @@ class MailController: NSObject, ObservableObject {
     try? await Task.sleep(for: .seconds(1))
 
     print("done fetching!")
-    DispatchQueue.main.async {
+    DispatchQueue.main.sync {
       UserDefaults.standard.set(Date.now.ISO8601Format(), forKey: "lastUpdated")
       self.fetching = false
     }
