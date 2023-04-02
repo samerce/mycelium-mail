@@ -8,8 +8,8 @@ private let mailCtrl = MailController.shared
 private let initialSheet = AppSheet.inbox
 
 
-class AppSheetController: ObservableObject {
-  static let shared = AppSheetController()
+class SheetController: ObservableObject {
+  static let shared = SheetController()
   
   @Published var sheet: AppSheet = initialSheet
   @Published var selectedDetent: PresentationDetent = initialSheet.initialDetent

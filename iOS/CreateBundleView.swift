@@ -10,9 +10,9 @@ private let dataCtrl = PersistenceController.shared
 
 struct CreateBundleView: View {
   @Environment(\.managedObjectContext) var moc: NSManagedObjectContext
-  @ObservedObject var bundleCtrl = EmailBundleController.shared
+  @ObservedObject var bundleCtrl = BundleController.shared
   @ObservedObject var alertCtrl = AlertController.shared
-  @ObservedObject var sheetCtrl = AppSheetController.shared
+  @ObservedObject var sheetCtrl = SheetController.shared
   @ObservedObject var accountCtrl = AccountController.shared
   
   @FocusState var bundleNameFocused

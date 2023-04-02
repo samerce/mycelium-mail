@@ -12,7 +12,7 @@ let cSentLabel = "\\Sent"
 let cTrashLabel = "\\Trash"
 let cDraftLabel = "\\Draft"
 
-private let bundleCtrl = EmailBundleController.shared
+private let bundleCtrl = BundleController.shared
 private let accountCtrl = AccountController.shared
 private let dataCtrl = PersistenceController.shared
 private let moc = dataCtrl.container.viewContext

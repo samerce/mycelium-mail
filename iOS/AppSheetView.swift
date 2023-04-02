@@ -3,8 +3,8 @@ import SwiftUIKit
 
 
 struct AppSheetView: View {
-  @ObservedObject var bundleCtrl = EmailBundleController.shared
-  @ObservedObject var sheetCtrl = AppSheetController.shared
+  @ObservedObject var bundleCtrl = BundleController.shared
+  @ObservedObject var sheetCtrl = SheetController.shared
   
   @State var sheet: AppSheet
   @State var detents: [UndimmedPresentationDetent]

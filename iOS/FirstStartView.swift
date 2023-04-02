@@ -4,7 +4,7 @@ import Introspect
 
 struct FirstStartView: View {
   @ObservedObject var mailCtrl = MailController.shared
-  @ObservedObject var sheetCtrl = AppSheetController.shared
+  @ObservedObject var sheetCtrl = SheetController.shared
   @ObservedObject var accountCtrl = AccountController.shared
   @AppStorage(AppStorageKeys.completedInitialDownload) var completedInitialDownload = false
   
@@ -44,7 +44,7 @@ struct FirstStartView: View {
       
       Button {
         AccountController.shared.signIn()
-        EmailBundleController.shared.initDefaultBundles()
+        BundleController.shared.initDefaultBundles()
       } label: {
         Text("SIGN IN")
           .font(.system(size: 18))

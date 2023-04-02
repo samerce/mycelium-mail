@@ -5,9 +5,9 @@ import CoreData
 
 
 struct InboxView: View {
-  @ObservedObject var bundleCtrl = EmailBundleController.shared
+  @ObservedObject var bundleCtrl = BundleController.shared
   @ObservedObject var mailCtrl = MailController.shared
-  @ObservedObject var sheetCtrl = AppSheetController.shared
+  @ObservedObject var sheetCtrl = SheetController.shared
   @ObservedObject var navCtrl = InboxNavController.shared
   
   @State var selectedThreads: Set<EmailThread> = []

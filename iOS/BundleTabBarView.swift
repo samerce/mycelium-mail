@@ -19,8 +19,8 @@ private let inboxNavCtrl = InboxNavController.shared
 
 
 struct BundleTabBarView: View {
-  @ObservedObject var bundleCtrl = EmailBundleController.shared
-  @ObservedObject var sheetCtrl = AppSheetController.shared
+  @ObservedObject var bundleCtrl = BundleController.shared
+  @ObservedObject var sheetCtrl = SheetController.shared
   @State var activeTabRow = 0
   
   var layoutBinding: Binding<EmailBundleLayout>
@@ -29,8 +29,8 @@ struct BundleTabBarView: View {
   
   init() {
     layoutBinding = Binding(
-      get: { EmailBundleController.shared.selectedBundle.layout },
-      set: { value in EmailBundleController.shared.selectedBundle.layout = value }
+      get: { BundleController.shared.selectedBundle.layout },
+      set: { value in BundleController.shared.selectedBundle.layout = value }
     )
   }
   

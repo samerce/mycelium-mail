@@ -9,8 +9,8 @@ struct MoveToBundleMenu: View {
   var thread: EmailThread
   var onMove: (() -> Void)?
   
-  @ObservedObject var bundleCtrl = EmailBundleController.shared
-  @ObservedObject var sheetCtrl = AppSheetController.shared
+  @ObservedObject var bundleCtrl = BundleController.shared
+  @ObservedObject var sheetCtrl = SheetController.shared
   @ObservedObject var alertCtrl = AlertController.shared
   
   var bundles: [EmailBundle] { bundleCtrl.bundles }

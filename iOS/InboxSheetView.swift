@@ -5,7 +5,7 @@ private let ToolbarHeight = 22.0
 
 
 struct InboxSheetView: View {
-  @ObservedObject var sheetCtrl = AppSheetController.shared
+  @ObservedObject var sheetCtrl = SheetController.shared
   
   var percentToMid: CGFloat { sheetCtrl.percentToMid }
   var toolbarHeight: CGFloat {

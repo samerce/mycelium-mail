@@ -12,7 +12,7 @@ struct TabBarItem: View {
   var collapsible: Bool
   var unread: Bool
   
-  @ObservedObject var sheetCtrl = AppSheetController.shared
+  @ObservedObject var sheetCtrl = SheetController.shared
   
   var percentToMid: CGFloat { sheetCtrl.percentToMid }
   var labelHeight: CGFloat {

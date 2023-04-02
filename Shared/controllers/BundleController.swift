@@ -3,8 +3,8 @@ import CoreData
 import Combine
 
 
-class EmailBundleController: NSObject, ObservableObject {
-  static let shared = EmailBundleController()
+class BundleController: NSObject, ObservableObject {
+  static let shared = BundleController()
   
   @Published var threadToMoveToNewBundle: EmailThread? // TODO: find a better place for this
   @Published var bundles = [EmailBundle]()
@@ -73,7 +73,7 @@ class EmailBundleController: NSObject, ObservableObject {
 
 // MARK: - PUBLIC
 
-extension EmailBundleController {
+extension BundleController {
   
   func initDefaultBundles() {
 //    makePreconfiguredBundleNamed("sent")
@@ -97,7 +97,7 @@ extension EmailBundleController {
 
 // MARK: - FETECHED RESULTS CONTROLLER DELEGATE
 
-extension EmailBundleController: NSFetchedResultsControllerDelegate {
+extension BundleController: NSFetchedResultsControllerDelegate {
   
   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
     update()

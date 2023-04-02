@@ -2,7 +2,7 @@ import SwiftUI
 
 
 struct AppCompactView: View {
-  @ObservedObject var sheetCtrl = AppSheetController.shared
+  @ObservedObject var sheetCtrl = SheetController.shared
   @State var sheetPresented = true
   
   var body: some View {

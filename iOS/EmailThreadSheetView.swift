@@ -3,7 +3,7 @@ import Introspect
 
 
 private let dataCtrl = PersistenceController.shared
-private let sheetCtrl = AppSheetController.shared
+private let sheetCtrl = SheetController.shared
 private let navCtrl = InboxNavController.shared
 private let mailCtrl = MailController.shared
 
