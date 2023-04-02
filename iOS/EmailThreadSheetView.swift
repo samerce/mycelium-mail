@@ -5,6 +5,7 @@ import Introspect
 private let dataCtrl = PersistenceController.shared
 private let sheetCtrl = AppSheetController.shared
 private let navCtrl = InboxNavController.shared
+private let mailCtrl = MailController.shared
 
 
 private let ToolImageSize: CGFloat = 36
@@ -154,7 +155,7 @@ struct EmailThreadSheetView: View {
       }
     } label: {
       ButtonImage(
-        name: (thread == nil || !thread!.flagged) ? "star" : "star.fill",
+        name: (thread == nil || !thread!.flagged) ? "pin" : "pin.slash.fill",
         size: cButtonSize
       )
     }
@@ -351,12 +352,9 @@ struct ThreadTools: View {
           navCtrl.goBack(withSheet: .inbox)
         }
       }
-      ToolButton("mark unread", "envelope.badge") {
-        Task {
-          try await thread?.markSeen(!seen)
-          dataCtrl.save()
-          navCtrl.goBack(withSheet: .inbox)
-        }
+      ToolButton("mark unread", "envelope.badge.fill") {
+        mailCtrl.markThread(thread!, seen: true)
+        navCtrl.goBack(withSheet: .inbox)
       }
       ToolButton("unsubscribe", "hand.raised")
         .opacity(0.5)

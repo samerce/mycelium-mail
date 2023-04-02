@@ -2,6 +2,7 @@ import SwiftUI
 
 
 private let dataCtrl = PersistenceController.shared
+private let mailCtrl = MailController.shared
 
 
 struct ThreadPage: View {
@@ -50,25 +51,19 @@ struct ThreadPage: View {
   var Toolbar: some View {
     HStack(spacing: 18) {
       Button {
-        Task {
-          try await thread.markSeen(!thread.seen)
-          dataCtrl.save()
-        }
+        mailCtrl.markThread(thread, seen: !thread.seen)
       } label: {
-        ButtonImage(name: thread.seen ? "envelope.badge" : "envelope.open", size: 27)
+        ButtonImage(name: thread.seen ? "envelope.badge.fill" : "envelope.open.fill", size: 27)
       }
       
       Menu { MoveToBundleMenu(thread: thread) } label: {
-        ButtonImage(name: "mail.stack", size: 27)
+        ButtonImage(name: "mail.stack.fill", size: 27)
       }
       
       Button {
-        Task {
-          try await thread.markFlagged(!thread.flagged)
-          dataCtrl.save()
-        }
+        mailCtrl.markThread(thread, flagged: !thread.flagged)
       } label: {
-        ButtonImage(name: thread.flagged ? "star.fill" : "star", size: 27)
+        ButtonImage(name: thread.flagged ? "pin.slash.fill" : "pin.fill", size: 27)
       }
     }
   }

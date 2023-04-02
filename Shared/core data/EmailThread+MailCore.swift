@@ -27,21 +27,30 @@ extension EmailThread {
     for email in emails {
       try await email.moveToTrash()
     }
-    trashed = true
+    
+    await managedObjectContext?.perform {
+      self.trashed = true
+    }
   }
 
   func restoreFromTrash() async throws {
     for email in emails {
       try await email.restoreFromTrash()
     }
-    trashed = false
+    
+    await managedObjectContext?.perform {
+      self.trashed = false
+    }
   }
   
   func moveToJunk() async throws {
     for email in emails {
       try await email.moveToJunk()
     }
-    trashed = true // TODO: separate property for spam?
+    
+    await managedObjectContext?.perform {
+      self.trashed = true // TODO: separate property for spam?
+    }
   }
   
   func markSeen(_ seen: Bool = true) async throws {

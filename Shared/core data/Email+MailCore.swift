@@ -183,15 +183,17 @@ extension Email {
     ))
 
     // TODO: update from server instead?
-    switch operation {
-      case .add:
-        addFlags(flags)
-      case .remove:
-        removeFlags(flags)
-      case .set:
-        addFlags(flags)
-      @unknown default:
-        fatalError()
+    await managedObjectContext?.perform {
+      switch operation {
+        case .add:
+          self.addFlags(flags)
+        case .remove:
+          self.removeFlags(flags)
+        case .set:
+          self.addFlags(flags)
+        @unknown default:
+          fatalError()
+      }
     }
   }
   

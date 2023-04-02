@@ -61,19 +61,10 @@ struct InboxListRow: View {
   @ViewBuilder
   var swipeActionsLeading: some View {
     Button {
-      Task {
-        do {
-          try await thread.markSeen(!thread.seen) // TODO: handle error
-          dataCtrl.save()
-        }
-        catch {
-          print("error marking \(thread.subject): \(error.localizedDescription)")
-          // TODO: error ux
-        }
-      }
+      mailCtrl.markThread(thread, seen: !thread.seen)
     } label: {
       Label("mark \(thread.seen ? "unread" : "read")",
-            systemImage: thread.seen ? "envelope.badge" : "envelope.open")
+            systemImage: thread.seen ? "envelope.badge.fill" : "envelope.open")
     }
   }
   
@@ -93,26 +84,19 @@ struct InboxListRow: View {
     }
     
     Button {
-      Task {
-        do {
-          try await thread.markFlagged()
-          dataCtrl.save()
-        }
-        catch {
-          print("error flagging \(thread.subject): \(error.localizedDescription)")
-          // TODO: error ux
-        }
-      }
+      mailCtrl.markThread(thread, flagged: !thread.flagged)
     } label: {
-      Label("star", systemImage: thread.flagged ? "star.fill" : "star")
+      Label("pin", systemImage: thread.flagged ? "pin.slash.fill" : "pin")
     }
+    
     Button {
-      Timer.after(1) { _ in
+      Timer.after(1) { _ in // leave time for row closing animation
         mailCtrl.moveThread(thread, toBundleNamed: "archive", always: false)
       }
     } label: {
       Label("archive", systemImage: "archivebox")
     }
+    
     Button { print("notification") } label: {
       Label("notifications", systemImage: "bell")
     }

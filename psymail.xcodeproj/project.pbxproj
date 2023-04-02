@@ -172,6 +172,8 @@
 		3BF35D1129A939AD00340D49 /* UINavigationController+BackGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF35D0F29A939AD00340D49 /* UINavigationController+BackGesture.swift */; };
 		3BF35D1329AA81D300340D49 /* SystemImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF35D1229AA81D300340D49 /* SystemImage.swift */; };
 		3BF35D1429AA81D300340D49 /* SystemImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF35D1229AA81D300340D49 /* SystemImage.swift */; };
+		3BF50BB329D8D1C900098AA2 /* MailController+MarkThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF50BB229D8D1C900098AA2 /* MailController+MarkThread.swift */; };
+		3BF50BB429D8D1C900098AA2 /* MailController+MarkThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF50BB229D8D1C900098AA2 /* MailController+MarkThread.swift */; };
 		3BFD733129C4E894004F2563 /* ButtonImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFD733029C4E894004F2563 /* ButtonImage.swift */; };
 		3BFD733229C4E894004F2563 /* ButtonImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFD733029C4E894004F2563 /* ButtonImage.swift */; };
 		3BFD733429C6409D004F2563 /* EmailThread+MailCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFD733329C6409D004F2563 /* EmailThread+MailCore.swift */; };
@@ -307,6 +309,7 @@
 		3BF35D0C29A852C200340D49 /* Email+MailCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Email+MailCore.swift"; sourceTree = "<group>"; };
 		3BF35D0F29A939AD00340D49 /* UINavigationController+BackGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+BackGesture.swift"; sourceTree = "<group>"; };
 		3BF35D1229AA81D300340D49 /* SystemImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemImage.swift; sourceTree = "<group>"; };
+		3BF50BB229D8D1C900098AA2 /* MailController+MarkThread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MailController+MarkThread.swift"; sourceTree = "<group>"; };
 		3BFD733029C4E894004F2563 /* ButtonImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonImage.swift; sourceTree = "<group>"; };
 		3BFD733329C6409D004F2563 /* EmailThread+MailCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailThread+MailCore.swift"; sourceTree = "<group>"; };
 		3BFD733629C6CC79004F2563 /* MoveToBundleMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveToBundleMenu.swift; sourceTree = "<group>"; };
@@ -540,6 +543,7 @@
 			isa = PBXGroup;
 			children = (
 				3BF1AD602660ACF0002F1062 /* MailController.swift */,
+				3BF50BB229D8D1C900098AA2 /* MailController+MarkThread.swift */,
 				3BC0F21529D6015F00D9389F /* MailController+MoveThread.swift */,
 				3BC0F21829D604F100D9389F /* MailController+TrashThread.swift */,
 			);
@@ -767,6 +771,7 @@
 				3B5103AA29256D030084B6B2 /* UIApplication+window.swift in Sources */,
 				3B6666832651EA040039D9F3 /* AppCompactView.swift in Sources */,
 				3BF1AE1B2665FA89002F1062 /* View+if.swift in Sources */,
+				3BF50BB329D8D1C900098AA2 /* MailController+MarkThread.swift in Sources */,
 				3BC0F21029D3537E00D9389F /* EmailThread+Gmail.swift in Sources */,
 				3B9B9FA12634B16A00E3A8B2 /* Persistence.swift in Sources */,
 				3BAD28F529CB741B00ECA64F /* PageView.swift in Sources */,
@@ -845,6 +850,7 @@
 				3B80B97529C4DB17002E34BE /* Encodable+dictionary.swift in Sources */,
 				3BF1AE222666FCE6002F1062 /* EmailThreadSheetView.swift in Sources */,
 				3BC0F21129D3537E00D9389F /* EmailThread+Gmail.swift in Sources */,
+				3BF50BB429D8D1C900098AA2 /* MailController+MarkThread.swift in Sources */,
 				3B9B9FD12634E26A00E3A8B2 /* NewsletterClassifier.mlmodel in Sources */,
 				3B4185F729A5A7BD00A2966A /* EmailBundle+CoreDataClass.swift in Sources */,
 				3B64538F29AFBB1600A877A4 /* EmailBundleController.swift in Sources */,

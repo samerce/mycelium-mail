@@ -3,7 +3,7 @@ import SwiftUI
 private let Filters = [
   "today": "sun.max",
   "last week": "calendar.badge.clock",
-  "unread": "envelope",
+  "unread": "envelope.badge.fill",
   "read": "envelope.open",
   "starred": "star.fill",
   "contacts": "rectangle.stack.person.crop",
