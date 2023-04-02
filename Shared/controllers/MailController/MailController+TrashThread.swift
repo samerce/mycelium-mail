@@ -4,7 +4,7 @@ import CoreData
 
 private let dataCtrl = PersistenceController.shared
 private let taskCtrl = TaskController.shared
-private let alertCtrl = AppAlertController.shared
+private let alertCtrl = AlertController.shared
 
 
 extension MailController {

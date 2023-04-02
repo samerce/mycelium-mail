@@ -1,7 +1,8 @@
 import Foundation
 
-class AppAlertController: ObservableObject {
-  static let shared = AppAlertController()
+
+class AlertController: ObservableObject {
+  static let shared = AlertController()
   
   @Published var message: String?
   @Published var icon: String?

@@ -4,7 +4,7 @@ import SymbolPicker
 
 struct BundleSettingsView: View {
   @ObservedObject var sheetCtrl = AppSheetController.shared
-  @ObservedObject var alertCtrl = AppAlertController.shared
+  @ObservedObject var alertCtrl = AlertController.shared
   @State var fetching = false
   @State var iconPickerPresented = false
   @State var icon: String = ""

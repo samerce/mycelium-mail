@@ -11,7 +11,7 @@ private let dataCtrl = PersistenceController.shared
 struct CreateBundleView: View {
   @Environment(\.managedObjectContext) var moc: NSManagedObjectContext
   @ObservedObject var bundleCtrl = EmailBundleController.shared
-  @ObservedObject var alertCtrl = AppAlertController.shared
+  @ObservedObject var alertCtrl = AlertController.shared
   @ObservedObject var sheetCtrl = AppSheetController.shared
   @ObservedObject var accountCtrl = AccountController.shared
   

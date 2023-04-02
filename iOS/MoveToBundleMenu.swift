@@ -11,7 +11,7 @@ struct MoveToBundleMenu: View {
   
   @ObservedObject var bundleCtrl = EmailBundleController.shared
   @ObservedObject var sheetCtrl = AppSheetController.shared
-  @ObservedObject var alertCtrl = AppAlertController.shared
+  @ObservedObject var alertCtrl = AlertController.shared
   
   var bundles: [EmailBundle] { bundleCtrl.bundles }
   var selectedBundle: EmailBundle { bundleCtrl.selectedBundle }
