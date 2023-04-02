@@ -6,7 +6,7 @@ private let cCornerRadius = 18.0
 private let cHiddenOffsetY = 108.0
 
 
-struct AppAlertView: View {
+struct AppAlert: View {
   @ObservedObject var alertCtrl = AlertController.shared
   @State var countdownScale = 0.0
   @State var offsetY = cHiddenOffsetY

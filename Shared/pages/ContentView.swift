@@ -8,7 +8,7 @@ struct ContentView: View {
   var body: some View {
     AppView
       .overlay(alignment: .bottom) {
-        AppAlertView()
+        AppAlert()
           .safeAreaInset(edge: .bottom) {
             Spacer()
               .frame(height: appSheetDetents.min + safeAreaInsets.bottom + 12)
