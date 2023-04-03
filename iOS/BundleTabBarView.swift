@@ -86,6 +86,9 @@ struct BundleTabBarView: View {
       
       Spacer()
     }
+    .onChange(of: layoutBinding.wrappedValue) { _ in
+      PersistenceController.shared.save()
+    }
     .opacity(rowOpacity(rowIndex))
     .height(rowHeight(rowIndex))
     .clipped()
