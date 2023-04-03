@@ -174,6 +174,8 @@
 		3BF35D1429AA81D300340D49 /* SystemImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF35D1229AA81D300340D49 /* SystemImage.swift */; };
 		3BF50BB329D8D1C900098AA2 /* MailController+MarkThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF50BB229D8D1C900098AA2 /* MailController+MarkThread.swift */; };
 		3BF50BB429D8D1C900098AA2 /* MailController+MarkThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF50BB229D8D1C900098AA2 /* MailController+MarkThread.swift */; };
+		3BF50BC429DA568C00098AA2 /* TaskCenterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF50BC329DA568C00098AA2 /* TaskCenterButton.swift */; };
+		3BF50BC529DA568C00098AA2 /* TaskCenterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF50BC329DA568C00098AA2 /* TaskCenterButton.swift */; };
 		3BFD733129C4E894004F2563 /* ButtonImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFD733029C4E894004F2563 /* ButtonImage.swift */; };
 		3BFD733229C4E894004F2563 /* ButtonImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFD733029C4E894004F2563 /* ButtonImage.swift */; };
 		3BFD733429C6409D004F2563 /* EmailThread+MailCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFD733329C6409D004F2563 /* EmailThread+MailCore.swift */; };
@@ -310,6 +312,7 @@
 		3BF35D0F29A939AD00340D49 /* UINavigationController+BackGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+BackGesture.swift"; sourceTree = "<group>"; };
 		3BF35D1229AA81D300340D49 /* SystemImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemImage.swift; sourceTree = "<group>"; };
 		3BF50BB229D8D1C900098AA2 /* MailController+MarkThread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MailController+MarkThread.swift"; sourceTree = "<group>"; };
+		3BF50BC329DA568C00098AA2 /* TaskCenterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCenterButton.swift; sourceTree = "<group>"; };
 		3BFD733029C4E894004F2563 /* ButtonImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonImage.swift; sourceTree = "<group>"; };
 		3BFD733329C6409D004F2563 /* EmailThread+MailCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailThread+MailCore.swift"; sourceTree = "<group>"; };
 		3BFD733629C6CC79004F2563 /* MoveToBundleMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveToBundleMenu.swift; sourceTree = "<group>"; };
@@ -561,6 +564,7 @@
 				3BAD28F429CB741B00ECA64F /* PageView.swift */,
 				3BF1AE232666FF2A002F1062 /* SheetHandle.swift */,
 				3BF35D1229AA81D300340D49 /* SystemImage.swift */,
+				3BF50BC329DA568C00098AA2 /* TaskCenterButton.swift */,
 				3BC0F20229CF80C100D9389F /* ThreadPage.swift */,
 				3B5ABAFD265461C100601F26 /* WebView.swift */,
 			);
@@ -832,6 +836,7 @@
 				3BF1AE2726672A57002F1062 /* EmailDetailToolbarView.swift in Sources */,
 				3BF1AD6726617746002F1062 /* InboxView.swift in Sources */,
 				3BAD28FE29CDF1E300ECA64F /* EmailBundleLayout.swift in Sources */,
+				3BF50BC429DA568C00098AA2 /* TaskCenterButton.swift in Sources */,
 				3B9B9FD22634E26A00E3A8B2 /* MarketingRecognizer.mlmodel in Sources */,
 				3B0AB62C29B06A7100E224E5 /* Account+Gmail.swift in Sources */,
 				3B14A6BA299FF200005BAA30 /* View+AppSheet.swift in Sources */,
@@ -915,6 +920,7 @@
 				3BC0F20429CF80C100D9389F /* ThreadPage.swift in Sources */,
 				3BF1AD622660ACF0002F1062 /* MailController.swift in Sources */,
 				3BF1AD8C2663EA2C002F1062 /* Account+CoreDataClass.swift in Sources */,
+				3BF50BC529DA568C00098AA2 /* TaskCenterButton.swift in Sources */,
 				3B64539529AFC7C000A877A4 /* AlertController.swift in Sources */,
 				3B6E613A29AAB631009CAEBF /* CreateBundleView.swift in Sources */,
 				3BCF6FED29280261000C6382 /* ForEachWithIndex.swift in Sources */,

@@ -35,7 +35,7 @@ struct InboxView: View {
     }
     .onChange(of: selectedThreads) { _ in
       if editMode.isEditing { return }
-      
+
       switch (selectedThreads.isEmpty) {
         case true: sheetCtrl.sheet = .inbox
         case false: sheetCtrl.sheet = .emailThread
@@ -81,9 +81,7 @@ struct InboxView: View {
   @ToolbarContentBuilder
   private func topToolbar() -> some ToolbarContent {
     ToolbarItem(placement: .navigationBarLeading) {
-      Button(action: {}) {
-        SystemImage(name: "rectangle.grid.1x2", size: 20)
-      }
+      TaskCenterButton()
     }
     ToolbarItem(placement: .principal) {
       Text(selectedBundle.name)
@@ -168,7 +166,7 @@ extension InboxView {
 }
 
 
-struct EmailListView_Previews: PreviewProvider {
+struct InboxView_Previews: PreviewProvider {
   static var previews: some View {
     InboxView()
   }

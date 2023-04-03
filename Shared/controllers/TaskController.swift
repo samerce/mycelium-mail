@@ -1,9 +1,12 @@
 import Foundation
+import Combine
 
 
-class TaskController {
+class TaskController: ObservableObject {
   static let shared = TaskController()
   private init() {}
+  
+  @Published var busy = false
   
   // MARK: -
   
@@ -11,10 +14,13 @@ class TaskController {
     var completed = false
     var retries = 0
     
+    DispatchQueue.main.sync { busy = true }
+    
     while !completed && retries <= cNumRetries {
       do {
         try await _run(tasks)
         completed = true
+        DispatchQueue.main.sync { busy = false }
       }
       catch {
         if retries < cNumRetries {
